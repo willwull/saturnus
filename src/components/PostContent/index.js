@@ -47,7 +47,10 @@ function PostContent({ post }) {
 
   return (
     <div>
-      <a href={post.url}>{post.url}</a> {post.post_hint}
+      <a href={post.url} className="truncated-url">
+        {post.url}
+      </a>{" "}
+      {post.post_hint}
     </div>
   );
 }
