@@ -17,6 +17,8 @@ export function isImgUrl(url) {
  * @param {Number} numberOfDecimals
  */
 export function shortenNumber(num, numberOfDecimals = 1) {
+  if (num < 1000) return num;
+
   let exponent = num.toString().length;
   const decimal = 10 ** numberOfDecimals;
   exponent -= exponent % 3;

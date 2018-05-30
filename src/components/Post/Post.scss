@@ -33,13 +33,23 @@
     margin-bottom: 7px;
   }
 
-  .sub {
-    // background color set in JS
-    padding: 5px 10px;
-    color: white;
-    display: inline-block;
-    border-radius: 20px;
+  .bottom-row {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
     font-size: 0.8em;
+
+    .sub {
+      // background color set in JS
+      padding: 5px 10px;
+      color: white;
+      display: inline-block;
+      border-radius: 20px;
+    }
+
+    .comments {
+      display: inline-block;
+    }
   }
 
   .content-wrapper {

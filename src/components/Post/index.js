@@ -47,11 +47,18 @@ function Post({ post }) {
           {moment.unix(post.created_utc).fromNow()} by {post.author.name}
         </div>
 
-        <div
-          className="sub"
-          style={{ backgroundColor: bgColor, color: textColor }}
-        >
-          {post.subreddit.display_name}
+        <div className="bottom-row">
+          <div
+            className="sub"
+            style={{ backgroundColor: bgColor, color: textColor }}
+          >
+            {post.subreddit.display_name}
+          </div>
+
+          <div className="comments">
+            <FaIcon icon="comment-alt" /> {shortenNumber(post.num_comments)}{" "}
+            comments
+          </div>
         </div>
       </div>
     </div>
