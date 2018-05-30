@@ -4,7 +4,11 @@
   "private": true,
   "homepage": "https://willwull.github.io/saturnus",
   "dependencies": {
+    "@fortawesome/fontawesome": "^1.1.8",
+    "@fortawesome/fontawesome-pro-solid": "^5.0.13",
+    "@fortawesome/react-fontawesome": "0.0.20",
     "moment-mini": "^2.22.1",
+    "normalize.css": "^8.0.0",
     "prop-types": "^15.6.1",
     "react": "^16.4.0",
     "react-dom": "^16.4.0",

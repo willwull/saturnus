@@ -1,7 +1,8 @@
 :root {
   --body-bg-color: #eff3f5;
   --content-bg-color: white;
-  --text-color: #252525;
+  --text-color: #464646;
+  --max-content-height: 60vh;
 }
 
 body {
@@ -22,4 +23,19 @@ img {
   margin: 0;
   padding: 0;
   display: block;
+}
+
+button {
+  -webkit-appearance: none; // remove default iOS styling
+  cursor: pointer;
+  border: none;
+  background: none;
+  color: inherit;
+  border-radius: 0;
+  padding: 0;
+  outline: none;
+
+  &:active {
+    color: black;
+  }
 }

@@ -1,6 +1,6 @@
 import React, { Component } from "react";
 import authenticate from "./api/authentication";
-import Post from "./components/Post/";
+import Post from "./components/Post";
 
 class App extends Component {
   state = {

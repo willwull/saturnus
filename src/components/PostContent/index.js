@@ -1,6 +1,7 @@
 import React from "react";
 import PropTypes from "prop-types";
 import { isImgUrl } from "../../utils";
+import "./PostContent.scss";
 
 function PostContent({ post }) {
   // TODO: cap text at three rows, make expandable

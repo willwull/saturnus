@@ -1,7 +1,10 @@
 import React from "react";
 import PropTypes from "prop-types";
 import moment from "moment-mini";
-import PostContent from "./PostContent";
+import FaIcon from "@fortawesome/react-fontawesome";
+import "normalize.css";
+
+import PostContent from "../PostContent";
 import { shortenNumber } from "../../utils";
 import "./Post.scss";
 
@@ -11,8 +14,20 @@ import "./Post.scss";
 function Post({ post }) {
   return (
     <div className="post-component">
-      <div className="score">{shortenNumber(post.score)}</div>
+      <div className="score">
+        {/* TODO: implement voting functionality */}
+        <button className="vote-btn">
+          <FaIcon icon="arrow-up" />
+        </button>
 
+        <div className="number">{shortenNumber(post.score)}</div>
+
+        <button className="vote-btn">
+          <FaIcon icon="arrow-down" />
+        </button>
+      </div>
+
+      {/* Actual post content */}
       <div className="data">
         <div className="title">{post.title}</div>
 
