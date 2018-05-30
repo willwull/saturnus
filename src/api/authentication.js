@@ -38,7 +38,6 @@ async function appOnlyOauth() {
 export default async function authenticate() {
   // TODO: check localStorage for access token and create a new instance of snoowrap with that
   const appOnly = await appOnlyOauth();
-  console.log(appOnly);
   const snoo = new Snoowrap({
     userAgent: credentials.userAgent,
     accessToken: appOnly.access_token,

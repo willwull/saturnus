@@ -8,7 +8,7 @@ function PostContent({ post }) {
     return <p>{post.selftext}</p>;
   }
 
-  // image preview
+  // image
   if (isImgUrl(post.url)) {
     return <img className="post-preview-img" src={post.url} alt={post.title} />;
   }
@@ -22,6 +22,11 @@ function PostContent({ post }) {
         alt={post.title}
       />
     );
+  }
+
+  // rich video (e.g. YouTube, Gfycat)
+  if (post.post_hint === "rich:video") {
+    return <div dangerouslySetInnerHTML={{ __html: post.media.oembed.html }} />;
   }
 
   return null;

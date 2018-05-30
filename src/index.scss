@@ -1,0 +1,25 @@
+:root {
+  --body-bg-color: #eff3f5;
+  --content-bg-color: white;
+  --text-color: #252525;
+}
+
+body {
+  margin: 0;
+  padding: 0;
+  font-family: sans-serif;
+  background: var(--body-bg-color);
+  color: var(--text-color);
+}
+
+/* temporary */
+.post-feed {
+  max-width: 650px;
+  margin: 20px auto;
+}
+
+img {
+  margin: 0;
+  padding: 0;
+  display: block;
+}
