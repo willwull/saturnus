@@ -2,6 +2,7 @@
   "name": "saturnus",
   "version": "0.1.0",
   "private": true,
+  "homepage": "https://willwull.github.io/saturnus",
   "dependencies": {
     "moment-mini": "^2.22.1",
     "prop-types": "^15.6.1",
@@ -14,7 +15,9 @@
     "start": "react-scripts start",
     "build": "react-scripts build",
     "test": "react-scripts test --env=jsdom",
-    "eject": "react-scripts eject"
+    "eject": "react-scripts eject",
+    "deploy": "gh-pages -d build",
+    "predeploy": "npm run build"
   },
   "devDependencies": {
     "babel-eslint": "^8.2.3",
@@ -22,6 +25,7 @@
     "eslint-plugin-import": "^2.12.0",
     "eslint-plugin-jsx-a11y": "^6.0.3",
     "eslint-plugin-react": "^7.8.2",
+    "gh-pages": "^1.1.0",
     "prettier": "1.13.2"
   },
   "browserslist": {
@@ -30,11 +34,6 @@
       "last 2 firefox versions",
       "last 2 edge versions"
     ],
-    "production": [
-      ">1%",
-      "last 4 versions",
-      "Firefox ESR",
-      "not ie < 11"
-    ]
+    "production": [">1%", "last 4 versions", "Firefox ESR", "not ie < 11"]
   }
 }
