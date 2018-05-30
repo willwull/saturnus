@@ -14,6 +14,21 @@ function PostContent({ post }) {
     return <img className="post-preview-img" src={post.url} alt={post.title} />;
   }
 
+  // imgur gifv
+  if (post.domain === "i.imgur.com" && post.url.indexOf("gifv") !== 0) {
+    // .gifv won't work as video src, but .mp4 works
+    const vidUrl = post.url.replace(".gifv", ".mp4");
+    return (
+      <video
+        className="post-preview-vid"
+        preload="auto"
+        autoPlay="autoplay"
+        loop="loop"
+        src={vidUrl}
+      />
+    );
+  }
+
   // handle non-direct imgur links
   if (post.domain === "imgur.com") {
     return (
