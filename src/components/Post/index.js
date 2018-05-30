@@ -2,7 +2,8 @@ import React from "react";
 import PropTypes from "prop-types";
 import moment from "moment-mini";
 import FaIcon from "@fortawesome/react-fontawesome";
-import "normalize.css";
+import Color from "color";
+import randomColor from "randomcolor";
 
 import PostContent from "../PostContent";
 import { shortenNumber } from "../../utils";
@@ -12,6 +13,13 @@ import "./Post.scss";
  * Component for a post in the feed
  */
 function Post({ post }) {
+  const bgColor = Color(
+    randomColor({
+      seed: post.subreddit.display_name,
+    }),
+  );
+  const textColor = bgColor.luminosity() < 0.6 ? "white" : "black";
+
   return (
     <div className="post-component">
       <div className="score">
@@ -39,7 +47,12 @@ function Post({ post }) {
           {moment.unix(post.created_utc).fromNow()} by {post.author.name}
         </div>
 
-        <div className="sub">{post.subreddit.display_name}</div>
+        <div
+          className="sub"
+          style={{ backgroundColor: bgColor, color: textColor }}
+        >
+          {post.subreddit.display_name}
+        </div>
       </div>
     </div>
   );

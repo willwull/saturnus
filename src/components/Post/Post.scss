@@ -30,6 +30,16 @@
 
   .date {
     opacity: 0.4;
+    margin-bottom: 7px;
+  }
+
+  .sub {
+    // background color set in JS
+    padding: 5px 10px;
+    color: white;
+    display: inline-block;
+    border-radius: 20px;
+    font-size: 0.8em;
   }
 
   .content-wrapper {
