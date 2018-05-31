@@ -7,7 +7,7 @@ import "./PostContent.scss";
 function PostContent({ post }) {
   // TODO: cap text at three rows, make expandable
   if (post.is_self) {
-    return <p>{post.selftext}</p>;
+    return <p dangerouslySetInnerHTML={{ __html: post.selftext_html }} />;
   }
 
   // image

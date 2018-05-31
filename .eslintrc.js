@@ -14,5 +14,6 @@ module.exports = {
     "import/prefer-default-export": 0,
     "function-paren-newline": 0,
     "jsx-a11y/media-has-caption": 0,
+    "react/no-danger": 0,
   },
 };

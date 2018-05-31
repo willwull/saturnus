@@ -7,6 +7,7 @@ import "./LinkPreview.scss";
 function LinkPreview({ post }) {
   const [domain, rest] = splitUrl(post.url);
 
+  // big thumbnail for certain links
   let bigPreview;
   if (post.preview) {
     bigPreview = (
