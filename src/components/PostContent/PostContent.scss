@@ -12,6 +12,10 @@
   overflow: hidden;
   position: relative;
 
+  p:first-child {
+    margin-top: 2px;
+  }
+
   .overflow-overlay {
     pointer-events: none;
     position: absolute;
