@@ -33,6 +33,31 @@ function Post({ post }) {
         <button className="vote-btn">
           <FaIcon icon="arrow-down" />
         </button>
+
+        {/* Stickied icon */}
+        {post.stickied && (
+          <div className="mod-icon">
+            <FaIcon icon="thumbtack" />
+          </div>
+        )}
+
+        {/* Mod distinguished icon */}
+        {post.stickied && (
+          <div className="mod-icon">
+            <FaIcon icon="shield" />
+          </div>
+        )}
+
+        {/* Gilded icon */}
+        {post.gilded !== 0 && (
+          <div className="gold-icon">
+            <span className="fa-layers fa-fw">
+              <FaIcon className="circle" icon="circle" />
+              <FaIcon className="star" icon="star" />
+            </span>{" "}
+            {post.gilded}
+          </div>
+        )}
       </div>
 
       {/* Actual post content */}

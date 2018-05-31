@@ -13,14 +13,35 @@
     display: flex;
     flex-direction: column;
     justify-items: center;
+    text-align: center;
 
     .number {
       margin: 5px 0;
-      text-align: center;
     }
 
     .vote-btn {
       display: block;
+    }
+
+    .mod-icon {
+      margin-top: 15px;
+      color: #21af28;
+    }
+
+    .gold-icon {
+      margin-top: 15px;
+      text-align: center;
+      color: darken(gold, 10);
+      font-weight: bold;
+
+      .star {
+        color: var(--content-bg);
+        transform: scale(0.6);
+      }
+
+      .circle {
+        color: gold;
+      }
     }
   }
 
