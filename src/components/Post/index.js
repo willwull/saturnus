@@ -37,7 +37,12 @@ function Post({ post }) {
 
       {/* Actual post content */}
       <div className="data">
-        <div className="title">{post.title}</div>
+        <div className="title">
+          {post.link_flair_text && (
+            <span className="link-flair">{post.link_flair_text}</span>
+          )}
+          {post.title}
+        </div>
 
         <div className="content-wrapper">
           <PostContent post={post} />
