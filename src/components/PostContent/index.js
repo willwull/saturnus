@@ -25,6 +25,7 @@ function PostContent({ post }) {
         preload="auto"
         autoPlay="autoplay"
         loop="loop"
+        controls
         src={vidUrl}
       />
     );
