@@ -53,8 +53,8 @@ function Post({ post }) {
           <div className="gold-icon">
             <span className="fa-layers fa-fw">
               <FaIcon className="circle" icon="circle" />
-              <FaIcon className="star" icon="star" />
-            </span>{" "}
+              <FaIcon className="star" icon="star" transform="shrink-6" />
+            </span>
             {post.gilded}
           </div>
         )}
@@ -64,7 +64,7 @@ function Post({ post }) {
       <div className="data">
         <div className="title">
           {post.link_flair_text && (
-            <span className="link-flair">{post.link_flair_text}</span>
+            <span className="flair post">{post.link_flair_text}</span>
           )}
           {post.title}
         </div>
@@ -75,6 +75,9 @@ function Post({ post }) {
 
         <div className="date">
           {moment.unix(post.created_utc).fromNow()} by {post.author.name}
+          {post.author_flair_text && (
+            <span className="flair author">{post.author_flair_text}</span>
+          )}
         </div>
 
         <div className="bottom-row">
