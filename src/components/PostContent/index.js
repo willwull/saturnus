@@ -9,7 +9,7 @@ function PostContent({ post }) {
   if (post.is_self) {
     return (
       <div className="post-self-text">
-        <p dangerouslySetInnerHTML={{ __html: post.selftext_html }} />
+        <div dangerouslySetInnerHTML={{ __html: post.selftext_html }} />
 
         {/* gradient overlay that indicates that the text is cut off */}
         <div className="overflow-overlay" />
