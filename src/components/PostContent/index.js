@@ -7,7 +7,14 @@ import "./PostContent.scss";
 function PostContent({ post }) {
   // TODO: cap text at three rows, make expandable
   if (post.is_self) {
-    return <p dangerouslySetInnerHTML={{ __html: post.selftext_html }} />;
+    return (
+      <div className="post-self-text">
+        <p dangerouslySetInnerHTML={{ __html: post.selftext_html }} />
+
+        {/* gradient overlay that indicates that the text is cut off */}
+        <div className="overflow-overlay" />
+      </div>
+    );
   }
 
   // image

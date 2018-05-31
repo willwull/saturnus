@@ -1,8 +1,9 @@
 :root {
-  --body-bg-color-rgb: 239, 243, 245;
-  --body-bg-color: rgb(var(--body-bg-color-rgb));
+  --body-bg-rgb: 239, 243, 245;
+  --body-bg: rgb(var(--body-bg-rgb));
 
-  --content-bg-color: white;
+  --content-bg-rgb: 255, 255, 255;
+  --content-bg: rgb(var(--content-bg-rgb));
 
   --text-color-rgb: 70, 70, 70;
   --text-color: rgb(var(--text-color-rgb));
@@ -14,7 +15,7 @@ body {
   margin: 0;
   padding: 0;
   font-family: sans-serif;
-  background: var(--body-bg-color);
+  background: var(--body-bg);
   color: var(--text-color);
 }
 

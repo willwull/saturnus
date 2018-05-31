@@ -4,5 +4,25 @@
   max-height: var(--max-content-height);
   object-fit: contain;
   margin-bottom: 10px;
-  background: rgba(var(--body-bg-color-rgb), 0.3);
+  background: rgba(var(--body-bg-rgb), 0.3);
+}
+
+.post-self-text {
+  max-height: 200px;
+  overflow: hidden;
+  position: relative;
+
+  .overflow-overlay {
+    pointer-events: none;
+    position: absolute;
+    top: 75%;
+    right: 0;
+    bottom: 0;
+    left: 0;
+    background: linear-gradient(
+      0deg,
+      var(--content-bg),
+      rgba(var(--content-bg-rgb), 0)
+    );
+  }
 }
