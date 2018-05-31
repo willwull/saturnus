@@ -1,6 +1,8 @@
 .link-preview-component {
-  background: var(--body-bg-color);
-  color: var(--text-color);
+  --border: 1px solid rgba(var(--text-color-rgb), 0.1);
+
+  color: rgba(var(--text-color-rgb), 0.8);
+  text-decoration: none;
 
   .link-bar {
     display: grid;
@@ -8,12 +10,14 @@
     grid-gap: 10px;
     align-items: center;
     padding: 10px;
-    opacity: 0.8;
+    border: var(--border);
+    background: rgba(var(--body-bg-color-rgb), 0.5);
+    border-radius: 5px;
 
     .thumbnail {
       text-align: center;
       font-size: 30px;
-      border-right: 1px solid black;
+      border-right: var(--border);
       padding-right: 5px;
     }
 

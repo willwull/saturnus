@@ -1,7 +1,12 @@
 :root {
-  --body-bg-color: #eff3f5;
+  --body-bg-color-rgb: 239, 243, 245;
+  --body-bg-color: rgb(var(--body-bg-color-rgb));
+
   --content-bg-color: white;
-  --text-color: #464646;
+
+  --text-color-rgb: 70, 70, 70;
+  --text-color: rgb(var(--text-color-rgb));
+
   --max-content-height: 60vh;
 }
 
