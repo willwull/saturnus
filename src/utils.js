@@ -26,3 +26,18 @@ export function shortenNumber(num, numberOfDecimals = 1) {
   const numberWithoutSuffix = Math.round((num * decimal) / temp) / decimal;
   return numberWithoutSuffix + " kMGTPE"[exponent / 3];
 }
+
+/**
+ * Takes in an url, removes http://www. or https://www. and returns
+ * an array which contains the domain as the first element and
+ * the rest as the second element.
+ *
+ * Example: https://www.reddit.com/r/funny => ["reddit.com", "/r/funny"]
+ *
+ * @param {String} url
+ */
+export function splitUrl(url) {
+  const newUrl = url.replace(/^https?:\/\/(www\.)?/, "");
+  const [domain, ...rest] = newUrl.split("/");
+  return [domain, `/${rest.join("/")}`];
+}

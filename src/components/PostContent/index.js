@@ -1,6 +1,7 @@
 import React from "react";
 import PropTypes from "prop-types";
 import { isImgUrl } from "../../utils";
+import LinkPreview from "../LinkPreview";
 import "./PostContent.scss";
 
 function PostContent({ post }) {
@@ -45,14 +46,8 @@ function PostContent({ post }) {
     return <div dangerouslySetInnerHTML={{ __html: post.media.oembed.html }} />;
   }
 
-  return (
-    <div>
-      <a href={post.url} className="truncated-url">
-        {post.url}
-      </a>{" "}
-      {post.post_hint}
-    </div>
-  );
+  // regular link
+  return <LinkPreview post={post} />;
 }
 
 PostContent.propTypes = {

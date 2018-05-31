@@ -5,11 +5,3 @@
   object-fit: contain;
   margin-bottom: 10px;
 }
-
-.truncated-url {
-  display: inline-block;
-  width: 200px;
-  white-space: nowrap;
-  overflow: hidden;
-  text-overflow: ellipsis;
-}

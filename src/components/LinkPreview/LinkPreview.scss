@@ -1,0 +1,30 @@
+.link-preview-component {
+  background: var(--body-bg-color);
+  color: var(--text-color);
+
+  .link-bar {
+    display: grid;
+    grid-template-columns: 40px 1fr auto;
+    grid-gap: 10px;
+    align-items: center;
+    padding: 10px;
+    opacity: 0.8;
+
+    .thumbnail {
+      text-align: center;
+      font-size: 30px;
+      border-right: 1px solid black;
+      padding-right: 5px;
+    }
+
+    .url {
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+
+      .rest-url {
+        opacity: 0.3;
+      }
+    }
+  }
+}
