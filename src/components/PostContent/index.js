@@ -19,6 +19,8 @@ function PostContent({ post }) {
   if (post.domain === "i.imgur.com" && post.url.indexOf("gifv") !== 0) {
     // .gifv won't work as video src, but .mp4 works
     const vidUrl = post.url.replace(".gifv", ".mp4");
+
+    // muted needs to be set for autoplay to work on Chrome
     return (
       <video
         className="post-preview-vid"
@@ -26,6 +28,7 @@ function PostContent({ post }) {
         autoPlay="autoplay"
         loop="loop"
         controls
+        muted
         src={vidUrl}
       />
     );
