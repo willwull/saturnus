@@ -7,8 +7,20 @@ import "./LinkPreview.scss";
 function LinkPreview({ post }) {
   const [domain, rest] = splitUrl(post.url);
 
+  let bigPreview;
+  if (post.preview) {
+    bigPreview = (
+      <img
+        className="big-preview"
+        src={post.preview.images[0].source.url}
+        alt={post.title}
+      />
+    );
+  }
+
   return (
     <a href={post.url} className="link-preview-component">
+      {bigPreview}
       <div className="link-bar">
         <div className="thumbnail">
           <FaIcon icon={["fab", "safari"]} />
