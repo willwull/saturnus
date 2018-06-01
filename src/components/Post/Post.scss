@@ -57,10 +57,16 @@
 
     &.post {
       margin-right: 7px;
+      margin-bottom: 5px;
     }
 
     &.author {
       margin-left: 7px;
+    }
+
+    &.spoiler-flair {
+      background: none;
+      border: 1px solid;
     }
   }
 
