@@ -1,0 +1,16 @@
+.primary-btn {
+  $color: #2793db;
+  background: $color;
+  color: white;
+  padding: 10px 15px;
+  text-transform: uppercase;
+  border-radius: 5px;
+
+  &:hover {
+    background: lighten($color, 5);
+  }
+
+  &:active {
+    background: darken($color, 5);
+  }
+}
