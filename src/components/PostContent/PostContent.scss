@@ -11,6 +11,7 @@
   max-height: 200px;
   overflow: hidden;
   position: relative;
+  word-break: break-word;
 
   p:first-child {
     margin-top: 2px;
@@ -28,5 +29,32 @@
       var(--content-bg),
       rgba(var(--content-bg-rgb), 0)
     );
+  }
+}
+
+.obfuscated-wrapper {
+  position: relative;
+
+  .obfuscated-img {
+    object-fit: cover;
+    filter: brightness(75%);
+  }
+
+  .warning-text {
+    position: absolute;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    left: 0;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+
+    color: white;
+
+    .warning-icon {
+      font-size: 30px;
+    }
   }
 }
