@@ -44,3 +44,12 @@
     }
   }
 }
+
+@media (max-width: 576px) {
+  .link-preview-component {
+    margin: {
+      right: var(--content-padding);
+      left: var(--content-padding);
+    }
+  }
+}

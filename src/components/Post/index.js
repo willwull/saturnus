@@ -69,6 +69,12 @@ function Post({ post }) {
               <span className="flair post">{post.link_flair_text}</span>
             )}
 
+            {/* NSFW tag */}
+            {post.over_18 && (
+              <span className="flair post nsfw-flair">NSFW</span>
+            )}
+
+            {/* Spoiler tag */}
             {post.spoiler && (
               <span className="flair post spoiler-flair">Spoiler</span>
             )}

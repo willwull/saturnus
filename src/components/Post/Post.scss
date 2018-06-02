@@ -36,7 +36,6 @@
 
       .star {
         color: var(--content-bg);
-        // transform: scale(0.6);
       }
 
       .circle {
@@ -60,8 +59,9 @@
       margin-bottom: 5px;
     }
 
-    &.author {
-      margin-left: 7px;
+    &.nsfw-flair {
+      background: red;
+      color: white;
     }
 
     &.spoiler-flair {
@@ -79,6 +79,7 @@
   .date {
     color: rgba(var(--text-color-rgb), 0.4);
     margin-bottom: 7px;
+    margin-right: 7px;
   }
 
   .bottom-row {
@@ -106,6 +107,35 @@
     iframe {
       width: 100%;
       max-height: var(--max-content-height);
+    }
+  }
+}
+
+@media (max-width: 576px) {
+  .post-component {
+    grid-template-columns: 1fr;
+
+    .data {
+      grid-row: 1;
+    }
+
+    .score {
+      grid-row: 2;
+      flex-direction: row;
+      align-items: center;
+
+      .mod-icon,
+      .gold-icon {
+        margin-right: 15px;
+        margin-top: 0;
+      }
+    }
+
+    .content-wrapper {
+      margin: {
+        left: calc(var(--content-padding) * -1);
+        right: calc(var(--content-padding) * -1);
+      }
     }
   }
 }
