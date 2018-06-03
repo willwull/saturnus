@@ -1,11 +1,17 @@
 import React from "react";
 import PropTypes from "prop-types";
 import FaIcon from "@fortawesome/react-fontawesome";
-import { splitUrl } from "../../utils";
+import { splitUrl, isImgUrl } from "../../utils";
 import "./LinkPreview.scss";
 
 function LinkPreview({ post }) {
   const [domain, rest] = splitUrl(post.url);
+
+  // if image link, use image icon, otherwise safari
+  const icon =
+    isImgUrl(post.url) || post.domain === "imgur.com"
+      ? ["fa", "image"]
+      : ["fab", "safari"];
 
   // big thumbnail for certain links
   let bigPreview;
@@ -24,7 +30,7 @@ function LinkPreview({ post }) {
       {bigPreview}
       <div className="link-bar">
         <div className="thumbnail">
-          <FaIcon icon={["fab", "safari"]} />
+          <FaIcon icon={icon} />
         </div>
 
         <div className="url">
