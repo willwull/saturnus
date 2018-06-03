@@ -30,21 +30,27 @@ class PostContent extends Component {
       }
 
       // spoiler marked media post
-      const obfuscated = post.preview.images[0].variants.obfuscated.source.url;
-      return (
-        <div className="obfuscated-wrapper">
-          <img
-            className="post-preview-img obfuscated-img"
-            src={obfuscated}
-            alt={post.title}
-          />
-          <button className="warning-text" onClick={this.showImage}>
-            <FaIcon className="warning-icon" icon={["fa", "eye"]} />
-            <br />
-            This post is spoiler marked, click to view
-          </button>
-        </div>
-      );
+      if (post.preview) {
+        const obfuscated =
+          post.preview.images[0].variants.obfuscated.source.url;
+        return (
+          <div className="obfuscated-wrapper">
+            <img
+              className="post-preview-img obfuscated-img"
+              src={obfuscated}
+              alt={post.title}
+            />
+            <button className="warning-text" onClick={this.showImage}>
+              <FaIcon className="warning-icon" icon={["fa", "eye"]} />
+              <br />
+              This post is spoiler marked, click to view
+            </button>
+          </div>
+        );
+      }
+
+      // link post with no preview image
+      return <LinkPreview post={post} />;
     }
 
     // self post (text)
