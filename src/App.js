@@ -1,10 +1,13 @@
 import React, { Component } from "react";
+import FaIcon from "@fortawesome/react-fontawesome";
+
 import authenticate from "./api/authentication";
 import Post from "./components/Post";
 import PrimaryButton from "./components/Buttons/PrimaryButton";
 
 class App extends Component {
   state = {
+    isLoading: true,
     posts: [],
   };
 
@@ -17,6 +20,7 @@ class App extends Component {
     } catch (error) {
       console.log(error);
     }
+    this.setState({ isLoading: false });
   }
 
   loadMore = async () => {
@@ -32,7 +36,16 @@ class App extends Component {
   };
 
   render() {
-    const { posts } = this.state;
+    const { isLoading, posts } = this.state;
+
+    if (isLoading) {
+      return (
+        <div className="loading-container">
+          <FaIcon icon="spinner-third" spin />
+        </div>
+      );
+    }
+
     return (
       <div className="post-feed">
         {posts.length !== 0 &&
