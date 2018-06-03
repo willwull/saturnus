@@ -1,5 +1,5 @@
 .link-preview-component {
-  --border: 1px solid rgba(var(--text-color-rgb), 0.2);
+  --border: 1px solid rgba(var(--text-color-rgb), 0.15);
 
   color: rgba(var(--text-color-rgb), 0.8);
   text-decoration: none;
@@ -21,7 +21,7 @@
     grid-gap: 10px;
     align-items: center;
     padding: 10px;
-    background: rgba(var(--body-bg-rgb), 1);
+    background: rgba(var(--body-bg-rgb), 0.75);
 
     .thumbnail {
       text-align: center;
