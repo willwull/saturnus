@@ -23,16 +23,21 @@ class PostContent extends Component {
     const { post } = this.props;
 
     // spoiler marked posts
-    if (post.spoiler && this.state.obfuscated) {
+    if ((post.spoiler || post.over_18) && this.state.obfuscated) {
       // spoiler marked text post
       if (post.is_self) {
-        return "Spoiler";
+        return "Hidden text";
       }
 
       // spoiler marked media post
       if (post.preview) {
-        const obfuscated =
-          post.preview.images[0].variants.obfuscated.source.url;
+        const resolutionsArr =
+          post.preview.images[0].variants.obfuscated.resolutions;
+
+        // use the highest res obfuscated image, but not src, since
+        // the src can be absurdly big
+        const obfuscated = resolutionsArr[resolutionsArr.length - 1].url;
+
         return (
           <div className="obfuscated-wrapper">
             <img
@@ -43,7 +48,7 @@ class PostContent extends Component {
             <button className="warning-text" onClick={this.showImage}>
               <FaIcon className="warning-icon" icon={["fa", "eye"]} />
               <br />
-              This post is spoiler marked, click to view
+              This post is hidden, click to view
             </button>
           </div>
         );
