@@ -107,6 +107,22 @@ class PostContent extends Component {
       );
     }
 
+    // v.redd.it videos
+    if (post.is_video) {
+      // TODO: support reddit videos with audio
+      const videoStream = post.media.reddit_video.fallback_url;
+      return (
+        <video
+          className="post-preview-vid"
+          preload="auto"
+          loop="loop"
+          controls
+          autoPlay={!!post.media.reddit_video.is_gif}
+          src={videoStream}
+        />
+      );
+    }
+
     // rich video (e.g. YouTube, Gfycat)
     if (post.post_hint === "rich:video") {
       return (
