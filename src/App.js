@@ -2,26 +2,42 @@ import React, { Component } from "react";
 import FaIcon from "@fortawesome/react-fontawesome";
 
 import authenticate from "./api/authentication";
+
+import Header from "./components/Header";
 import Post from "./components/Post";
 import PrimaryButton from "./components/Buttons/PrimaryButton";
 
 class App extends Component {
   state = {
     isLoading: true,
+    currentSubName: "",
     posts: [],
   };
 
-  async componentDidMount() {
+  componentDidMount() {
+    this.loadPosts();
+  }
+
+  componentDidUpdate(_, prevState) {
+    if (this.state.currentSubName !== prevState.currentSubName) {
+      this.loadPosts();
+    }
+  }
+
+  loadPosts = async () => {
+    const { currentSubName } = this.state;
+    this.setState({ isLoading: true });
+
     try {
       const snoo = await authenticate();
-      const posts = await snoo.getHot();
+      const posts = await snoo.getHot(currentSubName);
       console.log(posts);
       this.setState({ posts });
     } catch (error) {
       console.log(error);
     }
     this.setState({ isLoading: false });
-  }
+  };
 
   loadMore = async () => {
     try {
@@ -35,8 +51,12 @@ class App extends Component {
     }
   };
 
+  setCurrentSub = currentSubName => {
+    this.setState({ currentSubName });
+  };
+
   render() {
-    const { isLoading, posts } = this.state;
+    const { isLoading, currentSubName, posts } = this.state;
 
     if (isLoading) {
       return (
@@ -47,14 +67,20 @@ class App extends Component {
     }
 
     return (
-      <div className="post-feed">
-        {posts.length !== 0 &&
-          posts.map(post => <Post key={post.id} post={post} />)}
+      <>
+        <Header
+          currentSubName={currentSubName}
+          setCurrentSub={this.setCurrentSub}
+        />
+        <div className="post-feed">
+          {posts.length !== 0 &&
+            posts.map(post => <Post key={post.id} post={post} />)}
 
-        <PrimaryButton className="load-more-btn" onClick={this.loadMore}>
-          Load more
-        </PrimaryButton>
-      </div>
+          <PrimaryButton className="load-more-btn" onClick={this.loadMore}>
+            Load more
+          </PrimaryButton>
+        </div>
+      </>
     );
   }
 }

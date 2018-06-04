@@ -7,6 +7,7 @@ module.exports = {
   parser: "babel-eslint",
   rules: {
     quotes: ["error", "double"],
+    "arrow-parens": ["warning", "as-needed"],
     "no-console": 0,
     "no-plusplus": 0,
     "react/jsx-filename-extension": 0,
@@ -15,5 +16,6 @@ module.exports = {
     "function-paren-newline": 0,
     "jsx-a11y/media-has-caption": 0,
     "react/no-danger": 0,
+    "react/sort-comp": 0,
   },
 };
