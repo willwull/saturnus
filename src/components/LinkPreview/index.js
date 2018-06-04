@@ -1,7 +1,7 @@
 import React from "react";
 import PropTypes from "prop-types";
 import FaIcon from "@fortawesome/react-fontawesome";
-import { splitUrl, isImgUrl } from "../../utils";
+import { splitUrl, isImgUrl } from "utils";
 import "./LinkPreview.scss";
 
 function LinkPreview({ post }) {

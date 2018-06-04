@@ -2,8 +2,8 @@ import React, { Component } from "react";
 import PropTypes from "prop-types";
 import FaIcon from "@fortawesome/react-fontawesome";
 
-import { isImgUrl } from "../../utils";
-import LinkPreview from "../LinkPreview";
+import { isImgUrl } from "utils";
+import LinkPreview from "components/LinkPreview";
 import "./PostContent.scss";
 
 class PostContent extends Component {

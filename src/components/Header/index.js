@@ -1,7 +1,7 @@
 import React from "react";
 import PropTypes from "prop-types";
+import PrimaryButton from "components/Buttons/PrimaryButton";
 import "./Header.scss";
-import PrimaryButton from "../Buttons/PrimaryButton";
 
 function Header({ currentSubName, setCurrentSub }) {
   const onSubmit = event => {

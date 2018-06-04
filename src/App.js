@@ -1,11 +1,10 @@
 import React, { Component } from "react";
 import FaIcon from "@fortawesome/react-fontawesome";
 
-import authenticate from "./api/authentication";
-
-import Header from "./components/Header";
-import Post from "./components/Post";
-import PrimaryButton from "./components/Buttons/PrimaryButton";
+import authenticate from "api/authentication";
+import Header from "components/Header";
+import Post from "components/Post";
+import PrimaryButton from "components/Buttons/PrimaryButton";
 
 class App extends Component {
   state = {

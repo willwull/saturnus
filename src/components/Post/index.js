@@ -5,8 +5,8 @@ import FaIcon from "@fortawesome/react-fontawesome";
 import Color from "color";
 import randomColor from "randomcolor";
 
-import PostContent from "../PostContent";
-import { shortenNumber } from "../../utils";
+import PostContent from "components/PostContent";
+import { shortenNumber } from "utils";
 import "./Post.scss";
 
 /**
