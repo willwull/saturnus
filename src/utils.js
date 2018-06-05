@@ -3,7 +3,7 @@
  * @param {String} url
  */
 export function isImgUrl(url) {
-  return url.match(/\.(jpeg|jpg|gif|png)$/) !== null;
+  return url.toLowerCase().match(/\.(jpeg|jpg|gif|png)$/) !== null;
 }
 
 /**
