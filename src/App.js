@@ -1,80 +1,86 @@
-import React, { Component } from "react";
+import React, { Component, Fragment } from "react";
+import { connect } from "react-redux";
+import PropTypes from "prop-types";
 import FaIcon from "@fortawesome/react-fontawesome";
 
-import authenticate from "api/authentication";
+import { fetchPosts, fetchMorePosts, setCurrentSub } from "actions";
+
 import Header from "components/Header";
 import PostFeed from "components/PostFeed";
-import PrimaryButton from "components/Buttons/PrimaryButton";
 
 class App extends Component {
-  state = {
-    isLoading: true,
-    currentSubName: "",
-    posts: [],
+  static propTypes = {
+    posts: PropTypes.array.isRequired,
+    isLoading: PropTypes.bool.isRequired,
+    fetchPosts: PropTypes.func.isRequired,
+    fetchMorePosts: PropTypes.func.isRequired,
+    currentSub: PropTypes.string.isRequired,
+    setCurrentSub: PropTypes.func.isRequired,
   };
 
   componentDidMount() {
     this.loadPosts();
   }
 
-  componentDidUpdate(_, prevState) {
-    if (this.state.currentSubName !== prevState.currentSubName) {
-      this.loadPosts();
-    }
-  }
-
-  loadPosts = async () => {
-    const { currentSubName } = this.state;
-    this.setState({ isLoading: true });
-
+  loadPosts = () => {
+    const { currentSub } = this.props;
     try {
-      const snoo = await authenticate();
-      const posts = await snoo.getHot(currentSubName);
-      console.log(posts);
-      this.setState({ posts });
+      this.props.fetchPosts(currentSub);
     } catch (error) {
       console.log(error);
-    }
-    this.setState({ isLoading: false });
-  };
-
-  loadMore = async () => {
-    try {
-      const { posts } = this.state;
-      // fetchMore will return a Listing with _both_ previous and new posts
-      const postsWithNew = await posts.fetchMore({ amount: 25 });
-      this.setState({ posts: postsWithNew });
-    } catch (error) {
-      console.log(error);
-      console.log("Oops?");
+      console.log("Catch in cdm in App");
     }
   };
 
-  setCurrentSub = currentSubName => {
-    this.setState({ currentSubName });
+  loadMore = () => {
+    const { currentSub } = this.props;
+    try {
+      this.props.fetchMorePosts(currentSub);
+    } catch (error) {
+      console.log(error);
+      console.log("catch in loadMore in App?");
+    }
   };
 
   render() {
-    const { isLoading, currentSubName, posts } = this.state;
-
-    if (isLoading) {
-      return (
-        <div className="loading-container">
-          <FaIcon icon="spinner-third" spin />
-        </div>
-      );
-    }
+    const { isLoading, posts, currentSub } = this.props;
 
     return (
-      <>
+      <Fragment>
         <Header
-          currentSubName={currentSubName}
-          setCurrentSub={this.setCurrentSub}
+          currentSubName={currentSub}
+          setCurrentSub={this.props.setCurrentSub}
         />
+        {isLoading && <FaIcon icon="spinner-third" spin />}
         <PostFeed posts={posts} loadMore={this.loadMore} />
-      </>
+      </Fragment>
     );
   }
 }
 
-export default App;
+function mapStateToProps({ posts, currentSub }) {
+  return {
+    isLoading: posts.isLoading,
+    posts: posts.items,
+    currentSub,
+  };
+}
+
+function mapDispatchToProps(dispatch) {
+  return {
+    fetchPosts: () => {
+      dispatch(fetchPosts());
+    },
+    fetchMorePosts: () => {
+      dispatch(fetchMorePosts());
+    },
+    setCurrentSub: sub => {
+      dispatch(setCurrentSub(sub));
+    },
+  };
+}
+
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps,
+)(App);
