@@ -5,6 +5,7 @@ export const REQUEST_SNOOWRAP = "REQUEST_SNOOWRAP";
 export const RECEIVE_SNOOWRAP = "RECEIVE_SNOOWRAP";
 
 export const REQUEST_POSTS = "REQUEST_POSTS";
+export const REQUEST_MORE_POSTS = "REQUEST_MORE_POSTS";
 export const RECEIVE_POSTS = "RECEIVE_POSTS";
 
 export const CHANGE_SUBREDDIT = "CHANGE_SUBREDDIT";
@@ -38,6 +39,13 @@ function requestPosts(subreddit) {
   };
 }
 
+function requestMorePosts(subreddit) {
+  return {
+    type: REQUEST_MORE_POSTS,
+    subreddit,
+  };
+}
+
 function receivePosts(subreddit, posts) {
   return {
     type: RECEIVE_POSTS,
@@ -59,6 +67,7 @@ export function fetchPosts(subreddit) {
 export function fetchMorePosts(subreddit) {
   return async (dispatch, getState) => {
     const { items } = getState().posts;
+    dispatch(requestMorePosts(subreddit));
     // fetchMore will return a Listing with _both_ previous and new posts
     const itemsWithNew = await items.fetchMore({ amount: 25 });
     dispatch(receivePosts(subreddit, itemsWithNew));

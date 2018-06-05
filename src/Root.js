@@ -1,9 +1,9 @@
 import React, { Component } from "react";
 import { connect } from "react-redux";
 import PropTypes from "prop-types";
-import FaIcon from "@fortawesome/react-fontawesome";
 
 import { initSnoowrap } from "actions";
+import Loading from "components/Loading";
 import App from "./App";
 
 class Root extends Component {
@@ -20,11 +20,7 @@ class Root extends Component {
     const { isLoading } = this.props;
 
     if (isLoading) {
-      return (
-        <div className="loading-container">
-          <FaIcon icon="spinner-third" spin />
-        </div>
-      );
+      return <Loading type="fullscreen" />;
     }
 
     return <App />;

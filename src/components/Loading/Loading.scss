@@ -1,0 +1,19 @@
+.loading-reg {
+  width: 100%;
+  text-align: center;
+  font-size: 2em;
+  padding: 20px;
+}
+
+.loading-fullscreen {
+  position: absolute;
+  top: 45%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  font-size: 4em;
+}
+
+.loading-inline {
+  display: inline-block;
+  margin-left: 1ch;
+}

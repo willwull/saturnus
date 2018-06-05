@@ -5,6 +5,7 @@ import thunk from "redux-thunk";
 import { Provider } from "react-redux";
 import fontawesome from "@fortawesome/fontawesome";
 import faSolid from "@fortawesome/fontawesome-pro-solid";
+import faRegular from "@fortawesome/fontawesome-pro-regular";
 import faBrands from "@fortawesome/fontawesome-free-brands";
 import "normalize.css";
 
@@ -14,7 +15,7 @@ import Root from "./Root";
 import registerServiceWorker from "./registerServiceWorker";
 import "./index.scss";
 
-fontawesome.library.add(faSolid, faBrands);
+fontawesome.library.add(faSolid, faBrands, faRegular);
 
 /* eslint-disable no-underscore-dangle */
 const composeEnhancers = window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || compose;

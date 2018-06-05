@@ -1,7 +1,6 @@
 import React, { Component, Fragment } from "react";
 import { connect } from "react-redux";
 import PropTypes from "prop-types";
-import FaIcon from "@fortawesome/react-fontawesome";
 
 import { fetchPosts, fetchMorePosts, setCurrentSub } from "actions";
 
@@ -12,6 +11,7 @@ class App extends Component {
   static propTypes = {
     posts: PropTypes.array.isRequired,
     isLoading: PropTypes.bool.isRequired,
+    isLoadingMore: PropTypes.bool.isRequired,
     fetchPosts: PropTypes.func.isRequired,
     fetchMorePosts: PropTypes.func.isRequired,
     currentSub: PropTypes.string.isRequired,
@@ -43,7 +43,7 @@ class App extends Component {
   };
 
   render() {
-    const { isLoading, posts, currentSub } = this.props;
+    const { isLoading, isLoadingMore, posts, currentSub } = this.props;
 
     return (
       <Fragment>
@@ -51,8 +51,14 @@ class App extends Component {
           currentSubName={currentSub}
           setCurrentSub={this.props.setCurrentSub}
         />
-        {isLoading && <FaIcon icon="spinner-third" spin />}
-        <PostFeed posts={posts} loadMore={this.loadMore} />
+        <div className="main-content">
+          <PostFeed
+            posts={posts}
+            loadMore={this.loadMore}
+            isLoading={isLoading}
+            isLoadingMore={isLoadingMore}
+          />
+        </div>
       </Fragment>
     );
   }
@@ -61,6 +67,7 @@ class App extends Component {
 function mapStateToProps({ posts, currentSub }) {
   return {
     isLoading: posts.isLoading,
+    isLoadingMore: posts.isLoadingMore,
     posts: posts.items,
     currentSub,
   };

@@ -13,4 +13,9 @@
   &:active {
     background: darken($color, 5);
   }
+
+  &:disabled {
+    background: lighten($color, 30);
+    cursor: default;
+  }
 }

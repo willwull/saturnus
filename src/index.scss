@@ -8,8 +8,19 @@
   --text-color-rgb: 70, 70, 70;
   --text-color: rgb(var(--text-color-rgb));
 
-  --max-content-height: 85vh;
+  --max-content-height: 75vh;
   --content-padding: 20px;
+}
+
+*,
+html {
+  box-sizing: border-box;
+}
+
+*,
+*:before,
+*:after {
+  box-sizing: inherit;
 }
 
 body {
@@ -18,15 +29,6 @@ body {
   font-family: sans-serif;
   background: var(--body-bg);
   color: var(--text-color);
-}
-
-/* temporary */
-.loading-container {
-  position: absolute;
-  top: 45%;
-  left: 50%;
-  transform: translate(-50%, -50%);
-  font-size: 4em;
 }
 
 img,
@@ -42,4 +44,8 @@ button {
   background: none;
   color: inherit;
   outline: none;
+}
+
+.main-content {
+  margin-top: 80px;
 }

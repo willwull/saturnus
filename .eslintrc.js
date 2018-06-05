@@ -19,5 +19,6 @@ module.exports = {
     "react/sort-comp": 0,
     "import/no-unresolved": 0,
     "import/extensions": 0,
+    "object-curly-newline": 0,
   },
 };
