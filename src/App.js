@@ -3,7 +3,7 @@ import FaIcon from "@fortawesome/react-fontawesome";
 
 import authenticate from "api/authentication";
 import Header from "components/Header";
-import Post from "components/Post";
+import PostFeed from "components/PostFeed";
 import PrimaryButton from "components/Buttons/PrimaryButton";
 
 class App extends Component {
@@ -71,14 +71,7 @@ class App extends Component {
           currentSubName={currentSubName}
           setCurrentSub={this.setCurrentSub}
         />
-        <div className="post-feed">
-          {posts.length !== 0 &&
-            posts.map(post => <Post key={post.id} post={post} />)}
-
-          <PrimaryButton className="load-more-btn" onClick={this.loadMore}>
-            Load more
-          </PrimaryButton>
-        </div>
+        <PostFeed posts={posts} loadMore={this.loadMore} />
       </>
     );
   }
