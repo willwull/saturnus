@@ -29,11 +29,13 @@ function receivePosts(subreddit, posts) {
   };
 }
 
-function shouldFetchMore(state) {
+function shouldFetchMore(state, subreddit) {
   const { posts } = state;
 
-  // if no posts have been fetched, we should fetch
-  if (!posts.receivedAt) return true;
+  const currentSub = state.posts[subreddit];
+
+  // if nothing has been fetched for the current sub, we need to fetch
+  if (!currentSub || !currentSub.receivedAt) return true;
 
   // if we have already fetched, only fetch again if it was 10 minutes ago
   const then = moment(posts.receivedAt);
@@ -44,7 +46,7 @@ function shouldFetchMore(state) {
 export function fetchPosts(subreddit) {
   return async (dispatch, getState) => {
     const state = getState();
-    if (!shouldFetchMore(state)) return;
+    if (!shouldFetchMore(state, subreddit)) return;
 
     const { r } = state.snoowrap;
     dispatch(requestPosts(subreddit));

@@ -4,7 +4,7 @@ import {
   RECEIVE_POSTS,
 } from "actions/posts";
 
-export default function posts(
+function postsInSubreddit(
   state = {
     items: [],
     receivedAt: null,
@@ -25,6 +25,23 @@ export default function posts(
         receivedAt: action.receivedAt,
         isLoading: false,
         isLoadingMore: false,
+      };
+    default:
+      return state;
+  }
+}
+
+export default function posts(state = {}, action) {
+  const subreddit = action.subreddit || "";
+
+  // all action types should fall through
+  switch (action.type) {
+    case RECEIVE_POSTS:
+    case REQUEST_MORE_POSTS:
+    case REQUEST_POSTS:
+      return {
+        ...state,
+        [subreddit]: postsInSubreddit(state[subreddit], action),
       };
     default:
       return state;

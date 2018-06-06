@@ -59,12 +59,20 @@ class PostFeedContainer extends Component {
   }
 }
 
-function mapStateToProps({ posts }) {
-  return {
-    isLoading: posts.isLoading,
-    isLoadingMore: posts.isLoadingMore,
-    posts: posts.items,
+function mapStateToProps({ posts }, ownProps) {
+  const currentPosts = posts[ownProps.subreddit] || {
+    isLoading: false,
+    isLoadingMore: false,
+    items: [],
   };
+
+  const props = {
+    isLoading: currentPosts.isLoading,
+    isLoadingMore: currentPosts.isLoadingMore,
+    posts: currentPosts.items,
+  };
+
+  return props;
 }
 
 function mapDispatchToProps(dispatch) {
