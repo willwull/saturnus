@@ -20,5 +20,13 @@ module.exports = {
     "import/no-unresolved": 0,
     "import/extensions": 0,
     "object-curly-newline": 0,
+    "jsx-a11y/anchor-is-valid": [
+      "error",
+      {
+        components: ["Link"],
+        specialLink: ["to"],
+        aspects: ["noHref", "invalidHref", "preferButton"],
+      },
+    ],
   },
 };

@@ -18,7 +18,7 @@ function Loading({ type }) {
 }
 
 Loading.propTypes = {
-  type: PropTypes.oneOf(["regular, fullscreen", "inline"]).isRequired,
+  type: PropTypes.oneOf(["regular", "fullscreen", "inline"]).isRequired,
 };
 
 export default Loading;
