@@ -99,7 +99,7 @@ function Post({ post }) {
 
         <div className="bottom-row">
           <Link
-            to={post.subreddit_name_prefixed}
+            to={`/${post.subreddit_name_prefixed}`}
             className="sub"
             style={{ backgroundColor: bgColor, color: textColor }}
           >
