@@ -2,7 +2,7 @@ import React, { Component } from "react";
 import { connect } from "react-redux";
 import PropTypes from "prop-types";
 
-import { fetchPosts, fetchMorePosts, setCurrentSub } from "actions";
+import { fetchPosts, fetchMorePosts } from "actions/posts";
 
 import PostFeed from "components/PostFeed";
 
@@ -74,9 +74,6 @@ function mapDispatchToProps(dispatch) {
     },
     fetchMorePosts: () => {
       dispatch(fetchMorePosts());
-    },
-    setCurrentSub: sub => {
-      dispatch(setCurrentSub(sub));
     },
   };
 }

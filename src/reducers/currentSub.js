@@ -1,3 +1,4 @@
+/*
 import { CHANGE_SUBREDDIT } from "actions";
 
 export default function currentSub(state = "", action) {
@@ -8,3 +9,4 @@ export default function currentSub(state = "", action) {
       return state;
   }
 }
+*/

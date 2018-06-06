@@ -1,10 +1,15 @@
-import { REQUEST_POSTS, REQUEST_MORE_POSTS, RECEIVE_POSTS } from "actions";
+import {
+  REQUEST_POSTS,
+  REQUEST_MORE_POSTS,
+  RECEIVE_POSTS,
+} from "actions/posts";
 
 export default function posts(
   state = {
+    items: [],
+    receivedAt: null,
     isLoading: false,
     isLoadingMore: false,
-    items: [],
   },
   action,
 ) {
@@ -16,9 +21,10 @@ export default function posts(
     case RECEIVE_POSTS:
       return {
         ...state,
+        items: action.posts,
+        receivedAt: action.receivedAt,
         isLoading: false,
         isLoadingMore: false,
-        items: action.posts,
       };
     default:
       return state;
