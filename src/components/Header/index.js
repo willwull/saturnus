@@ -13,7 +13,7 @@ function Header() {
           <FaIcon icon={["far", "dot-circle"]} />
         </div>
       </Link>
-      <Link to="/test">Saturnus</Link>
+      <Link to="/">Saturnus</Link>
     </div>
   );
 }
