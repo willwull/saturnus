@@ -1,5 +1,6 @@
 import React from "react";
 import PropTypes from "prop-types";
+import { Link } from "react-router-dom";
 import moment from "moment-mini";
 import FaIcon from "@fortawesome/react-fontawesome";
 import Color from "color";
@@ -87,20 +88,23 @@ function Post({ post }) {
           <PostContent post={post} />
         </div>
 
-        <div className="date">
-          {moment.unix(post.created_utc).fromNow()} by {post.author.name}
+        <div className="post-info">
+          <div className="author">
+            {moment.unix(post.created_utc).fromNow()} by {post.author.name}
+          </div>
           {post.author_flair_text && (
             <span className="flair author">{post.author_flair_text}</span>
           )}
         </div>
 
         <div className="bottom-row">
-          <div
+          <Link
+            to={post.subreddit_name_prefixed}
             className="sub"
             style={{ backgroundColor: bgColor, color: textColor }}
           >
             {post.subreddit.display_name}
-          </div>
+          </Link>
 
           <div className="comments">
             <FaIcon icon="comment-alt" /> {shortenNumber(post.num_comments)}{" "}

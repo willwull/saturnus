@@ -77,10 +77,14 @@
     margin-bottom: 15px;
   }
 
-  .date {
+  .post-info {
     color: rgba(var(--text-color-rgb), 0.4);
     margin-bottom: 7px;
-    margin-right: 7px;
+
+    .author {
+      display: inline-block;
+      margin-right: 1ch;
+    }
   }
 
   .bottom-row {
@@ -95,6 +99,7 @@
       color: white;
       display: inline-block;
       border-radius: 20px;
+      text-decoration: none;
     }
 
     .comments {
