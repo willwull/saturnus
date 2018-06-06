@@ -26,7 +26,12 @@ function LinkPreview({ post }) {
   }
 
   return (
-    <a href={post.url} className="link-preview-component">
+    <a
+      href={post.url}
+      rel="noopener noreferrer"
+      target="_blank"
+      className="link-preview-component"
+    >
       {bigPreview}
       <div className="link-bar">
         <div className="thumbnail">
@@ -39,7 +44,7 @@ function LinkPreview({ post }) {
         </div>
 
         <div className="arrow">
-          <FaIcon icon="chevron-right" />
+          <FaIcon icon="external-link" />
         </div>
       </div>
     </a>
