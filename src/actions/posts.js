@@ -29,7 +29,7 @@ function receivePosts(subreddit, posts) {
   };
 }
 
-function shouldFetchMore(state, subreddit) {
+function shouldFetch(state, subreddit) {
   const { posts } = state;
 
   const currentSub = state.posts[subreddit];
@@ -46,7 +46,7 @@ function shouldFetchMore(state, subreddit) {
 export function fetchPosts(subreddit) {
   return async (dispatch, getState) => {
     const state = getState();
-    if (!shouldFetchMore(state, subreddit)) return;
+    if (!shouldFetch(state, subreddit)) return;
 
     const { r } = state.snoowrap;
     dispatch(requestPosts(subreddit));
@@ -58,7 +58,7 @@ export function fetchPosts(subreddit) {
 
 export function fetchMorePosts(subreddit) {
   return async (dispatch, getState) => {
-    const { items } = getState().posts;
+    const { items } = getState().posts[subreddit];
     dispatch(requestMorePosts(subreddit));
     // fetchMore will return a Listing with _both_ previous and new posts
     const itemsWithNew = await items.fetchMore({ amount: 25 });
