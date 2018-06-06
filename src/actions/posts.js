@@ -49,6 +49,7 @@ export function fetchPosts(subreddit) {
     const { r } = state.snoowrap;
     dispatch(requestPosts(subreddit));
     const posts = await r.getHot(subreddit);
+    console.log(posts);
     dispatch(receivePosts(subreddit, posts));
   };
 }
