@@ -69,11 +69,11 @@ function mapStateToProps({ posts }) {
 
 function mapDispatchToProps(dispatch) {
   return {
-    fetchPosts: () => {
-      dispatch(fetchPosts());
+    fetchPosts: subreddit => {
+      dispatch(fetchPosts(subreddit));
     },
-    fetchMorePosts: () => {
-      dispatch(fetchMorePosts());
+    fetchMorePosts: subreddit => {
+      dispatch(fetchMorePosts(subreddit));
     },
   };
 }
