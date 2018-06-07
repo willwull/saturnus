@@ -5,7 +5,7 @@ import { shortenNumber } from "utils";
 import "./Comment.scss";
 
 function Comment({ comment }) {
-  if (comment.depth > 4) {
+  if (comment.depth > 5) {
     return null;
   }
 
@@ -18,7 +18,6 @@ function Comment({ comment }) {
           {shortenNumber(comment.score)} points
           {" • "}
           {moment.unix(comment.created_utc).fromNow()}
-          {comment.depth}
         </span>
       </div>
       <div dangerouslySetInnerHTML={{ __html: comment.body_html }} />
