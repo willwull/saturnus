@@ -56,6 +56,15 @@ pre {
   font-size: 14px;
 }
 
+:not(pre) > code {
+  display: inline-block;
+  border: 1px solid #dddddd;
+  background: #fcfcfc;
+  color: #e95656;
+  padding: 2px 5px;
+  border-radius: 2px;
+}
+
 .main-content {
   margin-top: 70px;
 }
