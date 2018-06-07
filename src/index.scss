@@ -73,6 +73,11 @@ blockquote {
   background: var(--body-bg);
 }
 
+// reddit text content
+.md {
+  word-break: break-word;
+}
+
 .main-content {
   margin-top: 70px;
 }
