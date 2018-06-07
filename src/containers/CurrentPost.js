@@ -5,6 +5,7 @@ import PropTypes from "prop-types";
 import { fetchCurrentPost } from "actions/currentPost";
 import Loading from "components/Loading";
 import Post from "components/Post";
+import CommentFeed from "components/CommentFeed";
 
 class CurrentPost extends Component {
   static propTypes = {
@@ -32,7 +33,12 @@ class CurrentPost extends Component {
     }
 
     console.log(post);
-    return <Post post={post} />;
+    return (
+      <React.Fragment>
+        <Post post={post} />
+        <CommentFeed comments={post.comments} />
+      </React.Fragment>
+    );
   }
 }
 

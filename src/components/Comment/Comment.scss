@@ -1,0 +1,13 @@
+.comment-component {
+  margin-bottom: 50px;
+
+  &:last-child {
+    margin-bottom: 20px;
+  }
+
+  .comment-info {
+    .secondary {
+      opacity: 0.5;
+    }
+  }
+}

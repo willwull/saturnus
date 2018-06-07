@@ -46,6 +46,16 @@ button {
   outline: none;
 }
 
+pre {
+  overflow-x: scroll;
+  -webkit-overflow-scrolling: touch; /* Lets it scroll lazy */
+  background: #282c35;
+  color: #c6cdd8;
+  padding: 10px;
+  border-radius: 5px;
+  font-size: 14px;
+}
+
 .main-content {
   margin-top: 70px;
 }
