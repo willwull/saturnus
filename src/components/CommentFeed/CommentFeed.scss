@@ -5,5 +5,9 @@
 
   .comment-thread {
     margin-bottom: 50px;
+
+    &:last-child {
+      margin-bottom: 10px;
+    }
   }
 }
