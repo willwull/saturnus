@@ -65,6 +65,14 @@ pre {
   border-radius: 2px;
 }
 
+blockquote {
+  border-left: 1px solid;
+  margin-left: 5px;
+  opacity: 0.5;
+  padding: 1px 15px;
+  background: var(--body-bg);
+}
+
 .main-content {
   margin-top: 70px;
 }
