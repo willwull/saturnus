@@ -1,24 +1,47 @@
 import React, { Component } from "react";
 import { connect } from "react-redux";
+import { withRouter } from "react-router-dom";
 import PropTypes from "prop-types";
 import { fetchCurrentPost } from "actions/currentPost";
+import Loading from "components/Loading";
+import Post from "components/Post";
 
 class CurrentPost extends Component {
   static propTypes = {
+    // react-router
+    match: PropTypes.object.isRequired,
+    // redux
     fetch: PropTypes.func.isRequired,
+    isLoading: PropTypes.bool.isRequired,
+    post: PropTypes.object.isRequired,
   };
 
   componentDidMount() {
-    this.props.fetch("8p2y7v");
+    const {
+      match: { params },
+    } = this.props;
+
+    this.props.fetch(params.postId);
   }
 
   render() {
-    return "hello";
+    const { isLoading, post } = this.props;
+
+    if (isLoading || !post.id) {
+      return <Loading type="regular" />;
+    }
+
+    console.log(post);
+    return <Post post={post} />;
   }
 }
 
-function mapStateToProps() {
-  return {};
+function mapStateToProps({ currentPost }) {
+  return {
+    post: currentPost.post,
+    isLoading: currentPost.isLoading,
+    errorMsg: currentPost.errorMsg,
+  };
 }
 
 function mapDispatchToProps(dispatch) {
@@ -29,7 +52,9 @@ function mapDispatchToProps(dispatch) {
   };
 }
 
-export default connect(
-  mapStateToProps,
-  mapDispatchToProps,
-)(CurrentPost);
+export default withRouter(
+  connect(
+    mapStateToProps,
+    mapDispatchToProps,
+  )(CurrentPost),
+);

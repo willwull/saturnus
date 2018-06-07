@@ -14,7 +14,6 @@ export function fetchCurrentPost(postId) {
     try {
       const r = reddit.getSnoowrap();
       const post = await r.getSubmission(postId).fetch();
-      console.log(post);
 
       dispatch({
         type: RECEIVE_CURRENT_POST,
