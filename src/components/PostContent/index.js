@@ -9,6 +9,11 @@ import "./PostContent.scss";
 class PostContent extends Component {
   static propTypes = {
     post: PropTypes.object.isRequired,
+    expanded: PropTypes.bool,
+  };
+
+  static defaultProps = {
+    expanded: false,
   };
 
   state = {
@@ -20,13 +25,13 @@ class PostContent extends Component {
   };
 
   render() {
-    const { post } = this.props;
+    const { post, expanded } = this.props;
 
     // spoiler marked posts
-    if ((post.spoiler || post.over_18) && this.state.obfuscated) {
+    if ((post.spoiler || post.over_18) && this.state.obfuscated && !expanded) {
       // spoiler marked text post
       if (post.is_self) {
-        return "Hidden text";
+        return <div className="post-self-text">Hidden text</div>;
       }
 
       // spoiler marked media post
@@ -60,12 +65,13 @@ class PostContent extends Component {
 
     // self post (text)
     if (post.is_self) {
+      const classes = expanded ? "post-self-text" : "post-self-text default";
       return (
-        <div className="post-self-text">
+        <div className={classes}>
           <div dangerouslySetInnerHTML={{ __html: post.selftext_html }} />
 
           {/* gradient overlay that indicates that the text is cut off */}
-          <div className="overflow-overlay" />
+          {!expanded && <div className="overflow-overlay" />}
         </div>
       );
     }

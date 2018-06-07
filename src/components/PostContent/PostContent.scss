@@ -8,9 +8,11 @@
 }
 
 .post-self-text {
-  max-height: 200px;
-  overflow: hidden;
-  position: relative;
+  &.default {
+    max-height: 200px;
+    overflow: hidden;
+    position: relative;
+  }
 
   p:first-child {
     margin-top: 2px;

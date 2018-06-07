@@ -35,7 +35,7 @@ class CurrentPost extends Component {
     console.log(post);
     return (
       <React.Fragment>
-        <Post post={post} />
+        <Post post={post} expanded />
         <CommentFeed comments={post.comments} />
       </React.Fragment>
     );

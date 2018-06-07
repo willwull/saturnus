@@ -13,7 +13,7 @@ import "./Post.scss";
 /**
  * Component for a post in the feed
  */
-function Post({ post }) {
+function Post({ post, expanded }) {
   const bgColor = Color(
     randomColor({
       seed: post.subreddit.display_name,
@@ -87,7 +87,7 @@ function Post({ post }) {
         </div>
 
         <div className="content-wrapper">
-          <PostContent post={post} />
+          <PostContent post={post} expanded={expanded} />
         </div>
 
         <div className="post-info">
@@ -120,6 +120,11 @@ function Post({ post }) {
 
 Post.propTypes = {
   post: PropTypes.object.isRequired,
+  expanded: PropTypes.bool,
+};
+
+Post.defaultProps = {
+  expanded: false,
 };
 
 export default Post;
