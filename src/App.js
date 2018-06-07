@@ -6,6 +6,7 @@ import Header from "components/Header";
 import Frontpage from "pages/Frontpage";
 import NotfoundPage from "pages/NotfoundPage";
 import SubredditPage from "pages/SubredditPage";
+import PostPage from "pages/PostPage";
 
 function App() {
   return (
@@ -13,7 +14,11 @@ function App() {
       <Header />
       <Switch>
         <Route exact path="/" component={Frontpage} />
-        <Route path="/r/:subreddit" component={SubredditPage} />
+        <Route exact path="/r/:subreddit" component={SubredditPage} />
+        <Route
+          path="/r/:subreddit/comments/:postId/:postTitle"
+          component={PostPage}
+        />
         <Route component={NotfoundPage} />
       </Switch>
     </ScrollToTop>

@@ -63,7 +63,7 @@ function Post({ post }) {
 
       {/* Actual post content */}
       <div className="data">
-        <div className="title">
+        <div className="title-bar">
           <div className="flairs">
             {/* Link flairs */}
             {post.link_flair_text && (
@@ -81,7 +81,9 @@ function Post({ post }) {
             )}
           </div>
 
-          {post.title}
+          <Link to={post.permalink} className="post-title">
+            {post.title}
+          </Link>
         </div>
 
         <div className="content-wrapper">
@@ -106,10 +108,10 @@ function Post({ post }) {
             {post.subreddit.display_name}
           </Link>
 
-          <div className="comments">
+          <Link to={post.permalink} className="comments">
             <FaIcon icon="comment-alt" /> {shortenNumber(post.num_comments)}{" "}
             comments
-          </div>
+          </Link>
         </div>
       </div>
     </div>
