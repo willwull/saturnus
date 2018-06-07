@@ -1,9 +1,8 @@
-import { REQUEST_SNOOWRAP, RECEIVE_SNOOWRAP } from "actions";
+import { REQUEST_SNOOWRAP, RECEIVE_SNOOWRAP } from "actions/snoowrap";
 
 export default function snoowrap(
   state = {
     isLoading: true,
-    r: null, // instance of snoowrap, created in Root.js
   },
   action,
 ) {
@@ -11,7 +10,7 @@ export default function snoowrap(
     case REQUEST_SNOOWRAP:
       return { ...state, isLoading: true };
     case RECEIVE_SNOOWRAP:
-      return { ...state, isLoading: false, r: action.snoowrap };
+      return { ...state, isLoading: false };
     default:
       return state;
   }

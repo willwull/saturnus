@@ -1,11 +1,10 @@
 import moment from "moment-mini";
+import reddit from "api/reddit";
 
-/* Action types */
 export const REQUEST_POSTS = "REQUEST_POSTS";
 export const REQUEST_MORE_POSTS = "REQUEST_MORE_POSTS";
 export const RECEIVE_POSTS = "RECEIVE_POSTS";
 
-/* Action creators */
 function requestPosts(subreddit) {
   return {
     type: REQUEST_POSTS,
@@ -48,10 +47,12 @@ export function fetchPosts(subreddit) {
     const state = getState();
     if (!shouldFetch(state, subreddit)) return;
 
-    const { r } = state.snoowrap;
+    const r = reddit.getSnoowrap();
     dispatch(requestPosts(subreddit));
+
     const posts = await r.getHot(subreddit);
     console.log(posts);
+
     dispatch(receivePosts(subreddit, posts));
   };
 }
@@ -60,8 +61,10 @@ export function fetchMorePosts(subreddit) {
   return async (dispatch, getState) => {
     const { items } = getState().posts[subreddit];
     dispatch(requestMorePosts(subreddit));
+
     // fetchMore will return a Listing with _both_ previous and new posts
     const itemsWithNew = await items.fetchMore({ amount: 25 });
+
     dispatch(receivePosts(subreddit, itemsWithNew));
   };
 }

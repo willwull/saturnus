@@ -20,6 +20,7 @@ module.exports = {
     "import/no-unresolved": 0,
     "import/extensions": 0,
     "object-curly-newline": 0,
+    "no-underscore-dangle": 0,
     "jsx-a11y/anchor-is-valid": [
       "error",
       {

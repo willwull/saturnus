@@ -3,7 +3,7 @@ import { connect } from "react-redux";
 import { withRouter } from "react-router-dom";
 import PropTypes from "prop-types";
 
-import { initSnoowrap } from "actions";
+import { initSnoowrap } from "actions/snoowrap";
 import Loading from "components/Loading";
 import App from "./App";
 
