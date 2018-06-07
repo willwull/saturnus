@@ -2,7 +2,7 @@
   "name": "saturnus",
   "version": "0.1.0",
   "private": true,
-  "homepage": "https://willwull.github.io/saturnus",
+  "homepage": "https://saturnusapp.com",
   "dependencies": {
     "@fortawesome/fontawesome": "^1.1.8",
     "@fortawesome/fontawesome-free-brands": "^5.0.13",
@@ -47,11 +47,6 @@
       "last 2 firefox versions",
       "last 2 edge versions"
     ],
-    "production": [
-      ">1%",
-      "last 4 versions",
-      "Firefox ESR",
-      "not ie < 11"
-    ]
+    "production": [">1%", "last 4 versions", "Firefox ESR", "not ie < 11"]
   }
 }
