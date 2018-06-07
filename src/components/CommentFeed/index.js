@@ -6,7 +6,11 @@ import "./CommentFeed.scss";
 function CommentFeed({ comments }) {
   return (
     <div className="comment-feed">
-      {comments.map(comment => <Comment key={comment.id} comment={comment} />)}
+      {comments.map(comment => (
+        <div key={comment.id} className="comment-thread">
+          <Comment comment={comment} />
+        </div>
+      ))}
     </div>
   );
 }

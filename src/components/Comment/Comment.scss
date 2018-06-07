@@ -1,5 +1,5 @@
 .comment-component {
-  margin-bottom: 50px;
+  margin-bottom: 10px;
 
   &:last-child {
     margin-bottom: 20px;
@@ -9,5 +9,12 @@
     .secondary {
       opacity: 0.5;
     }
+  }
+
+  .child-comment {
+    padding-left: 15px;
+    margin-left: 5px;
+    border-left: 2px solid;
+    border-color: rgba(var(--text-color-rgb), 0.1);
   }
 }
