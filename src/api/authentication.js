@@ -1,5 +1,9 @@
 import Snoowrap from "snoowrap";
+import * as LocalCache from "LocalCache";
 import credentials from "./credentials";
+
+const { protocol, host } = window.location;
+export const REDIRECT_URI = `${protocol}//${host}`;
 
 /**
  * Generates an access token for userless actions, aka Application Only OAuth.
@@ -32,12 +36,32 @@ export async function appOnlyOauth() {
   return json;
 }
 
+export async function getAuthTokens(code) {
+  const formData = new FormData();
+  formData.append("grant_type", "authorization_code");
+  formData.append("code", code);
+  formData.append("redirect_uri", REDIRECT_URI);
+
+  const res = await fetch("https://www.reddit.com/api/v1/access_token", {
+    method: "post",
+    headers: {
+      Authorization: `Basic ${window.btoa(`${credentials.clientId}:`)}`,
+    },
+    body: formData,
+  });
+  const json = await res.json();
+
+  LocalCache.set("reddit_auth_tokens", json);
+
+  return json;
+}
+
 /**
  * Creates a url that takes the user to a page where they can let this
  * app use their account
  */
 export function getAuthUrl() {
-  const { protocol, host } = window.location;
+  const verificationState = Date.now().toString();
   const options = {
     clientId: credentials.clientId,
     scope: [
@@ -67,9 +91,14 @@ export function getAuthUrl() {
       "wikiedit",
       "wikiread",
     ],
-    redirectUri: `${protocol}//${host}`,
+    redirectUri: REDIRECT_URI,
     permanent: true,
+    state: verificationState,
   };
+
+  console.log(options);
+
+  LocalCache.set("verificationState", verificationState);
 
   const authUrl = Snoowrap.getAuthUrl(options);
   console.log(authUrl);

@@ -4,6 +4,21 @@ import { appOnlyOauth } from "api/authentication";
 
 export const REQUEST_SNOOWRAP = "REQUEST_SNOOWRAP";
 export const RECEIVE_SNOOWRAP = "RECEIVE_SNOOWRAP";
+export const SNOOWRAP_ERROR = "SNOOWRAP_ERROR";
+
+function receiveSnoowrap(accessToken = "") {
+  return {
+    type: RECEIVE_SNOOWRAP,
+    accessToken,
+    receivedAt: Date.now(),
+  };
+}
+
+function snoowrapError() {
+  return {
+    type: SNOOWRAP_ERROR,
+  };
+}
 
 function shouldInit(state) {
   const { snoowrap } = state;
@@ -15,6 +30,25 @@ function shouldInit(state) {
   const then = moment(snoowrap.receivedAt);
   const diff = moment().diff(then, "seconds");
   return diff > 3600;
+}
+
+export function authSnoowrap(authCode) {
+  return async dispatch => {
+    try {
+      await reddit.initAuthCode(authCode);
+      dispatch(receiveSnoowrap());
+    } catch (error) {
+      console.log(error);
+      dispatch(snoowrapError());
+    }
+  };
+}
+
+export function initRefreshToken(refreshToken) {
+  return dispatch => {
+    reddit.initRefreshToken(refreshToken);
+    dispatch(receiveSnoowrap());
+  };
 }
 
 export function initSnoowrap() {
@@ -31,12 +65,8 @@ export function initSnoowrap() {
       ({ accessToken } = getState().snoowrap);
     }
 
-    reddit.init(accessToken);
+    reddit.initAppOnly(accessToken);
 
-    dispatch({
-      type: RECEIVE_SNOOWRAP,
-      accessToken,
-      receivedAt: Date.now(),
-    });
+    dispatch(receiveSnoowrap(accessToken));
   };
 }
