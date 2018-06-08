@@ -35,7 +35,12 @@ class Root extends Component {
       // user has just been redirected from reddit after clicking sign in from here
       console.log(`redirected from reddit with: ${authCallBackCode}`);
       this.props.createAuthSnoowrap(authCallBackCode);
-      this.props.history.replace("/");
+
+      // since the state will be of the format "1321313:/r/funny" (see authentication.js)
+      // we can get it out from the state and redirect the user to the url
+      // they were at when they clicked sign in
+      const redirectPath = verificationState.split(":")[1];
+      this.props.history.replace(redirectPath);
     } else if (storedTokens && storedTokens.refresh_token) {
       // user has signed in in the past, use their refresh token to init snoowrap
       console.log(`trying stored refresh token: ${storedTokens.refresh_token}`);

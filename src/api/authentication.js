@@ -59,9 +59,14 @@ export async function getAuthTokens(code) {
 /**
  * Creates a url that takes the user to a page where they can let this
  * app use their account
+ *
+ * If a redirectPath is passed, that string will be embedded in the state,
+ * so the state will be something like "13384719:/r/funny"
+ *
+ * @param {String} redirectPath
  */
-export function getAuthUrl() {
-  const verificationState = Date.now().toString();
+export function getAuthUrl(redirectPath = "/") {
+  const verificationState = `${Date.now().toString()}:${redirectPath}`;
   const options = {
     clientId: credentials.clientId,
     scope: [
