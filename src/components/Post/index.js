@@ -43,7 +43,7 @@ function Post({ post, expanded }) {
         )}
 
         {/* Mod distinguished icon */}
-        {post.stickied && (
+        {post.distinguished === "moderator" && (
           <div className="mod-icon">
             <FaIcon icon="shield" />
           </div>

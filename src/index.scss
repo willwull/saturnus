@@ -10,6 +10,9 @@
 
   --max-content-height: 65vh;
   --content-padding: 20px;
+
+  --mod-color: #21af28;
+  --primary-color: #2793db;
 }
 
 *,
@@ -47,7 +50,7 @@ button {
 }
 
 a {
-  color: #2793db;
+  color: var(--primary-color);
   text-decoration: none;
 }
 
