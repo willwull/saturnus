@@ -32,25 +32,6 @@ function shouldInit(state) {
   return diff > 3600;
 }
 
-export function authSnoowrap(authCode) {
-  return async dispatch => {
-    try {
-      await reddit.initAuthCode(authCode);
-      dispatch(receiveSnoowrap());
-    } catch (error) {
-      console.log(error);
-      dispatch(snoowrapError());
-    }
-  };
-}
-
-export function initRefreshToken(refreshToken) {
-  return dispatch => {
-    reddit.initRefreshToken(refreshToken);
-    dispatch(receiveSnoowrap());
-  };
-}
-
 export function initSnoowrap() {
   return async (dispatch, getState) => {
     let accessToken;
@@ -68,5 +49,31 @@ export function initSnoowrap() {
     reddit.initAppOnly(accessToken);
 
     dispatch(receiveSnoowrap(accessToken));
+  };
+}
+
+export function authSnoowrap(authCode) {
+  return async dispatch => {
+    try {
+      await reddit.initAuthCode(authCode);
+      dispatch(receiveSnoowrap());
+    } catch (error) {
+      console.log(error);
+      dispatch(snoowrapError());
+    }
+  };
+}
+
+export function initRefreshToken(refreshToken) {
+  return dispatch => {
+    try {
+      reddit.initRefreshToken(refreshToken);
+      dispatch(receiveSnoowrap());
+    } catch (error) {
+      // if there is some error (e.g. if the refresh token is invalid)
+      // fall back to userless initialization
+      console.log("fell back to userless");
+      dispatch(initSnoowrap());
+    }
   };
 }

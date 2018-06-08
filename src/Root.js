@@ -34,7 +34,7 @@ class Root extends Component {
       // user has just been redirected from reddit after clicking sign in from here
       console.log(`redirected from reddit with: ${authCallBackCode}`);
       this.props.createAuthSnoowrap(authCallBackCode);
-    } else if (storedTokens.refresh_token) {
+    } else if (storedTokens && storedTokens.refresh_token) {
       // user has signed in in the past, use their refresh token to init snoowrap
       this.props.createRefreshSnoowrap(storedTokens.refresh_token);
     } else {
