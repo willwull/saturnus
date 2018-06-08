@@ -27,7 +27,7 @@
     border-color: rgba(var(--text-color-rgb), 0.1);
   }
 
-  p:first-child {
+  & > p:first-child {
     margin-top: 10px;
   }
 }
