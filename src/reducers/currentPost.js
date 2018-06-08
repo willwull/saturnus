@@ -9,6 +9,7 @@ export default function currentPost(
     post: {},
     isLoading: false,
     errorMsg: null,
+    receivedAt: null,
   },
   action,
 ) {
@@ -16,7 +17,12 @@ export default function currentPost(
     case REQUEST_CURRENT_POST:
       return { ...state, isLoading: true };
     case RECEIVE_CURRENT_POST:
-      return { ...state, isLoading: false, post: action.post };
+      return {
+        ...state,
+        isLoading: false,
+        post: action.post,
+        receivedAt: action.receivedAt,
+      };
     case ERROR_CURRENT_POST:
       return { ...state, isLoading: false, errorMsg: action.errorMsg };
     default:
