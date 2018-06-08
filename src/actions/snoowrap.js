@@ -8,10 +8,10 @@ export const RECEIVE_SNOOWRAP = "RECEIVE_SNOOWRAP";
 function shouldInit(state) {
   const { snoowrap } = state;
 
-  // if nothing has been fetched for the current sub, we need to fetch
+  // if snoowrap hasn't been created yet at all
   if (!snoowrap.accessToken || !snoowrap.receivedAt) return true;
 
-  // if we have already fetched, only fetch again if it was 10 minutes ago
+  // if we have a valid accessToken, we don't need to fetch another
   const then = moment(snoowrap.receivedAt);
   const diff = moment().diff(then, "seconds");
   return diff > 3600;
