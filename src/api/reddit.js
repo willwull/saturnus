@@ -1,5 +1,4 @@
 import Snoowrap from "snoowrap";
-import { appOnlyOauth } from "./authentication";
 import credentials from "./credentials";
 
 class Reddit {
@@ -10,18 +9,15 @@ class Reddit {
    * Authenticates with app only OAuth by default.
    *
    * TODO: authenticate with logged in users
+   *
+   * @param {Object} accessToken
    */
-  async authenticate() {
+  init(accessToken) {
     // TODO: check localStorage for access token and create a new instance of snoowrap with that
-    try {
-      const appOnly = await appOnlyOauth();
-      this._snoo = new Snoowrap({
-        userAgent: credentials.userAgent,
-        accessToken: appOnly.access_token,
-      });
-    } catch (error) {
-      throw new Error("Couldn't authenticate, please try refreshing the page");
-    }
+    this._snoo = new Snoowrap({
+      userAgent: credentials.userAgent,
+      accessToken,
+    });
   }
 
   /**

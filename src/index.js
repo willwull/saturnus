@@ -32,3 +32,17 @@ ReactDOM.render(
   document.getElementById("root"),
 );
 registerServiceWorker();
+
+if (module.hot) {
+  module.hot.accept("./Root", () => {
+    const NextRoot = require("./Root").default; // eslint-disable-line global-require
+    ReactDOM.render(
+      <Provider store={store}>
+        <Router>
+          <NextRoot />
+        </Router>
+      </Provider>,
+      document.getElementById("root"),
+    );
+  });
+}

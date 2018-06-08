@@ -4,6 +4,14 @@ import credentials from "./credentials";
 /**
  * Generates an access token for userless actions, aka Application Only OAuth.
  * Read more: https://github.com/reddit-archive/reddit/wiki/OAuth2#application-only-oauth
+ *
+ * Returns object of shape: {
+ *  access_token: string
+ *  token_type: "bearer"
+ *  device_id: "DO_NOT_TRACK_THIS_DEVICE"
+ *  expires_in: 3600
+ *  scope: "*"
+ * }
  */
 export async function appOnlyOauth() {
   const formData = new FormData();
