@@ -34,6 +34,18 @@
     align-items: center;
   }
 
+  .user-menu {
+    display: flex;
+    align-items: center;
+
+    .user-img {
+      width: 30px;
+      height: 30px;
+      border-radius: 3px;
+      margin-right: 1ch;
+    }
+  }
+
   .signin-btn {
     font-size: 14px;
   }

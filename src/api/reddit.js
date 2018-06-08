@@ -1,6 +1,7 @@
 import Snoowrap from "snoowrap";
+import * as LocalCache from "LocalCache";
 import credentials from "./credentials";
-import { REDIRECT_URI, getAuthTokens } from "./authentication";
+import { getAuthTokens } from "./authentication";
 
 class Reddit {
   _snoo = null;
@@ -33,6 +34,10 @@ class Reddit {
       clientSecret: "",
       refreshToken: tokens.refresh_token,
     });
+
+    // after the auth code has been used once, it's no longer valid,
+    // so we can clear the stored verification state
+    LocalCache.set("verification_state", "");
   }
 
   /**

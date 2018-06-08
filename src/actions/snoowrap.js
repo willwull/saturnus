@@ -1,6 +1,7 @@
 import moment from "moment-mini";
 import reddit from "api/reddit";
 import { appOnlyOauth } from "api/authentication";
+import { setUserStatus } from "./user";
 
 export const REQUEST_SNOOWRAP = "REQUEST_SNOOWRAP";
 export const RECEIVE_SNOOWRAP = "RECEIVE_SNOOWRAP";
@@ -56,6 +57,7 @@ export function authSnoowrap(authCode) {
   return async dispatch => {
     try {
       await reddit.initAuthCode(authCode);
+      dispatch(setUserStatus(true));
       dispatch(receiveSnoowrap());
     } catch (error) {
       console.log(error);
@@ -68,6 +70,7 @@ export function initRefreshToken(refreshToken) {
   return dispatch => {
     try {
       reddit.initRefreshToken(refreshToken);
+      dispatch(setUserStatus(true));
       dispatch(receiveSnoowrap());
     } catch (error) {
       // if there is some error (e.g. if the refresh token is invalid)

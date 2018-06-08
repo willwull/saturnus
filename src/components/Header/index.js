@@ -3,14 +3,9 @@ import React from "react";
 import { Link } from "react-router-dom";
 import FaIcon from "@fortawesome/react-fontawesome";
 
-import { getAuthUrl } from "api/authentication";
-import PrimaryButton from "../Buttons/PrimaryButton";
+import PrimaryButton from "components/Buttons/PrimaryButton";
+import LoggedInUserMenu from "containers/LoggedInUserMenu";
 import "./Header.scss";
-
-function onClick() {
-  const url = getAuthUrl();
-  window.open(url, "_blank");
-}
 
 function Header() {
   return (
@@ -21,9 +16,7 @@ function Header() {
         </div>
       </Link>
       <Link to="/">Saturnus</Link>
-      <PrimaryButton className="signin-btn" onClick={onClick}>
-        Sign in
-      </PrimaryButton>
+      <LoggedInUserMenu />
     </div>
   );
 }

@@ -98,7 +98,7 @@ export function getAuthUrl() {
 
   console.log(options);
 
-  LocalCache.set("verificationState", verificationState);
+  LocalCache.set("verification_state", verificationState);
 
   const authUrl = Snoowrap.getAuthUrl(options);
   console.log(authUrl);

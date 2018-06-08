@@ -10,6 +10,7 @@ import App from "./App";
 
 class Root extends Component {
   static propTypes = {
+    history: PropTypes.object.isRequired,
     location: PropTypes.object.isRequired,
     isLoading: PropTypes.bool.isRequired,
     createSnoowrap: PropTypes.func.isRequired,
@@ -22,7 +23,7 @@ class Root extends Component {
     const url = new URLSearchParams(this.props.location.search);
     const authCallBackCode = url.get("code");
     const verificationState = url.get("state");
-    const storedState = LocalCache.get("verificationState");
+    const storedState = LocalCache.get("verification_state");
     const storedTokens = LocalCache.get("reddit_auth_tokens");
 
     if (
@@ -34,8 +35,10 @@ class Root extends Component {
       // user has just been redirected from reddit after clicking sign in from here
       console.log(`redirected from reddit with: ${authCallBackCode}`);
       this.props.createAuthSnoowrap(authCallBackCode);
+      this.props.history.replace("/");
     } else if (storedTokens && storedTokens.refresh_token) {
       // user has signed in in the past, use their refresh token to init snoowrap
+      console.log(`trying stored refresh token: ${storedTokens.refresh_token}`);
       this.props.createRefreshSnoowrap(storedTokens.refresh_token);
     } else {
       // default, logged out usage
