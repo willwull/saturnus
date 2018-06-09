@@ -10,6 +10,7 @@ class PostFeedContainer extends Component {
   static propTypes = {
     subreddit: PropTypes.string,
     /* Below are from redux */
+    error: PropTypes.bool.isRequired,
     posts: PropTypes.array.isRequired,
     isLoading: PropTypes.bool.isRequired,
     isLoadingMore: PropTypes.bool.isRequired,
@@ -27,26 +28,22 @@ class PostFeedContainer extends Component {
 
   loadPosts = () => {
     const { subreddit } = this.props;
-    try {
-      this.props.fetchPosts(subreddit);
-    } catch (error) {
-      console.log(error);
-      console.log("Catch in cdm in PostFeed");
-    }
+    this.props.fetchPosts(subreddit);
   };
 
   loadMore = () => {
     const { subreddit } = this.props;
-    try {
-      this.props.fetchMorePosts(subreddit);
-    } catch (error) {
-      console.log(error);
-      console.log("catch in loadMore in PostFeed");
-    }
+    this.props.fetchMorePosts(subreddit);
   };
 
   render() {
-    const { isLoading, isLoadingMore, posts } = this.props;
+    const { isLoading, isLoadingMore, posts, error } = this.props;
+
+    console.log(this.props);
+
+    if (error) {
+      return <div className="main-content">Something went wrong :(</div>;
+    }
 
     return (
       <PostFeed
@@ -61,12 +58,14 @@ class PostFeedContainer extends Component {
 
 function mapStateToProps({ posts }, ownProps) {
   const currentPosts = posts[ownProps.subreddit] || {
+    error: false,
     isLoading: false,
     isLoadingMore: false,
     items: [],
   };
 
   const props = {
+    error: currentPosts.error,
     isLoading: currentPosts.isLoading,
     isLoadingMore: currentPosts.isLoadingMore,
     posts: currentPosts.items,

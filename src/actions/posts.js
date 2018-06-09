@@ -4,6 +4,7 @@ import reddit from "api/reddit";
 export const REQUEST_POSTS = "REQUEST_POSTS";
 export const REQUEST_MORE_POSTS = "REQUEST_MORE_POSTS";
 export const RECEIVE_POSTS = "RECEIVE_POSTS";
+export const FETCH_POST_ERROR = "FETCH_POST_ERROR";
 
 function requestPosts(subreddit) {
   return {
@@ -25,6 +26,13 @@ function receivePosts(subreddit, posts) {
     subreddit,
     posts,
     receivedAt: Date.now(),
+  };
+}
+
+function fetchPostError(subreddit) {
+  return {
+    type: FETCH_POST_ERROR,
+    subreddit,
   };
 }
 
@@ -50,10 +58,14 @@ export function fetchPosts(subreddit) {
     const r = reddit.getSnoowrap();
     dispatch(requestPosts(subreddit));
 
-    const posts = await r.getHot(subreddit);
-    console.log(posts);
-
-    dispatch(receivePosts(subreddit, posts));
+    try {
+      const posts = await r.getHot(subreddit);
+      console.log(posts);
+      dispatch(receivePosts(subreddit, posts));
+    } catch (error) {
+      console.log(error);
+      dispatch(fetchPostError(subreddit));
+    }
   };
 }
 
