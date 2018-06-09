@@ -7,6 +7,7 @@ import PrimaryButton from "components/Buttons/PrimaryButton";
 import { storeVerificationState } from "LocalCache";
 import { getAuthUrl } from "api/authentication";
 import { fetchUser } from "actions/user";
+import UserMenu from "components/UserMenu";
 
 class LoggedInUserMenu extends Component {
   static propTypes = {
@@ -51,12 +52,7 @@ class LoggedInUserMenu extends Component {
     }
 
     // user is logged in, show their profile pic and name
-    return (
-      <div className="user-menu">
-        <img className="user-img" src={data.icon_img} alt={data.name} />
-        {data.name}
-      </div>
-    );
+    return <UserMenu userData={data} />;
   }
 }
 

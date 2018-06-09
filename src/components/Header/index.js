@@ -3,7 +3,6 @@ import React from "react";
 import { Link } from "react-router-dom";
 import FaIcon from "@fortawesome/react-fontawesome";
 
-import PrimaryButton from "components/Buttons/PrimaryButton";
 import LoggedInUserMenu from "containers/LoggedInUserMenu";
 import "./Header.scss";
 
@@ -15,7 +14,9 @@ function Header() {
           <FaIcon icon={["far", "dot-circle"]} />
         </div>
       </Link>
-      <Link to="/">Saturnus</Link>
+      <div>
+        <Link to="/">Saturnus</Link>
+      </div>
       <LoggedInUserMenu />
     </div>
   );
