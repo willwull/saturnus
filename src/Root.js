@@ -12,6 +12,8 @@ class Root extends Component {
   static propTypes = {
     history: PropTypes.object.isRequired,
     location: PropTypes.object.isRequired,
+
+    user: PropTypes.object.isRequired,
     isLoading: PropTypes.bool.isRequired,
     createSnoowrap: PropTypes.func.isRequired,
     createAuthSnoowrap: PropTypes.func.isRequired,
@@ -20,6 +22,13 @@ class Root extends Component {
   };
 
   componentDidMount() {
+    // in development mode, since we use hot module replacement, we don't
+    // need to re-initialize snoowrap each time Root is mounted if we have
+    // already initialized it once.
+    if (process.env.NODE_ENV === "development" && this.props.user.loggedIn) {
+      return;
+    }
+
     const url = new URLSearchParams(this.props.location.search);
     const authCallBackCode = url.get("code");
     const verificationState = url.get("state");
@@ -76,8 +85,9 @@ class Root extends Component {
   }
 }
 
-function mapStateToProps({ snoowrap }) {
+function mapStateToProps({ snoowrap, user }) {
   return {
+    user,
     isLoading: snoowrap.isLoading,
     errorMsg: snoowrap.errorMsg,
   };
