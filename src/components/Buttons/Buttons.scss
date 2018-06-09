@@ -1,5 +1,5 @@
 .primary-btn {
-  $color: #2793db;
+  $color: #1e7cf7;
   background: $color;
   color: white;
   padding: 10px 15px;
@@ -7,11 +7,11 @@
   border-radius: 5px;
 
   &:hover {
-    background: lighten($color, 5);
+    background: lighten($color, 10);
   }
 
   &:active {
-    background: darken($color, 5);
+    background: darken($color, 10);
   }
 
   &:disabled {
