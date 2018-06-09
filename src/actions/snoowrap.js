@@ -1,16 +1,15 @@
-import moment from "moment-mini";
 import reddit from "api/reddit";
-import { appOnlyOauth } from "api/authentication";
-import { setUserStatus } from "./user";
+import * as LocalCache from "LocalCache";
+import { appOnlyOauth, getAuthTokens } from "api/authentication";
+import { fetchUser } from "./user";
 
 export const REQUEST_SNOOWRAP = "REQUEST_SNOOWRAP";
 export const RECEIVE_SNOOWRAP = "RECEIVE_SNOOWRAP";
 export const SNOOWRAP_ERROR = "SNOOWRAP_ERROR";
 
-function receiveSnoowrap(accessToken = "") {
+function receiveSnoowrap() {
   return {
     type: RECEIVE_SNOOWRAP,
-    accessToken,
     receivedAt: Date.now(),
   };
 }
@@ -21,31 +20,18 @@ function snoowrapError() {
   };
 }
 
-function shouldInit(state) {
-  const { snoowrap } = state;
-
-  // if snoowrap hasn't been created yet at all
-  if (!snoowrap.accessToken || !snoowrap.receivedAt) return true;
-
-  // if we have a valid accessToken, we don't need to fetch another
-  const then = moment(snoowrap.receivedAt);
-  const diff = moment().diff(then, "seconds");
-  return diff > 3600;
-}
-
+/**
+ * Initializes Snoowrap with app only authentication, when the user
+ * hasn't logged in with an account.
+ */
 export function initSnoowrap() {
-  return async (dispatch, getState) => {
-    let accessToken;
+  return async dispatch => {
+    dispatch({
+      type: REQUEST_SNOOWRAP,
+    });
 
-    if (shouldInit(getState())) {
-      dispatch({
-        type: REQUEST_SNOOWRAP,
-      });
-      const authCredentials = await appOnlyOauth();
-      accessToken = authCredentials.access_token;
-    } else {
-      ({ accessToken } = getState().snoowrap);
-    }
+    const authCredentials = await appOnlyOauth();
+    const accessToken = authCredentials.access_token;
 
     reddit.initAppOnly(accessToken);
 
@@ -53,11 +39,29 @@ export function initSnoowrap() {
   };
 }
 
+/**
+ * Initializes Snoowrap from an auth code.
+ * This is used when the user logs in for the first time, after
+ * they are redirected back from reddit.
+ *
+ * This action will also store the auth tokens in localStorage.
+ *
+ * @param {String} authCode
+ */
 export function authSnoowrap(authCode) {
   return async dispatch => {
+    dispatch({ type: REQUEST_SNOOWRAP });
+
     try {
-      await reddit.initAuthCode(authCode);
-      dispatch(setUserStatus(true));
+      const tokens = await getAuthTokens(authCode);
+      reddit.initRefreshToken(tokens.refresh_token);
+
+      const user = await dispatch(fetchUser());
+
+      // store the tokens in cache
+      LocalCache.storeAuthTokens(user.name, tokens);
+      LocalCache.storeLastActiveUser(user.name);
+
       dispatch(receiveSnoowrap());
     } catch (error) {
       console.log(error);
@@ -66,16 +70,30 @@ export function authSnoowrap(authCode) {
   };
 }
 
+/**
+ * Initializes Snoowrap (and gets user info) from a refresh token.
+ * This is used when the user has logged in in the past, and their
+ * refresh token has been fetched before.
+ *
+ * @param {String} refreshToken
+ */
 export function initRefreshToken(refreshToken) {
-  return dispatch => {
+  return async dispatch => {
+    dispatch({ type: REQUEST_SNOOWRAP });
+
     try {
       reddit.initRefreshToken(refreshToken);
-      dispatch(setUserStatus(true));
+
+      const user = await dispatch(fetchUser());
+
+      LocalCache.storeLastActiveUser(user.name);
+
       dispatch(receiveSnoowrap());
     } catch (error) {
       // if there is some error (e.g. if the refresh token is invalid)
       // fall back to userless initialization
       console.log("fell back to userless");
+      console.log(error);
       dispatch(initSnoowrap());
     }
   };

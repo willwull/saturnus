@@ -1,7 +1,5 @@
 import Snoowrap from "snoowrap";
-import * as LocalCache from "LocalCache";
 import credentials from "./credentials";
-import { getAuthTokens } from "./authentication";
 
 class Reddit {
   _snoo = null;
@@ -17,27 +15,6 @@ class Reddit {
       userAgent: credentials.userAgent,
       accessToken,
     });
-  }
-
-  /**
-   * Creates an instance of Snoowrap, authenticated user.
-   * Use this function when the user signs in for the first time and is
-   * redirected back to this app from reddit.
-   *
-   * @param {String} code
-   */
-  async initAuthCode(code) {
-    const tokens = await getAuthTokens(code);
-    this._snoo = new Snoowrap({
-      userAgent: credentials.userAgent,
-      clientId: credentials.clientId,
-      clientSecret: "",
-      refreshToken: tokens.refresh_token,
-    });
-
-    // after the auth code has been used once, it's no longer valid,
-    // so we can clear the stored verification state
-    LocalCache.set("verification_state", "");
   }
 
   /**

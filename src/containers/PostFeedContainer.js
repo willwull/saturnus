@@ -39,8 +39,6 @@ class PostFeedContainer extends Component {
   render() {
     const { isLoading, isLoadingMore, posts, error } = this.props;
 
-    console.log(this.props);
-
     if (error) {
       return <div className="main-content">Something went wrong :(</div>;
     }

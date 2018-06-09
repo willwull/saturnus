@@ -7,7 +7,6 @@ import {
 export default function snoowrap(
   state = {
     isLoading: true,
-    accessToken: null,
     receivedAt: null,
     errorMsg: "",
   },
@@ -20,7 +19,6 @@ export default function snoowrap(
       return {
         ...state,
         isLoading: false,
-        accessToken: action.accessToken,
         receivedAt: action.receivedAt,
         errorMsg: "",
       };

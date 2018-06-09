@@ -4,6 +4,7 @@ import { withRouter } from "react-router-dom";
 import { connect } from "react-redux";
 
 import PrimaryButton from "components/Buttons/PrimaryButton";
+import { storeVerificationState } from "LocalCache";
 import { getAuthUrl } from "api/authentication";
 import { fetchUser } from "actions/user";
 
@@ -16,15 +17,20 @@ class LoggedInUserMenu extends Component {
 
   componentDidMount() {
     const { user, fetch } = this.props;
+
+    // user is logged in, but we haven't fetched all data yet
     if (user.loggedIn && !user.data.id) {
       console.log("fetch");
-      // user is logged in, but we haven't fetched all data yet
       fetch();
     }
   }
 
   onClick = () => {
-    const url = getAuthUrl(this.props.location.pathname);
+    const redirectPath = this.props.location.pathname;
+    const verificationState = `${Date.now().toString()}:${redirectPath}`;
+
+    storeVerificationState(verificationState);
+    const url = getAuthUrl(verificationState);
     window.location = url;
   };
 

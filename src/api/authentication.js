@@ -1,5 +1,4 @@
 import Snoowrap from "snoowrap";
-import * as LocalCache from "LocalCache";
 import credentials from "./credentials";
 
 const { protocol, host } = window.location;
@@ -50,9 +49,6 @@ export async function getAuthTokens(code) {
     body: formData,
   });
   const json = await res.json();
-
-  LocalCache.set("reddit_auth_tokens", json);
-
   return json;
 }
 
@@ -65,8 +61,7 @@ export async function getAuthTokens(code) {
  *
  * @param {String} redirectPath
  */
-export function getAuthUrl(redirectPath = "/") {
-  const verificationState = `${Date.now().toString()}:${redirectPath}`;
+export function getAuthUrl(verificationState = "") {
   const options = {
     clientId: credentials.clientId,
     scope: [
@@ -101,11 +96,6 @@ export function getAuthUrl(redirectPath = "/") {
     state: verificationState,
   };
 
-  console.log(options);
-
-  LocalCache.set("verification_state", verificationState);
-
   const authUrl = Snoowrap.getAuthUrl(options);
-  console.log(authUrl);
   return authUrl;
 }

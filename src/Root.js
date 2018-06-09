@@ -23,32 +23,42 @@ class Root extends Component {
     const url = new URLSearchParams(this.props.location.search);
     const authCallBackCode = url.get("code");
     const verificationState = url.get("state");
-    const storedState = LocalCache.get("verification_state");
-    const storedTokens = LocalCache.get("reddit_auth_tokens");
+    const storedState = LocalCache.getVerificationState();
+    const lastActiveUser = LocalCache.getLastActiveUser();
+    const storedTokens = LocalCache.getAuthTokens();
 
+    // user has just been redirected from reddit after clicking sign in from here
     if (
       authCallBackCode &&
       verificationState &&
       storedState &&
       storedState === verificationState
     ) {
-      // user has just been redirected from reddit after clicking sign in from here
       console.log(`redirected from reddit with: ${authCallBackCode}`);
       this.props.createAuthSnoowrap(authCallBackCode);
+
+      // after the auth code has been used once, it's no longer valid,
+      // so we can clear the stored verification state
+      LocalCache.storeVerificationState("");
 
       // since the state will be of the format "1321313:/r/funny" (see authentication.js)
       // we can get it out from the state and redirect the user to the url
       // they were at when they clicked sign in
       const redirectPath = verificationState.split(":")[1];
       this.props.history.replace(redirectPath);
-    } else if (storedTokens && storedTokens.refresh_token) {
-      // user has signed in in the past, use their refresh token to init snoowrap
-      console.log(`trying stored refresh token: ${storedTokens.refresh_token}`);
-      this.props.createRefreshSnoowrap(storedTokens.refresh_token);
-    } else {
-      // default, logged out usage
-      this.props.createSnoowrap();
+      return;
     }
+
+    // user has signed in in the past, use their refresh token to init snoowrap
+    if (storedTokens && storedTokens[lastActiveUser]) {
+      const tokens = storedTokens[lastActiveUser];
+      console.log(`trying stored refresh token: ${tokens.refresh_token}`);
+      this.props.createRefreshSnoowrap(tokens.refresh_token);
+      return;
+    }
+
+    // default, logged out usage
+    this.props.createSnoowrap();
   }
 
   render() {

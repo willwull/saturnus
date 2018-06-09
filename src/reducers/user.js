@@ -14,7 +14,7 @@ export default function user(
     case SET_USER_STATUS:
       return { ...state, loggedIn: action.status };
     case RECEIVED_USER:
-      return { ...state, isLoading: false, data: action.user };
+      return { ...state, loggedIn: true, isLoading: false, data: action.user };
     default:
       return state;
   }
