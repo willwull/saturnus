@@ -1,6 +1,5 @@
 import React, { Component } from "react";
 import PropTypes from "prop-types";
-import FaIcon from "@fortawesome/react-fontawesome";
 import "./Dropdown.scss";
 
 class Dropdown extends Component {
