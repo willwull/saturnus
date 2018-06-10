@@ -12,6 +12,10 @@ class UserMenu extends Component {
     signOut: PropTypes.func.isRequired,
   };
 
+  onDarkModeClick = () => {
+    alert("Coming soon!"); // eslint-disable-line no-alert
+  };
+
   render() {
     const { userData, signOut } = this.props;
     const karma = userData.link_karma + userData.comment_karma;
@@ -22,7 +26,7 @@ class UserMenu extends Component {
           <FaIcon icon={["far", "star"]} fixedWidth /> {karma} karma
         </Menu.Item>
         <Menu.Divider />
-        <Menu.Item>
+        <Menu.Item onClick={this.onDarkModeClick}>
           <FaIcon icon={["far", "moon"]} fixedWidth /> Toggle dark mode
         </Menu.Item>
         <Menu.Item>
