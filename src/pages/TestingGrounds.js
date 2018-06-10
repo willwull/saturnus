@@ -2,8 +2,8 @@ import React from "react";
 import PropTypes from "prop-types";
 import Dropdown from "components/Dropdown";
 import Menu from "components/Menu";
-import Drawer from "components/Drawer";
 import PrimaryButton from "components/Buttons/PrimaryButton";
+import AppSidebar from "containers/AppSidebar";
 
 class TestingGrounds extends React.Component {
   state = {
@@ -42,9 +42,9 @@ class TestingGrounds extends React.Component {
         </Dropdown>
 
         <PrimaryButton onClick={this.toggleDrawer}>Drawer</PrimaryButton>
-        <Drawer open={this.state.drawerOpen} onClose={this.hideDrawer}>
+        <AppSidebar open={this.state.drawerOpen} onClose={this.hideDrawer}>
           Sidebar
-        </Drawer>
+        </AppSidebar>
 
         <p>Here is some text</p>
         <p>Here is some more</p>

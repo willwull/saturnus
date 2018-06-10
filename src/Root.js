@@ -4,6 +4,7 @@ import { withRouter } from "react-router-dom";
 import PropTypes from "prop-types";
 
 import { initSnoowrap, authSnoowrap, initRefreshToken } from "actions/snoowrap";
+import { closeSidebar } from "actions/sidebar";
 import Loading from "components/Loading";
 import * as LocalCache from "./LocalCache";
 import App from "./App";
@@ -15,6 +16,7 @@ class Root extends Component {
 
     user: PropTypes.object.isRequired,
     isLoading: PropTypes.bool.isRequired,
+    closeSidebar: PropTypes.func.isRequired,
     createSnoowrap: PropTypes.func.isRequired,
     createAuthSnoowrap: PropTypes.func.isRequired,
     createRefreshSnoowrap: PropTypes.func.isRequired,
@@ -70,6 +72,12 @@ class Root extends Component {
     this.props.createSnoowrap();
   }
 
+  componentDidUpdate(prevProps) {
+    if (this.props.location !== prevProps.location) {
+      this.props.closeSidebar();
+    }
+  }
+
   render() {
     const { isLoading, errorMsg } = this.props;
 
@@ -103,6 +111,9 @@ function mapDispatchToProps(dispatch) {
     },
     createRefreshSnoowrap: refreshToken => {
       dispatch(initRefreshToken(refreshToken));
+    },
+    closeSidebar: () => {
+      dispatch(closeSidebar());
     },
   };
 }

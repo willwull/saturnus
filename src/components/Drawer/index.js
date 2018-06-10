@@ -6,27 +6,33 @@ class Drawer extends Component {
   static propTypes = {
     open: PropTypes.bool.isRequired,
     onClose: PropTypes.func,
+    className: PropTypes.string,
     children: PropTypes.node.isRequired,
   };
 
   static defaultProps = {
+    className: "",
     onClose: () => {},
   };
 
-  onUnderlayClick = () => {
+  closeDrawer = () => {
     this.props.onClose();
   };
 
   render() {
-    const { open, children } = this.props;
+    const { open, children, className } = this.props;
     return (
       <Fragment>
-        <div className={`drawer-component ${open ? "open" : "closed"}`}>
+        <div
+          className={`${className} drawer-component ${
+            open ? "open" : "closed"
+          }`}
+        >
           {children}
         </div>
 
         <div
-          onClick={this.onUnderlayClick}
+          onClick={this.closeDrawer}
           role="presentation"
           className={`underlay ${open ? "open" : "closed"}`}
         />

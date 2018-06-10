@@ -3,6 +3,7 @@ import { Switch, Route } from "react-router-dom";
 
 import ScrollToTop from "components/ScrollToTop";
 import Header from "components/Header";
+import AppSidebar from "containers/AppSidebar";
 import Frontpage from "pages/Frontpage";
 import NotfoundPage from "pages/NotfoundPage";
 import SubredditPage from "pages/SubredditPage";
@@ -13,6 +14,7 @@ function App() {
   return (
     <ScrollToTop>
       <Header />
+      <AppSidebar />
       <Switch>
         <Route exact path="/" component={Frontpage} />
         <Route exact path="/r/:subreddit" component={SubredditPage} />

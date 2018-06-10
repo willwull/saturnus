@@ -1,19 +1,20 @@
 import React from "react";
 // import PropTypes from "prop-types";
 import { Link } from "react-router-dom";
-import FaIcon from "@fortawesome/react-fontawesome";
 
 import LoggedInUserMenu from "containers/LoggedInUserMenu";
+import SidebarToggler from "containers/SidebarToggler";
+import Icon from "components/Icon";
 import "./Header.scss";
 
 function Header() {
   return (
     <div className="header-component">
-      <Link to="/">
-        <div className="icon">
-          <FaIcon icon={["far", "dot-circle"]} />
+      <SidebarToggler>
+        <div className="menu-icon">
+          <Icon icon="far dot-circle" />
         </div>
-      </Link>
+      </SidebarToggler>
       <div>
         <Link to="/">Saturnus</Link>
       </div>
