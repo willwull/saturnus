@@ -1,12 +1,12 @@
 import React from "react";
 import PropTypes from "prop-types";
-import PostFeedContainer from "containers/PostFeedContainer";
+import SubredditFeed from "containers/SubredditFeed";
 
 function SubredditPage({ match: { params } }) {
   const { subreddit } = params;
   return (
     <div className="main-content">
-      <PostFeedContainer subreddit={subreddit} />
+      <SubredditFeed subreddit={subreddit} />
     </div>
   );
 }

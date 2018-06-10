@@ -1,6 +1,6 @@
 import React from "react";
 
-import PostFeed from "containers/PostFeedContainer";
+import PostFeed from "containers/SubredditFeed";
 
 function Frontpage() {
   return (

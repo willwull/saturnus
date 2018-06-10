@@ -6,7 +6,7 @@ import { fetchPosts, fetchMorePosts } from "actions/posts";
 
 import PostFeed from "components/PostFeed";
 
-class PostFeedContainer extends Component {
+class SubredditFeed extends Component {
   static propTypes = {
     subreddit: PropTypes.string,
     /* Below are from redux */
@@ -86,4 +86,4 @@ function mapDispatchToProps(dispatch) {
 export default connect(
   mapStateToProps,
   mapDispatchToProps,
-)(PostFeedContainer);
+)(SubredditFeed);
