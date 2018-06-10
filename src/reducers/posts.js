@@ -5,6 +5,8 @@ import {
   FETCH_POST_ERROR,
 } from "actions/posts";
 
+import { USER_SIGN_OUT } from "actions/user";
+
 function postsInSubreddit(
   state = {
     items: [],
@@ -48,6 +50,10 @@ export default function posts(state = {}, action) {
         ...state,
         [subreddit]: postsInSubreddit(state[subreddit], action),
       };
+    case USER_SIGN_OUT:
+      // if the user signs out, we can clear the stored posts, since
+      // we need to fetch the front page again
+      return {};
     default:
       return state;
   }
