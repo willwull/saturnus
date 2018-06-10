@@ -21,6 +21,7 @@ module.exports = {
     "import/extensions": 0,
     "object-curly-newline": 0,
     "no-underscore-dangle": 0,
+    "react/prefer-stateless-function": 0,
     "jsx-a11y/anchor-is-valid": [
       "error",
       {

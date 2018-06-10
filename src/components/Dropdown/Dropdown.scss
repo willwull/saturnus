@@ -1,0 +1,30 @@
+.dropdown-wrapper {
+  display: inline-block;
+  position: relative;
+
+  .dropdown-overlay {
+    z-index: 50;
+    min-width: max-content; // make sure the width of the overlay is not limited by the wrapper
+
+    position: absolute;
+    margin-top: 5px;
+
+    opacity: 0;
+    transform: scaleY(0.8);
+    transform-origin: center top;
+    transition: all 150ms;
+
+    &.active {
+      opacity: 1;
+      transform: scaleY(1);
+    }
+
+    &.bottomLeft {
+      left: 0;
+    }
+
+    &.bottomRight {
+      right: 0;
+    }
+  }
+}
