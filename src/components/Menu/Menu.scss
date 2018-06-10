@@ -2,13 +2,14 @@
   // display: inline-block; // make the div as wide as its contents
   background: var(--content-bg);
   box-shadow: 0 5px 10px rgba(black, 0.1);
-  border-radius: 3px;
+  border-radius: 5px;
   padding: 5px 0;
   margin: 0;
+  font-size: 1rem;
 }
 
 .menu-item {
-  padding: 15px 10px;
+  padding: 15px;
   list-style: none;
 
   &:hover,
@@ -17,4 +18,13 @@
     background: var(--primary-color);
     color: white;
   }
+
+  .fa-fw {
+    margin-right: 5px;
+  }
+}
+
+.menu-divider {
+  margin: 5px 0;
+  opacity: 0.3;
 }

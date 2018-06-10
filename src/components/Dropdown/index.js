@@ -58,9 +58,7 @@ class Dropdown extends Component {
 
     return (
       <div className="dropdown-wrapper" ref={this.dropdownRef}>
-        <button onClick={this.toggle}>
-          {this.props.children} <FaIcon icon={["far", "angle-down"]} />
-        </button>
+        <button onClick={this.toggle}>{this.props.children}</button>
         <div className={overlayClasses}>{this.props.overlay}</div>
       </div>
     );

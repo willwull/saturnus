@@ -3,10 +3,20 @@ import PropTypes from "prop-types";
 import "./Menu.scss";
 
 function Menu({ children }) {
-  return <ul className="menu-component">{children}</ul>;
+  return (
+    <ul role="menu" className="menu-component">
+      {children}
+    </ul>
+  );
 }
 
-Menu.Item = ({ children }) => <li className="menu-item">{children}</li>;
+Menu.Item = ({ children, ...rest }) => (
+  <li {...rest} role="menuitem" className="menu-item">
+    {children}
+  </li>
+);
+
+Menu.Divider = () => <hr className="menu-divider" />;
 
 Menu.propTypes = {
   children: PropTypes.node.isRequired,

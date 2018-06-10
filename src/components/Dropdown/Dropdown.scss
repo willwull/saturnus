@@ -14,7 +14,10 @@
     transform-origin: center top;
     transition: all 150ms;
 
+    pointer-events: none;
+
     &.active {
+      pointer-events: inherit;
       opacity: 1;
       transform: scaleY(1);
     }
