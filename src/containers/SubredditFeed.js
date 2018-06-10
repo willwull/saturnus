@@ -26,6 +26,12 @@ class SubredditFeed extends Component {
     this.loadPosts();
   }
 
+  componentDidUpdate(prevProps) {
+    if (this.props.subreddit !== prevProps.subreddit) {
+      this.loadPosts();
+    }
+  }
+
   loadPosts = () => {
     const { subreddit } = this.props;
     this.props.fetchPosts(subreddit);
