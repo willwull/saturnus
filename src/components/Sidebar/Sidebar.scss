@@ -11,7 +11,12 @@
   &.active {
     background: var(--primary-light);
     color: var(--primary-color);
-    border-right: 5px solid;
+    border-right: 5px solid var(--primary-color);
+
+    &:hover {
+      background: var(--primary-color);
+      color: white;
+    }
   }
 
   .icon {
