@@ -33,6 +33,10 @@ body {
   font-family: sans-serif;
   background: var(--body-bg);
   color: var(--text-color);
+
+  &.no-scroll {
+    overflow: hidden;
+  }
 }
 
 img,

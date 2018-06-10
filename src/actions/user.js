@@ -9,6 +9,7 @@ export const RECEIVED_USER = "RECEIVED_USER";
 
 export const REQUEST_MY_SUBS = "REQUEST_MY_SUBS";
 export const RECEIVE_MY_SUBS = "RECEIVE_MY_SUBS";
+export const MY_SUBS_ERROR = "MY_SUBS_ERROR";
 
 function setUser(user) {
   return { type: RECEIVED_USER, user };
@@ -41,19 +42,44 @@ export function signOut() {
 }
 
 export function fetchMySubs() {
-  return async dispatch => {
-    dispatch({
-      type: REQUEST_MY_SUBS,
-    });
+  return async (dispatch, getState) => {
+    dispatch({ type: REQUEST_MY_SUBS });
 
     try {
-      // TODO fetch all subscriptions
+      const cachedSubs = LocalCache.getStoredSubs();
+      if (cachedSubs) {
+        console.log("cached subs");
+        console.log(cachedSubs);
+        dispatch({ type: RECEIVE_MY_SUBS, subscriptions: cachedSubs });
+        return;
+      }
+
+      const state = getState();
       const r = reddit.getSnoowrap();
-      const subscriptions = await r.getSubscriptions();
+
+      let subscriptions;
+      if (state.user.loggedIn) {
+        subscriptions = await r.getSubscriptions();
+      } else {
+        // get default subs if not logged in
+        subscriptions = await r.getDefaultSubreddits();
+      }
+
+      subscriptions = await subscriptions.fetchAll();
+      console.log(subscriptions);
+
+      if (state.user.loggedIn) {
+        // if logged in user, cache their subscriptions
+        LocalCache.storeMySubs(subscriptions);
+      }
 
       dispatch({ type: RECEIVE_MY_SUBS, subscriptions });
     } catch (error) {
+      console.log("catch in fetchMySubs");
       console.log(error);
+      dispatch({
+        type: MY_SUBS_ERROR,
+      });
     }
   };
 }

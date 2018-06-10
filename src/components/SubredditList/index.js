@@ -3,6 +3,10 @@ import PropTypes from "prop-types";
 import { SidebarLink } from "../Sidebar";
 
 function SubredditList({ subreddits }) {
+  if (!subreddits || !subreddits.length) {
+    return "Nothing to see here";
+  }
+
   const sorted = subreddits.sort((a, b) => {
     const nameA = a.display_name.toLowerCase();
     const nameB = b.display_name.toLowerCase();

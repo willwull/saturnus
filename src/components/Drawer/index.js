@@ -15,6 +15,18 @@ class Drawer extends Component {
     onClose: () => {},
   };
 
+  componentDidUpdate(prevProps) {
+    const { open } = this.props;
+    if (open !== prevProps.open) {
+      // if drawer is open, we disable scrolling on the main content
+      if (open) {
+        document.body.classList.add("no-scroll");
+      } else {
+        document.body.classList.remove("no-scroll");
+      }
+    }
+  }
+
   closeDrawer = () => {
     this.props.onClose();
   };

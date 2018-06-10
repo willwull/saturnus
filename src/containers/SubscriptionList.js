@@ -8,6 +8,7 @@ import Loading from "components/Loading";
 
 class SubscriptionList extends Component {
   static propTypes = {
+    error: PropTypes.string.isRequired,
     isLoading: PropTypes.bool.isRequired,
     subscriptions: PropTypes.arrayOf(PropTypes.object).isRequired,
     fetch: PropTypes.func.isRequired,
@@ -22,14 +23,19 @@ class SubscriptionList extends Component {
       return <Loading type="regular" />;
     }
 
+    if (this.props.error) {
+      return this.props.error;
+    }
+
     return <SubredditList subreddits={this.props.subscriptions} />;
   }
 }
 
-function mapStateToProps({ user: { subscriptions, subsLoading } }) {
+function mapStateToProps({ user: { subscriptions, subsLoading, subsError } }) {
   return {
     isLoading: subsLoading,
     subscriptions,
+    error: subsError || "",
   };
 }
 

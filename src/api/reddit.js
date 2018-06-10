@@ -15,6 +15,13 @@ class Reddit {
       userAgent: credentials.userAgent,
       accessToken,
     });
+
+    // proxies and promises don't work well in Safari at the moment, so
+    // methods like snoowrap.getSubscriptions().fetchAll() will fail
+    // https://github.com/not-an-aardvark/snoowrap/issues/80
+    this._snoo.config({
+      proxies: false,
+    });
   }
 
   /**
@@ -32,6 +39,7 @@ class Reddit {
       clientSecret: "",
       refreshToken,
     });
+    this._snoo.config({ proxies: false });
   }
 
   /**

@@ -1,6 +1,7 @@
 const VERIFICATION_STATE = "verification_state";
 const REDDIT_AUTH_TOKENS = "reddit_auth_tokens";
 const LAST_ACTIVE_USER = "last_active_user";
+const MY_SUBSCRIPTIONS = "my_subscriptions";
 
 /* Generic functions */
 function set(key, value) {
@@ -38,6 +39,19 @@ export function storeLastActiveUser(username) {
 
 export function getLastActiveUser() {
   return get(LAST_ACTIVE_USER);
+}
+
+/* Since fetching all subscriptions can be slow, we can store it in our cache */
+export function getStoredSubs() {
+  const user = getLastActiveUser();
+  const storedValue = get(MY_SUBSCRIPTIONS) || {};
+  return storedValue[user];
+}
+
+export function storeMySubs(subscriptions) {
+  const user = getLastActiveUser();
+  const stored = getStoredSubs();
+  set(MY_SUBSCRIPTIONS, { ...stored, [user]: subscriptions });
 }
 
 export function clearAll() {
