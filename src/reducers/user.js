@@ -1,4 +1,9 @@
-import { RECEIVED_USER, SET_USER_STATUS, REQUEST_USER } from "actions/user";
+import {
+  RECEIVED_USER,
+  SET_USER_STATUS,
+  REQUEST_USER,
+  USER_SIGN_OUT,
+} from "actions/user";
 
 export default function user(
   state = {
@@ -15,6 +20,8 @@ export default function user(
       return { ...state, loggedIn: action.status };
     case RECEIVED_USER:
       return { ...state, loggedIn: true, isLoading: false, data: action.user };
+    case USER_SIGN_OUT:
+      return { loggedIn: false, isLoading: false, data: {} };
     default:
       return state;
   }

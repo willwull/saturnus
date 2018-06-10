@@ -6,7 +6,7 @@ import { connect } from "react-redux";
 import PrimaryButton from "components/Buttons/PrimaryButton";
 import { storeVerificationState } from "LocalCache";
 import { getAuthUrl } from "api/authentication";
-import { fetchUser } from "actions/user";
+import { fetchUser, signOut } from "actions/user";
 import UserMenu from "components/UserMenu";
 
 class LoggedInUserMenu extends Component {
@@ -14,6 +14,7 @@ class LoggedInUserMenu extends Component {
     location: PropTypes.object.isRequired,
     user: PropTypes.object.isRequired,
     fetch: PropTypes.func.isRequired,
+    signOut: PropTypes.func.isRequired,
   };
 
   componentDidMount() {
@@ -38,6 +39,7 @@ class LoggedInUserMenu extends Component {
   render() {
     const {
       user: { loggedIn, isLoading, data },
+      signOut,
     } = this.props;
 
     if (isLoading) return null;
@@ -52,7 +54,7 @@ class LoggedInUserMenu extends Component {
     }
 
     // user is logged in, show their profile pic and name
-    return <UserMenu userData={data} />;
+    return <UserMenu userData={data} signOut={signOut} />;
   }
 }
 
@@ -66,6 +68,9 @@ function mapDispatchToProps(dispatch) {
   return {
     fetch: () => {
       dispatch(fetchUser());
+    },
+    signOut: () => {
+      dispatch(signOut());
     },
   };
 }

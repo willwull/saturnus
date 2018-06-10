@@ -39,7 +39,7 @@ class UserMenu extends Component {
 
     return (
       <Dropdown overlay={overlay} placement="bottomRight">
-        <button className="user-menu">
+        <div className="user-menu">
           <img
             className="user-img"
             src={userData.icon_img}
@@ -47,7 +47,7 @@ class UserMenu extends Component {
           />
           <span className="username">{userData.name}</span>
           <FaIcon icon="caret-down" />
-        </button>
+        </div>
       </Dropdown>
     );
   }

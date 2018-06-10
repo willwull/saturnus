@@ -8,6 +8,7 @@ export default function snoowrap(
   state = {
     isLoading: true,
     receivedAt: null,
+    authType: null,
     errorMsg: "",
   },
   action,
@@ -21,6 +22,7 @@ export default function snoowrap(
         isLoading: false,
         receivedAt: action.receivedAt,
         errorMsg: "",
+        authType: action.authType,
       };
     case SNOOWRAP_ERROR:
       return {

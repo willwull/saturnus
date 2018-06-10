@@ -39,3 +39,7 @@ export function storeLastActiveUser(username) {
 export function getLastActiveUser() {
   return get(LAST_ACTIVE_USER);
 }
+
+export function clearAll() {
+  localStorage.clear();
+}

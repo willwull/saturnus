@@ -7,10 +7,11 @@ export const REQUEST_SNOOWRAP = "REQUEST_SNOOWRAP";
 export const RECEIVE_SNOOWRAP = "RECEIVE_SNOOWRAP";
 export const SNOOWRAP_ERROR = "SNOOWRAP_ERROR";
 
-function receiveSnoowrap() {
+function receiveSnoowrap(authType) {
   return {
     type: RECEIVE_SNOOWRAP,
     receivedAt: Date.now(),
+    authType,
   };
 }
 
@@ -35,7 +36,7 @@ export function initSnoowrap() {
 
     reddit.initAppOnly(accessToken);
 
-    dispatch(receiveSnoowrap(accessToken));
+    dispatch(receiveSnoowrap("appOnly"));
   };
 }
 
@@ -62,7 +63,7 @@ export function authSnoowrap(authCode) {
       LocalCache.storeAuthTokens(user.name, tokens);
       LocalCache.storeLastActiveUser(user.name);
 
-      dispatch(receiveSnoowrap());
+      dispatch(receiveSnoowrap("auth"));
     } catch (error) {
       console.log(error);
       dispatch(snoowrapError());
@@ -88,7 +89,7 @@ export function initRefreshToken(refreshToken) {
 
       LocalCache.storeLastActiveUser(user.name);
 
-      dispatch(receiveSnoowrap());
+      dispatch(receiveSnoowrap("auth"));
     } catch (error) {
       // if there is some error (e.g. if the refresh token is invalid)
       // fall back to userless initialization
