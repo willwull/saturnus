@@ -15,12 +15,13 @@ class Root extends Component {
     location: PropTypes.object.isRequired,
 
     user: PropTypes.object.isRequired,
+    theme: PropTypes.object.isRequired,
+    errorMsg: PropTypes.string.isRequired,
     isLoading: PropTypes.bool.isRequired,
     closeSidebar: PropTypes.func.isRequired,
     createSnoowrap: PropTypes.func.isRequired,
     createAuthSnoowrap: PropTypes.func.isRequired,
     createRefreshSnoowrap: PropTypes.func.isRequired,
-    errorMsg: PropTypes.string.isRequired,
   };
 
   componentDidMount() {
@@ -89,12 +90,13 @@ class Root extends Component {
       return <Loading type="fullscreen" />;
     }
 
-    return <App />;
+    return <App theme={this.props.theme} />;
   }
 }
 
-function mapStateToProps({ snoowrap, user }) {
+function mapStateToProps({ theme, snoowrap, user }) {
   return {
+    theme,
     user,
     isLoading: snoowrap.isLoading,
     errorMsg: snoowrap.errorMsg,

@@ -1,17 +1,25 @@
-import React from "react";
-import PropTypes from "prop-types";
-import "./Buttons.scss";
+import styled from "styled-components";
+import { lighten, darken } from "polished";
 
-function PrimaryButton({ className, ...props }) {
-  return <button {...props} className={`${className} primary-btn`} />;
-}
+const PrimaryButton = styled.button`
+  background: ${props => props.theme.primaryColor};
+  color: white;
+  padding: 10px 15px;
+  text-transform: uppercase;
+  border-radius: 5px;
 
-PrimaryButton.defaultProps = {
-  className: "",
-};
+  &:hover {
+    background: ${({ theme }) => lighten(0.1, theme.primaryColor)};
+  }
 
-PrimaryButton.propTypes = {
-  className: PropTypes.string,
-};
+  &:active {
+    background: ${({ theme }) => darken(0.1, theme.primaryColor)};
+  }
+
+  &:disabled {
+    background: ${({ theme }) => lighten(0.3, theme.primaryColor)};
+    cursor: default;
+  }
+`;
 
 export default PrimaryButton;
