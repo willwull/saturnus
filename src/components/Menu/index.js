@@ -1,12 +1,15 @@
 import React from "react";
 import PropTypes from "prop-types";
+import ContentBox from "components/ContentBox";
 import "./Menu.scss";
 
 function Menu({ children }) {
   return (
-    <ul role="menu" className="menu-component">
-      {children}
-    </ul>
+    <ContentBox>
+      <ul role="menu" className="menu-component">
+        {children}
+      </ul>
+    </ContentBox>
   );
 }
 

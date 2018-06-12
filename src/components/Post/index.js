@@ -6,6 +6,7 @@ import FaIcon from "@fortawesome/react-fontawesome";
 import Color from "color";
 import randomColor from "randomcolor";
 
+import ContentBox from "components/ContentBox";
 import PostContent from "components/PostContent";
 import { shortenNumber } from "utils";
 import "./Post.scss";
@@ -22,7 +23,7 @@ function Post({ post, expanded }) {
   const textColor = bgColor.luminosity() < 0.6 ? "white" : "black";
 
   return (
-    <div className="post-component">
+    <ContentBox className="post-component">
       <div className="score">
         {/* TODO: implement voting functionality */}
         <button className="vote-btn">
@@ -114,7 +115,7 @@ function Post({ post, expanded }) {
           </Link>
         </div>
       </div>
-    </div>
+    </ContentBox>
   );
 }
 

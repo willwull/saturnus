@@ -1,5 +1,6 @@
 import React, { Component, Fragment } from "react";
 import PropTypes from "prop-types";
+import ContentBox from "components/ContentBox";
 import "./Drawer.scss";
 
 class Drawer extends Component {
@@ -35,13 +36,13 @@ class Drawer extends Component {
     const { open, children, className } = this.props;
     return (
       <Fragment>
-        <div
+        <ContentBox
           className={`${className} drawer-component ${
             open ? "open" : "closed"
           }`}
         >
           {children}
-        </div>
+        </ContentBox>
 
         <div
           onClick={this.closeDrawer}

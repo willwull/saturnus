@@ -4,12 +4,13 @@ import { Link } from "react-router-dom";
 
 import LoggedInUserMenu from "containers/LoggedInUserMenu";
 import SidebarToggler from "containers/SidebarToggler";
+import ContentBox from "components/ContentBox";
 import Icon from "components/Icon";
 import "./Header.scss";
 
 function Header() {
   return (
-    <div className="header-component">
+    <ContentBox className="header-component">
       <SidebarToggler>
         <div className="menu-icon">
           <Icon icon="far dot-circle" />
@@ -19,7 +20,7 @@ function Header() {
         <Link to="/">Saturnus</Link>
       </div>
       <LoggedInUserMenu />
-    </div>
+    </ContentBox>
   );
 }
 

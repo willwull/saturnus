@@ -1,17 +1,18 @@
 import React from "react";
 import PropTypes from "prop-types";
+import ContentBox from "components/ContentBox";
 import Comment from "components/Comment";
 import "./CommentFeed.scss";
 
 function CommentFeed({ comments }) {
   return (
-    <div className="comment-feed">
+    <ContentBox className="comment-feed">
       {comments.map(comment => (
         <div key={comment.id} className="comment-thread">
           <Comment comment={comment} />
         </div>
       ))}
-    </div>
+    </ContentBox>
   );
 }
 
