@@ -5,10 +5,8 @@ import "./Menu.scss";
 
 function Menu({ children }) {
   return (
-    <ContentBox>
-      <ul role="menu" className="menu-component">
-        {children}
-      </ul>
+    <ContentBox className="menu-component">
+      <ul role="menu">{children}</ul>
     </ContentBox>
   );
 }

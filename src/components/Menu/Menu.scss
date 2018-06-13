@@ -3,9 +3,12 @@
   // background: var(--content-bg);
   box-shadow: 0 5px 10px rgba(black, 0.1);
   border-radius: 5px;
-  padding: 5px 0;
-  margin: 0;
-  font-size: 1rem;
+
+  ul {
+    padding: 5px 0;
+    margin: 0;
+    font-size: 1rem;
+  }
 }
 
 .menu-item {
@@ -26,5 +29,5 @@
 
 .menu-divider {
   margin: 5px 0;
-  opacity: 0.3;
+  opacity: 0.2;
 }
