@@ -1,13 +1,36 @@
 import React from "react";
+import styled from "styled-components";
+import { transparentize } from "polished";
 import { NavLink } from "react-router-dom";
 import Drawer from "components/Drawer";
 import SubscriptionList from "containers/SubscriptionList";
 import Icon from "../Icon";
-import "./Sidebar.scss";
 
-export const SidebarLink = props => (
-  <NavLink {...props} className="sidebar-link" />
-);
+export const SidebarLink = styled(NavLink)`
+  display: block;
+  padding: 15px;
+  color: inherit;
+
+  &:hover {
+    background: ${props => props.theme.primary}
+    color: white;
+  }
+
+  &.active {
+    background: ${props => transparentize(0.85, props.theme.primary)};
+    color: ${props => props.theme.primary};
+    border-right: 5px solid ${props => props.theme.primary};
+
+    &:hover {
+      background: ${props => props.theme.primary}
+      color: white;
+    }
+  }
+
+  .icon {
+    margin-right: 8px;
+  }
+`;
 
 function Sidebar(props) {
   return (
