@@ -1,7 +1,7 @@
 import React, { Component } from "react";
 import PropTypes from "prop-types";
 import { Switch, Route } from "react-router-dom";
-import { ThemeProvider, injectGlobal } from "styled-components";
+import { ThemeProvider, createGlobalStyle } from "@marionebl/styled-components";
 
 import ScrollToTop from "components/ScrollToTop";
 import Header from "components/Header";
@@ -12,61 +12,50 @@ import SubredditPage from "pages/SubredditPage";
 import PostPage from "pages/PostPage";
 import TestingGrounds from "pages/TestingGrounds";
 
+const GlobalStyles = createGlobalStyle`
+  body {
+    background: ${props => props.theme.body};
+    color: ${props => props.theme.text}
+  }
+
+  a {
+    color: ${props => props.theme.primary}
+  }
+
+  blockquote {
+    background: ${props => props.theme.body}
+  }
+
+  .op {
+    color: ${props => props.theme.primary};
+  }
+`;
+
 class App extends Component {
   static propTypes = {
     theme: PropTypes.object.isRequired,
   };
 
-  componentDidMount() {
-    this.setGlobalStyles();
-  }
-
-  componentDidUpdate(prevProps) {
-    if (this.props.theme !== prevProps.theme) {
-      this.setGlobalStyles();
-    }
-  }
-
-  setGlobalStyles() {
-    const { theme } = this.props;
-    injectGlobal`
-        body {
-          background: ${theme.body};
-          color: ${theme.text}
-        }
-
-        a {
-          color: ${theme.primary}
-        }
-
-        blockquote {
-          background: ${theme.body}
-        }
-
-        .op {
-          color: ${theme.primary};
-        }
-      `;
-  }
-
   render() {
     const { theme } = this.props;
     return (
       <ThemeProvider theme={theme}>
-        <ScrollToTop>
-          <Header />
-          <AppSidebar />
-          <Switch>
-            <Route exact path="/" component={Frontpage} />
-            <Route exact path="/r/:subreddit" component={SubredditPage} />
-            <Route
-              path="/r/:subreddit/comments/:postId/:postTitle"
-              component={PostPage}
-            />
-            <Route path="/testinggrounds" component={TestingGrounds} />
-            <Route component={NotfoundPage} />
-          </Switch>
-        </ScrollToTop>
+        <GlobalStyles>
+          <ScrollToTop>
+            <Header />
+            <AppSidebar />
+            <Switch>
+              <Route exact path="/" component={Frontpage} />
+              <Route exact path="/r/:subreddit" component={SubredditPage} />
+              <Route
+                path="/r/:subreddit/comments/:postId/:postTitle"
+                component={PostPage}
+              />
+              <Route path="/testinggrounds" component={TestingGrounds} />
+              <Route component={NotfoundPage} />
+            </Switch>
+          </ScrollToTop>
+        </GlobalStyles>
       </ThemeProvider>
     );
   }

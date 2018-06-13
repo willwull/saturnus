@@ -2,6 +2,7 @@ import React, { Component } from "react";
 import PropTypes from "prop-types";
 import FaIcon from "@fortawesome/react-fontawesome";
 
+import ThemeTogglerMenuItem from "containers/ThemeTogglerMenuItem";
 import Dropdown from "../Dropdown";
 import Menu from "../Menu";
 import "./UserMenu.scss";
@@ -26,9 +27,7 @@ class UserMenu extends Component {
           <FaIcon icon={["far", "star"]} fixedWidth /> {karma} karma
         </Menu.Item>
         <Menu.Divider />
-        <Menu.Item onClick={this.onDarkModeClick}>
-          <FaIcon icon={["far", "moon"]} fixedWidth /> Toggle dark mode
-        </Menu.Item>
+        <ThemeTogglerMenuItem />
         <Menu.Item>
           <a href="https://www.reddit.com/settings">
             <FaIcon icon={["far", "cog"]} fixedWidth /> Reddit preferences

@@ -1,5 +1,5 @@
 import React from "react";
-import styled from "styled-components";
+import styled from "@marionebl/styled-components";
 import { transparentize } from "polished";
 import { NavLink } from "react-router-dom";
 import Drawer from "components/Drawer";

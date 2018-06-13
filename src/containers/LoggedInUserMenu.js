@@ -39,7 +39,7 @@ class LoggedInUserMenu extends Component {
   render() {
     const {
       user: { loggedIn, isLoading, data },
-      signOut,
+      signOut: signOutFunc,
     } = this.props;
 
     if (isLoading) return null;
@@ -54,7 +54,7 @@ class LoggedInUserMenu extends Component {
     }
 
     // user is logged in, show their profile pic and name
-    return <UserMenu userData={data} signOut={signOut} />;
+    return <UserMenu userData={data} signOut={signOutFunc} />;
   }
 }
 

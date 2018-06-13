@@ -9,6 +9,7 @@
     "@fortawesome/fontawesome-pro-regular": "^5.0.13",
     "@fortawesome/fontawesome-pro-solid": "^5.0.13",
     "@fortawesome/react-fontawesome": "0.0.20",
+    "@marionebl/styled-components": "^3.3.0",
     "color": "^3.0.0",
     "moment-mini": "^2.22.1",
     "normalize.css": "^8.0.0",

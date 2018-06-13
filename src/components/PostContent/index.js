@@ -1,6 +1,6 @@
 import React, { Component } from "react";
 import PropTypes from "prop-types";
-import styled, { css } from "styled-components";
+import styled, { css } from "@marionebl/styled-components";
 import { transparentize } from "polished";
 import FaIcon from "@fortawesome/react-fontawesome";
 

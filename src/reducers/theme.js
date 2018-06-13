@@ -14,12 +14,18 @@ const darkTheme = {
   contentBg: "#1d1e22",
 };
 
-export default function theme(state = darkTheme, action) {
+export default function theme(
+  state = {
+    isDark: true,
+    colors: darkTheme,
+  },
+  action,
+) {
   switch (action.type) {
     case SET_DARK_THEME:
-      return darkTheme;
+      return { ...state, isDark: true, colors: darkTheme };
     case SET_LIGHT_THEME:
-      return lightTheme;
+      return { ...state, isDark: false, colors: lightTheme };
     default:
       return state;
   }

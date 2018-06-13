@@ -96,7 +96,7 @@ class Root extends Component {
 
 function mapStateToProps({ theme, snoowrap, user }) {
   return {
-    theme,
+    theme: theme.colors,
     user,
     isLoading: snoowrap.isLoading,
     errorMsg: snoowrap.errorMsg,
