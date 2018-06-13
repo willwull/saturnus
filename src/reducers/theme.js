@@ -1,4 +1,5 @@
 import { SET_DARK_THEME, SET_LIGHT_THEME } from "actions/theme";
+import { getStoredTheme } from "LocalCache";
 
 const lightTheme = {
   primary: "#1e7cf7",
@@ -14,13 +15,16 @@ const darkTheme = {
   contentBg: "#1d1e22",
 };
 
-export default function theme(
-  state = {
-    isDark: true,
-    colors: darkTheme,
-  },
-  action,
-) {
+function getDefaultTheme() {
+  console.log(getStoredTheme());
+  const isDark = getStoredTheme() || false;
+  return {
+    isDark,
+    colors: isDark ? darkTheme : lightTheme,
+  };
+}
+
+export default function theme(state = getDefaultTheme(), action) {
   switch (action.type) {
     case SET_DARK_THEME:
       return { ...state, isDark: true, colors: darkTheme };

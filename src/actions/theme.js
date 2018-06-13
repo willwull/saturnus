@@ -1,3 +1,5 @@
+import { storeTheme } from "LocalCache";
+
 export const SET_DARK_THEME = "SET_DARK_THEME";
 export const SET_LIGHT_THEME = "SET_LIGHT_THEME";
 
@@ -13,5 +15,10 @@ export function toggleTheme() {
         type: SET_DARK_THEME,
       });
     }
+
+    // cache if the user has dark theme or not
+    // the `isDark` variable is the previous theme, so
+    // we negate the bool value before storing it
+    storeTheme(!isDark);
   };
 }

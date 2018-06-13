@@ -2,6 +2,7 @@ const VERIFICATION_STATE = "verification_state";
 const REDDIT_AUTH_TOKENS = "reddit_auth_tokens";
 const LAST_ACTIVE_USER = "last_active_user";
 const MY_SUBSCRIPTIONS = "my_subscriptions";
+const IS_DARK_THEME = "saturnus_dark_theme_on";
 
 /* Generic functions */
 function set(key, value) {
@@ -52,6 +53,15 @@ export function storeMySubs(subscriptions) {
   const user = getLastActiveUser();
   const stored = getStoredSubs();
   set(MY_SUBSCRIPTIONS, { ...stored, [user]: subscriptions });
+}
+
+/* Cache which theme the user uses */
+export function getStoredTheme() {
+  return get(IS_DARK_THEME);
+}
+
+export function storeTheme(isDarkTheme) {
+  set(IS_DARK_THEME, isDarkTheme);
 }
 
 export function clearAll() {
