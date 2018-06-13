@@ -1,10 +1,42 @@
 import React, { Component } from "react";
 import PropTypes from "prop-types";
+import styled, { css } from "styled-components";
+import { transparentize } from "polished";
 import FaIcon from "@fortawesome/react-fontawesome";
 
 import { isImgUrl } from "utils";
 import LinkPreview from "components/LinkPreview";
 import "./PostContent.scss";
+
+const ContentOverflowGradient = styled.div`
+  pointer-events: none;
+  position: absolute;
+  top: 75%;
+  right: 0;
+  bottom: 0;
+  left: 0;
+  background: linear-gradient(
+    0deg,
+    ${props => props.theme.contentBg},
+    ${props => transparentize(1, props.theme.contentBg)}
+  );
+`;
+
+const MediaPreviewStyles = css`
+  width: 100%;
+  max-height: var(--max-content-height);
+  object-fit: contain;
+  margin-bottom: 10px;
+  background: ${props => transparentize(0.3, props.theme.body)};
+`;
+
+const ImgPreview = styled.img`
+  ${MediaPreviewStyles};
+`;
+
+const VideoPreview = styled.video`
+  ${MediaPreviewStyles};
+`;
 
 class PostContent extends Component {
   static propTypes = {
@@ -45,8 +77,8 @@ class PostContent extends Component {
 
         return (
           <div className="obfuscated-wrapper">
-            <img
-              className="post-preview-img obfuscated-img"
+            <ImgPreview
+              className="obfuscated-img"
               src={obfuscated}
               alt={post.title}
             />
@@ -71,16 +103,14 @@ class PostContent extends Component {
           <div dangerouslySetInnerHTML={{ __html: post.selftext_html }} />
 
           {/* gradient overlay that indicates that the text is cut off */}
-          {!expanded && <div className="overflow-overlay" />}
+          {!expanded && <ContentOverflowGradient />}
         </div>
       );
     }
 
     // image
     if (isImgUrl(post.url)) {
-      return (
-        <img className="post-preview-img" src={post.url} alt={post.title} />
-      );
+      return <ImgPreview src={post.url} alt={post.title} />;
     }
 
     // imgur gifv
@@ -90,8 +120,7 @@ class PostContent extends Component {
 
       // muted needs to be set for autoplay to work on Chrome
       return (
-        <video
-          className="post-preview-vid"
+        <VideoPreview
           preload="auto"
           autoPlay="autoplay"
           loop="loop"
@@ -104,13 +133,7 @@ class PostContent extends Component {
 
     // handle non-direct imgur links
     if (post.domain === "imgur.com") {
-      return (
-        <img
-          className="post-preview-img"
-          src={`${post.url}.jpg`}
-          alt={post.title}
-        />
-      );
+      return <ImgPreview src={`${post.url}.jpg`} alt={post.title} />;
     }
 
     // v.redd.it videos
@@ -118,8 +141,7 @@ class PostContent extends Component {
       // TODO: support reddit videos with audio
       const videoStream = post.media.reddit_video.fallback_url;
       return (
-        <video
-          className="post-preview-vid"
+        <VideoPreview
           preload="auto"
           loop="loop"
           controls

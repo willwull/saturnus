@@ -10,21 +10,9 @@
       color: var(--mod-color);
     }
 
-    .op {
-      color: var(--primary-color);
-    }
-
     .secondary {
       opacity: 0.5;
     }
-  }
-
-  .child-comment {
-    margin-top: 30px;
-    padding-left: 15px;
-    margin-left: 5px;
-    border-left: 2px solid;
-    border-color: rgba(var(--text-color-rgb), 0.1);
   }
 
   & > p:first-child {

@@ -87,12 +87,12 @@
   }
 
   .post-info {
-    color: rgba(var(--text-color-rgb), 0.4);
     margin-bottom: 7px;
 
     .author {
       display: inline-block;
       margin-right: 1ch;
+      opacity: 0.5;
     }
   }
 

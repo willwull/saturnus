@@ -10,6 +10,7 @@ import ContentBox from "components/ContentBox";
 import PostContent from "components/PostContent";
 import { shortenNumber } from "utils";
 import "./Post.scss";
+import Flair from "../Flair";
 
 /**
  * Component for a post in the feed
@@ -68,17 +69,15 @@ function Post({ post, expanded }) {
           <div className="flairs">
             {/* Link flairs */}
             {post.link_flair_text && (
-              <span className="flair post">{post.link_flair_text}</span>
+              <Flair className="post">{post.link_flair_text}</Flair>
             )}
 
             {/* NSFW tag */}
-            {post.over_18 && (
-              <span className="flair post nsfw-flair">NSFW</span>
-            )}
+            {post.over_18 && <Flair className="post nsfw-flair">NSFW</Flair>}
 
             {/* Spoiler tag */}
             {post.spoiler && (
-              <span className="flair post spoiler-flair">Spoiler</span>
+              <Flair className="post spoiler-flair">Spoiler</Flair>
             )}
           </div>
 
@@ -96,7 +95,7 @@ function Post({ post, expanded }) {
             {moment.unix(post.created_utc).fromNow()} by {post.author.name}
           </div>
           {post.author_flair_text && (
-            <span className="flair author">{post.author_flair_text}</span>
+            <Flair className="author">{post.author_flair_text}</Flair>
           )}
         </div>
 

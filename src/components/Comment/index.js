@@ -1,10 +1,20 @@
 import React from "react";
 import PropTypes from "prop-types";
+import styled from "styled-components";
+import { transparentize } from "polished";
 import moment from "moment-mini";
 import FaIcon from "@fortawesome/react-fontawesome";
 
 import { shortenNumber } from "utils";
 import "./Comment.scss";
+
+const ChildWrapper = styled.div`
+  margin-top: 30px;
+  padding-left: 15px;
+  margin-left: 5px;
+  border-left: 2px solid;
+  border-color: ${props => transparentize(0.9, props.theme.text)};
+`;
 
 function Comment({ comment }) {
   if (comment.depth > 5) {
@@ -47,9 +57,9 @@ function Comment({ comment }) {
 
       {comment.replies.length !== 0 &&
         comment.replies.map(reply => (
-          <div key={reply.id} className="child-comment">
+          <ChildWrapper key={reply.id}>
             <Comment comment={reply} />
-          </div>
+          </ChildWrapper>
         ))}
     </div>
   );

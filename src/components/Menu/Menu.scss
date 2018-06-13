@@ -10,24 +10,3 @@
     font-size: 1rem;
   }
 }
-
-.menu-item {
-  padding: 15px;
-  list-style: none;
-
-  &:hover,
-  &:active {
-    cursor: pointer;
-    background: var(--primary-color);
-    color: white;
-  }
-
-  .fa-fw {
-    margin-right: 5px;
-  }
-}
-
-.menu-divider {
-  margin: 5px 0;
-  opacity: 0.2;
-}

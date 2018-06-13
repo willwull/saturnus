@@ -42,6 +42,10 @@ class App extends Component {
         blockquote {
           background: ${theme.body}
         }
+
+        .op {
+          color: ${theme.primary};
+        }
       `;
   }
 

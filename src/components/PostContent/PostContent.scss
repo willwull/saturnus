@@ -1,12 +1,3 @@
-.post-preview-img,
-.post-preview-vid {
-  width: 100%;
-  max-height: var(--max-content-height);
-  object-fit: contain;
-  margin-bottom: 10px;
-  background: rgba(var(--body-bg-rgb), 0.3);
-}
-
 .post-self-text {
   &.default {
     max-height: 200px;
@@ -16,20 +7,6 @@
 
   p:first-child {
     margin-top: 2px;
-  }
-
-  .overflow-overlay {
-    pointer-events: none;
-    position: absolute;
-    top: 75%;
-    right: 0;
-    bottom: 0;
-    left: 0;
-    background: linear-gradient(
-      0deg,
-      var(--content-bg),
-      rgba(var(--content-bg-rgb), 0)
-    );
   }
 }
 

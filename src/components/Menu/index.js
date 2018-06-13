@@ -1,5 +1,6 @@
 import React from "react";
 import PropTypes from "prop-types";
+import styled from "styled-components";
 import ContentBox from "components/ContentBox";
 import "./Menu.scss";
 
@@ -11,19 +12,28 @@ function Menu({ children }) {
   );
 }
 
-Menu.Item = ({ children, ...rest }) => (
-  <li {...rest} role="menuitem" className="menu-item">
-    {children}
-  </li>
-);
+Menu.Item = styled.li`
+  padding: 15px;
+  list-style: none;
 
-Menu.Divider = () => <hr className="menu-divider" />;
+  &:hover,
+  &:active {
+    cursor: pointer;
+    background: ${props => props.theme.primary};
+    color: white;
+  }
+
+  .fa-fw {
+    margin-right: 5px;
+  }
+`;
+
+Menu.Divider = styled.hr`
+  margin: 5px 0;
+  opacity: 0.2;
+`;
 
 Menu.propTypes = {
-  children: PropTypes.node.isRequired,
-};
-
-Menu.Item.propTypes = {
   children: PropTypes.node.isRequired,
 };
 
