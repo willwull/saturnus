@@ -9,9 +9,9 @@ const lightTheme = {
 
 const darkTheme = {
   primary: lightTheme.primary,
-  body: "#2d3037",
+  body: "#23252b",
   text: "white",
-  contentBg: "#22252e",
+  contentBg: "#1d1e22",
 };
 
 export default function theme(state = darkTheme, action) {
