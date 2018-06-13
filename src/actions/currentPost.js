@@ -36,7 +36,7 @@ export function fetchCurrentPost(postId) {
         receivedAt: Date.now(),
       });
     } catch (error) {
-      console.log(error);
+      console.error(error);
       dispatch({
         type: ERROR_CURRENT_POST,
         errorMsg: error.message,

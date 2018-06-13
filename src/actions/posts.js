@@ -63,7 +63,7 @@ export function fetchPosts(subreddit) {
       console.log(posts);
       dispatch(receivePosts(subreddit, posts));
     } catch (error) {
-      console.log(error);
+      console.error(error);
       dispatch(fetchPostError(subreddit));
     }
   };

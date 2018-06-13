@@ -22,7 +22,6 @@ class LoggedInUserMenu extends Component {
 
     // user is logged in, but we haven't fetched all data yet
     if (user.loggedIn && !user.data.id) {
-      console.log("fetch");
       fetch();
     }
   }

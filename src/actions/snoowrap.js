@@ -65,7 +65,7 @@ export function authSnoowrap(authCode) {
 
       dispatch(receiveSnoowrap("auth"));
     } catch (error) {
-      console.log(error);
+      console.error(error);
       dispatch(snoowrapError());
     }
   };
