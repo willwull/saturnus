@@ -23,7 +23,7 @@ const GlobalStyles = createGlobalStyle`
   }
 
   blockquote {
-    background: ${props => props.theme.body}
+    background: ${props => props.theme.body};
   }
 
   .op {
@@ -40,22 +40,21 @@ class App extends Component {
     const { theme } = this.props;
     return (
       <ThemeProvider theme={theme}>
-        <GlobalStyles>
-          <ScrollToTop>
-            <Header />
-            <AppSidebar />
-            <Switch>
-              <Route exact path="/" component={Frontpage} />
-              <Route exact path="/r/:subreddit" component={SubredditPage} />
-              <Route
-                path="/r/:subreddit/comments/:postId/:postTitle"
-                component={PostPage}
-              />
-              <Route path="/testinggrounds" component={TestingGrounds} />
-              <Route component={NotfoundPage} />
-            </Switch>
-          </ScrollToTop>
-        </GlobalStyles>
+        <ScrollToTop>
+          <GlobalStyles />
+          <Header />
+          <AppSidebar />
+          <Switch>
+            <Route exact path="/" component={Frontpage} />
+            <Route exact path="/r/:subreddit" component={SubredditPage} />
+            <Route
+              path="/r/:subreddit/comments/:postId/:postTitle"
+              component={PostPage}
+            />
+            <Route path="/testinggrounds" component={TestingGrounds} />
+            <Route component={NotfoundPage} />
+          </Switch>
+        </ScrollToTop>
       </ThemeProvider>
     );
   }
