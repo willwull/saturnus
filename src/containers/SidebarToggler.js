@@ -14,7 +14,7 @@ class SidebarToggler extends Component {
   }
 }
 
-function mapStateToProps({}) {
+function mapStateToProps() {
   return {};
 }
 
