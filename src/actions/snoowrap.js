@@ -31,12 +31,17 @@ export function initSnoowrap() {
       type: REQUEST_SNOOWRAP,
     });
 
-    const authCredentials = await appOnlyOauth();
-    const accessToken = authCredentials.access_token;
+    try {
+      const authCredentials = await appOnlyOauth();
+      const accessToken = authCredentials.access_token;
 
-    reddit.initAppOnly(accessToken);
+      reddit.initAppOnly(accessToken);
 
-    dispatch(receiveSnoowrap("appOnly"));
+      dispatch(receiveSnoowrap("appOnly"));
+    } catch (error) {
+      console.error(error);
+      dispatch(snoowrapError());
+    }
   };
 }
 
