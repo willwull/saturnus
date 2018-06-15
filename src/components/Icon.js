@@ -3,7 +3,12 @@ import PropTypes from "prop-types";
 import FontAwesomeIcon from "@fortawesome/react-fontawesome";
 
 function Icon({ icon, ...rest }) {
-  const iconArgs = icon.split(" ");
+  let iconArgs = icon.split(" ");
+
+  if (iconArgs.length === 1) {
+    iconArgs = iconArgs[0];
+  }
+
   return <FontAwesomeIcon icon={iconArgs} className="icon" {...rest} />;
 }
 

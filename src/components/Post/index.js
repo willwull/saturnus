@@ -11,6 +11,8 @@ import PostContent from "components/PostContent";
 import { shortenNumber } from "utils";
 import "./Post.scss";
 import Flair from "../Flair";
+import GoldCounter from "../GoldCounter";
+import Icon from "../Icon";
 
 /**
  * Component for a post in the feed
@@ -28,39 +30,31 @@ function Post({ post, expanded }) {
       <div className="score">
         {/* TODO: implement voting functionality */}
         <button className="vote-btn">
-          <FaIcon icon="arrow-up" />
+          <Icon icon="arrow-up" />
         </button>
 
         <div className="number">{shortenNumber(post.score)}</div>
 
-        <button className="vote-btn">
-          <FaIcon icon="arrow-down" />
+        <button className="vote-btn down-vote">
+          <Icon icon="arrow-down" />
         </button>
 
         {/* Stickied icon */}
         {post.stickied && (
           <div className="mod-icon">
-            <FaIcon icon="thumbtack" />
+            <Icon icon="thumbtack" fixedWidth />
           </div>
         )}
 
         {/* Mod distinguished icon */}
         {post.distinguished === "moderator" && (
           <div className="mod-icon">
-            <FaIcon icon="shield" />
+            <Icon icon="shield" fixedWidth />
           </div>
         )}
 
         {/* Gilded icon */}
-        {post.gilded !== 0 && (
-          <div className="gold-icon">
-            <span className="fa-layers fa-fw">
-              <FaIcon className="circle" icon="circle" />
-              <FaIcon className="star" icon="star" transform="shrink-6" />
-            </span>
-            {post.gilded}
-          </div>
-        )}
+        {post.gilded !== 0 && <GoldCounter count={post.gilded} />}
       </div>
 
       {/* Actual post content */}
@@ -109,7 +103,7 @@ function Post({ post, expanded }) {
           </Link>
 
           <Link to={post.permalink} className="comments">
-            <FaIcon icon="comment-alt" /> {shortenNumber(post.num_comments)}{" "}
+            <Icon icon="comment-alt" /> {shortenNumber(post.num_comments)}{" "}
             comments
           </Link>
         </div>

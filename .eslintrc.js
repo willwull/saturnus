@@ -22,6 +22,7 @@ module.exports = {
     "object-curly-newline": 0,
     "no-underscore-dangle": 0,
     "react/prefer-stateless-function": 0,
+    "prefer-destructuring": 0,
     "no-unused-expressions": [
       "error",
       {
