@@ -7,6 +7,7 @@ import FaIcon from "@fortawesome/react-fontawesome";
 
 import { shortenNumber } from "utils";
 import "./Comment.scss";
+import GoldCounter from "../GoldCounter";
 
 const ChildWrapper = styled.div`
   margin-top: 30px;
@@ -52,6 +53,13 @@ function Comment({ comment }) {
           {" · "}
           {moment.unix(comment.created_utc).fromNow()}
         </span>
+
+        {comment.gilded !== 0 && (
+          <span>
+            {" · "}
+            <GoldCounter count={comment.gilded} />
+          </span>
+        )}
       </div>
       <div dangerouslySetInnerHTML={{ __html: comment.body_html }} />
 

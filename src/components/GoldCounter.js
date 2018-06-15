@@ -3,7 +3,7 @@ import PropTypes from "prop-types";
 import styled from "@marionebl/styled-components";
 import Icon from "./Icon";
 
-const GoldWrapper = styled.div`
+const GoldWrapper = styled.span`
   margin-top: 15px;
   text-align: center;
   color: #ccac00;
