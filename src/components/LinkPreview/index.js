@@ -1,8 +1,15 @@
 import React from "react";
 import PropTypes from "prop-types";
-import FaIcon from "@fortawesome/react-fontawesome";
 import { splitUrl, isImgUrl } from "utils";
-import "./LinkPreview.scss";
+import {
+  ExternalLink,
+  BigPreviewImg,
+  LinkBar,
+  Thumbnail,
+  Url,
+  Domain,
+} from "./components";
+import Icon from "../Icon";
 
 function LinkPreview({ post }) {
   const [domain, rest] = splitUrl(post.url);
@@ -10,14 +17,14 @@ function LinkPreview({ post }) {
   // if image link, use image icon, otherwise safari
   const icon =
     isImgUrl(post.url) || post.domain === "imgur.com"
-      ? ["fa", "image"]
-      : ["fab", "safari"];
+      ? "fa image"
+      : "fab safari";
 
   // big thumbnail for certain links
   let bigPreview;
   if (post.preview) {
     bigPreview = (
-      <img
+      <BigPreviewImg
         className="big-preview"
         src={post.preview.images[0].source.url}
         alt={post.title}
@@ -26,28 +33,23 @@ function LinkPreview({ post }) {
   }
 
   return (
-    <a
-      href={post.url}
-      rel="noopener noreferrer"
-      target="_blank"
-      className="link-preview-component"
-    >
+    <ExternalLink href={post.url} rel="noopener noreferrer" target="_blank">
       {bigPreview}
-      <div className="link-bar">
-        <div className="thumbnail">
-          <FaIcon icon={icon} />
-        </div>
+      <LinkBar>
+        <Thumbnail>
+          <Icon icon={icon} />
+        </Thumbnail>
 
-        <div className="url">
-          <span className="domain">{domain}</span>
-          <span className="rest-url">{rest}</span>
-        </div>
+        <Url>
+          <Domain>{domain}</Domain>
+          <span>{rest}</span>
+        </Url>
 
         <div className="arrow">
-          <FaIcon icon="external-link" />
+          <Icon icon="external-link" />
         </div>
-      </div>
-    </a>
+      </LinkBar>
+    </ExternalLink>
   );
 }
 
