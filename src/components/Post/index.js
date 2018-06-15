@@ -2,7 +2,6 @@ import React from "react";
 import PropTypes from "prop-types";
 import { Link } from "react-router-dom";
 import moment from "moment-mini";
-import FaIcon from "@fortawesome/react-fontawesome";
 import Color from "color";
 import randomColor from "randomcolor";
 
