@@ -23,12 +23,12 @@ class Dropdown extends Component {
   componentDidMount() {
     // touch for mobile devices
     document.addEventListener("click", this.clickHandler);
-    document.addEventListener("touch", this.clickHandler);
+    document.addEventListener("touchstart", this.clickHandler);
   }
 
   componentWillUnmount() {
     document.removeEventListener("click", this.clickHandler);
-    document.removeEventListener("touch", this.clickHandler);
+    document.removeEventListener("touchstart", this.clickHandler);
   }
 
   clickHandler = event => {
@@ -58,7 +58,9 @@ class Dropdown extends Component {
     return (
       <div className="dropdown-wrapper" ref={this.dropdownRef}>
         <button onClick={this.toggle}>{this.props.children}</button>
-        <div className={overlayClasses}>{this.props.overlay}</div>
+        <div className={overlayClasses} onClick={this.hide} role="presentation">
+          {this.props.overlay}
+        </div>
       </div>
     );
   }
