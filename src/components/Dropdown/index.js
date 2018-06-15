@@ -1,6 +1,14 @@
 import React, { Component } from "react";
 import PropTypes from "prop-types";
+import styled from "@marionebl/styled-components";
 import "./Dropdown.scss";
+
+const DropdownWrapper = styled.button`
+  display: block;
+  text-align: inherit;
+  overflow: visible;
+  box-shadow: 0 5px 10px rgba(0, 0, 0, 0.1);
+`;
 
 class Dropdown extends Component {
   static propTypes = {
@@ -57,10 +65,13 @@ class Dropdown extends Component {
 
     return (
       <div className="dropdown-wrapper" ref={this.dropdownRef}>
+        {/* The dropdown toggle */}
         <button onClick={this.toggle}>{this.props.children}</button>
-        <div className={overlayClasses} onClick={this.hide} role="presentation">
+
+        {/* The actual dropdown */}
+        <DropdownWrapper className={overlayClasses} onClick={this.hide}>
           {this.props.overlay}
-        </div>
+        </DropdownWrapper>
       </div>
     );
   }
