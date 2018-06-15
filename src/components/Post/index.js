@@ -47,7 +47,7 @@ function Post({ post, expanded }) {
 
         {/* Mod distinguished icon */}
         {post.distinguished === "moderator" && (
-          <div className="mod-icon">
+          <div className="mod mod-icon">
             <Icon icon="shield" fixedWidth />
           </div>
         )}

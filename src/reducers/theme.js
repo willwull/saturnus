@@ -1,15 +1,20 @@
 import { SET_DARK_THEME, SET_LIGHT_THEME } from "actions/theme";
 import { getStoredTheme } from "LocalCache";
 
-const lightTheme = {
+const common = {
   primary: "#1e7cf7",
+  mod: "#21af28",
+};
+
+const lightTheme = {
+  ...common,
   body: "rgb(239, 243, 245)",
   text: "rgb(70, 70, 70)",
   contentBg: "white",
 };
 
 const darkTheme = {
-  primary: lightTheme.primary,
+  ...common,
   body: "#23252b",
   text: "white",
   contentBg: "#1d1e22",

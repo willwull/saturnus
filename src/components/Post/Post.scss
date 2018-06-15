@@ -7,7 +7,6 @@
   margin-bottom: 20px;
   padding: 20px;
 
-  // background: var(--content-bg);
   border-radius: 5px;
 
   display: grid;
@@ -31,33 +30,6 @@
 
     .mod-icon {
       margin-top: 15px;
-      color: var(--mod-color);
-    }
-  }
-
-  .flair {
-    display: inline-block;
-    transform: translateY(-1px);
-    font-size: 14px;
-    font-weight: normal;
-    padding: 3px 5px;
-    border-radius: 5px;
-    color: rgba(var(--text-color-rgb), 0.7);
-    background: var(--body-bg);
-
-    &.post {
-      margin-right: 7px;
-      margin-bottom: 5px;
-    }
-
-    &.nsfw-flair {
-      background: red;
-      color: white;
-    }
-
-    &.spoiler-flair {
-      background: none;
-      border: 1px solid;
     }
   }
 

@@ -26,6 +26,10 @@ const GlobalStyles = createGlobalStyle`
     background: ${props => props.theme.body};
   }
 
+  .mod {
+    color: ${props => props.theme.mod};
+  }
+
   .op {
     color: ${props => props.theme.primary};
   }
