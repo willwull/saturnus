@@ -48,6 +48,7 @@ export function fetchMySubs() {
     try {
       const cachedSubs = LocalCache.getStoredSubs();
       if (cachedSubs) {
+        console.log(cachedSubs);
         dispatch({ type: RECEIVE_MY_SUBS, subscriptions: cachedSubs });
         return;
       }

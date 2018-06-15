@@ -7,12 +7,13 @@ import SubscriptionList from "containers/SubscriptionList";
 import Icon from "../Icon";
 
 export const SidebarLink = styled(NavLink)`
-  display: block;
+  display: flex;
+  align-items: center;
   padding: 15px;
   color: inherit;
 
   &:hover {
-    background: ${props => props.theme.primary}
+    background: ${props => props.theme.primary};
     color: white;
   }
 
@@ -32,9 +33,16 @@ export const SidebarLink = styled(NavLink)`
   }
 `;
 
+const SectionTitle = styled.h1`
+  font-size: 20px;
+  padding: 15px;
+  margin: 0;
+`;
+
 function Sidebar(props) {
   return (
-    <Drawer {...props} className="sidebar">
+    <Drawer {...props}>
+      <SectionTitle>Reddit feeds</SectionTitle>
       <SidebarLink exact to="/">
         <Icon icon="far home" fixedWidth />
         Home
@@ -48,6 +56,7 @@ function Sidebar(props) {
         All
       </SidebarLink>
 
+      <SectionTitle>Subscriptions</SectionTitle>
       <SubscriptionList />
     </Drawer>
   );
