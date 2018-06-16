@@ -15,6 +15,7 @@ function Menu({ children }) {
 Menu.Item = styled.li`
   padding: 15px;
   list-style: none;
+  color: ${props => props.theme.text};
 
   &:hover,
   &:active {

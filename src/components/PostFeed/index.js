@@ -2,8 +2,9 @@ import React from "react";
 import PropTypes from "prop-types";
 import Post from "components/Post";
 import PrimaryButton from "components/Buttons/PrimaryButton";
-import "./PostFeed.scss";
+import FeedSortOptions from "containers/FeedSortOptions";
 import Loading from "../Loading";
+import "./PostFeed.scss";
 
 function PostFeed({ posts, loadMore, isLoading, isLoadingMore }) {
   if (isLoading) {
@@ -16,6 +17,8 @@ function PostFeed({ posts, loadMore, isLoading, isLoadingMore }) {
 
   return (
     <div className="post-feed">
+      <FeedSortOptions />
+
       {posts.map(post => <Post key={post.id} post={post} />)}
 
       <PrimaryButton

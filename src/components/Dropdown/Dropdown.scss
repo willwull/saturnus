@@ -24,10 +24,12 @@
 
     &.bottomLeft {
       left: 0;
+      border-radius: 5px; // no idea why this is required, but looks odd otherwise
     }
 
     &.bottomRight {
       right: 0;
+      border-radius: 5px; // same here lol
     }
   }
 }
