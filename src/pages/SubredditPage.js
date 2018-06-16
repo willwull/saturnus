@@ -1,18 +1,31 @@
-import React from "react";
+import React, { Component } from "react";
 import PropTypes from "prop-types";
+import styled from "@marionebl/styled-components";
 import SubredditFeed from "containers/SubredditFeed";
+import SubredditBanner from "containers/SubredditBanner";
 
-function SubredditPage({ match: { params } }) {
-  const { subreddit } = params;
-  return (
-    <div className="main-content">
-      <SubredditFeed subreddit={subreddit} />
-    </div>
-  );
+const Page = styled.div`
+  margin-top: 50px;
+`;
+
+class SubredditPage extends Component {
+  static propTypes = {
+    match: PropTypes.object.isRequired, // from react-router
+  };
+
+  render() {
+    const {
+      match: { params },
+    } = this.props;
+    const { subreddit } = params;
+
+    return (
+      <Page>
+        <SubredditBanner subreddit={subreddit} />
+        <SubredditFeed subreddit={subreddit} />
+      </Page>
+    );
+  }
 }
-
-SubredditPage.propTypes = {
-  match: PropTypes.object.isRequired, // from react-router
-};
 
 export default SubredditPage;

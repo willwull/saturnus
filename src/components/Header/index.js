@@ -6,7 +6,7 @@ import styled from "@marionebl/styled-components";
 import LoggedInUserMenu from "containers/LoggedInUserMenu";
 import SidebarToggler from "containers/SidebarToggler";
 import ContentBox from "components/ContentBox";
-import Icon from "components/Icon";
+import SaturnusLogo from "../SaturnusLogo";
 import "./Header.scss";
 
 const LogoWrapper = styled.div`
@@ -27,7 +27,7 @@ function Header() {
     <ContentBox className="header-component">
       <SidebarToggler>
         <LogoWrapper>
-          <Icon icon="far dot-circle" />
+          <SaturnusLogo />
         </LogoWrapper>
       </SidebarToggler>
       <div>
