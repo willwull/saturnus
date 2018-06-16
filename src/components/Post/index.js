@@ -40,7 +40,7 @@ function Post({ post, expanded }) {
 
         {/* Stickied icon */}
         {post.stickied && (
-          <div className="mod-icon">
+          <div className="mod mod-icon">
             <Icon icon="thumbtack" fixedWidth />
           </div>
         )}
