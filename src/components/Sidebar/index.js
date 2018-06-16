@@ -5,6 +5,7 @@ import { NavLink } from "react-router-dom";
 import Drawer from "components/Drawer";
 import SubscriptionList from "containers/SubscriptionList";
 import Icon from "../Icon";
+import FetchSubscriptionsBtn from "containers/FetchSubscriptionsBtn";
 
 export const SidebarLink = styled(NavLink)`
   display: flex;
@@ -37,6 +38,8 @@ const SectionTitle = styled.h1`
   font-size: 20px;
   padding: 15px;
   margin: 0;
+  display: flex;
+  justify-content: space-between;
 `;
 
 function Sidebar(props) {
@@ -56,7 +59,10 @@ function Sidebar(props) {
         All
       </SidebarLink>
 
-      <SectionTitle>Subscriptions</SectionTitle>
+      <SectionTitle>
+        Subscriptions
+        <FetchSubscriptionsBtn />
+      </SectionTitle>
       <SubscriptionList />
     </Drawer>
   );

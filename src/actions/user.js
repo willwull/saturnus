@@ -41,16 +41,18 @@ export function signOut() {
   };
 }
 
-export function fetchMySubs() {
+export function fetchMySubs(options = { skipCache: false }) {
   return async (dispatch, getState) => {
     dispatch({ type: REQUEST_MY_SUBS });
 
     try {
-      const cachedSubs = LocalCache.getStoredSubs();
-      if (cachedSubs) {
-        console.log(cachedSubs);
-        dispatch({ type: RECEIVE_MY_SUBS, subscriptions: cachedSubs });
-        return;
+      if (!options.skipCache) {
+        const cachedSubs = LocalCache.getStoredSubs();
+        if (cachedSubs) {
+          console.log(cachedSubs);
+          dispatch({ type: RECEIVE_MY_SUBS, subscriptions: cachedSubs });
+          return;
+        }
       }
 
       const state = getState();

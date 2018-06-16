@@ -48,7 +48,16 @@ function SubredditList({ subreddits }) {
 }
 
 SubredditList.propTypes = {
-  subreddits: PropTypes.array.isRequired,
+  subreddits: PropTypes.arrayOf(
+    PropTypes.shape({
+      id: PropTypes.string,
+      url: PropTypes.string,
+      icon_img: PropTypes.string,
+      key_color: PropTypes.string,
+      display_name: PropTypes.string,
+      display_name_prefixed: PropTypes.string,
+    }),
+  ).isRequired,
 };
 
 export default SubredditList;

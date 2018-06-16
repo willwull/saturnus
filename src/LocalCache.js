@@ -52,7 +52,21 @@ export function getStoredSubs() {
 export function storeMySubs(subscriptions) {
   const user = getLastActiveUser();
   const stored = getStoredSubs();
-  set(MY_SUBSCRIPTIONS, { ...stored, [user]: subscriptions });
+
+  // The original subscriptions array contain a lot of information
+  // that take up unnecessary storage since they aren't used within the
+  // app anyway, so we only store what we need.
+  // This also ensures we don't exceed the localStorage quota
+  const stripped = subscriptions.map(sub => ({
+    id: sub.id,
+    url: sub.url,
+    icon_img: sub.icon_img,
+    key_color: sub.key_color,
+    display_name: sub.display_name,
+    display_name_prefixed: sub.display_name_prefixed,
+  }));
+
+  set(MY_SUBSCRIPTIONS, { ...stored, [user]: stripped });
 }
 
 /* Cache which theme the user uses */
