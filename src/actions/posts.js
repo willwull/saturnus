@@ -6,10 +6,12 @@ export const REQUEST_MORE_POSTS = "REQUEST_MORE_POSTS";
 export const RECEIVE_POSTS = "RECEIVE_POSTS";
 export const FETCH_POST_ERROR = "FETCH_POST_ERROR";
 
-function requestPosts(subreddit) {
+function requestPosts(subreddit, sortMode, time) {
   return {
     type: REQUEST_POSTS,
     subreddit,
+    sortMode,
+    time,
   };
 }
 
@@ -36,47 +38,63 @@ function fetchPostError(subreddit) {
   };
 }
 
-function shouldFetch(state, subreddit, sort) {
-  const { posts, sort: currentSort } = state;
+function shouldFetch(state, subreddit, sortMode, time) {
+  const { posts } = state;
 
-  // if the user changes sort mode, we should fetch new and skip the cache
-  if (sort !== currentSort) return true;
-
-  const currentSub = state.posts[subreddit];
+  const currentSub = posts[subreddit];
 
   // if nothing has been fetched for the current sub, we need to fetch
-  if (!currentSub || !currentSub.receivedAt) return true;
+  if (!currentSub || !currentSub.receivedAt) {
+    console.log("nothing fetched");
+    return true;
+  }
+
+  // if the user changes sort mode, we should fetch new and skip the cache
+  if (sortMode !== currentSub.sortMode) {
+    console.log(sortMode);
+    console.log(currentSub.sortMode);
+    console.log(currentSub);
+    console.log("different sort");
+    return true;
+  }
+
+  if (time !== currentSub.time) {
+    console.log("different time");
+    return true;
+  }
 
   // if we have already fetched, only fetch again if it was 10 minutes ago
-  const then = moment(posts.receivedAt);
+  console.log("comparing time");
+  const then = moment(currentSub.receivedAt);
   const diff = moment().diff(then, "minutes");
   return diff > 10;
 }
 
-export function fetchPosts(subreddit, sort = "hot") {
+export function fetchPosts(subreddit, sortMode = "hot", time = "all") {
   return async (dispatch, getState) => {
     const state = getState();
-    if (!shouldFetch(state, subreddit, sort)) return;
+    if (!shouldFetch(state, subreddit, sortMode, time)) return;
 
+    console.log("doing it");
     const r = reddit.getSnoowrap();
-    dispatch(requestPosts(subreddit));
+    dispatch(requestPosts(subreddit, sortMode, time));
 
     try {
       let posts;
       const sub = subreddit ? `/${subreddit}` : "";
 
-      switch (sort) {
+      switch (sortMode) {
         case "hot":
           posts = await r.getHot(subreddit);
           break;
         case "top":
-          posts = await r.getTop(subreddit);
+          posts = await r.getTop(subreddit, { time });
           break;
         case "new":
           posts = await r.getNew(subreddit);
           break;
         case "controversial":
-          posts = await r.getControversial(subreddit);
+          posts = await r.getControversial(subreddit, { time });
           break;
         case "rising":
           posts = await r.getRising(subreddit);
@@ -88,7 +106,6 @@ export function fetchPosts(subreddit, sort = "hot") {
           });
       }
 
-      console.log(sort);
       console.log(posts);
       dispatch(receivePosts(subreddit, posts));
     } catch (error) {

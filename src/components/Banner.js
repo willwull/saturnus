@@ -39,7 +39,6 @@ function Banner({ subreddit, isLoading, ...rest }) {
 Banner.propTypes = {
   isLoading: PropTypes.bool.isRequired,
   subreddit: PropTypes.object.isRequired,
-  children: PropTypes.node.isRequired,
 };
 
 export default Banner;

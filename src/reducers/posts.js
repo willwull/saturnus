@@ -10,7 +10,8 @@ import { USER_SIGN_OUT } from "actions/user";
 function postsInSubreddit(
   state = {
     items: [],
-    sort: "best",
+    sortMode: "",
+    time: "",
     receivedAt: null,
     isLoading: false,
     isLoadingMore: false,
@@ -20,7 +21,13 @@ function postsInSubreddit(
 ) {
   switch (action.type) {
     case REQUEST_POSTS:
-      return { ...state, isLoading: true, error: false };
+      return {
+        ...state,
+        isLoading: true,
+        error: false,
+        sortMode: action.sortMode,
+        time: action.time,
+      };
     case REQUEST_MORE_POSTS:
       return { ...state, isLoadingMore: true };
     case FETCH_POST_ERROR:

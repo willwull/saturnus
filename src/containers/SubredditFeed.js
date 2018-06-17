@@ -1,6 +1,7 @@
 import React, { Component } from "react";
 import { connect } from "react-redux";
 import PropTypes from "prop-types";
+import { withRouter } from "react-router-dom";
 
 import { fetchPosts, fetchMorePosts } from "actions/posts";
 
@@ -10,6 +11,8 @@ class SubredditFeed extends Component {
   static propTypes = {
     subreddit: PropTypes.string,
     sortMode: PropTypes.string,
+    /* React Router */
+    location: PropTypes.object.isRequired,
     /* Below are from redux */
     error: PropTypes.bool.isRequired,
     posts: PropTypes.array.isRequired,
@@ -29,15 +32,16 @@ class SubredditFeed extends Component {
   }
 
   componentDidUpdate(prevProps) {
-    const { subreddit, sortMode } = this.props;
-    if (subreddit !== prevProps.subreddit || sortMode !== prevProps.sortMode) {
+    if (this.props.location !== prevProps.location) {
       this.loadPosts();
     }
   }
 
   loadPosts = () => {
-    const { subreddit, sortMode } = this.props;
-    this.props.fetchPosts(subreddit, sortMode);
+    const { subreddit, sortMode, location } = this.props;
+    const searchParams = new URLSearchParams(location.search);
+    const time = searchParams.get("t");
+    this.props.fetchPosts(subreddit, sortMode, time);
   };
 
   loadMore = () => {
@@ -92,8 +96,8 @@ function mapStateToProps({ posts }, ownProps) {
 
 function mapDispatchToProps(dispatch) {
   return {
-    fetchPosts: (subreddit, sortMode) => {
-      dispatch(fetchPosts(subreddit, sortMode));
+    fetchPosts: (subreddit, sortMode, time) => {
+      dispatch(fetchPosts(subreddit, sortMode, time));
     },
     fetchMorePosts: subreddit => {
       dispatch(fetchMorePosts(subreddit));
@@ -101,7 +105,9 @@ function mapDispatchToProps(dispatch) {
   };
 }
 
-export default connect(
-  mapStateToProps,
-  mapDispatchToProps,
-)(SubredditFeed);
+export default withRouter(
+  connect(
+    mapStateToProps,
+    mapDispatchToProps,
+  )(SubredditFeed),
+);
