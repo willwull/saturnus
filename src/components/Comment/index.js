@@ -1,4 +1,4 @@
-import React from "react";
+import React, { Component } from "react";
 import PropTypes from "prop-types";
 import styled from "@marionebl/styled-components";
 import { transparentize } from "polished";
@@ -8,6 +8,7 @@ import FaIcon from "@fortawesome/react-fontawesome";
 import { shortenNumber } from "utils";
 import "./Comment.scss";
 import GoldCounter from "../GoldCounter";
+import { CommentBody } from "./components";
 
 const ChildWrapper = styled.div`
   margin-top: 30px;
@@ -17,60 +18,75 @@ const ChildWrapper = styled.div`
   border-color: ${props => transparentize(0.9, props.theme.text)};
 `;
 
-function Comment({ comment }) {
-  if (comment.depth > 5) {
-    return null;
-  }
+class Comment extends Component {
+  state = {
+    isCollapsed: false,
+  };
 
-  let authorNameClass = "comment-author";
-  if (comment.distinguished === "moderator") {
-    authorNameClass += " mod";
-  } else if (comment.is_submitter) {
-    authorNameClass += " op";
-  }
+  toggleCollapse = () => {
+    this.setState(state => ({
+      isCollapsed: !state.isCollapsed,
+    }));
+  };
 
-  let score;
-  if (comment.score_hidden) {
-    score = "-";
-  } else {
-    score = shortenNumber(comment.score);
-  }
+  render() {
+    const { comment } = this.props;
+    if (comment.depth > 5) {
+      return null;
+    }
 
-  return (
-    <div className="comment-component">
-      <div className="comment-info">
-        {/* Stickied icon */}
-        {comment.stickied && (
-          <span className="mod">
-            <FaIcon icon="thumbtack" />{" "}
-          </span>
-        )}
+    let authorNameClass = "comment-author";
+    if (comment.distinguished === "moderator") {
+      authorNameClass += " mod";
+    } else if (comment.is_submitter) {
+      authorNameClass += " op";
+    }
 
-        <b className={authorNameClass}>{comment.author.name}</b>
+    let score;
+    if (comment.score_hidden) {
+      score = "-";
+    } else {
+      score = shortenNumber(comment.score);
+    }
 
-        <span className="secondary">
-          <FaIcon icon={["far", "long-arrow-up"]} /> {score}
-          {" · "}
-          {moment.unix(comment.created_utc).fromNow()}
-        </span>
+    return (
+      <div className="comment-component">
+        <button className="comment-info" onClick={this.toggleCollapse}>
+          {/* Stickied icon */}
+          {comment.stickied && (
+            <span className="mod">
+              <FaIcon icon="thumbtack" />{" "}
+            </span>
+          )}
 
-        {comment.gilded !== 0 && (
-          <span>
+          <b className={authorNameClass}>{comment.author.name}</b>
+
+          <span className="secondary">
+            <FaIcon icon={["far", "long-arrow-up"]} /> {score}
             {" · "}
-            <GoldCounter count={comment.gilded} />
+            {moment.unix(comment.created_utc).fromNow()}
           </span>
-        )}
-      </div>
-      <div dangerouslySetInnerHTML={{ __html: comment.body_html }} />
 
-      {comment.replies.length !== 0 &&
-        comment.replies.map(reply => (
-          <ChildWrapper key={reply.id}>
-            <Comment comment={reply} />
-          </ChildWrapper>
-        ))}
-    </div>
-  );
+          {comment.gilded !== 0 && (
+            <span>
+              {" · "}
+              <GoldCounter count={comment.gilded} />
+            </span>
+          )}
+        </button>
+        <CommentBody isCollapsed={this.state.isCollapsed}>
+          <div dangerouslySetInnerHTML={{ __html: comment.body_html }} />
+
+          {comment.replies.length !== 0 &&
+            comment.replies.map(reply => (
+              <ChildWrapper key={reply.id}>
+                <Comment comment={reply} />
+              </ChildWrapper>
+            ))}
+        </CommentBody>
+      </div>
+    );
+  }
 }
 
 Comment.propTypes = {
