@@ -9,10 +9,12 @@ import PostSortMenu from "./PostSortMenu";
 import TimeSortMenu from "./TimeSortMenu";
 
 const Wrapper = styled.div`
-  padding: 0 15px 10px 15px;
+  padding: 0 15px 15px 15px;
   color: ${props => transparentize(0.3, props.theme.text)};
-  display: flex;
-  justify-content: space-between;
+
+  & > * {
+    margin-right: 20px;
+  }
 `;
 
 function mapSortToElement(sortMode) {
