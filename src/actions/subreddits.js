@@ -16,7 +16,8 @@ export function fetchSubreddit(subreddit) {
   return async (dispatch, getState) => {
     const stored = getState().subreddits[subreddit];
     if (stored) {
-      dispatch(recevieSubreddit(subreddit, stored));
+      console.log(stored);
+      return; // no need to fetch again
     }
     try {
       const r = reddit.getSnoowrap();
