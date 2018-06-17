@@ -41,3 +41,12 @@ export function splitUrl(url) {
   const [domain, ...rest] = newUrl.split("/");
   return [domain, `/${rest.join("/")}`];
 }
+
+/**
+ * Returns the string with the first letter capitalized.
+ *
+ * @param {String} string
+ */
+export function capitalizeFirstLetter(string) {
+  return string.charAt(0).toUpperCase() + string.slice(1);
+}

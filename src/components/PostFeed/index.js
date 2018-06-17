@@ -2,33 +2,44 @@ import React from "react";
 import PropTypes from "prop-types";
 import Post from "components/Post";
 import PrimaryButton from "components/Buttons/PrimaryButton";
-import FeedSortOptions from "containers/FeedSortOptions";
+import FeedSortOptions from "components/FeedSortOptions";
 import Loading from "../Loading";
 import "./PostFeed.scss";
 
-function PostFeed({ posts, loadMore, isLoading, isLoadingMore }) {
+function PostFeed({
+  posts,
+  loadMore,
+  isLoading,
+  isLoadingMore,
+  currentSort,
+  subreddit,
+}) {
+  let content;
   if (isLoading) {
-    return <Loading type="regular" />;
-  }
+    content = <Loading type="regular" />;
+  } else if (posts.length === 0) {
+    content = <div>No posts :(</div>;
+  } else {
+    content = (
+      <React.Fragment>
+        {posts.map(post => <Post key={post.id} post={post} />)}
 
-  if (posts.length === 0) {
-    return <div>No posts :(</div>;
+        <PrimaryButton
+          className="load-more-btn"
+          onClick={loadMore}
+          disabled={isLoadingMore}
+        >
+          Load more
+          {isLoadingMore && <Loading type="inline" />}
+        </PrimaryButton>
+      </React.Fragment>
+    );
   }
 
   return (
     <div className="post-feed">
-      <FeedSortOptions />
-
-      {posts.map(post => <Post key={post.id} post={post} />)}
-
-      <PrimaryButton
-        className="load-more-btn"
-        onClick={loadMore}
-        disabled={isLoadingMore}
-      >
-        Load more
-        {isLoadingMore && <Loading type="inline" />}
-      </PrimaryButton>
+      <FeedSortOptions currentSort={currentSort} subreddit={subreddit} />
+      {content}
     </div>
   );
 }
@@ -38,6 +49,12 @@ PostFeed.propTypes = {
   loadMore: PropTypes.func.isRequired,
   isLoading: PropTypes.bool.isRequired,
   isLoadingMore: PropTypes.bool.isRequired,
+  currentSort: PropTypes.string.isRequired,
+  subreddit: PropTypes.string,
+};
+
+PostFeed.defaultProps = {
+  subreddit: "",
 };
 
 export default PostFeed;

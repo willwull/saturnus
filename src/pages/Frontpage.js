@@ -1,13 +1,18 @@
 import React from "react";
+import PropTypes from "prop-types";
+import SubredditFeed from "containers/SubredditFeed";
 
-import PostFeed from "containers/SubredditFeed";
-
-function Frontpage() {
+function Frontpage({ match: { params } }) {
+  const { sortMode } = params;
   return (
     <div className="main-content">
-      <PostFeed subreddit="" />
+      <SubredditFeed subreddit="" sortMode={sortMode} />
     </div>
   );
 }
+
+Frontpage.propTypes = {
+  match: PropTypes.object.isRequired,
+};
 
 export default Frontpage;

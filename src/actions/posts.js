@@ -36,8 +36,11 @@ function fetchPostError(subreddit) {
   };
 }
 
-function shouldFetch(state, subreddit) {
-  const { posts } = state;
+function shouldFetch(state, subreddit, sort) {
+  const { posts, sort: currentSort } = state;
+
+  // if the user changes sort mode, we should fetch new and skip the cache
+  if (sort !== currentSort) return true;
 
   const currentSub = state.posts[subreddit];
 
@@ -50,16 +53,42 @@ function shouldFetch(state, subreddit) {
   return diff > 10;
 }
 
-export function fetchPosts(subreddit) {
+export function fetchPosts(subreddit, sort = "hot") {
   return async (dispatch, getState) => {
     const state = getState();
-    if (!shouldFetch(state, subreddit)) return;
+    if (!shouldFetch(state, subreddit, sort)) return;
 
     const r = reddit.getSnoowrap();
     dispatch(requestPosts(subreddit));
 
     try {
-      const posts = await r.getHot(subreddit);
+      let posts;
+      const sub = subreddit ? `/${subreddit}` : "";
+
+      switch (sort) {
+        case "hot":
+          posts = await r.getHot(subreddit);
+          break;
+        case "top":
+          posts = await r.getTop(subreddit);
+          break;
+        case "new":
+          posts = await r.getNew(subreddit);
+          break;
+        case "controversial":
+          posts = await r.getControversial(subreddit);
+          break;
+        case "rising":
+          posts = await r.getRising(subreddit);
+          break;
+        default:
+          posts = await r.oauthRequest({
+            uri: `${sub}/best`,
+            method: "get",
+          });
+      }
+
+      console.log(sort);
       console.log(posts);
       dispatch(receivePosts(subreddit, posts));
     } catch (error) {

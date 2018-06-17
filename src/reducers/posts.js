@@ -10,6 +10,7 @@ import { USER_SIGN_OUT } from "actions/user";
 function postsInSubreddit(
   state = {
     items: [],
+    sort: "best",
     receivedAt: null,
     isLoading: false,
     isLoadingMore: false,

@@ -42,6 +42,9 @@ class App extends Component {
 
   render() {
     const { theme } = this.props;
+    const subSortOptions = "hot|top|new|controversial|rising";
+    const frontSortOptions = `${subSortOptions}|best`;
+
     return (
       <ThemeProvider theme={theme}>
         <ScrollToTop>
@@ -49,8 +52,16 @@ class App extends Component {
           <Header />
           <AppSidebar />
           <Switch>
-            <Route exact path="/" component={Frontpage} />
-            <Route exact path="/r/:subreddit" component={SubredditPage} />
+            <Route
+              exact
+              path={`/:sortMode(${frontSortOptions})?`}
+              component={Frontpage}
+            />
+            <Route
+              exact
+              path={`/r/:subreddit/:sortMode(${subSortOptions})?`}
+              component={SubredditPage}
+            />
             <Route
               path="/r/:subreddit/comments/:postId/:postTitle"
               component={PostPage}

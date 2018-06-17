@@ -17,12 +17,14 @@ class SubredditPage extends Component {
     const {
       match: { params },
     } = this.props;
-    const { subreddit } = params;
+    const { subreddit, sortMode } = params;
+
+    const actualSortMode = sortMode === "best" || !sortMode ? "hot" : sortMode;
 
     return (
       <Page>
         <SubredditBanner subreddit={subreddit} />
-        <SubredditFeed subreddit={subreddit} />
+        <SubredditFeed subreddit={subreddit} sortMode={actualSortMode} />
       </Page>
     );
   }

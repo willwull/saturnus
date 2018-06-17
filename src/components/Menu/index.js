@@ -1,5 +1,6 @@
 import React from "react";
 import PropTypes from "prop-types";
+import { Link } from "react-router-dom";
 import styled from "@marionebl/styled-components";
 import ContentBox from "components/ContentBox";
 import "./Menu.scss";
@@ -13,6 +14,7 @@ function Menu({ children }) {
 }
 
 Menu.Item = styled.li`
+  display: block;
   padding: 15px;
   list-style: none;
   color: ${props => props.theme.text};
@@ -28,6 +30,8 @@ Menu.Item = styled.li`
     margin-right: 5px;
   }
 `;
+
+Menu.Link = Menu.Item.withComponent(Link);
 
 Menu.Divider = styled.hr`
   margin: 5px 0;

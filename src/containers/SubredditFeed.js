@@ -9,6 +9,7 @@ import PostFeed from "components/PostFeed";
 class SubredditFeed extends Component {
   static propTypes = {
     subreddit: PropTypes.string,
+    sortMode: PropTypes.string,
     /* Below are from redux */
     error: PropTypes.bool.isRequired,
     posts: PropTypes.array.isRequired,
@@ -20,6 +21,7 @@ class SubredditFeed extends Component {
 
   static defaultProps = {
     subreddit: "",
+    sortMode: "hot",
   };
 
   componentDidMount() {
@@ -27,14 +29,15 @@ class SubredditFeed extends Component {
   }
 
   componentDidUpdate(prevProps) {
-    if (this.props.subreddit !== prevProps.subreddit) {
+    const { subreddit, sortMode } = this.props;
+    if (subreddit !== prevProps.subreddit || sortMode !== prevProps.sortMode) {
       this.loadPosts();
     }
   }
 
   loadPosts = () => {
-    const { subreddit } = this.props;
-    this.props.fetchPosts(subreddit);
+    const { subreddit, sortMode } = this.props;
+    this.props.fetchPosts(subreddit, sortMode);
   };
 
   loadMore = () => {
@@ -43,7 +46,14 @@ class SubredditFeed extends Component {
   };
 
   render() {
-    const { isLoading, isLoadingMore, posts, error } = this.props;
+    const {
+      isLoading,
+      isLoadingMore,
+      posts,
+      error,
+      sortMode,
+      subreddit,
+    } = this.props;
 
     if (error) {
       return <div className="main-content">Something went wrong :(</div>;
@@ -55,6 +65,8 @@ class SubredditFeed extends Component {
         loadMore={this.loadMore}
         isLoading={isLoading}
         isLoadingMore={isLoadingMore}
+        subreddit={subreddit}
+        currentSort={sortMode}
       />
     );
   }
@@ -80,8 +92,8 @@ function mapStateToProps({ posts }, ownProps) {
 
 function mapDispatchToProps(dispatch) {
   return {
-    fetchPosts: subreddit => {
-      dispatch(fetchPosts(subreddit));
+    fetchPosts: (subreddit, sortMode) => {
+      dispatch(fetchPosts(subreddit, sortMode));
     },
     fetchMorePosts: subreddit => {
       dispatch(fetchMorePosts(subreddit));
