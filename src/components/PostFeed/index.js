@@ -12,6 +12,7 @@ function PostFeed({
   isLoading,
   isLoadingMore,
   currentSort,
+  currentTimeSort,
   subreddit,
 }) {
   let content;
@@ -38,7 +39,11 @@ function PostFeed({
 
   return (
     <div className="post-feed">
-      <FeedSortOptions currentSort={currentSort} subreddit={subreddit} />
+      <FeedSortOptions
+        currentSort={currentSort}
+        subreddit={subreddit}
+        currentTimeSort={currentTimeSort}
+      />
       {content}
     </div>
   );
@@ -50,11 +55,13 @@ PostFeed.propTypes = {
   isLoading: PropTypes.bool.isRequired,
   isLoadingMore: PropTypes.bool.isRequired,
   currentSort: PropTypes.string.isRequired,
+  currentTimeSort: PropTypes.string,
   subreddit: PropTypes.string,
 };
 
 PostFeed.defaultProps = {
   subreddit: "",
+  currentTimeSort: "",
 };
 
 export default PostFeed;

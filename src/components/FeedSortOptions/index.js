@@ -34,18 +34,42 @@ function mapSortToElement(sortMode) {
   );
 }
 
+function mapTimeToElement(timeSort) {
+  const names = {
+    // month is the default time sort
+    // having null as a key surprisingly works
+    [null]: "This month",
+    hour: "Now",
+    day: "Today",
+    week: "This week",
+    month: "This month",
+    year: "This year",
+    all: "All time",
+  };
+
+  return (
+    <React.Fragment>
+      <Icon icon="far clock" />
+      &nbsp; {names[timeSort]} &nbsp;
+      <Icon icon="caret-down" />
+    </React.Fragment>
+  );
+}
+
 class FeedSortOptions extends Component {
   static propTypes = {
     currentSort: PropTypes.string.isRequired,
+    currentTimeSort: PropTypes.string,
     subreddit: PropTypes.string,
   };
 
   static defaultProps = {
     subreddit: "",
+    currentTimeSort: "",
   };
 
   render() {
-    const { currentSort, subreddit } = this.props;
+    const { currentSort, subreddit, currentTimeSort } = this.props;
 
     const sortMenu = <PostSortMenu subreddit={subreddit} />;
 
@@ -66,7 +90,7 @@ class FeedSortOptions extends Component {
 
         {shouldShowTimeOptions && (
           <Dropdown overlay={timeMenu} placement="bottomRight">
-            {mapSortToElement(currentSort)}
+            {mapTimeToElement(currentTimeSort)}
           </Dropdown>
         )}
       </Wrapper>

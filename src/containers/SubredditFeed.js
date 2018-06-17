@@ -57,11 +57,15 @@ class SubredditFeed extends Component {
       error,
       sortMode,
       subreddit,
+      location,
     } = this.props;
 
     if (error) {
       return <div className="main-content">Something went wrong :(</div>;
     }
+
+    const searchParams = new URLSearchParams(location.search);
+    const timeSort = searchParams.get("t");
 
     return (
       <PostFeed
@@ -71,6 +75,7 @@ class SubredditFeed extends Component {
         isLoadingMore={isLoadingMore}
         subreddit={subreddit}
         currentSort={sortMode}
+        currentTimeSort={timeSort}
       />
     );
   }

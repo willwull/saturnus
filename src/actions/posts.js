@@ -70,7 +70,7 @@ function shouldFetch(state, subreddit, sortMode, time) {
   return diff > 10;
 }
 
-export function fetchPosts(subreddit, sortMode = "hot", time = "all") {
+export function fetchPosts(subreddit, sortMode = "hot", time = "month") {
   return async (dispatch, getState) => {
     const state = getState();
     if (!shouldFetch(state, subreddit, sortMode, time)) return;
