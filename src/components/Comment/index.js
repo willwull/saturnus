@@ -1,6 +1,6 @@
 import React, { Component } from "react";
 import PropTypes from "prop-types";
-import styled from "@marionebl/styled-components";
+import styled from "styled-components";
 import { transparentize } from "polished";
 import moment from "moment-mini";
 import FaIcon from "@fortawesome/react-fontawesome";

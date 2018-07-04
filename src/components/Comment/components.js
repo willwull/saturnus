@@ -1,4 +1,4 @@
-import styled, { css } from "@marionebl/styled-components";
+import styled, { css } from "styled-components";
 
 export const CommentBody = styled.div`
   ${props =>

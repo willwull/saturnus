@@ -1,7 +1,7 @@
 import React from "react";
 import PropTypes from "prop-types";
 import { Link } from "react-router-dom";
-import styled from "@marionebl/styled-components";
+import styled from "styled-components";
 import ContentBox from "components/ContentBox";
 import "./Menu.scss";
 

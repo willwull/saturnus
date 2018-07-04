@@ -1,4 +1,4 @@
-import styled from "@marionebl/styled-components";
+import styled from "styled-components";
 import { transparentize } from "polished";
 
 export const ExternalLink = styled.a`

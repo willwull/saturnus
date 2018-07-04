@@ -1,5 +1,5 @@
 import React from "react";
-import styled, { css } from "@marionebl/styled-components";
+import styled, { css } from "styled-components";
 import PropTypes from "prop-types";
 import SaturnusLogo from "./SaturnusLogo";
 

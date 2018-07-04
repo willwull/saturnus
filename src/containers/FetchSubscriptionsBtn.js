@@ -1,6 +1,6 @@
 import React, { Component } from "react";
 import PropTypes from "prop-types";
-import styled from "@marionebl/styled-components";
+import styled from "styled-components";
 import { connect } from "react-redux";
 import Icon from "components/Icon";
 import { fetchMySubs } from "actions/user";

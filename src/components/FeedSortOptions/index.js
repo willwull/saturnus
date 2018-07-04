@@ -1,5 +1,5 @@
 import React, { Component } from "react";
-import styled from "@marionebl/styled-components";
+import styled from "styled-components";
 import { transparentize } from "polished";
 import PropTypes from "prop-types";
 import Dropdown from "components/Dropdown";

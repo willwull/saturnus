@@ -1,6 +1,6 @@
 import React, { Component } from "react";
 import PropTypes from "prop-types";
-import styled from "@marionebl/styled-components";
+import styled from "styled-components";
 import SubredditFeed from "containers/SubredditFeed";
 import SubredditBanner from "containers/SubredditBanner";
 

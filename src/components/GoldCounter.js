@@ -1,6 +1,6 @@
 import React from "react";
 import PropTypes from "prop-types";
-import styled from "@marionebl/styled-components";
+import styled from "styled-components";
 import Icon from "./Icon";
 
 const GoldWrapper = styled.span`

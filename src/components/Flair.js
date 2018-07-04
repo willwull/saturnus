@@ -1,4 +1,4 @@
-import styled from "@marionebl/styled-components";
+import styled from "styled-components";
 
 const Flair = styled.span`
   display: inline-block;

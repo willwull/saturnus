@@ -1,5 +1,5 @@
 import React, { Fragment } from "react";
-import styled from "@marionebl/styled-components";
+import styled from "styled-components";
 import { lighten } from "polished";
 import PropTypes from "prop-types";
 import { SidebarLink } from "../Sidebar";
