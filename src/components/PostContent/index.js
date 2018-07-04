@@ -38,6 +38,12 @@ const VideoPreview = styled.video`
   ${MediaPreviewStyles};
 `;
 
+const SelfText = styled.div`
+  a {
+    color: ${props => props.theme.primary};
+  }
+`;
+
 class PostContent extends Component {
   static propTypes = {
     post: PropTypes.object.isRequired,
@@ -99,12 +105,12 @@ class PostContent extends Component {
     if (post.is_self) {
       const classes = expanded ? "post-self-text" : "post-self-text default";
       return (
-        <div className={classes}>
+        <SelfText className={classes}>
           <div dangerouslySetInnerHTML={{ __html: post.selftext_html }} />
 
           {/* gradient overlay that indicates that the text is cut off */}
           {!expanded && <ContentOverflowGradient />}
-        </div>
+        </SelfText>
       );
     }
 

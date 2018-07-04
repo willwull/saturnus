@@ -6,4 +6,8 @@ export const CommentBody = styled.div`
     css`
       display: none;
     `};
+
+  a {
+    color: ${props => props.theme.primary};
+  }
 `;
