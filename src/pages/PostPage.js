@@ -1,12 +1,17 @@
 import React from "react";
+import styled from "styled-components";
 import CurrentPost from "containers/CurrentPost";
-import "./PostPage.scss";
+
+const Page = styled.div`
+  max-width: 650px;
+  margin: 20px auto;
+`;
 
 function PostPage() {
   return (
-    <div className="main-content post-page">
+    <Page>
       <CurrentPost />
-    </div>
+    </Page>
   );
 }
 
