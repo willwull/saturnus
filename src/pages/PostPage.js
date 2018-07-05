@@ -4,7 +4,7 @@ import CurrentPost from "containers/CurrentPost";
 
 const Page = styled.div`
   max-width: 650px;
-  margin: 20px auto;
+  margin: 70px auto 20px auto;
 `;
 
 function PostPage() {
