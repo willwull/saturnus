@@ -7,6 +7,7 @@ import FaIcon from "@fortawesome/react-fontawesome";
 import { isImgUrl } from "utils";
 import LinkPreview from "components/LinkPreview";
 import "./PostContent.scss";
+import TextContent from "../TextContent";
 
 const ContentOverflowGradient = styled.div`
   pointer-events: none;
@@ -104,9 +105,10 @@ class PostContent extends Component {
     // self post (text)
     if (post.is_self) {
       const classes = expanded ? "post-self-text" : "post-self-text default";
+
       return (
         <SelfText className={classes}>
-          <div dangerouslySetInnerHTML={{ __html: post.selftext_html }} />
+          <TextContent>{post.selftext}</TextContent>
 
           {/* gradient overlay that indicates that the text is cut off */}
           {!expanded && <ContentOverflowGradient />}

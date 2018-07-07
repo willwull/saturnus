@@ -9,6 +9,7 @@ import { shortenNumber } from "utils";
 import "./Comment.scss";
 import GoldCounter from "../GoldCounter";
 import { CommentBody } from "./components";
+import TextContent from "../TextContent";
 
 const ChildWrapper = styled.div`
   margin-top: 30px;
@@ -75,7 +76,7 @@ class Comment extends Component {
           )}
         </button>
         <CommentBody isCollapsed={this.state.isCollapsed}>
-          <div dangerouslySetInnerHTML={{ __html: comment.body_html }} />
+          <TextContent>{comment.body}</TextContent>
 
           {comment.replies.length !== 0 &&
             comment.replies.map(reply => (
