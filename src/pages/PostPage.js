@@ -3,7 +3,7 @@ import styled from "styled-components";
 import CurrentPost from "containers/CurrentPost";
 
 const Page = styled.div`
-  max-width: 900px;
+  max-width: 850px;
   margin: 70px auto 20px auto;
 `;
 
