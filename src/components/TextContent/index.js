@@ -17,7 +17,7 @@ class TextContent extends Component {
   // Returns a react-router Link if it's a reddit link, otherwise a tag
   static RedditLink = ({ href, title, children }) => {
     const [domain, rest] = splitUrl(href);
-    if (domain.toLowerCase().match(/(reddit|saturnus|localhost)/)) {
+    if (domain.toLowerCase().match(/(reddit\.com|saturnusapp)/)) {
       return (
         <Link to={rest} title={title}>
           {children}

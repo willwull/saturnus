@@ -11,5 +11,6 @@ export const CommentBody = styled.div`
 
   a {
     color: ${props => props.theme.primary};
+    word-break: break-word;
   }
 `;
