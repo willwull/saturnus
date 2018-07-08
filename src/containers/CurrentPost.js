@@ -11,6 +11,7 @@ class CurrentPost extends Component {
   static propTypes = {
     // react-router
     match: PropTypes.object.isRequired,
+    location: PropTypes.object.isRequired,
     // redux
     fetch: PropTypes.func.isRequired,
     isLoading: PropTypes.bool.isRequired,
@@ -23,6 +24,17 @@ class CurrentPost extends Component {
     } = this.props;
 
     this.props.fetch(params.postId);
+  }
+
+  componentDidUpdate(prevProps) {
+    const {
+      match: { params },
+      location,
+    } = this.props;
+
+    if (location !== prevProps.location) {
+      this.props.fetch(params.postId);
+    }
   }
 
   render() {
