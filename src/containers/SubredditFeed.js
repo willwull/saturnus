@@ -13,6 +13,7 @@ class SubredditFeed extends Component {
     sortMode: PropTypes.string,
     /* React Router */
     location: PropTypes.object.isRequired,
+    history: PropTypes.object.isRequired,
     /* Below are from redux */
     error: PropTypes.bool.isRequired,
     posts: PropTypes.array.isRequired,
@@ -28,11 +29,29 @@ class SubredditFeed extends Component {
   };
 
   componentDidMount() {
+    // If the user has already visited this sub and gets here by backing, we
+    // don't reload the feed.
+    console.log("Mount");
+    if (this.props.posts.length !== 0 && this.props.history.action === "POP") {
+      console.log("Skipping fetch of posts");
+      return;
+    }
+
     this.loadPosts();
   }
 
   componentDidUpdate(prevProps) {
     if (this.props.location !== prevProps.location) {
+      // If the user has already visited this sub and gets here by backing, we
+      // don't reload the feed.
+      if (
+        this.props.posts.length !== 0 &&
+        this.props.history.action === "POP"
+      ) {
+        console.log("Skipping fetch of posts");
+        return;
+      }
+
       this.loadPosts();
     }
   }
