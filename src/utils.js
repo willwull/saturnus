@@ -48,3 +48,21 @@ export function splitUrl(url) {
 export function capitalizeFirstLetter(string) {
   return string.charAt(0).toUpperCase() + string.slice(1);
 }
+
+/**
+ * Copies a string to clipboard. Will only work as a response
+ * to a user action, e.g. click handlers.
+ *
+ * @param {string} str
+ */
+export function copyToClipboard(str) {
+  const el = document.createElement("textarea");
+  el.value = str;
+  el.setAttribute("readonly", "");
+  el.style.position = "absolute";
+  el.style.left = "-9999px";
+  document.body.appendChild(el);
+  el.select();
+  document.execCommand("copy");
+  document.body.removeChild(el);
+}
