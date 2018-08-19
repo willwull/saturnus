@@ -4,6 +4,7 @@ import { Link } from "react-router-dom";
 import moment from "moment-mini";
 import Color from "color";
 import randomColor from "randomcolor";
+import styled from "styled-components";
 
 import ContentBox from "components/ContentBox";
 import PostContent from "components/PostContent";
@@ -12,6 +13,13 @@ import "./Post.scss";
 import Flair from "../Flair";
 import GoldCounter from "../GoldCounter";
 import Icon from "../Icon";
+import Dropdown from "../Dropdown";
+import PostShareMenu from "./PostShareMenu";
+
+const ShareButtonWrapper = styled.div`
+  margin-left: auto;
+  margin-right: 24px;
+`;
 
 /**
  * Component for a post in the feed
@@ -100,6 +108,15 @@ function Post({ post, expanded }) {
           >
             {post.subreddit.display_name}
           </Link>
+
+          <ShareButtonWrapper>
+            <Dropdown
+              overlay={<PostShareMenu post={post} />}
+              placement="bottomRight"
+            >
+              <Icon icon="share" /> Share
+            </Dropdown>
+          </ShareButtonWrapper>
 
           <Link to={post.permalink} className="comments">
             <Icon icon="comment-alt" /> {shortenNumber(post.num_comments)}{" "}
