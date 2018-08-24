@@ -63,6 +63,7 @@ export function copyToClipboard(str) {
   el.style.left = "-9999px";
   document.body.appendChild(el);
   el.select();
+  el.setSelectionRange(0, el.value.length); // required to work on iOS
   document.execCommand("copy");
   document.body.removeChild(el);
 }
