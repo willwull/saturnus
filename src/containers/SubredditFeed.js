@@ -29,35 +29,32 @@ class SubredditFeed extends Component {
   };
 
   componentDidMount() {
-    // If the user has already visited this sub and gets here by backing, we
-    // don't reload the feed.
-    console.log("Mount");
-    if (this.props.posts.length !== 0 && this.props.history.action === "POP") {
-      console.log("Skipping fetch of posts");
-      return;
-    }
-
     this.loadPosts();
   }
 
   componentDidUpdate(prevProps) {
     if (this.props.location !== prevProps.location) {
-      // If the user has already visited this sub and gets here by backing, we
-      // don't reload the feed.
-      if (
-        this.props.posts.length !== 0 &&
-        this.props.history.action === "POP"
-      ) {
-        console.log("Skipping fetch of posts");
-        return;
-      }
-
       this.loadPosts();
     }
   }
 
   loadPosts = () => {
-    const { subreddit, sortMode, location } = this.props;
+    const { subreddit, sortMode, location, posts, history } = this.props;
+
+    // If the user has already visited this sub and gets here by backing, we
+    // don't reload the feed.
+    if (posts.length !== 0 && history.action === "POP") {
+      console.log("Skipping fetch of posts");
+      return;
+    }
+
+    // If we have navigated to the post page, no need to fetch new posts
+    // in the subreddit feed.
+    if (location.pathname.includes("/comments/")) {
+      console.log("Skipping feed fetching; in post page");
+      return;
+    }
+
     const searchParams = new URLSearchParams(location.search);
     const time = searchParams.get("t");
     this.props.fetchPosts(subreddit, sortMode, time);

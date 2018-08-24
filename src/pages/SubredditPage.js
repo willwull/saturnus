@@ -22,14 +22,14 @@ class SubredditPage extends Component {
     const { subreddit, sortMode } = params;
 
     const actualSortMode = sortMode === "best" || !sortMode ? "hot" : sortMode;
-    const shouldShowBanner = !(
-      pathname.match(/\/r\/all\/?$/) || pathname.match(/\/r\/popular\/?$/)
-    );
+    const inAllOrPopular = /^\/r\/(all|popular)\/?$/.test(pathname);
+    const notInFrontPage = /^\/r/.test(pathname);
+    const shouldShowBanner = !inAllOrPopular && notInFrontPage;
 
     return (
       <Page withBanner={shouldShowBanner}>
         {shouldShowBanner && <SubredditBanner subreddit={subreddit} />}
-        <SubredditFeed subreddit={subreddit} sortMode={actualSortMode} />
+        <SubredditFeed subreddit={subreddit || ""} sortMode={actualSortMode} />
       </Page>
     );
   }

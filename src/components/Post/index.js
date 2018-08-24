@@ -82,7 +82,10 @@ function Post({ post, expanded }) {
             )}
           </div>
 
-          <Link to={post.permalink} className="post-title">
+          <Link
+            to={{ pathname: post.permalink, state: { modal: true } }}
+            className="post-title"
+          >
             {post.title}
           </Link>
         </div>
@@ -118,7 +121,10 @@ function Post({ post, expanded }) {
             </Dropdown>
           </ShareButtonWrapper>
 
-          <Link to={post.permalink} className="comments">
+          <Link
+            to={{ pathname: post.permalink, state: { modal: true } }}
+            className="comments"
+          >
             <Icon icon="comment-alt" /> {shortenNumber(post.num_comments)}{" "}
             comments
           </Link>

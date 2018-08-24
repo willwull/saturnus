@@ -1,9 +1,10 @@
 import React from "react";
 import PropTypes from "prop-types";
+
 import Post from "components/Post";
 import PrimaryButton from "components/Buttons/PrimaryButton";
 import FeedSortOptions from "components/FeedSortOptions";
-import Loading from "../Loading";
+import Loading from "components/Loading";
 import "./PostFeed.scss";
 
 function PostFeed({

@@ -1,6 +1,6 @@
 import React, { Component } from "react";
 import PropTypes from "prop-types";
-import { Switch, Route } from "react-router-dom";
+import { Route } from "react-router-dom";
 import styled, { ThemeProvider } from "styled-components";
 
 import ScrollToTop from "components/ScrollToTop";
@@ -11,6 +11,8 @@ import NotfoundPage from "pages/NotfoundPage";
 import SubredditPage from "pages/SubredditPage";
 import PostPage from "pages/PostPage";
 import TestingGrounds from "pages/TestingGrounds";
+import ModalSwitch from "components/ModalSwitch";
+import PostModal from "pages/PostModal";
 
 /*
 
@@ -58,7 +60,10 @@ class App extends Component {
           <GlobalStyles>
             <Header />
             <AppSidebar />
-            <Switch>
+            <ModalSwitch
+              modalPath="/r/:subreddit/comments/:postId/:postTitle"
+              modal={PostModal}
+            >
               <Route
                 exact
                 path={`/:sortMode(${frontSortOptions})?`}
@@ -75,7 +80,7 @@ class App extends Component {
               />
               <Route path="/testinggrounds" component={TestingGrounds} />
               <Route component={NotfoundPage} />
-            </Switch>
+            </ModalSwitch>
           </GlobalStyles>
         </ScrollToTop>
       </ThemeProvider>
