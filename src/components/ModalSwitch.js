@@ -35,6 +35,13 @@ class ModalSwitch extends Component {
       this.previousLocation = prevProps.location;
       console.log("Set previous location: ", this.previousLocation);
     }
+
+    if (location.state && !!location.state.modal) {
+      // if modal is open, we disable scrolling on the main content
+      document.body.classList.add("no-scroll");
+    } else {
+      document.body.classList.remove("no-scroll");
+    }
   }
 
   render() {
