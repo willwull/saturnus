@@ -75,7 +75,6 @@ export function fetchPosts(subreddit, sortMode = "hot", time = "month") {
     const state = getState();
     if (!shouldFetch(state, subreddit, sortMode, time)) return;
 
-    console.log("doing it");
     const r = reddit.getSnoowrap();
     dispatch(requestPosts(subreddit, sortMode, time));
 

@@ -6,6 +6,7 @@ import { withRouter } from "react-router-dom";
 import { fetchPosts, fetchMorePosts } from "actions/posts";
 
 import PostFeed from "components/PostFeed";
+import { postVote } from "actions/voting";
 
 class SubredditFeed extends Component {
   static propTypes = {
@@ -21,6 +22,7 @@ class SubredditFeed extends Component {
     isLoadingMore: PropTypes.bool.isRequired,
     fetchPosts: PropTypes.func.isRequired,
     fetchMorePosts: PropTypes.func.isRequired,
+    voteOnPost: PropTypes.func.isRequired,
   };
 
   static defaultProps = {
@@ -33,6 +35,7 @@ class SubredditFeed extends Component {
   }
 
   componentDidUpdate(prevProps) {
+    console.log("updateeeee");
     if (this.props.location !== prevProps.location) {
       this.loadPosts();
     }
@@ -74,6 +77,7 @@ class SubredditFeed extends Component {
       sortMode,
       subreddit,
       location,
+      voteOnPost,
     } = this.props;
 
     if (error) {
@@ -92,6 +96,7 @@ class SubredditFeed extends Component {
         subreddit={subreddit}
         currentSort={sortMode}
         currentTimeSort={timeSort}
+        voteOnPost={voteOnPost}
       />
     );
   }
@@ -122,6 +127,9 @@ function mapDispatchToProps(dispatch) {
     },
     fetchMorePosts: subreddit => {
       dispatch(fetchMorePosts(subreddit));
+    },
+    voteOnPost: (post, vote) => {
+      dispatch(postVote(post, vote));
     },
   };
 }

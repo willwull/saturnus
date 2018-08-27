@@ -19,15 +19,6 @@
     justify-items: center;
     text-align: center;
 
-    .number {
-      margin: 5px 0;
-    }
-
-    .vote-btn {
-      display: block;
-      padding: 3px 6px;
-    }
-
     .mod-icon {
       margin-top: 15px;
     }
@@ -97,7 +88,6 @@
       flex-direction: row;
       align-items: center;
 
-      .down-vote,
       .mod-icon,
       .gold-icon {
         margin-right: 15px;

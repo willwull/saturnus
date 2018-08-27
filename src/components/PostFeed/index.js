@@ -15,6 +15,7 @@ function PostFeed({
   currentSort,
   currentTimeSort,
   subreddit,
+  voteOnPost,
 }) {
   let content;
   if (isLoading) {
@@ -24,7 +25,9 @@ function PostFeed({
   } else {
     content = (
       <React.Fragment>
-        {posts.map(post => <Post key={post.id} post={post} />)}
+        {posts.map(post => (
+          <Post key={post.id} post={post} voteOnPost={voteOnPost} />
+        ))}
 
         <PrimaryButton
           className="load-more-btn"
@@ -58,6 +61,7 @@ PostFeed.propTypes = {
   currentSort: PropTypes.string.isRequired,
   currentTimeSort: PropTypes.string,
   subreddit: PropTypes.string,
+  voteOnPost: PropTypes.func.isRequired,
 };
 
 PostFeed.defaultProps = {
