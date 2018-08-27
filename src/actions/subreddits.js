@@ -4,7 +4,7 @@ export const REQUEST_SUBREDDIT = "REQUEST_SUBREDDIT";
 export const RECEIVE_SUBREDDIT = "RECEIVE_SUBREDDIT";
 export const SUBREDDIT_ERROR = "SUBREDDIT_ERROR";
 
-function recevieSubreddit(subreddit, data) {
+function receiveSubreddit(subreddit, data) {
   return {
     type: RECEIVE_SUBREDDIT,
     subreddit,
@@ -27,7 +27,7 @@ export function fetchSubreddit(subreddit) {
       const data = await r.getSubreddit(subreddit).fetch();
       console.log(data);
 
-      dispatch(recevieSubreddit(subreddit, data));
+      dispatch(receiveSubreddit(subreddit, data));
     } catch (error) {
       console.error(error);
       dispatch({ type: SUBREDDIT_ERROR });

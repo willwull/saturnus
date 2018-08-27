@@ -4,7 +4,6 @@ import { Link } from "react-router-dom";
 import moment from "moment-mini";
 import Color from "color";
 import randomColor from "randomcolor";
-import styled from "styled-components";
 
 import ContentBox from "components/ContentBox";
 import PostContent from "components/PostContent";
@@ -15,132 +14,170 @@ import GoldCounter from "../GoldCounter";
 import Icon from "../Icon";
 import Dropdown from "../Dropdown";
 import PostShareMenu from "./PostShareMenu";
+import {
+  UpvoteBtn,
+  DownvoteBtn,
+  ShareButtonWrapper,
+  Score,
+} from "./components";
 
-const ShareButtonWrapper = styled.div`
-  margin-left: auto;
-  margin-right: 24px;
-`;
+class Post extends React.Component {
+  static propTypes = {
+    post: PropTypes.object.isRequired,
+    expanded: PropTypes.bool,
+    voteOnPost: PropTypes.func.isRequired,
+  };
 
-/**
- * Component for a post in the feed
- */
-function Post({ post, expanded }) {
-  const bgColor = Color(
-    randomColor({
-      seed: post.subreddit.display_name,
-    }),
-  );
-  const textColor = bgColor.luminosity() < 0.6 ? "white" : "black";
+  static defaultProps = {
+    expanded: false,
+  };
 
-  return (
-    <ContentBox className="post-component">
-      <div className="score">
-        {/* TODO: implement voting functionality */}
-        <button className="vote-btn">
-          <Icon icon="arrow-up" />
-        </button>
+  // This state will keep track of the vote state locally.
+  // Since redux only compares objects shallowly, updating the state
+  // by flipping post.likes to true/false will not trigger a re-render.
+  // Plus, this state change will be faster (optimistic UI update)
+  /*
+  state = {
+    likes: null,
+  };
+  */
+  upvote = () => {
+    const { post, voteOnPost } = this.props;
+    voteOnPost(post, "up");
+    // const { likes } = this.state;
+    // if (likes === true) {
+    //   this.setState({ likes: null });
+    // } else {
+    //   this.setState({ likes: true });
+    // }
+  };
 
-        <div className="number">{shortenNumber(post.score)}</div>
+  downvote = () => {
+    const { post, voteOnPost } = this.props;
+    voteOnPost(post, "down");
+    // const { likes } = this.state;
+    // if (likes === false) {
+    //   this.setState({ likes: null });
+    // } else {
+    //   this.setState({ likes: false });
+    // }
+  };
 
-        <button className="vote-btn down-vote">
-          <Icon icon="arrow-down" />
-        </button>
+  render() {
+    const { post, expanded } = this.props;
+    // const { likes } = this.state;
 
-        {/* Stickied icon */}
-        {post.stickied && (
-          <div className="mod mod-icon">
-            <Icon icon="thumbtack" fixedWidth />
-          </div>
-        )}
+    const isUpvoted = post.likes === true;
+    const isDownvoted = post.likes === false;
 
-        {/* Mod distinguished icon */}
-        {post.distinguished === "moderator" && (
-          <div className="mod mod-icon">
-            <Icon icon="shield" fixedWidth />
-          </div>
-        )}
+    const bgColor = Color(
+      randomColor({
+        seed: post.subreddit.display_name,
+      }),
+    );
+    const textColor = bgColor.luminosity() < 0.6 ? "white" : "black";
 
-        {/* Gilded icon */}
-        {post.gilded !== 0 && <GoldCounter count={post.gilded} />}
-      </div>
+    return (
+      <ContentBox className="post-component">
+        <div className="score">
+          {/* TODO: implement voting functionality */}
+          <UpvoteBtn active={isUpvoted} onClick={this.upvote}>
+            <Icon icon="arrow-up" />
+          </UpvoteBtn>
 
-      {/* Actual post content */}
-      <div className="data">
-        <div className="title-bar">
-          <div className="flairs">
-            {/* Link flairs */}
-            {post.link_flair_text && (
-              <Flair className="post">{post.link_flair_text}</Flair>
-            )}
+          <Score vote={post.likes}>{shortenNumber(post.score)}</Score>
 
-            {/* NSFW tag */}
-            {post.over_18 && <Flair className="post nsfw-flair">NSFW</Flair>}
+          <DownvoteBtn active={isDownvoted} onClick={this.downvote}>
+            <Icon icon="arrow-down" />
+          </DownvoteBtn>
 
-            {/* Spoiler tag */}
-            {post.spoiler && (
-              <Flair className="post spoiler-flair">Spoiler</Flair>
-            )}
-          </div>
-
-          <Link
-            to={{ pathname: post.permalink, state: { modal: true } }}
-            className="post-title"
-          >
-            {post.title}
-          </Link>
-        </div>
-
-        <div className="content-wrapper">
-          <PostContent post={post} expanded={expanded} />
-        </div>
-
-        <div className="post-info">
-          <div className="author">
-            {moment.unix(post.created_utc).fromNow()} by {post.author.name}
-          </div>
-          {post.author_flair_text && (
-            <Flair className="author">{post.author_flair_text}</Flair>
+          {/* Stickied icon */}
+          {post.stickied && (
+            <div className="mod mod-icon">
+              <Icon icon="thumbtack" fixedWidth />
+            </div>
           )}
+
+          {/* Mod distinguished icon */}
+          {post.distinguished === "moderator" && (
+            <div className="mod mod-icon">
+              <Icon icon="shield" fixedWidth />
+            </div>
+          )}
+
+          {/* Gilded icon */}
+          {post.gilded !== 0 && <GoldCounter count={post.gilded} />}
         </div>
 
-        <div className="bottom-row">
-          <Link
-            to={`/${post.subreddit_name_prefixed}`}
-            className="sub"
-            style={{ backgroundColor: bgColor, color: textColor }}
-          >
-            {post.subreddit.display_name}
-          </Link>
+        {/* Actual post content */}
+        <div className="data">
+          <div className="title-bar">
+            <div className="flairs">
+              {/* Link flairs */}
+              {post.link_flair_text && (
+                <Flair className="post">{post.link_flair_text}</Flair>
+              )}
 
-          <ShareButtonWrapper>
-            <Dropdown
-              overlay={<PostShareMenu post={post} />}
-              placement="bottomRight"
+              {/* NSFW tag */}
+              {post.over_18 && <Flair className="post nsfw-flair">NSFW</Flair>}
+
+              {/* Spoiler tag */}
+              {post.spoiler && (
+                <Flair className="post spoiler-flair">Spoiler</Flair>
+              )}
+            </div>
+
+            <Link
+              to={{ pathname: post.permalink, state: { modal: true } }}
+              className="post-title"
             >
-              <Icon icon="share" /> Share
-            </Dropdown>
-          </ShareButtonWrapper>
+              {post.title}
+            </Link>
+          </div>
 
-          <Link
-            to={{ pathname: post.permalink, state: { modal: true } }}
-            className="comments"
-          >
-            <Icon icon="comment-alt" /> {shortenNumber(post.num_comments)}{" "}
-            comments
-          </Link>
+          <div className="content-wrapper">
+            <PostContent post={post} expanded={expanded} />
+          </div>
+
+          <div className="post-info">
+            <div className="author">
+              {moment.unix(post.created_utc).fromNow()} by {post.author.name}
+            </div>
+            {post.author_flair_text && (
+              <Flair className="author">{post.author_flair_text}</Flair>
+            )}
+          </div>
+
+          <div className="bottom-row">
+            <Link
+              to={`/${post.subreddit_name_prefixed}`}
+              className="sub"
+              style={{ backgroundColor: bgColor, color: textColor }}
+            >
+              {post.subreddit.display_name}
+            </Link>
+
+            <ShareButtonWrapper>
+              <Dropdown
+                overlay={<PostShareMenu post={post} />}
+                placement="bottomRight"
+              >
+                <Icon icon="share" /> Share
+              </Dropdown>
+            </ShareButtonWrapper>
+
+            <Link
+              to={{ pathname: post.permalink, state: { modal: true } }}
+              className="comments"
+            >
+              <Icon icon="comment-alt" /> {shortenNumber(post.num_comments)}{" "}
+              comments
+            </Link>
+          </div>
         </div>
-      </div>
-    </ContentBox>
-  );
+      </ContentBox>
+    );
+  }
 }
-
-Post.propTypes = {
-  post: PropTypes.object.isRequired,
-  expanded: PropTypes.bool,
-};
-
-Post.defaultProps = {
-  expanded: false,
-};
 
 export default Post;

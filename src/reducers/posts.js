@@ -4,6 +4,7 @@ import {
   RECEIVE_POSTS,
   FETCH_POST_ERROR,
 } from "actions/posts";
+import { POST_VOTE } from "actions/voting";
 
 import { USER_SIGN_OUT } from "actions/user";
 
@@ -45,6 +46,30 @@ function postsInSubreddit(
   }
 }
 
+function updatePostsAfterVote(state = {}, action) {
+  console.log("updatePostsAfterVote");
+  let newState = {};
+  Object.entries(state).forEach(([key, subreddit]) => {
+    const { updatedPost } = action;
+    const { items } = subreddit;
+    newState = {
+      ...newState,
+      [key]: {
+        ...subreddit,
+        items: items.map(post => {
+          if (post.id === updatedPost.id) {
+            console.log("old: ", post);
+            console.log("new: ", updatedPost);
+          }
+          return post.id === updatedPost.id ? updatedPost : post;
+        }),
+      },
+    };
+  });
+  console.log(newState);
+  return newState;
+}
+
 export default function posts(state = {}, action) {
   const subreddit = action.subreddit || "";
 
@@ -58,6 +83,8 @@ export default function posts(state = {}, action) {
         ...state,
         [subreddit]: postsInSubreddit(state[subreddit], action),
       };
+    case POST_VOTE:
+      return updatePostsAfterVote(state, action);
     case USER_SIGN_OUT:
       // if the user signs out, we can clear the stored posts, since
       // we need to fetch the front page again
