@@ -32,40 +32,18 @@ class Post extends React.Component {
     expanded: false,
   };
 
-  // This state will keep track of the vote state locally.
-  // Since redux only compares objects shallowly, updating the state
-  // by flipping post.likes to true/false will not trigger a re-render.
-  // Plus, this state change will be faster (optimistic UI update)
-  /*
-  state = {
-    likes: null,
-  };
-  */
   upvote = () => {
     const { post, voteOnPost } = this.props;
     voteOnPost(post, "up");
-    // const { likes } = this.state;
-    // if (likes === true) {
-    //   this.setState({ likes: null });
-    // } else {
-    //   this.setState({ likes: true });
-    // }
   };
 
   downvote = () => {
     const { post, voteOnPost } = this.props;
     voteOnPost(post, "down");
-    // const { likes } = this.state;
-    // if (likes === false) {
-    //   this.setState({ likes: null });
-    // } else {
-    //   this.setState({ likes: false });
-    // }
   };
 
   render() {
     const { post, expanded } = this.props;
-    // const { likes } = this.state;
 
     const isUpvoted = post.likes === true;
     const isDownvoted = post.likes === false;
@@ -80,7 +58,6 @@ class Post extends React.Component {
     return (
       <ContentBox className="post-component">
         <div className="score">
-          {/* TODO: implement voting functionality */}
           <UpvoteBtn active={isUpvoted} onClick={this.upvote}>
             <Icon icon="arrow-up" />
           </UpvoteBtn>
