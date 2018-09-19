@@ -6,6 +6,7 @@ import styled from "styled-components";
 import LoggedInUserMenu from "containers/LoggedInUserMenu";
 import SidebarToggler from "containers/SidebarToggler";
 import ContentBox from "components/ContentBox";
+import Icon from "components/Icon";
 import SaturnusLogo from "../SaturnusLogo";
 import "./Header.scss";
 
@@ -26,10 +27,13 @@ function Header() {
   return (
     <ContentBox className="header-component">
       <SidebarToggler>
+        <Icon icon="bars" />
+      </SidebarToggler>
+      <Link to="/">
         <LogoWrapper>
           <SaturnusLogo />
         </LogoWrapper>
-      </SidebarToggler>
+      </Link>
       <div>
         <Link to="/">Saturnus</Link>
       </div>
