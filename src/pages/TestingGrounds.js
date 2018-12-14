@@ -1,5 +1,5 @@
 import React from "react";
-import PropTypes from "prop-types";
+// import PropTypes from "prop-types";
 import Dropdown from "components/Dropdown";
 import Menu from "components/Menu";
 import PrimaryButton from "components/Buttons/PrimaryButton";
@@ -61,6 +61,6 @@ class TestingGrounds extends React.Component {
   }
 }
 
-TestingGrounds.propTypes = {};
+// TestingGrounds.propTypes = {};
 
 export default TestingGrounds;
