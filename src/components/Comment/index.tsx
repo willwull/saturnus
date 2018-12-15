@@ -1,22 +1,12 @@
 import React, { Component } from "react";
-import styled from "styled-components";
-import { transparentize } from "polished";
 import moment from "moment-mini";
 
 import { shortenNumber } from "../../utils";
 import GoldCounter from "../GoldCounter";
-import { CommentBody } from "./components";
 import TextContent from "../TextContent";
 import Icon from "../Icon";
+import { CommentBody, ChildWrapper } from "./styles";
 import "./Comment.scss";
-
-const ChildWrapper = styled.div`
-  margin-top: 30px;
-  padding-left: 15px;
-  margin-left: 5px;
-  border-left: 2px solid;
-  border-color: ${props => transparentize(0.9, props.theme.text)};
-`;
 
 interface Props {
   comment: any;
