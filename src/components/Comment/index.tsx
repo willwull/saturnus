@@ -1,15 +1,14 @@
 import React, { Component } from "react";
-import PropTypes from "prop-types";
 import styled from "styled-components";
 import { transparentize } from "polished";
 import moment from "moment-mini";
-import FaIcon from "@fortawesome/react-fontawesome";
 
-import { shortenNumber } from "utils";
-import "./Comment.scss";
+import { shortenNumber } from "../../utils";
 import GoldCounter from "../GoldCounter";
 import { CommentBody } from "./components";
 import TextContent from "../TextContent";
+import Icon from "../Icon";
+import "./Comment.scss";
 
 const ChildWrapper = styled.div`
   margin-top: 30px;
@@ -19,7 +18,15 @@ const ChildWrapper = styled.div`
   border-color: ${props => transparentize(0.9, props.theme.text)};
 `;
 
-class Comment extends Component {
+interface Props {
+  comment: any;
+}
+
+interface State {
+  isCollapsed: boolean;
+}
+
+class Comment extends Component<Props, State> {
   state = {
     isCollapsed: false,
   };
@@ -56,14 +63,14 @@ class Comment extends Component {
           {/* Stickied icon */}
           {comment.stickied && (
             <span className="mod">
-              <FaIcon icon="thumbtack" />{" "}
+              <Icon icon="thumbtack" />{" "}
             </span>
           )}
 
           <b className={authorNameClass}>{comment.author.name}</b>
 
           <span className="secondary">
-            <FaIcon icon={["far", "long-arrow-up"]} /> {score}
+            <Icon icon="far long-arrow-up" /> {score}
             {" · "}
             {moment.unix(comment.created_utc).fromNow()}
           </span>
@@ -79,7 +86,7 @@ class Comment extends Component {
           <TextContent>{comment.body}</TextContent>
 
           {comment.replies.length !== 0 &&
-            comment.replies.map(reply => (
+            comment.replies.map((reply: any) => (
               <ChildWrapper key={reply.id}>
                 <Comment comment={reply} />
               </ChildWrapper>
@@ -89,9 +96,5 @@ class Comment extends Component {
     );
   }
 }
-
-Comment.propTypes = {
-  comment: PropTypes.object.isRequired,
-};
 
 export default Comment;

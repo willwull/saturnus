@@ -1,22 +1,16 @@
 import React, { Component } from "react";
-import PropTypes from "prop-types";
-import FaIcon from "@fortawesome/react-fontawesome";
-
-import ThemeTogglerMenuItem from "containers/ThemeTogglerMenuItem";
+import ThemeTogglerMenuItem from "../../containers/ThemeTogglerMenuItem";
 import Dropdown from "../Dropdown";
 import Menu from "../Menu";
+import Icon from "../Icon";
 import "./UserMenu.scss";
 
-class UserMenu extends Component {
-  static propTypes = {
-    userData: PropTypes.object.isRequired,
-    signOut: PropTypes.func.isRequired,
-  };
+interface Props {
+  userData: any;
+  signOut: (event: React.MouseEvent<HTMLLIElement>) => void;
+}
 
-  onDarkModeClick = () => {
-    alert("Coming soon!"); // eslint-disable-line no-alert
-  };
-
+class UserMenu extends Component<Props, {}> {
   render() {
     const { userData, signOut } = this.props;
     const karma = userData.link_karma + userData.comment_karma;
@@ -24,18 +18,18 @@ class UserMenu extends Component {
     const overlay = (
       <Menu>
         <Menu.Item>
-          <FaIcon icon={["far", "star"]} fixedWidth /> {karma} karma
+          <Icon icon="far star" fixedWidth /> {karma} karma
         </Menu.Item>
         <Menu.Divider />
         <ThemeTogglerMenuItem />
         <Menu.Item>
           <a href="https://www.reddit.com/settings">
-            <FaIcon icon={["far", "cog"]} fixedWidth /> Reddit preferences
+            <Icon icon="far cog" fixedWidth /> Reddit preferences
           </a>
         </Menu.Item>
         <Menu.Divider />
         <Menu.Item onClick={signOut}>
-          <FaIcon icon={["far", "sign-out"]} fixedWidth /> Sign out
+          <Icon icon="far sign-out" fixedWidth /> Sign out
         </Menu.Item>
       </Menu>
     );
@@ -49,7 +43,7 @@ class UserMenu extends Component {
             alt={userData.name}
           />
           <span className="username">{userData.name}</span>
-          <FaIcon icon="caret-down" />
+          <Icon icon="caret-down" />
         </div>
       </Dropdown>
     );

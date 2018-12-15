@@ -2,12 +2,12 @@ import React, { Component } from "react";
 import PropTypes from "prop-types";
 import styled, { css } from "styled-components";
 import { transparentize } from "polished";
-import FaIcon from "@fortawesome/react-fontawesome";
 
-import { isImgUrl } from "utils";
-import LinkPreview from "components/LinkPreview";
+import { isImgUrl } from "../../utils";
+import LinkPreview from "../LinkPreview";
 import "./PostContent.scss";
 import TextContent from "../TextContent";
+import Icon from "../Icon";
 
 const ContentOverflowGradient = styled.div`
   pointer-events: none;
@@ -45,12 +45,12 @@ const SelfText = styled.div`
   }
 `;
 
-class PostContent extends Component {
-  static propTypes = {
-    post: PropTypes.object.isRequired,
-    expanded: PropTypes.bool,
-  };
+interface Props {
+  post: any;
+  expanded?: boolean;
+}
 
+class PostContent extends Component<Props, {}> {
   static defaultProps = {
     expanded: false,
   };
@@ -90,7 +90,9 @@ class PostContent extends Component {
               alt={post.title}
             />
             <button className="warning-text" onClick={this.showImage}>
-              <FaIcon className="warning-icon" icon={["fa", "eye"]} />
+              <div className="warning-icon">
+                <Icon icon="fa eye" />
+              </div>
               <br />
               This post is hidden, click to view
             </button>
@@ -130,8 +132,8 @@ class PostContent extends Component {
       return (
         <VideoPreview
           preload="auto"
-          autoPlay="autoplay"
-          loop="loop"
+          autoPlay={true}
+          loop={true}
           controls
           muted
           src={vidUrl}
@@ -151,7 +153,7 @@ class PostContent extends Component {
       return (
         <VideoPreview
           preload="auto"
-          loop="loop"
+          loop={true}
           controls
           autoPlay={!!post.media.reddit_video.is_gif}
           src={videoStream}

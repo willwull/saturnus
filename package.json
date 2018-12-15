@@ -4,11 +4,11 @@
   "private": true,
   "homepage": "https://saturnusapp.com",
   "dependencies": {
-    "@fortawesome/fontawesome": "^1.1.8",
-    "@fortawesome/fontawesome-free-brands": "^5.0.13",
-    "@fortawesome/fontawesome-pro-regular": "^5.0.13",
-    "@fortawesome/fontawesome-pro-solid": "^5.0.13",
-    "@fortawesome/react-fontawesome": "0.0.20",
+    "@fortawesome/fontawesome-svg-core": "^1.2.10",
+    "@fortawesome/free-brands-svg-icons": "^5.6.1",
+    "@fortawesome/pro-regular-svg-icons": "^5.6.1",
+    "@fortawesome/pro-solid-svg-icons": "^5.6.1",
+    "@fortawesome/react-fontawesome": "^0.1.3",
     "color": "^3.0.0",
     "markdown-to-jsx": "^6.6.8",
     "moment-mini": "^2.22.1",
@@ -30,18 +30,20 @@
     "start": "react-scripts start",
     "build": "react-scripts build",
     "test": "react-scripts test --env=jsdom",
-    "eject": "react-scripts eject",
-    "deploy": "gh-pages -d build",
-    "predeploy": "npm run build"
+    "eject": "react-scripts eject"
   },
   "devDependencies": {
+    "@types/jest": "^23.3.10",
+    "@types/node": "^10.12.15",
+    "@types/react": "^16.7.17",
+    "@types/react-dom": "^16.0.11",
     "eslint-config-airbnb": "^16.1.0",
     "eslint-plugin-import": "^2.12.0",
     "eslint-plugin-jsx-a11y": "^6.0.3",
     "eslint-plugin-react": "^7.8.2",
-    "gh-pages": "^1.1.0",
     "node-sass": "^4.9.0",
-    "prettier": "1.13.2"
+    "prettier": "1.13.2",
+    "typescript": "^3.2.2"
   },
   "browserslist": [
     ">0.2%",

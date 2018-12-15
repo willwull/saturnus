@@ -1,10 +1,13 @@
 import React from "react";
-import PropTypes from "prop-types";
-import FaIcon from "@fortawesome/react-fontawesome";
+import Icon from "../Icon";
 import "./Loading.scss";
 
-function Loading({ type }) {
-  const spinner = <FaIcon icon="spinner-third" spin />;
+interface Props {
+  type: "regular" | "fullscreen" | "inline";
+}
+
+function Loading({ type }: Props) {
+  const spinner = <Icon icon="spinner-third" spin />;
   switch (type) {
     case "regular":
       return <div className="loading-reg">{spinner}</div>;
@@ -16,9 +19,5 @@ function Loading({ type }) {
       return null;
   }
 }
-
-Loading.propTypes = {
-  type: PropTypes.oneOf(["regular", "fullscreen", "inline"]).isRequired,
-};
 
 export default Loading;

@@ -4,10 +4,10 @@ import { createStore, applyMiddleware, compose } from "redux";
 import thunk from "redux-thunk";
 import { Provider } from "react-redux";
 import { BrowserRouter as Router } from "react-router-dom";
-import fontawesome from "@fortawesome/fontawesome";
-import faSolid from "@fortawesome/fontawesome-pro-solid";
-import faRegular from "@fortawesome/fontawesome-pro-regular";
-import faBrands from "@fortawesome/fontawesome-free-brands";
+import { library } from "@fortawesome/fontawesome-svg-core";
+import { faSafari } from "@fortawesome/free-brands-svg-icons";
+import { fas } from "@fortawesome/pro-solid-svg-icons";
+import { far } from "@fortawesome/pro-regular-svg-icons";
 import "normalize.css";
 
 import reducer from "./reducers";
@@ -16,7 +16,7 @@ import Root from "./Root";
 import registerServiceWorker from "./registerServiceWorker";
 import "./index.scss";
 
-fontawesome.library.add(faSolid, faBrands, faRegular);
+library.add(faSafari, fas, far);
 
 /* eslint-disable no-underscore-dangle */
 const composeEnhancers = window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || compose;

@@ -1,7 +1,11 @@
 import styled, { css } from "styled-components";
 
+interface CommentBodyProps {
+  isCollapsed: boolean;
+}
+
 export const CommentBody = styled.div`
-  ${props =>
+  ${(props: CommentBodyProps) =>
     props.isCollapsed &&
     css`
       display: none;
