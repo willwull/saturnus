@@ -37,6 +37,7 @@
     "@types/node": "^10.12.15",
     "@types/react": "^16.7.17",
     "@types/react-dom": "^16.0.11",
+    "@types/snoowrap": "^1.16.1",
     "eslint-config-airbnb": "^16.1.0",
     "eslint-plugin-import": "^2.12.0",
     "eslint-plugin-jsx-a11y": "^6.0.3",

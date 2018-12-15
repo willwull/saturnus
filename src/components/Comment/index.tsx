@@ -1,4 +1,5 @@
 import React, { Component } from "react";
+import { Comment as CommentType } from "snoowrap";
 import moment from "moment-mini";
 
 import { shortenNumber } from "../../utils";
@@ -8,8 +9,14 @@ import Icon from "../Icon";
 import { CommentBody, ChildWrapper } from "./styles";
 import "./Comment.scss";
 
+// Snoowrap type is wrong??
+interface CommentInterface extends CommentType {
+  depth: number;
+  is_submitter: boolean;
+}
+
 interface Props {
-  comment: any;
+  comment: CommentInterface;
 }
 
 interface State {
