@@ -1,3 +1,5 @@
+import { Subreddit } from "snoowrap";
+
 const VERIFICATION_STATE = "verification_state";
 const REDDIT_AUTH_TOKENS = "reddit_auth_tokens";
 const LAST_ACTIVE_USER = "last_active_user";
@@ -5,16 +7,17 @@ const MY_SUBSCRIPTIONS = "my_subscriptions";
 const IS_DARK_THEME = "saturnus_dark_theme_on";
 
 /* Generic functions */
-function set(key, value) {
+function set(key: string, value: any) {
   localStorage.setItem(key, JSON.stringify(value));
 }
 
-function get(key) {
-  return JSON.parse(localStorage.getItem(key));
+function get(key: string) {
+  const stored = localStorage.getItem(key);
+  return stored ? JSON.parse(stored) : null;
 }
 
 /* Handling verfication state for when signing in for the first time */
-export function storeVerificationState(value) {
+export function storeVerificationState(value: any) {
   set(VERIFICATION_STATE, value);
 }
 
@@ -23,7 +26,7 @@ export function getVerificationState() {
 }
 
 /* Handling retrieved auth tokens so the user can sign in */
-export function storeAuthTokens(username, value) {
+export function storeAuthTokens(username: string, value: any) {
   const storedValue = get(REDDIT_AUTH_TOKENS) || {};
   set(REDDIT_AUTH_TOKENS, { ...storedValue, [username]: value });
 }
@@ -34,7 +37,7 @@ export function getAuthTokens() {
 
 /* Handling the last active user, so we sign in with the correct one */
 /* if the user has logged in with multiple accounts */
-export function storeLastActiveUser(username) {
+export function storeLastActiveUser(username: string) {
   set(LAST_ACTIVE_USER, username);
 }
 
@@ -49,7 +52,7 @@ export function getStoredSubs() {
   return storedValue[user];
 }
 
-export function storeMySubs(subscriptions) {
+export function storeMySubs(subscriptions: Subreddit[]) {
   const user = getLastActiveUser();
   const stored = getStoredSubs();
 
@@ -74,7 +77,7 @@ export function getStoredTheme() {
   return get(IS_DARK_THEME);
 }
 
-export function storeTheme(isDarkTheme) {
+export function storeTheme(isDarkTheme: boolean) {
   set(IS_DARK_THEME, isDarkTheme);
 }
 

@@ -1,6 +1,6 @@
 import React from "react";
 import styled from "styled-components";
-import CurrentPost from "containers/CurrentPost";
+import CurrentPost from "../containers/CurrentPost";
 
 const PostPageWrapper = styled.div`
   position: fixed;

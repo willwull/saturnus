@@ -1,6 +1,6 @@
 import React from "react";
 import styled from "styled-components";
-import CurrentPost from "containers/CurrentPost";
+import CurrentPost from "../containers/CurrentPost";
 
 const Page = styled.div`
   max-width: 850px;

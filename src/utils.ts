@@ -3,7 +3,7 @@
  * @param {string} url
  * @returns {boolean}
  */
-export function isImgUrl(url) {
+export function isImgUrl(url: string): boolean {
   return url.toLowerCase().match(/\.(jpeg|jpg|gif|png)$/) !== null;
 }
 
@@ -15,7 +15,7 @@ export function isImgUrl(url) {
  * @param {string} numberOfDecimals
  * @returns {string}
  */
-export function shortenNumber(num) {
+export function shortenNumber(num: number): string {
   if (num < 1000) return num.toString();
 
   const newNum = num / 1000;
@@ -33,7 +33,7 @@ export function shortenNumber(num) {
  * @param {string} url
  * @returns {Array<string>}
  */
-export function splitUrl(url) {
+export function splitUrl(url: string): Array<string> {
   const newUrl = url.replace(/^https?:\/\/(www\.)?/, "");
   const [domain, ...rest] = newUrl.split("/");
   return [domain, `/${rest.join("/")}`];
@@ -45,7 +45,7 @@ export function splitUrl(url) {
  * @param {string} string
  * @returns {string}
  */
-export function capitalizeFirstLetter(string) {
+export function capitalizeFirstLetter(string: string): string {
   return string.charAt(0).toUpperCase() + string.slice(1);
 }
 
@@ -55,7 +55,7 @@ export function capitalizeFirstLetter(string) {
  *
  * @param {string} str
  */
-export function copyToClipboard(str) {
+export function copyToClipboard(str: string) {
   const el = document.createElement("textarea");
   el.value = str;
   el.setAttribute("readonly", "");

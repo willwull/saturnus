@@ -1,26 +1,18 @@
 import React, { Component } from "react";
-import PropTypes from "prop-types";
 import { Route } from "react-router-dom";
 import styled, { ThemeProvider } from "styled-components";
 
-import ScrollToTop from "components/ScrollToTop";
-import Header from "components/Header";
-import AppSidebar from "containers/AppSidebar";
-import Frontpage from "pages/Frontpage";
-import NotfoundPage from "pages/NotfoundPage";
-import SubredditPage from "pages/SubredditPage";
-import PostPage from "pages/PostPage";
-import TestingGrounds from "pages/TestingGrounds";
-import ModalSwitch from "components/ModalSwitch";
-import PostModal from "pages/PostModal";
+import ScrollToTop from "./components/ScrollToTop";
+import Header from "./components/Header";
+import AppSidebar from "./containers/AppSidebar";
+import Frontpage from "./pages/Frontpage";
+import NotfoundPage from "./pages/NotfoundPage";
+import SubredditPage from "./pages/SubredditPage";
+import PostPage from "./pages/PostPage";
+import TestingGrounds from "./pages/TestingGrounds";
+import ModalSwitch from "./components/ModalSwitch";
+import PostModal from "./pages/PostModal";
 
-/*
-
-a {
-  color: ${props => props.theme.primary};
-}
-
-*/
 const GlobalStyles = styled.div`
   background: ${props => props.theme.body};
   color: ${props => props.theme.text};
@@ -38,12 +30,14 @@ const GlobalStyles = styled.div`
   }
 `;
 
-class App extends Component {
-  static propTypes = {
-    theme: PropTypes.object.isRequired,
+type Props = {
+  theme: {
+    body: string;
   };
+};
 
-  componentDidUpdate(prevProps) {
+class App extends Component<Props, {}> {
+  componentDidUpdate(prevProps: Props) {
     if (prevProps !== this.props) {
       document.body.style.backgroundColor = this.props.theme.body;
     }
