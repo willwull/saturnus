@@ -1,5 +1,4 @@
 import React from "react";
-import PropTypes from "prop-types";
 import styled from "styled-components";
 import Icon from "./Icon";
 
@@ -18,7 +17,11 @@ const Star = styled(Icon)`
   color: ${props => props.theme.contentBg};
 `;
 
-function GoldCounter({ count }) {
+type Props = {
+  count: number;
+};
+
+function GoldCounter({ count }: Props) {
   return (
     <GoldWrapper className="gold-icon">
       <span className="fa-layers fa-fw">
@@ -29,9 +32,5 @@ function GoldCounter({ count }) {
     </GoldWrapper>
   );
 }
-
-GoldCounter.propTypes = {
-  count: PropTypes.number.isRequired,
-};
 
 export default GoldCounter;

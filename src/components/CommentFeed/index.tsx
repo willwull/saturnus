@@ -1,17 +1,14 @@
 import React from "react";
-import PropTypes from "prop-types";
-import styled from "styled-components";
-import ContentBox from "components/ContentBox";
-import Comment from "components/Comment";
+import ContentBox from "../ContentBox";
+import Comment, { CommentInterface } from "../Comment";
+import { NoComments } from "./styles";
 import "./CommentFeed.scss";
 
-const NoComments = styled.p`
-  text-align: center;
-  font-size: 1.2em;
-  opacity: 0.5;
-`;
+type Props = {
+  comments: CommentInterface[];
+};
 
-function CommentFeed({ comments }) {
+function CommentFeed({ comments }: Props) {
   let content;
   if (comments.length > 0) {
     content = comments.map(comment => (
@@ -25,9 +22,5 @@ function CommentFeed({ comments }) {
 
   return <ContentBox className="comment-feed">{content}</ContentBox>;
 }
-
-CommentFeed.propTypes = {
-  comments: PropTypes.arrayOf(PropTypes.object).isRequired,
-};
 
 export default CommentFeed;

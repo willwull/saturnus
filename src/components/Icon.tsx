@@ -11,6 +11,7 @@ interface Props {
   icon: string;
   fixedWidth?: boolean;
   spin?: boolean;
+  transform?: string;
 }
 
 function Icon({ icon, ...rest }: Props) {

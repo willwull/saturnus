@@ -1,24 +1,17 @@
 import React, { Component } from "react";
-import styled from "styled-components";
-import { transparentize } from "polished";
-import PropTypes from "prop-types";
-import Dropdown from "components/Dropdown";
-import Icon from "components/Icon";
-import { capitalizeFirstLetter } from "utils";
+import Dropdown from "../Dropdown";
+import Icon from "../Icon";
+import { capitalizeFirstLetter } from "../../utils";
 import PostSortMenu from "./PostSortMenu";
 import TimeSortMenu from "./TimeSortMenu";
+import { Wrapper } from "./styles";
 
-const Wrapper = styled.div`
-  padding: 0 15px 15px 15px;
-  color: ${props => transparentize(0.3, props.theme.text)};
+interface StringDict {
+  [key: string]: string;
+}
 
-  & > * {
-    margin-right: 20px;
-  }
-`;
-
-function mapSortToElement(sortMode) {
-  const icons = {
+function mapSortToElement(sortMode: string) {
+  const icons: StringDict = {
     best: "rocket",
     hot: "fire",
     top: "arrow-to-top",
@@ -36,11 +29,10 @@ function mapSortToElement(sortMode) {
   );
 }
 
-function mapTimeToElement(timeSort) {
-  const names = {
+function mapTimeToElement(timeSort: string = "default") {
+  const names: StringDict = {
     // month is the default time sort
-    // having null as a key surprisingly works
-    [null]: "This month",
+    default: "This month",
     hour: "Now",
     day: "Today",
     week: "This week",
@@ -58,13 +50,13 @@ function mapTimeToElement(timeSort) {
   );
 }
 
-class FeedSortOptions extends Component {
-  static propTypes = {
-    currentSort: PropTypes.string.isRequired,
-    currentTimeSort: PropTypes.string,
-    subreddit: PropTypes.string,
-  };
+type Props = {
+  currentSort: string;
+  currentTimeSort?: string;
+  subreddit?: string;
+};
 
+class FeedSortOptions extends Component<Props, {}> {
   static defaultProps = {
     subreddit: "",
     currentTimeSort: "",
@@ -76,9 +68,8 @@ class FeedSortOptions extends Component {
     const sortMenu = <PostSortMenu subreddit={subreddit} />;
 
     let timeMenu;
-    const shouldShowTimeOptions =
-      currentSort === "top" || currentSort === "controversial";
-    if (shouldShowTimeOptions) {
+    // should show time sort options
+    if (currentSort === "top" || currentSort === "controversial") {
       timeMenu = (
         <TimeSortMenu subreddit={subreddit} currentSort={currentSort} />
       );
@@ -90,9 +81,9 @@ class FeedSortOptions extends Component {
           {mapSortToElement(currentSort)}
         </Dropdown>
 
-        {shouldShowTimeOptions && (
+        {(currentSort === "top" || currentSort === "controversial") && (
           <Dropdown overlay={timeMenu} placement="bottomRight">
-            {mapTimeToElement(currentTimeSort)}
+            {mapTimeToElement(currentTimeSort!)}
           </Dropdown>
         )}
       </Wrapper>

@@ -1,9 +1,13 @@
 import React from "react";
-import PropTypes from "prop-types";
 import Menu from "../Menu";
 import Icon from "../Icon";
 
-function TimeSortMenu({ subreddit, currentSort }) {
+type Props = {
+  subreddit?: string;
+  currentSort: "top" | "controversial";
+};
+
+function TimeSortMenu({ subreddit, currentSort }: Props) {
   const urlString = subreddit
     ? `/r/${subreddit}/${currentSort}`
     : `/${currentSort}`;
@@ -30,11 +34,6 @@ function TimeSortMenu({ subreddit, currentSort }) {
     </Menu>
   );
 }
-
-TimeSortMenu.propTypes = {
-  subreddit: PropTypes.string,
-  currentSort: PropTypes.oneOf(["top", "controversial"]).isRequired,
-};
 
 TimeSortMenu.defaultProps = {
   subreddit: "",

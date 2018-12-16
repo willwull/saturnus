@@ -1,22 +1,21 @@
 import React, { Component, Fragment } from "react";
-import PropTypes from "prop-types";
-import ContentBox from "components/ContentBox";
+import ContentBox from "../ContentBox";
 import "./Drawer.scss";
 
-class Drawer extends Component {
-  static propTypes = {
-    open: PropTypes.bool.isRequired,
-    onClose: PropTypes.func,
-    className: PropTypes.string,
-    children: PropTypes.node.isRequired,
-  };
+export type Props = {
+  open: boolean;
+  onClose?: Function;
+  className?: string;
+  children?: React.ReactNode;
+};
 
+class Drawer extends Component<Props, {}> {
   static defaultProps = {
     className: "",
     onClose: () => {},
   };
 
-  componentDidUpdate(prevProps) {
+  componentDidUpdate(prevProps: Props) {
     const { open } = this.props;
     if (open !== prevProps.open) {
       // if drawer is open, we disable scrolling on the main content
@@ -29,7 +28,7 @@ class Drawer extends Component {
   }
 
   closeDrawer = () => {
-    this.props.onClose();
+    this.props.onClose!();
   };
 
   render() {

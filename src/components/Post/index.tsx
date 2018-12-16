@@ -1,33 +1,28 @@
-import React from "react";
-import PropTypes from "prop-types";
+import React, { CSSProperties } from "react";
 import { Link } from "react-router-dom";
 import moment from "moment-mini";
+import { Submission } from "snoowrap";
 import Color from "color";
 import randomColor from "randomcolor";
 
-import ContentBox from "components/ContentBox";
-import PostContent from "components/PostContent";
-import { shortenNumber } from "utils";
+import ContentBox from "../ContentBox";
+import PostContent from "../PostContent";
+import { shortenNumber } from "../../utils";
 import "./Post.scss";
 import Flair from "../Flair";
 import GoldCounter from "../GoldCounter";
 import Icon from "../Icon";
 import Dropdown from "../Dropdown";
 import PostShareMenu from "./PostShareMenu";
-import {
-  UpvoteBtn,
-  DownvoteBtn,
-  ShareButtonWrapper,
-  Score,
-} from "./components";
+import { UpvoteBtn, DownvoteBtn, ShareButtonWrapper, Score } from "./styles";
 
-class Post extends React.Component {
-  static propTypes = {
-    post: PropTypes.object.isRequired,
-    expanded: PropTypes.bool,
-    voteOnPost: PropTypes.func.isRequired,
-  };
+type Props = {
+  post: Submission;
+  expanded?: boolean;
+  voteOnPost: (post: Submission, vote: "up" | "down") => void;
+};
 
+class Post extends React.Component<Props, {}> {
   static defaultProps = {
     expanded: false,
   };
@@ -129,7 +124,12 @@ class Post extends React.Component {
             <Link
               to={`/${post.subreddit_name_prefixed}`}
               className="sub"
-              style={{ backgroundColor: bgColor, color: textColor }}
+              style={
+                ({
+                  backgroundColor: bgColor,
+                  color: textColor,
+                } as unknown) as CSSProperties
+              }
             >
               {post.subreddit.display_name}
             </Link>

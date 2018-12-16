@@ -2,9 +2,9 @@ import React from "react";
 import Icon from "../Icon";
 import "./Loading.scss";
 
-interface Props {
+type Props = {
   type: "regular" | "fullscreen" | "inline";
-}
+};
 
 function Loading({ type }: Props) {
   const spinner = <Icon icon="spinner-third" spin />;

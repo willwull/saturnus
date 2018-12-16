@@ -1,9 +1,12 @@
 import React from "react";
-import PropTypes from "prop-types";
 import Menu from "../Menu";
 import Icon from "../Icon";
 
-function PostSortMenu({ subreddit }) {
+type Props = {
+  subreddit?: string;
+};
+
+function PostSortMenu({ subreddit }: Props) {
   const subUrlString = subreddit ? `/r/${subreddit}` : "";
   return (
     <Menu>
@@ -30,10 +33,6 @@ function PostSortMenu({ subreddit }) {
     </Menu>
   );
 }
-
-PostSortMenu.propTypes = {
-  subreddit: PropTypes.string,
-};
 
 PostSortMenu.defaultProps = {
   subreddit: "",

@@ -10,7 +10,7 @@ import { CommentBody, ChildWrapper } from "./styles";
 import "./Comment.scss";
 
 // Snoowrap type is wrong??
-interface CommentInterface extends CommentType {
+export interface CommentInterface extends CommentType {
   depth: number;
   is_submitter: boolean;
 }

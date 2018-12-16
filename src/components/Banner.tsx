@@ -1,13 +1,16 @@
 import React from "react";
-import PropTypes from "prop-types";
+import { Subreddit } from "snoowrap";
 import styled from "styled-components";
 import SubredditIcon from "./SubredditIcon";
 
+type BannerWrapperProps = {
+  src: string;
+};
 const BannerWrapper = styled.div`
   width: 100%;
   height: 200px;
   background-color: ${props => props.theme.primary};
-  background-image: ${props => `url(${props.src})`};
+  background-image: ${(props: BannerWrapperProps) => `url(${props.src})`};
   background-size: cover;
   display: flex;
   align-items: center;
@@ -21,8 +24,13 @@ const Title = styled.h1`
   align-items: center;
 `;
 
-function Banner({ subreddit, isLoading, ...rest }) {
-  const imageSrc = subreddit.banner_background_image || subreddit.banner_img;
+type Props = {
+  subreddit: Subreddit;
+  isLoading: boolean;
+};
+
+function Banner({ subreddit, isLoading, ...rest }: Props) {
+  const imageSrc = subreddit.banner_img;
 
   return (
     <BannerWrapper src={imageSrc} {...rest}>
@@ -35,10 +43,5 @@ function Banner({ subreddit, isLoading, ...rest }) {
     </BannerWrapper>
   );
 }
-
-Banner.propTypes = {
-  isLoading: PropTypes.bool.isRequired,
-  subreddit: PropTypes.object.isRequired,
-};
 
 export default Banner;

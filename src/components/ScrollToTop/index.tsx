@@ -1,19 +1,12 @@
 import { Component } from "react";
-import { withRouter } from "react-router-dom";
-import PropTypes from "prop-types";
+import { withRouter, RouteComponentProps } from "react-router-dom";
 
 /**
  * This component makes the browser scroll to the top of the page when the route changes
  * Taken from https://reacttraining.com/react-router/web/guides/scroll-restoration
  */
-class ScrollToTop extends Component {
-  static propTypes = {
-    location: PropTypes.object.isRequired,
-    history: PropTypes.object.isRequired,
-    children: PropTypes.node.isRequired,
-  };
-
-  componentDidUpdate(prevProps) {
+class ScrollToTop extends Component<RouteComponentProps, {}> {
+  componentDidUpdate(prevProps: RouteComponentProps) {
     const { location, history } = this.props;
     if (location !== prevProps.location) {
       // action is POP when the user goes back in their browser

@@ -10,7 +10,7 @@ export const VoteButton = styled.button`
   padding: 3px 6px;
 `;
 
-export const getVoteColor = vote => {
+export const getVoteColor = (vote?: boolean) => {
   switch (vote) {
     case true:
       return "orange";
@@ -21,12 +21,17 @@ export const getVoteColor = vote => {
   }
 };
 
+type VoteBtnProps = {
+  active: boolean;
+};
+
 export const UpvoteBtn = styled(VoteButton)`
-  color: ${props => (props.active ? "orange" : "inherit")};
+  color: ${(props: VoteBtnProps) => (props.active ? "orange" : "inherit")};
 `;
 
 export const DownvoteBtn = styled(VoteButton)`
-  color: ${props => (props.active ? "rgb(124, 108, 255)" : "inherit")};
+  color: ${(props: VoteBtnProps) =>
+    props.active ? "rgb(124, 108, 255)" : "inherit"};
 
   @media (max-width: 576px) {
     margin-right: 15px;
@@ -34,7 +39,11 @@ export const DownvoteBtn = styled(VoteButton)`
   }
 `;
 
+type ScoreProps = {
+  vote?: boolean;
+};
+
 export const Score = styled.div`
-  color: ${props => getVoteColor(props.vote)};
+  color: ${(props: ScoreProps) => getVoteColor(props.vote)};
   margin: 5px 0;
 `;

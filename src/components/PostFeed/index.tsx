@@ -1,11 +1,22 @@
 import React from "react";
-import PropTypes from "prop-types";
+import { Submission } from "snoowrap";
 
-import Post from "components/Post";
-import PrimaryButton from "components/Buttons/PrimaryButton";
-import FeedSortOptions from "components/FeedSortOptions";
-import Loading from "components/Loading";
+import Post from "../Post";
+import PrimaryButton from "../Buttons/PrimaryButton";
+import FeedSortOptions from "../FeedSortOptions";
+import Loading from "../Loading";
 import "./PostFeed.scss";
+
+type Props = {
+  posts: Submission[];
+  loadMore: () => void;
+  isLoading: boolean;
+  isLoadingMore: boolean;
+  currentSort: string;
+  currentTimeSort?: string;
+  subreddit?: string;
+  voteOnPost: (post: Submission, vote: "up" | "down") => void;
+};
 
 function PostFeed({
   posts,
@@ -16,7 +27,7 @@ function PostFeed({
   currentTimeSort,
   subreddit,
   voteOnPost,
-}) {
+}: Props) {
   let content;
   if (isLoading) {
     content = <Loading type="regular" />;
@@ -52,17 +63,6 @@ function PostFeed({
     </div>
   );
 }
-
-PostFeed.propTypes = {
-  posts: PropTypes.arrayOf(PropTypes.object).isRequired,
-  loadMore: PropTypes.func.isRequired,
-  isLoading: PropTypes.bool.isRequired,
-  isLoadingMore: PropTypes.bool.isRequired,
-  currentSort: PropTypes.string.isRequired,
-  currentTimeSort: PropTypes.string,
-  subreddit: PropTypes.string,
-  voteOnPost: PropTypes.func.isRequired,
-};
 
 PostFeed.defaultProps = {
   subreddit: "",

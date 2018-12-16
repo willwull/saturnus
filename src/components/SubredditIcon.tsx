@@ -3,6 +3,11 @@ import styled, { css } from "styled-components";
 import PropTypes from "prop-types";
 import SaturnusLogo from "./SaturnusLogo";
 
+type IconProps = {
+  theme: any;
+  color?: string;
+};
+
 const commonCSS = css`
   display: inline-block;
   border-radius: 50%;
@@ -10,7 +15,7 @@ const commonCSS = css`
   width: 1.5em;
   height: 1.5em;
   margin-right: 1ch;
-  background-color: ${props => props.color || props.theme.primary};
+  background-color: ${(props: IconProps) => props.color || props.theme.primary};
 `;
 
 const IconImg = styled.img`
@@ -28,7 +33,15 @@ const Fallback = styled.div`
   }
 `;
 
-function SubredditIcon({ subreddit }) {
+type Props = {
+  subreddit: {
+    key_color?: string;
+    primary_color?: string;
+    icon_img?: string;
+  };
+};
+
+function SubredditIcon({ subreddit }: Props) {
   const color = subreddit.key_color || subreddit.primary_color;
 
   if (subreddit.icon_img) {
@@ -41,9 +54,5 @@ function SubredditIcon({ subreddit }) {
     </Fallback>
   );
 }
-
-SubredditIcon.propTypes = {
-  subreddit: PropTypes.object.isRequired,
-};
 
 export default SubredditIcon;

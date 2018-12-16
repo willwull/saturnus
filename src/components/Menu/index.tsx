@@ -1,11 +1,14 @@
 import React from "react";
-import PropTypes from "prop-types";
 import { Link } from "react-router-dom";
 import styled from "styled-components";
-import ContentBox from "components/ContentBox";
+import ContentBox from "../ContentBox";
 import "./Menu.scss";
 
-function Menu({ children }) {
+type Props = {
+  children: React.ReactNode;
+};
+
+function Menu({ children }: Props) {
   return (
     <ContentBox className="menu-component">
       <ul role="menu">{children}</ul>
@@ -37,9 +40,5 @@ Menu.Divider = styled.hr`
   margin: 5px 0;
   opacity: 0.2;
 `;
-
-Menu.propTypes = {
-  children: PropTypes.node.isRequired,
-};
 
 export default Menu;

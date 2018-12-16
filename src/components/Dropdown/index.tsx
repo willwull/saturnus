@@ -1,32 +1,29 @@
 import React, { Component } from "react";
 import PropTypes from "prop-types";
-import styled from "styled-components";
+import { DropdownWrapper } from "./styles";
 import "./Dropdown.scss";
 
-const DropdownWrapper = styled.button`
-  display: block;
-  text-align: inherit;
-  overflow: visible;
-  box-shadow: 0 5px 10px rgba(0, 0, 0, 0.1);
-`;
+type Props = {
+  // what should show up when drop down is active
+  overlay: React.ReactNode;
+  placement: "bottomLeft" | "bottomRight";
+  children: React.ReactNode;
+};
 
-class Dropdown extends Component {
-  static propTypes = {
-    // what should show up when drop down is active
-    overlay: PropTypes.node.isRequired,
-    placement: PropTypes.oneOf(["bottomLeft", "bottomRight"]),
-    children: PropTypes.node.isRequired,
-  };
+type State = {
+  active: boolean;
+};
 
+class Dropdown extends Component<Props, State> {
   static defaultProps = {
     placement: "bottomLeft",
   };
 
-  state = {
+  state: State = {
     active: false,
   };
 
-  dropdownRef = React.createRef();
+  dropdownRef = React.createRef<HTMLDivElement>();
 
   componentDidMount() {
     // touch for mobile devices
@@ -39,9 +36,12 @@ class Dropdown extends Component {
     document.removeEventListener("touchstart", this.clickHandler);
   }
 
-  clickHandler = event => {
+  clickHandler = (event: React.MouseEvent<HTMLButtonElement> | Event) => {
     // if clicked on the trigger or overlay, don't hide overlay
-    if (this.dropdownRef.current.contains(event.target)) {
+    if (
+      this.dropdownRef.current &&
+      this.dropdownRef.current.contains(event.target as Node)
+    ) {
       return;
     }
 

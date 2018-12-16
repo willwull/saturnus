@@ -1,16 +1,19 @@
 import React, { Component, Fragment } from "react";
-import { Switch, Route, withRouter } from "react-router-dom";
-import PropTypes from "prop-types";
+import {
+  Switch,
+  Route,
+  withRouter,
+  RouteComponentProps,
+} from "react-router-dom";
+
+type Props = {
+  children: React.ReactNode;
+  modalPath: string;
+  modal: any; // not sure why React.ReactNode doesn't work
+} & RouteComponentProps;
 
 // Inspired by https://reacttraining.com/react-router/web/example/modal-gallery
-class ModalSwitch extends Component {
-  static propTypes = {
-    location: PropTypes.object.isRequired, // from withRouter
-    history: PropTypes.object.isRequired, // from withRouter
-    children: PropTypes.node.isRequired,
-    modalPath: PropTypes.string.isRequired,
-    modal: PropTypes.func.isRequired,
-  };
+class ModalSwitch extends Component<Props, {}> {
   // We can pass a location to <Switch/> that will tell it to
   // ignore the router's current location and use the location
   // prop instead.
@@ -25,7 +28,7 @@ class ModalSwitch extends Component {
   // is still `/` even though its `/img/2`.
   previousLocation = this.props.location;
 
-  componentDidUpdate(prevProps) {
+  componentDidUpdate(prevProps: Props) {
     const { location, history } = this.props;
     // set previousLocation if props.location is not modal
     if (
@@ -33,7 +36,6 @@ class ModalSwitch extends Component {
       (!location.state || !location.state.modal)
     ) {
       this.previousLocation = prevProps.location;
-      console.log("Set previous location: ", this.previousLocation);
     }
 
     if (location.state && !!location.state.modal) {
@@ -51,8 +53,6 @@ class ModalSwitch extends Component {
       location.state.modal &&
       this.previousLocation !== location
     ); // not initial render
-
-    console.log("Is modal: ", isModal);
 
     return (
       <Fragment>

@@ -1,6 +1,6 @@
 import React from "react";
-import PropTypes from "prop-types";
-import { splitUrl, isImgUrl } from "utils";
+import { Submission } from "snoowrap";
+import { splitUrl, isImgUrl } from "../../utils";
 import {
   ExternalLink,
   BigPreviewImg,
@@ -8,10 +8,14 @@ import {
   Thumbnail,
   Url,
   Domain,
-} from "./components";
+} from "./styles";
 import Icon from "../Icon";
 
-function LinkPreview({ post }) {
+type Props = {
+  post: Submission;
+};
+
+function LinkPreview({ post }: Props) {
   const [domain, rest] = splitUrl(post.url);
 
   // if image link, use image icon, otherwise safari
@@ -52,9 +56,5 @@ function LinkPreview({ post }) {
     </ExternalLink>
   );
 }
-
-LinkPreview.propTypes = {
-  post: PropTypes.object.isRequired,
-};
 
 export default LinkPreview;
