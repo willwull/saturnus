@@ -1,13 +1,16 @@
-import reddit from "api/reddit";
-import * as LocalCache from "LocalCache";
-import { appOnlyOauth, getAuthTokens } from "api/authentication";
+import reddit from "../api/reddit";
+import * as LocalCache from "../LocalCache";
+import { appOnlyOauth, getAuthTokens } from "../api/authentication";
 import { fetchUser } from "./user";
+import { SnoowrapAuthType, SnoowrapState } from "../reducers/snoowrap";
+import { Dispatch, Action } from "redux";
+import { ThunkDispatch } from "redux-thunk";
 
 export const REQUEST_SNOOWRAP = "REQUEST_SNOOWRAP";
 export const RECEIVE_SNOOWRAP = "RECEIVE_SNOOWRAP";
 export const SNOOWRAP_ERROR = "SNOOWRAP_ERROR";
 
-function receiveSnoowrap(authType) {
+function receiveSnoowrap(authType: SnoowrapAuthType) {
   return {
     type: RECEIVE_SNOOWRAP,
     receivedAt: Date.now(),
@@ -26,7 +29,7 @@ function snoowrapError() {
  * hasn't logged in with an account.
  */
 export function initSnoowrap() {
-  return async dispatch => {
+  return async (dispatch: Dispatch) => {
     dispatch({
       type: REQUEST_SNOOWRAP,
     });
@@ -54,21 +57,22 @@ export function initSnoowrap() {
  *
  * @param {String} authCode
  */
-export function authSnoowrap(authCode) {
-  return async dispatch => {
+export function authSnoowrap(authCode: string) {
+  return async (dispatch: ThunkDispatch<SnoowrapState, void, Action>) => {
     dispatch({ type: REQUEST_SNOOWRAP });
 
     try {
       const tokens = await getAuthTokens(authCode);
       reddit.initRefreshToken(tokens.refresh_token);
 
-      const user = await dispatch(fetchUser());
+      // for some reason, writing this as async triggers a TS error
+      dispatch(fetchUser()).then(user => {
+        // store the tokens in cache
+        LocalCache.storeAuthTokens(user.name, tokens);
+        LocalCache.storeLastActiveUser(user.name);
 
-      // store the tokens in cache
-      LocalCache.storeAuthTokens(user.name, tokens);
-      LocalCache.storeLastActiveUser(user.name);
-
-      dispatch(receiveSnoowrap("auth"));
+        dispatch(receiveSnoowrap("auth"));
+      });
     } catch (error) {
       console.error(error);
       dispatch(snoowrapError());
@@ -83,14 +87,14 @@ export function authSnoowrap(authCode) {
  *
  * @param {String} refreshToken
  */
-export function initRefreshToken(refreshToken) {
-  return async dispatch => {
+export function initRefreshToken(refreshToken: string) {
+  return async (dispatch: ThunkDispatch<SnoowrapState, void, Action>) => {
     dispatch({ type: REQUEST_SNOOWRAP });
 
     try {
       reddit.initRefreshToken(refreshToken);
 
-      const user = await dispatch(fetchUser());
+      const user = await dispatch<any>(fetchUser());
 
       LocalCache.storeLastActiveUser(user.name);
 

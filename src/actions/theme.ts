@@ -1,10 +1,17 @@
-import { storeTheme } from "LocalCache";
+import { storeTheme } from "../LocalCache";
+import { ThunkDispatch } from "redux-thunk";
+import { ThemeState } from "../reducers/theme";
+import { Action } from "redux";
+import { ReduxState } from "../reducers";
 
 export const SET_DARK_THEME = "SET_DARK_THEME";
 export const SET_LIGHT_THEME = "SET_LIGHT_THEME";
 
 export function toggleTheme() {
-  return (dispatch, getState) => {
+  return (
+    dispatch: ThunkDispatch<ThemeState, void, Action>,
+    getState: () => ReduxState,
+  ) => {
     const { isDark } = getState().theme;
     if (isDark) {
       dispatch({

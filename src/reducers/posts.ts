@@ -3,22 +3,47 @@ import {
   REQUEST_MORE_POSTS,
   RECEIVE_POSTS,
   FETCH_POST_ERROR,
-} from "actions/posts";
-import { POST_VOTE } from "actions/voting";
+} from "../actions/posts";
+import { POST_VOTE } from "../actions/voting";
+import { USER_SIGN_OUT } from "../actions/user";
+import { Submission } from "snoowrap";
 
-import { USER_SIGN_OUT } from "actions/user";
+export type PostsSortMode =
+  | "best"
+  | "hot"
+  | "top"
+  | "controversial"
+  | "new"
+  | "rising"
+  | "";
+
+export type PostsTimes = "all" | "hour" | "day" | "week" | "month" | "year";
+
+export type PostsInSubState = {
+  items: Submission[];
+  sortMode: PostsSortMode;
+  time: PostsTimes;
+  receivedAt: Date | null;
+  isLoading: boolean;
+  isLoadingMore: boolean;
+  error: boolean;
+};
+
+export type PostsState = {
+  [key: string]: PostsInSubState;
+};
 
 function postsInSubreddit(
-  state = {
+  state: PostsInSubState = {
     items: [],
     sortMode: "",
-    time: "",
+    time: "month",
     receivedAt: null,
     isLoading: false,
     isLoadingMore: false,
     error: false,
   },
-  action,
+  action: any,
 ) {
   switch (action.type) {
     case REQUEST_POSTS:
@@ -46,7 +71,7 @@ function postsInSubreddit(
   }
 }
 
-function updatePostsAfterVote(state = {}, action) {
+function updatePostsAfterVote(state: PostsState = {}, action: any) {
   console.log("updatePostsAfterVote");
   let newState = {};
   Object.entries(state).forEach(([key, subreddit]) => {
@@ -70,7 +95,7 @@ function updatePostsAfterVote(state = {}, action) {
   return newState;
 }
 
-export default function posts(state = {}, action) {
+export default function posts(state: PostsState = {}, action: any) {
   const subreddit = action.subreddit || "";
 
   // all action types should fall through

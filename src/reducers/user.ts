@@ -6,19 +6,28 @@ import {
   REQUEST_MY_SUBS,
   RECEIVE_MY_SUBS,
   MY_SUBS_ERROR,
-} from "actions/user";
+} from "../actions/user";
+import { Subreddit, RedditUser } from "snoowrap";
 
-export default function user(
-  state = {
-    loggedIn: false,
-    isLoading: false,
-    data: {},
-    subsLoading: false,
-    subscriptions: [],
-    subsError: null,
-  },
-  action,
-) {
+export type UserState = {
+  loggedIn: boolean;
+  isLoading: boolean;
+  data: RedditUser | {};
+  subsLoading: boolean;
+  subscriptions: Subreddit[];
+  subsError: string | null;
+};
+
+const defaultUser: UserState = {
+  loggedIn: false,
+  isLoading: false,
+  data: {},
+  subsLoading: false,
+  subscriptions: [],
+  subsError: null,
+};
+
+export default function user(state = defaultUser, action: any): UserState {
   switch (action.type) {
     case REQUEST_USER:
       return { ...state, isLoading: true };

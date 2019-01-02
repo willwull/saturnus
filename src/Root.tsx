@@ -1,29 +1,32 @@
 import React, { Component } from "react";
 import { connect } from "react-redux";
-import { withRouter } from "react-router-dom";
-import PropTypes from "prop-types";
+import { withRouter, RouteComponentProps } from "react-router-dom";
 
-import { initSnoowrap, authSnoowrap, initRefreshToken } from "actions/snoowrap";
-import { closeSidebar } from "actions/sidebar";
-import Loading from "components/Loading";
+import {
+  initSnoowrap,
+  authSnoowrap,
+  initRefreshToken,
+} from "./actions/snoowrap";
+import { closeSidebar } from "./actions/sidebar";
+import Loading from "./components/Loading";
 import * as LocalCache from "./LocalCache";
 import App from "./App";
+import { UserState } from "./reducers/user";
+import { ThemeColors, ThemeState } from "./reducers/theme";
+import { SnoowrapState } from "./reducers/snoowrap";
 
-class Root extends Component {
-  static propTypes = {
-    history: PropTypes.object.isRequired,
-    location: PropTypes.object.isRequired,
+type Props = {
+  user: UserState;
+  theme: ThemeColors;
+  errorMsg: string;
+  isLoading: boolean;
+  closeSidebar: () => void;
+  createSnoowrap: () => void;
+  createAuthSnoowrap: (code: string) => void;
+  createRefreshSnoowrap: (refreshToken: string) => void;
+} & RouteComponentProps;
 
-    user: PropTypes.object.isRequired,
-    theme: PropTypes.object.isRequired,
-    errorMsg: PropTypes.string.isRequired,
-    isLoading: PropTypes.bool.isRequired,
-    closeSidebar: PropTypes.func.isRequired,
-    createSnoowrap: PropTypes.func.isRequired,
-    createAuthSnoowrap: PropTypes.func.isRequired,
-    createRefreshSnoowrap: PropTypes.func.isRequired,
-  };
-
+class Root extends Component<Props, {}> {
   componentDidMount() {
     // in development mode, since we use hot module replacement, we don't
     // need to re-initialize snoowrap each time Root is mounted if we have
@@ -73,7 +76,7 @@ class Root extends Component {
     this.props.createSnoowrap();
   }
 
-  componentDidUpdate(prevProps) {
+  componentDidUpdate(prevProps: Props) {
     if (this.props.location !== prevProps.location) {
       this.props.closeSidebar();
     }
@@ -94,7 +97,15 @@ class Root extends Component {
   }
 }
 
-function mapStateToProps({ theme, snoowrap, user }) {
+function mapStateToProps({
+  theme,
+  snoowrap,
+  user,
+}: {
+  theme: ThemeState;
+  snoowrap: SnoowrapState;
+  user: UserState;
+}) {
   return {
     theme: theme.colors,
     user,
@@ -103,15 +114,15 @@ function mapStateToProps({ theme, snoowrap, user }) {
   };
 }
 
-function mapDispatchToProps(dispatch) {
+function mapDispatchToProps(dispatch: Function) {
   return {
     createSnoowrap: () => {
       dispatch(initSnoowrap());
     },
-    createAuthSnoowrap: code => {
+    createAuthSnoowrap: (code: string) => {
       dispatch(authSnoowrap(code));
     },
-    createRefreshSnoowrap: refreshToken => {
+    createRefreshSnoowrap: (refreshToken: string) => {
       dispatch(initRefreshToken(refreshToken));
     },
     closeSidebar: () => {

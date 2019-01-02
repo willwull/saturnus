@@ -1,5 +1,6 @@
 import Snoowrap from "snoowrap";
 import credentials from "./credentials";
+import { AppOnlyTokens, AuthTokens } from "../models";
 
 const { protocol, host } = window.location;
 export const REDIRECT_URI = `${protocol}//${host}`;
@@ -7,16 +8,8 @@ export const REDIRECT_URI = `${protocol}//${host}`;
 /**
  * Generates an access token for userless actions, aka Application Only OAuth.
  * Read more: https://github.com/reddit-archive/reddit/wiki/OAuth2#application-only-oauth
- *
- * Returns object of shape: {
- *  access_token: string
- *  token_type: "bearer"
- *  device_id: "DO_NOT_TRACK_THIS_DEVICE"
- *  expires_in: 3600
- *  scope: "*"
- * }
  */
-export async function appOnlyOauth() {
+export async function appOnlyOauth(): Promise<AppOnlyTokens> {
   const formData = new FormData();
   formData.append(
     "grant_type",
@@ -35,7 +28,14 @@ export async function appOnlyOauth() {
   return json;
 }
 
-export async function getAuthTokens(code) {
+/**
+ * After the user is redirected back to the app (after granting access in Reddit),
+ * the URL will contain a code. This code is used to fetch access and refresh
+ * tokens for the user.
+ *
+ * @param code Code from URL after successful redirect
+ */
+export async function getAuthTokens(code: string): Promise<AuthTokens> {
   const formData = new FormData();
   formData.append("grant_type", "authorization_code");
   formData.append("code", code);
@@ -59,9 +59,10 @@ export async function getAuthTokens(code) {
  * If a redirectPath is passed, that string will be embedded in the state,
  * so the state will be something like "13384719:/r/funny"
  *
- * @param {String} redirectPath
+ * @param redirectPath
+ * @returns URL where the user can grant access to this app.
  */
-export function getAuthUrl(verificationState = "") {
+export function getAuthUrl(verificationState = ""): string {
   const options = {
     clientId: credentials.clientId,
     scope: [

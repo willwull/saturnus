@@ -1,7 +1,12 @@
+import { ThunkDispatch } from "redux-thunk";
+import { PostsState } from "../reducers/posts";
+import { Action } from "redux";
+import { Submission } from "snoowrap";
+
 export const POST_VOTE = "POST_VOTE";
 
-export function postVote(post, vote = "") {
-  return dispatch => {
+export function postVote(post: Submission, vote = "") {
+  return (dispatch: ThunkDispatch<PostsState, void, Action>) => {
     const updatedPost = post;
     const oldScore = post.score;
     let newVote = post.likes;

@@ -2,17 +2,27 @@ import {
   REQUEST_SNOOWRAP,
   RECEIVE_SNOOWRAP,
   SNOOWRAP_ERROR,
-} from "actions/snoowrap";
+} from "../actions/snoowrap";
+
+export type SnoowrapAuthType = "auth" | "appOnly" | null;
+export type SnoowrapState = {
+  isLoading: boolean;
+  receivedAt: Date | null;
+  authType: SnoowrapAuthType;
+  errorMsg: string;
+};
+
+const defaultState: SnoowrapState = {
+  isLoading: true,
+  receivedAt: null,
+  authType: null,
+  errorMsg: "",
+};
 
 export default function snoowrap(
-  state = {
-    isLoading: true,
-    receivedAt: null,
-    authType: null,
-    errorMsg: "",
-  },
-  action,
-) {
+  state = defaultState,
+  action: any,
+): SnoowrapState {
   switch (action.type) {
     case REQUEST_SNOOWRAP:
       return { ...state, isLoading: true, errorMsg: "" };

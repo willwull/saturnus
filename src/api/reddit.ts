@@ -2,14 +2,14 @@ import Snoowrap from "snoowrap";
 import credentials from "./credentials";
 
 class Reddit {
-  _snoo = null;
+  private _snoo: Snoowrap | null = null;
 
   /**
    * Creates an instance of Snoowrap with app only OAuth by default.
    *
-   * @param {Object} accessToken
+   * @param {String} accessToken
    */
-  initAppOnly(accessToken) {
+  initAppOnly(accessToken: string): void {
     // TODO: check localStorage for access token and create a new instance of snoowrap with that
     this._snoo = new Snoowrap({
       userAgent: credentials.userAgent,
@@ -31,7 +31,7 @@ class Reddit {
    *
    * @param {String} refreshToken
    */
-  initRefreshToken(refreshToken) {
+  initRefreshToken(refreshToken: string): void {
     console.log(`Refresh token passed to initRefreshToken: ${refreshToken}`);
     this._snoo = new Snoowrap({
       userAgent: credentials.userAgent,
@@ -47,7 +47,7 @@ class Reddit {
    *
    * @returns {Snoowrap}
    */
-  getSnoowrap() {
+  getSnoowrap(): Snoowrap {
     if (!this._snoo) {
       throw new Error("Not authenticated with Reddit yet");
     }

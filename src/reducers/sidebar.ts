@@ -1,10 +1,14 @@
-import { SIDEBAR_OPEN, SIDEBAR_CLOSE } from "actions/sidebar";
+import { SIDEBAR_OPEN, SIDEBAR_CLOSE } from "../actions/sidebar";
+
+export type SidebarState = {
+  open: boolean;
+};
 
 export default function sidebar(
-  state = {
+  state: SidebarState = {
     open: false,
   },
-  action,
+  action: any,
 ) {
   switch (action.type) {
     case SIDEBAR_CLOSE:

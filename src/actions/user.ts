@@ -1,6 +1,11 @@
-import reddit from "api/reddit";
-import * as LocalCache from "LocalCache";
+import reddit from "../api/reddit";
+import * as LocalCache from "../LocalCache";
 import { initSnoowrap } from "./snoowrap";
+import { ThunkDispatch } from "redux-thunk";
+import { UserState } from "../reducers/user";
+import { Action } from "redux";
+import { ReduxState } from "../reducers";
+import { RedditUser } from "snoowrap";
 
 export const USER_SIGN_OUT = "USER_SIGN_OUT";
 export const SET_USER_STATUS = "SET_USER_STATUS";
@@ -11,26 +16,30 @@ export const REQUEST_MY_SUBS = "REQUEST_MY_SUBS";
 export const RECEIVE_MY_SUBS = "RECEIVE_MY_SUBS";
 export const MY_SUBS_ERROR = "MY_SUBS_ERROR";
 
-function setUser(user) {
+function setUser(user: RedditUser) {
   return { type: RECEIVED_USER, user };
 }
 
 export function fetchUser() {
-  return async dispatch => {
+  return (dispatch: ThunkDispatch<UserState, void, Action>) => {
     const r = reddit.getSnoowrap();
     dispatch({
       type: REQUEST_USER,
     });
-    const user = await r.getMe();
-    console.log(user);
 
-    dispatch(setUser(user));
-    return user;
+    // for some reason, writing this as async triggers a TS error
+    return r.getMe().then(user => {
+      console.log(user);
+
+      dispatch(setUser(user));
+
+      return user;
+    });
   };
 }
 
 export function signOut() {
-  return dispatch => {
+  return (dispatch: ThunkDispatch<UserState, void, Action>) => {
     // clear cache so the user's saved refresh tokens are cleared
     LocalCache.clearAll();
 
@@ -42,7 +51,10 @@ export function signOut() {
 }
 
 export function fetchMySubs(options = { skipCache: false }) {
-  return async (dispatch, getState) => {
+  return async (
+    dispatch: ThunkDispatch<UserState, void, Action>,
+    getState: () => ReduxState,
+  ) => {
     dispatch({ type: REQUEST_MY_SUBS });
 
     try {

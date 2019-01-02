@@ -1,12 +1,21 @@
 import moment from "moment-mini";
-import reddit from "api/reddit";
+import reddit from "../api/reddit";
+import { Submission } from "snoowrap";
+import { ReduxState } from "../reducers";
+import { ThunkDispatch } from "redux-thunk";
+import { PostsState, PostsSortMode, PostsTimes } from "../reducers/posts";
+import { Action } from "redux";
 
 export const REQUEST_POSTS = "REQUEST_POSTS";
 export const REQUEST_MORE_POSTS = "REQUEST_MORE_POSTS";
 export const RECEIVE_POSTS = "RECEIVE_POSTS";
 export const FETCH_POST_ERROR = "FETCH_POST_ERROR";
 
-function requestPosts(subreddit, sortMode, time) {
+function requestPosts(
+  subreddit: string,
+  sortMode: PostsSortMode,
+  time: PostsTimes,
+) {
   return {
     type: REQUEST_POSTS,
     subreddit,
@@ -15,14 +24,14 @@ function requestPosts(subreddit, sortMode, time) {
   };
 }
 
-function requestMorePosts(subreddit) {
+function requestMorePosts(subreddit: string) {
   return {
     type: REQUEST_MORE_POSTS,
     subreddit,
   };
 }
 
-function receivePosts(subreddit, posts) {
+function receivePosts(subreddit: string, posts: Submission[]) {
   return {
     type: RECEIVE_POSTS,
     subreddit,
@@ -31,14 +40,19 @@ function receivePosts(subreddit, posts) {
   };
 }
 
-function fetchPostError(subreddit) {
+function fetchPostError(subreddit: string) {
   return {
     type: FETCH_POST_ERROR,
     subreddit,
   };
 }
 
-function shouldFetch(state, subreddit, sortMode, time) {
+function shouldFetch(
+  state: ReduxState,
+  subreddit: string,
+  sortMode: PostsSortMode,
+  time: PostsTimes,
+) {
   const { posts } = state;
 
   const currentSub = posts[subreddit];
@@ -70,8 +84,15 @@ function shouldFetch(state, subreddit, sortMode, time) {
   return diff > 10;
 }
 
-export function fetchPosts(subreddit, sortMode = "hot", time = "month") {
-  return async (dispatch, getState) => {
+export function fetchPosts(
+  subreddit: string,
+  sortMode: PostsSortMode = "hot",
+  time: PostsTimes = "month",
+) {
+  return async (
+    dispatch: ThunkDispatch<PostsState, void, Action>,
+    getState: () => ReduxState,
+  ) => {
     const state = getState();
     if (!shouldFetch(state, subreddit, sortMode, time)) return;
 
@@ -87,19 +108,19 @@ export function fetchPosts(subreddit, sortMode = "hot", time = "month") {
           posts = await r.getHot(subreddit);
           break;
         case "top":
-          posts = await r.getTop(subreddit, { time });
+          posts = await (r as any).getTop(subreddit, { time });
           break;
         case "new":
           posts = await r.getNew(subreddit);
           break;
         case "controversial":
-          posts = await r.getControversial(subreddit, { time });
+          posts = await (r as any).getControversial(subreddit, { time });
           break;
         case "rising":
           posts = await r.getRising(subreddit);
           break;
         default:
-          posts = await r.oauthRequest({
+          posts = await (r as any).oauthRequest({
             uri: `${sub}/best`,
             method: "get",
           });
@@ -114,8 +135,11 @@ export function fetchPosts(subreddit, sortMode = "hot", time = "month") {
   };
 }
 
-export function fetchMorePosts(subreddit) {
-  return async (dispatch, getState) => {
+export function fetchMorePosts(subreddit: string) {
+  return async (
+    dispatch: ThunkDispatch<PostsState, void, Action>,
+    getState: () => ReduxState,
+  ) => {
     const { items } = getState().posts[subreddit];
     dispatch(requestMorePosts(subreddit));
 

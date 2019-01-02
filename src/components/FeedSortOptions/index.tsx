@@ -30,6 +30,7 @@ function mapSortToElement(sortMode: string) {
 }
 
 function mapTimeToElement(timeSort: string = "default") {
+  alert(timeSort);
   const names: StringDict = {
     // month is the default time sort
     default: "This month",

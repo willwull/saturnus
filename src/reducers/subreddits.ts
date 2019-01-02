@@ -2,16 +2,27 @@ import {
   REQUEST_SUBREDDIT,
   RECEIVE_SUBREDDIT,
   SUBREDDIT_ERROR,
-} from "actions/subreddits";
+} from "../actions/subreddits";
+import { Subreddit } from "snoowrap";
+
+export type SpecificSubState = {
+  isLoading: boolean;
+  data: Subreddit | {};
+  error: boolean;
+};
+
+export type SubredditState = {
+  [key: string]: SpecificSubState;
+};
 
 function specificSub(
-  state = {
+  state: SpecificSubState = {
     isLoading: false,
     data: {},
     error: false,
   },
-  action,
-) {
+  action: any,
+): SpecificSubState {
   switch (action.type) {
     case REQUEST_SUBREDDIT:
       return { ...state, isLoading: true, error: false };
@@ -24,7 +35,10 @@ function specificSub(
   }
 }
 
-export default function subreddits(state = {}, action) {
+export default function subreddits(
+  state: SubredditState = {},
+  action: any,
+): SubredditState {
   switch (action.type) {
     case REQUEST_SUBREDDIT:
     case RECEIVE_SUBREDDIT:
