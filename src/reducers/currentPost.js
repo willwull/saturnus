@@ -2,7 +2,7 @@ import {
   RECEIVE_CURRENT_POST,
   REQUEST_CURRENT_POST,
   ERROR_CURRENT_POST,
-} from "actions/currentPost";
+} from "../actions/currentPost";
 
 export default function currentPost(
   state = {

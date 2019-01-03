@@ -2,9 +2,9 @@ import React, { Component } from "react";
 import PropTypes from "prop-types";
 import { withRouter } from "react-router-dom";
 import { connect } from "react-redux";
-import { fetchMySubs } from "actions/user";
-import SubredditList from "components/SubredditList";
-import Loading from "components/Loading";
+import { fetchMySubs } from "../actions/user";
+import SubredditList from "../components/SubredditList";
+import Loading from "../components/Loading";
 
 class SubscriptionList extends Component {
   static propTypes = {

@@ -1,8 +1,8 @@
 import React, { Component } from "react";
 import PropTypes from "prop-types";
 import { connect } from "react-redux";
-import { fetchSubreddit } from "actions/subreddits";
-import Banner from "components/Banner";
+import { fetchSubreddit } from "../actions/subreddits";
+import Banner from "../components/Banner";
 
 class SubredditBanner extends Component {
   static propTypes = {

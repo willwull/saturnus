@@ -1,7 +1,7 @@
 import React, { Component } from "react";
 import PropTypes from "prop-types";
 import { connect } from "react-redux";
-import { openSidebar } from "actions/sidebar";
+import { openSidebar } from "../actions/sidebar";
 
 class SidebarToggler extends Component {
   static propTypes = {

@@ -2,8 +2,8 @@ import React, { Component } from "react";
 import PropTypes from "prop-types";
 import styled from "styled-components";
 import { connect } from "react-redux";
-import Icon from "components/Icon";
-import { fetchMySubs } from "actions/user";
+import Icon from "../components/Icon";
+import { fetchMySubs } from "../actions/user";
 
 const FetchBtn = styled.button`
   font-size: 0.8em;

@@ -1,5 +1,5 @@
 import moment from "moment-mini";
-import reddit from "api/reddit";
+import reddit from "../api/reddit";
 
 export const REQUEST_CURRENT_POST = "REQUEST_CURRENT_POST";
 export const RECEIVE_CURRENT_POST = "RECEIVE_CURRENT_POST";

@@ -3,10 +3,10 @@ import { connect } from "react-redux";
 import PropTypes from "prop-types";
 import { withRouter } from "react-router-dom";
 
-import { fetchPosts, fetchMorePosts } from "actions/posts";
+import { fetchPosts, fetchMorePosts } from "../actions/posts";
 
-import PostFeed from "components/PostFeed";
-import { postVote } from "actions/voting";
+import PostFeed from "../components/PostFeed";
+import { postVote } from "../actions/voting";
 
 class SubredditFeed extends Component {
   static propTypes = {

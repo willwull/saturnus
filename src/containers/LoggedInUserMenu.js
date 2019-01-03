@@ -3,11 +3,11 @@ import PropTypes from "prop-types";
 import { withRouter } from "react-router-dom";
 import { connect } from "react-redux";
 
-import PrimaryButton from "components/Buttons/PrimaryButton";
-import { storeVerificationState } from "LocalCache";
-import { getAuthUrl } from "api/authentication";
-import { fetchUser, signOut } from "actions/user";
-import UserMenu from "components/UserMenu";
+import PrimaryButton from "../components/Buttons/PrimaryButton";
+import { storeVerificationState } from "../LocalCache";
+import { getAuthUrl } from "../api/authentication";
+import { fetchUser, signOut } from "../actions/user";
+import UserMenu from "../components/UserMenu";
 
 class LoggedInUserMenu extends Component {
   static propTypes = {

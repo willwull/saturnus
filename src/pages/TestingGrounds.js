@@ -1,9 +1,9 @@
 import React from "react";
 // import PropTypes from "prop-types";
-import Dropdown from "components/Dropdown";
-import Menu from "components/Menu";
-import PrimaryButton from "components/Buttons/PrimaryButton";
-import AppSidebar from "containers/AppSidebar";
+import Dropdown from "../components/Dropdown";
+import Menu from "../components/Menu";
+import PrimaryButton from "../components/Buttons/PrimaryButton";
+import AppSidebar from "../containers/AppSidebar";
 
 class TestingGrounds extends React.Component {
   state = {

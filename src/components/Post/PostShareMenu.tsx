@@ -1,19 +1,23 @@
 import React from "react";
-import PropTypes from "prop-types";
-import Menu from "components/Menu";
-import { copyToClipboard } from "utils";
+import { Submission } from "snoowrap";
+import Menu from "../Menu";
+import { copyToClipboard } from "../../utils";
 import Icon from "../Icon";
 
-function copyPostLink(post) {
+function copyPostLink(post: Submission) {
   const url = window.location.host + post.permalink;
   copyToClipboard(url);
 }
 
-function copyContentLink(post) {
+function copyContentLink(post: Submission) {
   copyToClipboard(post.url);
 }
 
-function PostShareMenu({ post }) {
+type Props = {
+  post: Submission;
+};
+
+function PostShareMenu({ post }: Props) {
   return (
     <Menu>
       <Menu.Item onClick={() => copyPostLink(post)}>
@@ -28,9 +32,5 @@ function PostShareMenu({ post }) {
     </Menu>
   );
 }
-
-PostShareMenu.propTypes = {
-  post: PropTypes.object.isRequired,
-};
 
 export default PostShareMenu;

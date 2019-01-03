@@ -1,7 +1,7 @@
 import React, { Component } from "react";
 import { connect } from "react-redux";
-import { closeSidebar } from "actions/sidebar";
-import Sidebar from "components/Sidebar";
+import { closeSidebar } from "../actions/sidebar";
+import Sidebar from "../components/Sidebar";
 
 class AppSidebar extends Component {
   render() {
