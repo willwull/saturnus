@@ -21,3 +21,5 @@ In order to be able to install packages from the FontAwesome Pro Registry you ne
 ```bash
 export NPM_TOKEN=enter_your_token_here
 ```
+
+Alternatively, just edit `.npmrc` directly with your token and don't commit the change.
