@@ -1,8 +1,5 @@
 # See https://help.github.com/ignore-files/ for more about ignoring files.
 
-# api
-credentials.js
-
 # dependencies
 /node_modules
 
@@ -14,6 +11,7 @@ credentials.js
 
 # misc
 .DS_Store
+.env
 .env.local
 .env.development.local
 .env.test.local
