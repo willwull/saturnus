@@ -18,7 +18,8 @@ import "./index.scss";
 library.add(faSafari, fas, far);
 
 /* eslint-disable no-underscore-dangle */
-const composeEnhancers = window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || compose;
+const composeEnhancers =
+  (window as any).__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || compose;
 const store = createStore(reducer, composeEnhancers(applyMiddleware(thunk)));
 /* eslint-enable */
 
@@ -36,8 +37,8 @@ ReactDOM.render(
 // Learn more about service workers: http://bit.ly/CRA-PWA
 serviceWorker.register();
 
-if (module.hot) {
-  module.hot.accept("./Root", () => {
+if ((module as any).hot) {
+  (module as any).hot.accept("./Root", () => {
     const NextRoot = require("./Root").default; // eslint-disable-line global-require
     ReactDOM.render(
       <Provider store={store}>

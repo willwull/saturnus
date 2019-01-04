@@ -1,31 +1,41 @@
 import React, { Component } from "react";
 import { connect } from "react-redux";
-import PropTypes from "prop-types";
-import { withRouter } from "react-router-dom";
+import { withRouter, RouteComponentProps } from "react-router-dom";
 
 import { fetchPosts, fetchMorePosts } from "../actions/posts";
 
 import PostFeed from "../components/PostFeed";
 import { postVote } from "../actions/voting";
+import { Submission } from "snoowrap";
+import { RootState, DispatchType } from "../reducers";
+import { PostsSortMode, PostsTimes } from "../reducers/posts";
 
-class SubredditFeed extends Component {
-  static propTypes = {
-    subreddit: PropTypes.string,
-    sortMode: PropTypes.string,
-    /* React Router */
-    location: PropTypes.object.isRequired,
-    history: PropTypes.object.isRequired,
-    /* Below are from redux */
-    error: PropTypes.bool.isRequired,
-    posts: PropTypes.array.isRequired,
-    isLoading: PropTypes.bool.isRequired,
-    isLoadingMore: PropTypes.bool.isRequired,
-    fetchPosts: PropTypes.func.isRequired,
-    fetchMorePosts: PropTypes.func.isRequired,
-    voteOnPost: PropTypes.func.isRequired,
-  };
+type StateProps = {
+  error: boolean;
+  isLoading: boolean;
+  isLoadingMore: boolean;
+  posts: Submission[];
+};
 
-  static defaultProps = {
+type DispatchProps = {
+  fetchPosts: (
+    subreddit: string,
+    sortMode: PostsSortMode,
+    time: PostsTimes,
+  ) => void;
+  fetchMorePosts: (subreddit: string) => void;
+  voteOnPost: (post: Submission, vote: "up" | "down") => void;
+};
+
+type OwnProps = {
+  subreddit: string;
+  sortMode: PostsSortMode;
+};
+
+type Props = OwnProps & StateProps & DispatchProps & RouteComponentProps;
+
+class SubredditFeed extends Component<Props, {}> {
+  static defaultProps: OwnProps = {
     subreddit: "",
     sortMode: "hot",
   };
@@ -34,7 +44,7 @@ class SubredditFeed extends Component {
     this.loadPosts();
   }
 
-  componentDidUpdate(prevProps) {
+  componentDidUpdate(prevProps: Props) {
     console.log("updateeeee");
     if (this.props.location !== prevProps.location) {
       this.loadPosts();
@@ -59,7 +69,7 @@ class SubredditFeed extends Component {
     }
 
     const searchParams = new URLSearchParams(location.search);
-    const time = searchParams.get("t");
+    const time: PostsTimes = (searchParams.get("t") as PostsTimes) || "month";
     this.props.fetchPosts(subreddit, sortMode, time);
   };
 
@@ -85,7 +95,7 @@ class SubredditFeed extends Component {
     }
 
     const searchParams = new URLSearchParams(location.search);
-    const timeSort = searchParams.get("t");
+    const timeSort = searchParams.get("t") || "";
 
     return (
       <PostFeed
@@ -102,7 +112,7 @@ class SubredditFeed extends Component {
   }
 }
 
-function mapStateToProps({ posts }, ownProps) {
+function mapStateToProps({ posts }: RootState, ownProps: OwnProps): StateProps {
   const currentPosts = posts[ownProps.subreddit] || {
     error: false,
     isLoading: false,
@@ -120,9 +130,13 @@ function mapStateToProps({ posts }, ownProps) {
   return props;
 }
 
-function mapDispatchToProps(dispatch) {
+function mapDispatchToProps(dispatch: DispatchType): DispatchProps {
   return {
-    fetchPosts: (subreddit, sortMode, time) => {
+    fetchPosts: (
+      subreddit: string,
+      sortMode: PostsSortMode,
+      time: PostsTimes,
+    ) => {
       dispatch(fetchPosts(subreddit, sortMode, time));
     },
     fetchMorePosts: subreddit => {

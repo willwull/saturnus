@@ -7,7 +7,7 @@ import { Subreddit } from "snoowrap";
 
 export type SpecificSubState = {
   isLoading: boolean;
-  data: Subreddit | {};
+  data: Subreddit | null;
   error: boolean;
 };
 
@@ -18,7 +18,7 @@ export type SubredditState = {
 function specificSub(
   state: SpecificSubState = {
     isLoading: false,
-    data: {},
+    data: null,
     error: false,
   },
   action: any,

@@ -1,6 +1,7 @@
 import React from "react";
 import { RouteComponentProps } from "react-router-dom";
 import SubredditFeed from "../containers/SubredditFeed";
+import { PostsSortMode } from "../reducers/posts";
 
 type Params = {
   sortMode: string;
@@ -12,7 +13,7 @@ function Frontpage({ match: { params } }: Props) {
   const { sortMode } = params;
   return (
     <div className="main-content">
-      <SubredditFeed subreddit="" sortMode={sortMode} />
+      <SubredditFeed subreddit="" sortMode={sortMode as PostsSortMode} />
     </div>
   );
 }

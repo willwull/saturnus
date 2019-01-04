@@ -1,13 +1,13 @@
 import React, { Component } from "react";
-import PropTypes from "prop-types";
 import { connect } from "react-redux";
 import { openSidebar } from "../actions/sidebar";
+import { DispatchType, RootState } from "../reducers";
 
-class SidebarToggler extends Component {
-  static propTypes = {
-    openSidebar: PropTypes.func.isRequired,
-  };
+type DispatchProps = {
+  openSidebar: () => void;
+};
 
+class SidebarToggler extends Component<DispatchProps, {}> {
   render() {
     const { openSidebar: onClick, ...props } = this.props;
     return <button {...props} onClick={onClick} />;
@@ -18,7 +18,7 @@ function mapStateToProps() {
   return {};
 }
 
-function mapDispatchToProps(dispatch) {
+function mapDispatchToProps(dispatch: DispatchType): DispatchProps {
   return {
     openSidebar: () => {
       dispatch(openSidebar());
@@ -26,7 +26,7 @@ function mapDispatchToProps(dispatch) {
   };
 }
 
-export default connect(
+export default connect<{}, DispatchProps, {}, RootState>(
   mapStateToProps,
   mapDispatchToProps,
 )(SidebarToggler);

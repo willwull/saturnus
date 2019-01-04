@@ -1,6 +1,5 @@
 import React, { Component } from "react";
-import PropTypes from "prop-types";
-import { withRouter } from "react-router-dom";
+import { withRouter, RouteComponentProps } from "react-router-dom";
 import { connect } from "react-redux";
 
 import PrimaryButton from "../components/Buttons/PrimaryButton";
@@ -8,20 +7,27 @@ import { storeVerificationState } from "../LocalCache";
 import { getAuthUrl } from "../api/authentication";
 import { fetchUser, signOut } from "../actions/user";
 import UserMenu from "../components/UserMenu";
+import { UserState } from "../reducers/user";
+import { RootState, DispatchType } from "../reducers";
 
-class LoggedInUserMenu extends Component {
-  static propTypes = {
-    location: PropTypes.object.isRequired,
-    user: PropTypes.object.isRequired,
-    fetch: PropTypes.func.isRequired,
-    signOut: PropTypes.func.isRequired,
-  };
+type StateProps = {
+  user: UserState;
+};
 
+type DispatchProps = {
+  fetch: () => void;
+  signOut: () => void;
+};
+
+type Props = StateProps & DispatchProps & RouteComponentProps;
+
+class LoggedInUserMenu extends Component<Props, {}> {
   componentDidMount() {
     const { user, fetch } = this.props;
 
     // user is logged in, but we haven't fetched all data yet
-    if (user.loggedIn && !user.data.id) {
+    // TODO: workaround until snoowrap types are fixed
+    if (user.loggedIn && !(user.data as any).id) {
       fetch();
     }
   }
@@ -32,7 +38,7 @@ class LoggedInUserMenu extends Component {
 
     storeVerificationState(verificationState);
     const url = getAuthUrl(verificationState);
-    window.location = url;
+    window.location.href = url;
   };
 
   render() {
@@ -44,7 +50,7 @@ class LoggedInUserMenu extends Component {
     if (isLoading) return null;
 
     // user is not logged in, show sign in button
-    if (!loggedIn && !data.id) {
+    if (!loggedIn && !(data as any).id) {
       return (
         <PrimaryButton className="signin-btn" onClick={this.onClick}>
           Sign in
@@ -57,13 +63,13 @@ class LoggedInUserMenu extends Component {
   }
 }
 
-function mapStateToProps({ user }) {
+function mapStateToProps({ user }: RootState): StateProps {
   return {
     user,
   };
 }
 
-function mapDispatchToProps(dispatch) {
+function mapDispatchToProps(dispatch: DispatchType): DispatchProps {
   return {
     fetch: () => {
       dispatch(fetchUser());
@@ -75,7 +81,7 @@ function mapDispatchToProps(dispatch) {
 }
 
 export default withRouter(
-  connect(
+  connect<StateProps, DispatchProps, {}, RootState>(
     mapStateToProps,
     mapDispatchToProps,
   )(LoggedInUserMenu),

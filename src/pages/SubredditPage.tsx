@@ -4,6 +4,7 @@ import styled from "styled-components";
 import { RouteComponentProps } from "react-router-dom";
 import SubredditFeed from "../containers/SubredditFeed";
 import SubredditBanner from "../containers/SubredditBanner";
+import { PostsSortMode } from "../reducers/posts";
 
 type PageProps = {
   withBanner: boolean;
@@ -36,7 +37,10 @@ class SubredditPage extends Component<Props, {}> {
     return (
       <Page withBanner={shouldShowBanner}>
         {shouldShowBanner && <SubredditBanner subreddit={subreddit} />}
-        <SubredditFeed subreddit={subreddit || ""} sortMode={actualSortMode} />
+        <SubredditFeed
+          subreddit={subreddit || ""}
+          sortMode={actualSortMode as PostsSortMode}
+        />
       </Page>
     );
   }

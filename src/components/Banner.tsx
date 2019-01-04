@@ -25,11 +25,15 @@ const Title = styled.h1`
 `;
 
 type Props = {
-  subreddit: Subreddit;
+  subreddit: Subreddit | null;
   isLoading: boolean;
 };
 
 function Banner({ subreddit, isLoading, ...rest }: Props) {
+  if (subreddit === null) {
+    return null;
+  }
+
   const imageSrc = subreddit.banner_img;
 
   return (

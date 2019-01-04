@@ -4,13 +4,19 @@ import { connect } from "react-redux";
 import Icon from "../components/Icon";
 import Menu from "../components/Menu";
 import { toggleTheme } from "../actions/theme";
+import { RootState, DispatchType } from "../reducers";
 
-class ThemeTogglerMenuItem extends Component {
-  static propTypes = {
-    isDark: PropTypes.bool.isRequired,
-    toggle: PropTypes.func.isRequired,
-  };
+type StateProps = {
+  isDark: boolean;
+};
 
+type DispatchProps = {
+  toggle: () => void;
+};
+
+type Props = StateProps & DispatchProps;
+
+class ThemeTogglerMenuItem extends Component<Props, {}> {
   render() {
     const icon = this.props.isDark ? "fa moon" : "far moon";
     return (
@@ -21,13 +27,13 @@ class ThemeTogglerMenuItem extends Component {
   }
 }
 
-function mapStateToProps({ theme }) {
+function mapStateToProps({ theme }: RootState): StateProps {
   return {
     isDark: theme.isDark,
   };
 }
 
-function mapDispatchToProps(dispatch) {
+function mapDispatchToProps(dispatch: DispatchType): DispatchProps {
   return {
     toggle: () => {
       dispatch(toggleTheme());

@@ -3,7 +3,7 @@ import { Subreddit } from "snoowrap";
 import { ThunkDispatch } from "redux-thunk";
 import { SubredditState } from "../reducers/subreddits";
 import { Action } from "redux";
-import { ReduxState } from "../reducers";
+import { RootState } from "../reducers";
 
 export const REQUEST_SUBREDDIT = "REQUEST_SUBREDDIT";
 export const RECEIVE_SUBREDDIT = "RECEIVE_SUBREDDIT";
@@ -20,7 +20,7 @@ function receiveSubreddit(subreddit: string, data: Subreddit) {
 export function fetchSubreddit(subreddit: string) {
   return (
     dispatch: ThunkDispatch<SubredditState, void, Action>,
-    getState: () => ReduxState,
+    getState: () => RootState,
   ) => {
     const stored = getState().subreddits[subreddit];
     if (stored) {
