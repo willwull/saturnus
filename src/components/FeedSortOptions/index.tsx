@@ -29,11 +29,9 @@ function mapSortToElement(sortMode: string) {
   );
 }
 
-function mapTimeToElement(timeSort: string = "default") {
-  alert(timeSort);
+function mapTimeToElement(timeSort: string) {
+  // month is the default time sort
   const names: StringDict = {
-    // month is the default time sort
-    default: "This month",
     hour: "Now",
     day: "Today",
     week: "This week",
@@ -45,7 +43,7 @@ function mapTimeToElement(timeSort: string = "default") {
   return (
     <React.Fragment>
       <Icon icon="far clock" />
-      &nbsp; {names[timeSort]} &nbsp;
+      &nbsp; {names[timeSort] || names.month} &nbsp;
       <Icon icon="caret-down" />
     </React.Fragment>
   );
