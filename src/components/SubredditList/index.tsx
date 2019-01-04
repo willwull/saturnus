@@ -17,7 +17,7 @@ type Props = {
 
 function SubredditList({ subreddits }: Props) {
   if (!subreddits || !subreddits.length) {
-    return "Nothing to see here";
+    return <div>"Nothing to see here"</div>;
   }
 
   const sorted = subreddits.sort((a: SimpleSubreddit, b: SimpleSubreddit) => {

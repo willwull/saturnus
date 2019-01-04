@@ -1,7 +1,7 @@
 import moment from "moment-mini";
 import reddit from "../api/reddit";
 import { Submission } from "snoowrap";
-import { ReduxState } from "../reducers";
+import { RootState } from "../reducers";
 import { ThunkDispatch } from "redux-thunk";
 import { PostsState, PostsSortMode, PostsTimes } from "../reducers/posts";
 import { Action } from "redux";
@@ -48,7 +48,7 @@ function fetchPostError(subreddit: string) {
 }
 
 function shouldFetch(
-  state: ReduxState,
+  state: RootState,
   subreddit: string,
   sortMode: PostsSortMode,
   time: PostsTimes,
@@ -91,7 +91,7 @@ export function fetchPosts(
 ) {
   return async (
     dispatch: ThunkDispatch<PostsState, void, Action>,
-    getState: () => ReduxState,
+    getState: () => RootState,
   ) => {
     const state = getState();
     if (!shouldFetch(state, subreddit, sortMode, time)) return;
@@ -138,7 +138,7 @@ export function fetchPosts(
 export function fetchMorePosts(subreddit: string) {
   return async (
     dispatch: ThunkDispatch<PostsState, void, Action>,
-    getState: () => ReduxState,
+    getState: () => RootState,
   ) => {
     const { items } = getState().posts[subreddit];
     dispatch(requestMorePosts(subreddit));

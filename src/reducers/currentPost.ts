@@ -3,15 +3,23 @@ import {
   REQUEST_CURRENT_POST,
   ERROR_CURRENT_POST,
 } from "../actions/currentPost";
+import { Submission } from "snoowrap";
+
+export type CurrentPostState = {
+  post: Submission | {};
+  isLoading: boolean;
+  errorMsg: string | null;
+  receivedAt: Date | null;
+};
 
 export default function currentPost(
-  state = {
+  state: CurrentPostState = {
     post: {},
     isLoading: false,
     errorMsg: null,
     receivedAt: null,
   },
-  action,
+  action: any,
 ) {
   switch (action.type) {
     case REQUEST_CURRENT_POST:

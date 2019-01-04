@@ -4,7 +4,7 @@ import { initSnoowrap } from "./snoowrap";
 import { ThunkDispatch } from "redux-thunk";
 import { UserState } from "../reducers/user";
 import { Action } from "redux";
-import { ReduxState } from "../reducers";
+import { RootState } from "../reducers";
 import { RedditUser } from "snoowrap";
 
 export const USER_SIGN_OUT = "USER_SIGN_OUT";
@@ -53,7 +53,7 @@ export function signOut() {
 export function fetchMySubs(options = { skipCache: false }) {
   return async (
     dispatch: ThunkDispatch<UserState, void, Action>,
-    getState: () => ReduxState,
+    getState: () => RootState,
   ) => {
     dispatch({ type: REQUEST_MY_SUBS });
 

@@ -1,23 +1,33 @@
 import React, { Component } from "react";
-import PropTypes from "prop-types";
 import { connect } from "react-redux";
 import { fetchSubreddit } from "../actions/subreddits";
 import Banner from "../components/Banner";
+import { Subreddit } from "snoowrap";
+import { RootState, DispatchType } from "../reducers";
 
-class SubredditBanner extends Component {
-  static propTypes = {
-    subreddit: PropTypes.string.isRequired, // not from redux
-    getSub: PropTypes.func.isRequired,
-    isLoading: PropTypes.bool.isRequired,
-    data: PropTypes.object.isRequired,
-  };
+type StateProps = {
+  data: Subreddit | null;
+  isLoading: boolean;
+  error: boolean;
+};
 
+type DispatchProps = {
+  getSub: (subredditName: string) => void;
+};
+
+type OwnProps = {
+  subreddit: string;
+};
+
+type Props = StateProps & DispatchProps & OwnProps;
+
+class SubredditBanner extends Component<Props, {}> {
   componentDidMount() {
     const { getSub, subreddit } = this.props;
     getSub(subreddit);
   }
 
-  componentDidUpdate(prevProps) {
+  componentDidUpdate(prevProps: Props) {
     if (this.props.subreddit !== prevProps.subreddit) {
       console.log("fetch new subreddit");
       this.props.getSub(this.props.subreddit);
@@ -31,9 +41,12 @@ class SubredditBanner extends Component {
   }
 }
 
-function mapStateToProps({ subreddits }, ownProps) {
+function mapStateToProps(
+  { subreddits }: RootState,
+  ownProps: OwnProps,
+): StateProps {
   const currentSub = subreddits[ownProps.subreddit] || {
-    data: {},
+    data: null,
     isLoading: false,
     error: false,
   };
@@ -43,10 +56,10 @@ function mapStateToProps({ subreddits }, ownProps) {
   };
 }
 
-function mapDispatchToProps(dispatch) {
+function mapDispatchToProps(dispatch: DispatchType): DispatchProps {
   return {
-    getSub: subreddit => {
-      dispatch(fetchSubreddit(subreddit));
+    getSub: (subredditName: string) => {
+      dispatch(fetchSubreddit(subredditName));
     },
   };
 }
