@@ -6,6 +6,7 @@ import SubredditIcon from "./SubredditIcon";
 type BannerWrapperProps = {
   src: string;
 };
+
 const BannerWrapper = styled.div`
   width: 100%;
   height: 200px;
@@ -29,15 +30,15 @@ type Props = {
   isLoading: boolean;
 };
 
-function Banner({ subreddit, isLoading, ...rest }: Props) {
+function Banner({ subreddit, isLoading }: Props) {
   if (subreddit === null) {
-    return null;
+    return <BannerWrapper src="" />;
   }
 
   const imageSrc = subreddit.banner_img;
 
   return (
-    <BannerWrapper src={imageSrc} {...rest}>
+    <BannerWrapper src={imageSrc}>
       {!isLoading && (
         <Title>
           <SubredditIcon subreddit={subreddit} />
