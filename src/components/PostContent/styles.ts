@@ -23,8 +23,12 @@ const MediaPreviewStyles = css`
   background: ${props => transparentize(0.3, props.theme.body)};
 `;
 
+// The height of the image is known at the time the post is fetched,
+// so we can set the element height so that there is no content
+// jumping when the actual image is loaded in.
 export const ImgPreview = styled.img`
   ${MediaPreviewStyles};
+  height: ${props => props.height}px;
 `;
 
 export const VideoPreview = styled.video`

@@ -59,6 +59,7 @@ class PostContent extends Component<Props, State> {
               className="obfuscated-img"
               src={obfuscated}
               alt={post.title}
+              height={post.preview.images[0].source.height}
             />
             <button className="warning-text" onClick={this.showImage}>
               <div className="warning-icon">
@@ -91,7 +92,13 @@ class PostContent extends Component<Props, State> {
 
     // image
     if (isImgUrl(post.url)) {
-      return <ImgPreview src={post.url} alt={post.title} />;
+      return (
+        <ImgPreview
+          src={post.url}
+          alt={post.title}
+          height={post.preview.images[0].source.height}
+        />
+      );
     }
 
     // imgur gifv
@@ -114,7 +121,13 @@ class PostContent extends Component<Props, State> {
 
     // handle non-direct imgur links
     if (post.domain === "imgur.com") {
-      return <ImgPreview src={`${post.url}.jpg`} alt={post.title} />;
+      return (
+        <ImgPreview
+          src={`${post.url}.jpg`}
+          alt={post.title}
+          height={post.preview.images[0].source.height}
+        />
+      );
     }
 
     // v.redd.it videos
