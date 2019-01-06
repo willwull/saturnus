@@ -10,9 +10,10 @@ import {
   VideoPreview,
 } from "./styles";
 import "./PostContent.scss";
+import { Submission } from "snoowrap";
 
 type Props = {
-  post: any;
+  post: Submission;
   expanded?: boolean;
 };
 
