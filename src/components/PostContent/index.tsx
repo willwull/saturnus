@@ -1,61 +1,31 @@
 import React, { Component } from "react";
-import PropTypes from "prop-types";
-import styled, { css } from "styled-components";
-import { transparentize } from "polished";
-
 import { isImgUrl } from "../../utils";
 import LinkPreview from "../LinkPreview";
-import "./PostContent.scss";
 import TextContent from "../TextContent";
 import Icon from "../Icon";
+import {
+  ContentOverflowGradient,
+  ImgPreview,
+  SelfText,
+  VideoPreview,
+} from "./styles";
+import "./PostContent.scss";
 
-const ContentOverflowGradient = styled.div`
-  pointer-events: none;
-  position: absolute;
-  top: 75%;
-  right: 0;
-  bottom: 0;
-  left: 0;
-  background: linear-gradient(
-    0deg,
-    ${props => props.theme.contentBg},
-    ${props => transparentize(1, props.theme.contentBg)}
-  );
-`;
-
-const MediaPreviewStyles = css`
-  width: 100%;
-  max-height: var(--max-content-height);
-  object-fit: contain;
-  margin-bottom: 10px;
-  background: ${props => transparentize(0.3, props.theme.body)};
-`;
-
-const ImgPreview = styled.img`
-  ${MediaPreviewStyles};
-`;
-
-const VideoPreview = styled.video`
-  ${MediaPreviewStyles};
-`;
-
-const SelfText = styled.div`
-  a {
-    color: ${props => props.theme.primary};
-  }
-`;
-
-interface Props {
+type Props = {
   post: any;
   expanded?: boolean;
-}
+};
 
-class PostContent extends Component<Props, {}> {
+type State = {
+  obfuscated: boolean;
+};
+
+class PostContent extends Component<Props, State> {
   static defaultProps = {
     expanded: false,
   };
 
-  state = {
+  state: State = {
     obfuscated: true,
   };
 
