@@ -2,7 +2,7 @@ import Snoowrap from "snoowrap";
 import credentials from "./credentials";
 
 class Reddit {
-  private _snoo: Snoowrap | null = null;
+  private snoo: Snoowrap | null = null;
 
   /**
    * Creates an instance of Snoowrap with app only OAuth by default.
@@ -11,7 +11,7 @@ class Reddit {
    */
   initAppOnly(accessToken: string): void {
     // TODO: check localStorage for access token and create a new instance of snoowrap with that
-    this._snoo = new Snoowrap({
+    this.snoo = new Snoowrap({
       userAgent: credentials.userAgent,
       accessToken,
     });
@@ -19,7 +19,7 @@ class Reddit {
     // proxies and promises don't work well in Safari at the moment, so
     // methods like snoowrap.getSubscriptions().fetchAll() will fail
     // https://github.com/not-an-aardvark/snoowrap/issues/80
-    this._snoo.config({
+    this.snoo.config({
       proxies: false,
     });
   }
@@ -33,13 +33,13 @@ class Reddit {
    */
   initRefreshToken(refreshToken: string): void {
     console.log(`Refresh token passed to initRefreshToken: ${refreshToken}`);
-    this._snoo = new Snoowrap({
+    this.snoo = new Snoowrap({
       userAgent: credentials.userAgent,
       clientId: credentials.clientId,
       clientSecret: "",
       refreshToken,
     });
-    this._snoo.config({ proxies: false });
+    this.snoo.config({ proxies: false });
   }
 
   /**
@@ -48,10 +48,10 @@ class Reddit {
    * @returns {Snoowrap}
    */
   getSnoowrap(): Snoowrap {
-    if (!this._snoo) {
+    if (!this.snoo) {
       throw new Error("Not authenticated with Reddit yet");
     }
-    return this._snoo;
+    return this.snoo;
   }
 }
 

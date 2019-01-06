@@ -33,7 +33,7 @@ export function shortenNumber(num: number): string {
  * @param {string} url
  * @returns {Array<string>}
  */
-export function splitUrl(url: string): Array<string> {
+export function splitUrl(url: string): string[] {
   const newUrl = url.replace(/^https?:\/\/(www\.)?/, "");
   const [domain, ...rest] = newUrl.split("/");
   return [domain, `/${rest.join("/")}`];

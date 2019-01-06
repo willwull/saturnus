@@ -1,5 +1,4 @@
 import React from "react";
-import PropTypes from "prop-types";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
   findIconDefinition,
@@ -15,7 +14,7 @@ interface Props {
 }
 
 function Icon({ icon, ...rest }: Props) {
-  let iconArgs = icon.split(" ");
+  const iconArgs = icon.split(" ");
 
   let faIcon;
   if (iconArgs.length === 1) {
@@ -32,9 +31,5 @@ function Icon({ icon, ...rest }: Props) {
 
   return <FontAwesomeIcon icon={faIcon} className="icon" {...rest} />;
 }
-
-Icon.propTypes = {
-  icon: PropTypes.string.isRequired,
-};
 
 export default Icon;
