@@ -77,4 +77,8 @@ export const PauseOverlay = styled.div`
     background: rgba(0, 0, 0, 0.2);
     opacity: 1;
   }
+
+  @media (max-width: 576px) {
+    display: none;
+  }
 `;
