@@ -37,7 +37,7 @@ class PostContent extends Component<Props, State> {
     if ((post.spoiler || post.over_18) && this.state.obfuscated && !expanded) {
       // spoiler marked text post
       if (post.is_self) {
-        return <div className="post-self-text">Hidden text</div>;
+        return <div className="post-self-text">[Hidden text]</div>;
       }
 
       // spoiler marked media post
