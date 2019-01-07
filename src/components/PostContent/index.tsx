@@ -88,13 +88,12 @@ class PostContent extends Component<Props, State> {
 
     // image
     if (isImgUrl(post.url)) {
-      return (
-        <ImgPreview
-          src={post.url}
-          alt={post.title}
-          height={post.preview.images[0].source.height}
-        />
-      );
+      const height =
+        post.preview &&
+        post.preview.images &&
+        post.preview.images[0].source.height;
+
+      return <ImgPreview src={post.url} alt={post.title} height={height} />;
     }
 
     // handle non-direct imgur links
@@ -113,13 +112,13 @@ class PostContent extends Component<Props, State> {
       // .gifv won't work as video src, but .mp4 works
       const vidUrl = post.url.replace(".gifv", ".mp4");
 
+      const height =
+        post.preview &&
+        post.preview.images &&
+        post.preview.images[0].source.height;
+
       // muted needs to be set for autoplay to work on Chrome
-      return (
-        <VideoContent
-          src={vidUrl}
-          height={post.preview.images[0].source.height}
-        />
-      );
+      return <VideoContent src={vidUrl} height={height} />;
     }
 
     // v.redd.it videos
@@ -138,7 +137,10 @@ class PostContent extends Component<Props, State> {
     }
 
     // rich video (e.g. YouTube, Gfycat)
-    if (post.post_hint === "rich:video") {
+    if (
+      (post.post_hint === "rich:video" || post.domain === "gfycat.com") &&
+      post.media
+    ) {
       return (
         <div dangerouslySetInnerHTML={{ __html: post.media.oembed.html }} />
       );

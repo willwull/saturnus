@@ -28,7 +28,7 @@ const MediaPreviewStyles = css`
 // jumping when the actual image is loaded in.
 export const ImgPreview = styled.img`
   ${MediaPreviewStyles};
-  height: ${props => props.height}px;
+  height: ${props => (props.height ? `${props.height}px` : "auto")};
 `;
 
 export const SelfText = styled.div`
@@ -54,7 +54,7 @@ export const VideoProgressContainer = styled.div`
   top: -${barHeight}px;
   height: ${barHeight}px;
   width: 100%;
-  background: rgba(255, 255, 255, 0.2);
+  background: rgba(255, 255, 255, 0.4);
   margin-bottom: 10px;
 `;
 
