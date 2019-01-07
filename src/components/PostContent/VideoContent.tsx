@@ -1,6 +1,13 @@
 import React, { Component } from "react";
 import { InView } from "react-intersection-observer";
-import { VideoPreview } from "./styles";
+import {
+  VideoPreview,
+  VideoProgressContainer,
+  VideoProgressBar,
+  PauseOverlay,
+  VideoContainer,
+} from "./styles";
+import Icon from "../Icon";
 
 type Props = {
   src: string;
@@ -14,10 +21,18 @@ type DefaultProps = {
   autoPlay: boolean;
 };
 
-class VideoContent extends Component<Props, {}> {
+type State = {
+  progress: number;
+};
+
+class VideoContent extends Component<Props, State> {
   static defaultProps: DefaultProps = {
     muted: true,
     autoPlay: true,
+  };
+
+  state: State = {
+    progress: 0,
   };
 
   videoRef = React.createRef<HTMLVideoElement>();
@@ -40,22 +55,62 @@ class VideoContent extends Component<Props, {}> {
     }
   };
 
+  handleTimeUpdate = () => {
+    const videoElem = this.videoRef.current;
+    if (videoElem) {
+      const totalTime = videoElem.duration;
+      const currentTime = videoElem.currentTime;
+      const progressWidth = Math.floor((currentTime / totalTime) * 100);
+      this.setState({
+        progress: progressWidth,
+      });
+    }
+  };
+
+  handleVideoClick = () => {
+    const videoElem = this.videoRef.current;
+    if (videoElem) {
+      if (videoElem.paused) {
+        videoElem.play();
+      } else {
+        videoElem.pause();
+      }
+    }
+  };
+
   render() {
     const { src, autoPlay, muted, height } = this.props;
+    const videoElem = this.videoRef.current;
+    const isPaused = videoElem && videoElem.paused;
+
+    const overlayIcon = isPaused ? "play" : "pause";
+
+    const progressStyle = {
+      width: `${this.state.progress}%`,
+    };
 
     return (
       <InView threshold={0.4} onChange={this.handleInView}>
-        <VideoPreview
-          innerRef={this.videoRef}
-          playsInline
-          preload="auto"
-          autoPlay={autoPlay}
-          loop={true}
-          controls
-          muted={muted}
-          src={src}
-          height={height}
-        />
+        <VideoContainer>
+          <VideoPreview
+            innerRef={this.videoRef}
+            playsInline
+            preload="auto"
+            autoPlay={autoPlay}
+            loop={true}
+            muted={muted}
+            src={src}
+            height={height}
+            onTimeUpdate={this.handleTimeUpdate}
+            onClick={this.handleVideoClick}
+          />
+          <PauseOverlay onClick={this.handleVideoClick}>
+            <Icon icon={overlayIcon} />
+          </PauseOverlay>
+          <VideoProgressContainer>
+            <VideoProgressBar style={progressStyle} />
+          </VideoProgressContainer>
+        </VideoContainer>
       </InView>
     );
   }
