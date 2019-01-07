@@ -34,7 +34,6 @@ const darkTheme: ThemeColors = {
 };
 
 function getDefaultTheme(): ThemeState {
-  console.log(getStoredTheme());
   const isDark = getStoredTheme() || false;
   return {
     isDark,
