@@ -33,6 +33,7 @@ export const ImgPreview = styled.img`
 
 export const VideoPreview = styled.video`
   ${MediaPreviewStyles};
+  height: ${props => props.height}px;
 `;
 
 export const SelfText = styled.div`
