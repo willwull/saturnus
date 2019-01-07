@@ -9,7 +9,7 @@ const Page = styled.div`
 
 function PostPage() {
   return (
-    <Page>
+    <Page className="post-page">
       <CurrentPost />
     </Page>
   );

@@ -20,7 +20,7 @@ const PostPageWrapper = styled.div`
   overflow: scroll;
   background: ${props => props.theme.body};
   transform: translateX(100%);
-  animation: ${fadeInAnim} 500ms;
+  animation: ${fadeInAnim} 300ms;
   animation-fill-mode: forwards;
   -webkit-overflow-scrolling: touch;
 `;
@@ -38,7 +38,7 @@ const Page = styled.div`
  */
 function PostModal() {
   return (
-    <PostPageWrapper>
+    <PostPageWrapper className="fuck-me">
       <Page>
         <CurrentPost />
       </Page>

@@ -28,18 +28,24 @@ class ModalSwitch extends Component<Props, {}> {
   // is still `/` even though its `/img/2`.
   previousLocation = this.props.location;
 
+  shouldComponentUpdate(nextProps: Props) {
+    return nextProps.location !== this.props.location;
+  }
+
   componentDidUpdate(prevProps: Props) {
     const { location, history } = this.props;
-    // set previousLocation if props.location is not modal
+
     if (
       history.action !== "POP" &&
-      (!location.state || !location.state.modal)
+      location !== prevProps.location &&
+      !location.pathname.includes("/comments/")
     ) {
-      this.previousLocation = prevProps.location;
+      this.previousLocation = location;
     }
 
-    if (location.state && !!location.state.modal) {
+    if (location.state && location.state.modal) {
       // if modal is open, we disable scrolling on the main content
+      console.log("adding no-scroll");
       document.body.classList.add("no-scroll");
     } else {
       document.body.classList.remove("no-scroll");
@@ -53,6 +59,8 @@ class ModalSwitch extends Component<Props, {}> {
       location.state.modal &&
       this.previousLocation !== location
     ); // not initial render
+
+    console.log("Is modal:", isModal);
 
     return (
       <Fragment>

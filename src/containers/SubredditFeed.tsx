@@ -45,7 +45,6 @@ class SubredditFeed extends Component<Props, {}> {
   }
 
   componentDidUpdate(prevProps: Props) {
-    console.log("updateeeee");
     if (this.props.location !== prevProps.location) {
       this.loadPosts();
     }
