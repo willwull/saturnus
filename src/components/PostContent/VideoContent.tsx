@@ -41,7 +41,6 @@ class VideoContent extends Component<Props, State> {
     const videoElem = this.videoRef.current;
     if (videoElem) {
       if (inView) {
-        console.log("Play");
         videoElem.play().catch(error => {
           // This probably happens on iOS since video.play() only
           // works as a result of user actions
@@ -49,7 +48,6 @@ class VideoContent extends Component<Props, State> {
           console.error(error);
         });
       } else {
-        console.log("Pause");
         videoElem.pause();
       }
     }
