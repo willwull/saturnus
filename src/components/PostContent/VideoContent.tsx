@@ -11,7 +11,6 @@ import Icon from "../Icon";
 
 type Props = {
   src: string;
-  height: number;
   muted?: boolean;
   autoPlay?: boolean;
 };
@@ -77,7 +76,7 @@ class VideoContent extends Component<Props, State> {
   };
 
   render() {
-    const { src, autoPlay, muted, height } = this.props;
+    const { src, autoPlay, muted } = this.props;
     const videoElem = this.videoRef.current;
     const isPaused = videoElem && videoElem.paused;
 
@@ -98,7 +97,6 @@ class VideoContent extends Component<Props, State> {
             loop={true}
             muted={muted}
             src={src}
-            height={height}
             onTimeUpdate={this.handleTimeUpdate}
             onClick={this.handleVideoClick}
           />

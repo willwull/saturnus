@@ -88,23 +88,12 @@ class PostContent extends Component<Props, State> {
 
     // image
     if (isImgUrl(post.url)) {
-      const height =
-        post.preview &&
-        post.preview.images &&
-        post.preview.images[0].source.height;
-
-      return <ImgPreview src={post.url} alt={post.title} height={height} />;
+      return <ImgPreview src={post.url} alt={post.title} />;
     }
 
     // handle non-direct imgur links
     if (post.domain === "imgur.com") {
-      return (
-        <ImgPreview
-          src={`${post.url}.jpg`}
-          alt={post.title}
-          height={post.preview.images[0].source.height}
-        />
-      );
+      return <ImgPreview src={`${post.url}.jpg`} alt={post.title} />;
     }
 
     // imgur gifv
@@ -112,13 +101,8 @@ class PostContent extends Component<Props, State> {
       // .gifv won't work as video src, but .mp4 works
       const vidUrl = post.url.replace(".gifv", ".mp4");
 
-      const height =
-        post.preview &&
-        post.preview.images &&
-        post.preview.images[0].source.height;
-
       // muted needs to be set for autoplay to work on Chrome
-      return <VideoContent src={vidUrl} height={height} />;
+      return <VideoContent src={vidUrl} />;
     }
 
     // v.redd.it videos
@@ -131,7 +115,6 @@ class PostContent extends Component<Props, State> {
           src={videoStream}
           muted={!!post.media.reddit_video.is_gif}
           autoPlay={!!post.media.reddit_video.is_gif}
-          height={post.media.reddit_video.height}
         />
       );
     }
