@@ -1,16 +1,12 @@
 import React, { Component } from "react";
+import { Submission } from "snoowrap";
 import { isImgUrl } from "../../utils";
 import LinkPreview from "../LinkPreview";
 import TextContent from "../TextContent";
 import Icon from "../Icon";
-import {
-  ContentOverflowGradient,
-  ImgPreview,
-  SelfText,
-  VideoPreview,
-} from "./styles";
+import VideoContent from "./VideoContent";
+import { ContentOverflowGradient, ImgPreview, SelfText } from "./styles";
 import "./PostContent.scss";
-import { Submission } from "snoowrap";
 
 type Props = {
   post: Submission;
@@ -41,7 +37,7 @@ class PostContent extends Component<Props, State> {
     if ((post.spoiler || post.over_18) && this.state.obfuscated && !expanded) {
       // spoiler marked text post
       if (post.is_self) {
-        return <div className="post-self-text">Hidden text</div>;
+        return <div className="post-self-text">[Hidden text]</div>;
       }
 
       // spoiler marked media post
@@ -101,24 +97,6 @@ class PostContent extends Component<Props, State> {
       );
     }
 
-    // imgur gifv
-    if (post.domain === "i.imgur.com" && post.url.indexOf("gifv") !== 0) {
-      // .gifv won't work as video src, but .mp4 works
-      const vidUrl = post.url.replace(".gifv", ".mp4");
-
-      // muted needs to be set for autoplay to work on Chrome
-      return (
-        <VideoPreview
-          preload="auto"
-          autoPlay={true}
-          loop={true}
-          controls
-          muted
-          src={vidUrl}
-        />
-      );
-    }
-
     // handle non-direct imgur links
     if (post.domain === "imgur.com") {
       return (
@@ -130,17 +108,31 @@ class PostContent extends Component<Props, State> {
       );
     }
 
+    // imgur gifv
+    if (post.domain === "i.imgur.com" && post.url.indexOf("gifv") !== 0) {
+      // .gifv won't work as video src, but .mp4 works
+      const vidUrl = post.url.replace(".gifv", ".mp4");
+
+      // muted needs to be set for autoplay to work on Chrome
+      return (
+        <VideoContent
+          src={vidUrl}
+          height={post.preview.images[0].source.height}
+        />
+      );
+    }
+
     // v.redd.it videos
     if (post.is_video) {
       // TODO: support reddit videos with audio
       const videoStream = post.media.reddit_video.fallback_url;
+
       return (
-        <VideoPreview
-          preload="auto"
-          loop={true}
-          controls
-          autoPlay={!!post.media.reddit_video.is_gif}
+        <VideoContent
           src={videoStream}
+          muted={!!post.media.reddit_video.is_gif}
+          autoPlay={!!post.media.reddit_video.is_gif}
+          height={post.media.reddit_video.height}
         />
       );
     }
