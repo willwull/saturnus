@@ -61,7 +61,7 @@ export const VideoProgressContainer = styled.div`
 // Width of progress bar is set with inline styles
 export const VideoProgressBar = styled.div`
   height: 100%;
-  background: rgba(0, 0, 0, 0.3);
+  background: rgba(0, 0, 0, 0.4);
 `;
 
 export const PauseOverlay = styled.div`
@@ -76,7 +76,7 @@ export const PauseOverlay = styled.div`
   justify-content: center;
   color: white;
   font-size: 3em;
-  transition: opacity 100ms;
+  transition: all 300ms;
 
   &:hover {
     background: rgba(0, 0, 0, 0.2);
