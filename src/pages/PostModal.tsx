@@ -1,6 +1,15 @@
 import React from "react";
-import styled from "styled-components";
+import styled, { keyframes } from "styled-components";
 import CurrentPost from "../containers/CurrentPost";
+
+const fadeInAnim = keyframes`
+  from {
+    transform: translateX(100%);
+  }
+  to {
+    transform: translateX(0%);
+  }
+`;
 
 const PostPageWrapper = styled.div`
   position: fixed;
@@ -10,6 +19,9 @@ const PostPageWrapper = styled.div`
   bottom: 0;
   overflow: scroll;
   background: ${props => props.theme.body};
+  transform: translateX(100%);
+  animation: ${fadeInAnim} 500ms;
+  animation-fill-mode: forwards;
   -webkit-overflow-scrolling: touch;
 `;
 
