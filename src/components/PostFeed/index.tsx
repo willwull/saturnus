@@ -5,7 +5,7 @@ import Post from "../Post";
 import PrimaryButton from "../Buttons/PrimaryButton";
 import FeedSortOptions from "../FeedSortOptions";
 import Loading from "../Loading";
-import "./PostFeed.scss";
+import { NoPosts, Feed } from "./styles";
 
 type Props = {
   posts: Submission[];
@@ -32,7 +32,7 @@ function PostFeed({
   if (isLoading) {
     content = <Loading type="regular" />;
   } else if (posts.length === 0) {
-    content = <div>No posts :(</div>;
+    content = <NoPosts>No posts :(</NoPosts>;
   } else {
     content = (
       <React.Fragment>
@@ -53,14 +53,14 @@ function PostFeed({
   }
 
   return (
-    <div className="post-feed">
+    <Feed>
       <FeedSortOptions
         currentSort={currentSort}
         subreddit={subreddit}
         currentTimeSort={currentTimeSort}
       />
       {content}
-    </div>
+    </Feed>
   );
 }
 
