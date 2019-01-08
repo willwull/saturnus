@@ -3,7 +3,7 @@ import ThemeTogglerMenuItem from "../../containers/ThemeTogglerMenuItem";
 import Dropdown from "../Dropdown";
 import Menu from "../Menu";
 import Icon from "../Icon";
-import "./UserMenu.scss";
+import { Username } from "./styles";
 
 interface Props {
   userData: any;
@@ -42,7 +42,7 @@ class UserMenu extends Component<Props, {}> {
             src={userData.icon_img}
             alt={userData.name}
           />
-          <span className="username">{userData.name}</span>
+          <Username>{userData.name}</Username>
           <Icon icon="caret-down" />
         </div>
       </Dropdown>
