@@ -20,6 +20,12 @@
     text-decoration: none;
   }
 
+  button {
+    display: flex;
+    text-align: center;
+    justify-content: center;
+  }
+
   .user-menu {
     display: flex;
     align-items: center;

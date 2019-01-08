@@ -14,12 +14,12 @@ const Page = styled.div`
   margin-top: ${(props: PageProps) => (props.withBanner ? "50px" : "70px")};
 `;
 
-type Params = {
+export type SubPageParams = {
   subreddit: string;
   sortMode: string;
 };
 
-type Props = RouteComponentProps<Params>;
+type Props = RouteComponentProps<SubPageParams>;
 
 class SubredditPage extends Component<Props, {}> {
   render() {
