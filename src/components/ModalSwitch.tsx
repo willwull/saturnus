@@ -33,10 +33,9 @@ class ModalSwitch extends Component<Props, {}> {
   }
 
   componentDidUpdate(prevProps: Props) {
-    const { location, history } = this.props;
+    const { location } = this.props;
 
     if (
-      history.action !== "POP" &&
       location !== prevProps.location &&
       !location.pathname.includes("/comments/")
     ) {
