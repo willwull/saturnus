@@ -1,6 +1,6 @@
 import React, { Fragment } from "react";
 import { SidebarLink } from "../Sidebar";
-import { FallBackIcon, SubIcon } from "./styles";
+import { FallBackIcon, SubIcon, ListLetter } from "./styles";
 
 type SimpleSubreddit = {
   id: string;
@@ -9,6 +9,13 @@ type SimpleSubreddit = {
   key_color: string;
   display_name: string;
   display_name_prefixed: string;
+};
+
+type SubGroup = {
+  [key: string]: {
+    letter: string;
+    subs: SimpleSubreddit[];
+  };
 };
 
 type Props = {
@@ -32,18 +39,49 @@ function SubredditList({ subreddits }: Props) {
     return 0;
   });
 
+  // Take all subreddits and group them by the first letter
+  const subsByLetter = sorted.reduce(
+    (acc: SubGroup, sub) => {
+      let firstLetter = sub.display_name[0].toUpperCase();
+
+      // Numbers should be grouped under #
+      if (!isNaN(Number(firstLetter))) {
+        firstLetter = "#";
+      }
+
+      if (!acc[firstLetter]) {
+        acc[firstLetter] = {
+          letter: firstLetter,
+          subs: [sub],
+        };
+        return acc;
+      }
+
+      acc[firstLetter].subs.push(sub);
+      return acc;
+    },
+    {} as SubGroup,
+  );
+
   return (
     <Fragment>
-      {sorted.map(sub => (
-        <SidebarLink key={sub.id} to={sub.url}>
-          {sub.icon_img ? (
-            <SubIcon src={sub.icon_img} />
-          ) : (
-            <FallBackIcon color={sub.key_color} />
-          )}
+      {Object.values(subsByLetter).map(subGroup => (
+        <Fragment>
+          <ListLetter>{subGroup.letter}</ListLetter>
+          <Fragment>
+            {subGroup.subs.map(sub => (
+              <SidebarLink key={sub.id} to={sub.url}>
+                {sub.icon_img ? (
+                  <SubIcon src={sub.icon_img} />
+                ) : (
+                  <FallBackIcon color={sub.key_color} />
+                )}
 
-          {sub.display_name_prefixed}
-        </SidebarLink>
+                {sub.display_name_prefixed}
+              </SidebarLink>
+            ))}
+          </Fragment>
+        </Fragment>
       ))}
     </Fragment>
   );
