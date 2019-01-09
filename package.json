@@ -21,7 +21,6 @@
     "color": "^3.0.0",
     "html-react-parser": "^0.6.1",
     "intersection-observer": "^0.5.1",
-    "markdown-to-jsx": "^6.6.8",
     "moment-mini": "^2.22.1",
     "normalize.css": "^8.0.0",
     "polished": "^1.9.2",
