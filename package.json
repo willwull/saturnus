@@ -19,6 +19,7 @@
     "@types/react-router-dom": "^4.3.1",
     "@types/snoowrap": "^1.16.1",
     "color": "^3.0.0",
+    "html-react-parser": "^0.6.1",
     "intersection-observer": "^0.5.1",
     "markdown-to-jsx": "^6.6.8",
     "moment-mini": "^2.22.1",
