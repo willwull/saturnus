@@ -1,6 +1,7 @@
-import React, { Component } from "react";
+import React, { Component, Fragment } from "react";
 import { Link } from "react-router-dom";
-import Markdown from "markdown-to-jsx";
+import parse, { ParserOptions } from "html-react-parser";
+import domToReact from "html-react-parser/lib/dom-to-react";
 import { splitUrl } from "../../utils";
 import Icon from "../Icon";
 
@@ -10,7 +11,6 @@ type Props = {
 
 type RedditLinkProps = {
   href: string;
-  title: string;
   children: React.ReactNode;
 };
 
@@ -20,30 +20,40 @@ class TextContent extends Component<Props, {}> {
   };
 
   // Returns a react-router Link if it's a reddit link, otherwise a tag
-  static RedditLink = ({ href, title, children }: RedditLinkProps) => {
+  static RedditLink = ({ href, children }: RedditLinkProps) => {
     const [domain, rest] = splitUrl(href);
     if (domain.toLowerCase().match(/(reddit\.com|saturnusapp)/)) {
-      return (
-        <Link to={rest} title={title}>
-          {children}
-        </Link>
-      );
+      return <Link to={rest}>{children}</Link>;
     }
+
+    if (href.startsWith("/r/")) {
+      return <Link to={href}>{children}</Link>;
+    }
+
     return (
-      <a href={href} title={title} rel="noopener noreferrer" target="_blank">
+      <a href={href} rel="noopener noreferrer" target="_blank">
         {children} <Icon icon="external-link" />
       </a>
     );
   };
 
-  render() {
-    const mdOptions = {
-      overrides: {
-        a: TextContent.RedditLink,
-      },
-    };
+  static ParserOptions: ParserOptions = {
+    replace: domNode => {
+      if (domNode.name === "a") {
+        return (
+          <TextContent.RedditLink href={domNode.attribs.href}>
+            {domToReact(domNode.children, TextContent.ParserOptions)}
+          </TextContent.RedditLink>
+        );
+      }
+      return domNode;
+    },
+  };
 
-    return <Markdown options={mdOptions}>{this.props.children}</Markdown>;
+  render() {
+    // post.selftext_html and comment.body_html can be null
+    const str = this.props.children || "";
+    return <Fragment>{parse(str, TextContent.ParserOptions)}</Fragment>;
   }
 }
 

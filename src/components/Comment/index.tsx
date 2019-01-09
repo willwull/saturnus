@@ -80,7 +80,7 @@ class Comment extends Component<Props, State> {
           )}
         </button>
         <CommentBody isCollapsed={this.state.isCollapsed}>
-          <TextContent>{comment.body}</TextContent>
+          <TextContent>{comment.body_html}</TextContent>
 
           {comment.replies.length !== 0 &&
             comment.replies.map((reply: any) => (

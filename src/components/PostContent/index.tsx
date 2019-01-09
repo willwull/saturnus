@@ -78,7 +78,7 @@ class PostContent extends Component<Props, State> {
 
       return (
         <SelfText className={classes}>
-          <TextContent>{post.selftext}</TextContent>
+          <TextContent>{post.selftext_html}</TextContent>
 
           {/* gradient overlay that indicates that the text is cut off */}
           {!expanded && <ContentOverflowGradient />}
