@@ -2,14 +2,13 @@ import React, { Component } from "react";
 import { withRouter, RouteComponentProps } from "react-router-dom";
 import { connect } from "react-redux";
 import { fetchMySubs } from "../actions/user";
-import SubredditList from "../components/SubredditList";
+import SubredditList, { SimpleSubreddit } from "../components/SubredditList";
 import Loading from "../components/Loading";
-import { Subreddit } from "snoowrap";
 import { RootState, DispatchType } from "../reducers";
 
 type StateProps = {
   isLoading: boolean;
-  subscriptions: Subreddit[];
+  subscriptions: SimpleSubreddit[];
   error: string;
 };
 

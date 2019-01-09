@@ -7,14 +7,15 @@ import {
   RECEIVE_MY_SUBS,
   MY_SUBS_ERROR,
 } from "../actions/user";
-import { Subreddit, RedditUser } from "snoowrap";
+import { RedditUser } from "snoowrap";
+import { SimpleSubreddit } from "../components/SubredditList";
 
 export type UserState = {
   loggedIn: boolean;
   isLoading: boolean;
   data: RedditUser | {};
   subsLoading: boolean;
-  subscriptions: Subreddit[];
+  subscriptions: SimpleSubreddit[];
   subsError: string | null;
 };
 
