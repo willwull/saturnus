@@ -4,15 +4,16 @@ import styled from "styled-components";
 import SubredditIcon from "./SubredditIcon";
 
 type BannerWrapperProps = {
-  src: string;
+  imgSrc: string;
 };
 
 const BannerWrapper = styled.div`
   width: 100%;
   height: 200px;
   background-color: ${props => props.theme.primary};
-  background-image: ${(props: BannerWrapperProps) => `url(${props.src})`};
+  background-image: ${(props: BannerWrapperProps) => `url(${props.imgSrc})`};
   background-size: cover;
+  background-position: center;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -32,13 +33,14 @@ type Props = {
 
 function Banner({ subreddit, isLoading }: Props) {
   if (subreddit === null) {
-    return <BannerWrapper src="" />;
+    return <BannerWrapper imgSrc="" />;
   }
 
-  const imageSrc = subreddit.banner_img;
+  const imageSrc =
+    (subreddit as any).banner_background_image || subreddit.banner_img;
 
   return (
-    <BannerWrapper src={imageSrc}>
+    <BannerWrapper imgSrc={imageSrc}>
       {!isLoading && (
         <Title>
           <SubredditIcon subreddit={subreddit} />
