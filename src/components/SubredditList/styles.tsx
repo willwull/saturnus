@@ -15,3 +15,10 @@ export const FallBackIcon = styled.div`
   border-radius: 50%;
   background: ${props => props.color || lighten(0.1, props.theme.primary)};
 `;
+
+export const ListLetter = styled.div`
+  background: ${props => props.theme.body};
+  padding: 5px 15px;
+  position: sticky;
+  top: 50px;
+`;

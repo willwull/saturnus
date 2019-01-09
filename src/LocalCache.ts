@@ -1,4 +1,5 @@
 import { Subreddit } from "snoowrap";
+import { SimpleSubreddit } from "./components/SubredditList";
 
 const VERIFICATION_STATE = "verification_state";
 const REDDIT_AUTH_TOKENS = "reddit_auth_tokens";
@@ -60,13 +61,14 @@ export function storeMySubs(subscriptions: Subreddit[]) {
   // that take up unnecessary storage since they aren't used within the
   // app anyway, so we only store what we need.
   // This also ensures we don't exceed the localStorage quota
-  const stripped = subscriptions.map(sub => ({
+  const stripped: SimpleSubreddit[] = subscriptions.map(sub => ({
     id: sub.id,
     url: sub.url,
     icon_img: sub.icon_img,
     key_color: sub.key_color,
     display_name: sub.display_name,
     display_name_prefixed: sub.display_name_prefixed,
+    user_has_favorited: (sub as any).user_has_favorited,
   }));
 
   set(MY_SUBSCRIPTIONS, { ...stored, [user]: stripped });

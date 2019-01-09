@@ -2,7 +2,11 @@ import React, { Component } from "react";
 import { connect } from "react-redux";
 import { withRouter, RouteComponentProps } from "react-router-dom";
 
-import { fetchPosts, fetchMorePosts } from "../actions/posts";
+import {
+  fetchPosts,
+  fetchMorePosts,
+  DEFAULT_SORT_MODE,
+} from "../actions/posts";
 
 import PostFeed from "../components/PostFeed";
 import { postVote } from "../actions/voting";
@@ -37,7 +41,7 @@ type Props = OwnProps & StateProps & DispatchProps & RouteComponentProps;
 class SubredditFeed extends Component<Props, {}> {
   static defaultProps: OwnProps = {
     subreddit: "",
-    sortMode: "hot",
+    sortMode: DEFAULT_SORT_MODE,
   };
 
   componentDidMount() {
