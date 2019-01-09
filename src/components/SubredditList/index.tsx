@@ -66,7 +66,7 @@ function SubredditList({ subreddits }: Props) {
   return (
     <Fragment>
       {Object.values(subsByLetter).map(subGroup => (
-        <Fragment>
+        <Fragment key={subGroup.letter}>
           <ListLetter>{subGroup.letter}</ListLetter>
           <Fragment>
             {subGroup.subs.map(sub => (
