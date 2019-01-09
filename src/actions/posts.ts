@@ -11,6 +11,8 @@ export const REQUEST_MORE_POSTS = "REQUEST_MORE_POSTS";
 export const RECEIVE_POSTS = "RECEIVE_POSTS";
 export const FETCH_POST_ERROR = "FETCH_POST_ERROR";
 
+export const DEFAULT_SORT_MODE = "best";
+
 function requestPosts(
   subreddit: string,
   sortMode: PostsSortMode,
@@ -86,7 +88,7 @@ function shouldFetch(
 
 export function fetchPosts(
   subreddit: string,
-  sortMode: PostsSortMode = "hot",
+  sortMode: PostsSortMode = DEFAULT_SORT_MODE,
   time: PostsTimes = "month",
 ) {
   return async (
