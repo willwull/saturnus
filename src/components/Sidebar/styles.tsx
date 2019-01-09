@@ -29,10 +29,17 @@ export const SidebarLink = styled(NavLink)`
   }
 `;
 
+type SectionTitleProps = {
+  sticky?: boolean;
+};
 export const SectionTitle = styled.h1`
+  background: ${props => props.theme.contentBg};
   font-size: 20px;
   padding: 15px;
   margin: 0;
   display: flex;
   justify-content: space-between;
+  position: ${(props: SectionTitleProps) =>
+    props.sticky ? "sticky" : "initial"};
+  top: 0;
 `;

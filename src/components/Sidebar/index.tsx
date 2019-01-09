@@ -22,7 +22,7 @@ function Sidebar(props: DrawerProps) {
         All
       </SidebarLink>
 
-      <SectionTitle>
+      <SectionTitle sticky>
         Subscriptions
         <FetchSubscriptionsBtn />
       </SectionTitle>
