@@ -24,7 +24,7 @@ export const VersionTag = styled.span`
   border: 1px solid;
   margin-left: 1ch;
   font-size: 11px;
-  opacity: 0.3;
+  opacity: 0.4;
   display: flex;
   align-items: center;
   justify-content: center;
