@@ -18,7 +18,7 @@ export const FallBackIcon = styled.div`
 
 export const ListLetter = styled.div`
   background: ${props => props.theme.body};
-  padding: 10px 15px;
+  padding: 5px 15px;
   position: sticky;
-  top: 45px;
+  top: 50px;
 `;

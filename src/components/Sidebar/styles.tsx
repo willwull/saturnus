@@ -35,6 +35,7 @@ type SectionTitleProps = {
 export const SectionTitle = styled.h1`
   background: ${props => props.theme.contentBg};
   font-size: 20px;
+  height: 50px;
   padding: 15px;
   margin: 0;
   display: flex;
