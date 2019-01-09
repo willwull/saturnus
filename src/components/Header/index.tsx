@@ -3,8 +3,9 @@ import { Link } from "react-router-dom";
 import LoggedInUserMenu from "../../containers/LoggedInUserMenu";
 import ContentBox from "../ContentBox";
 import SaturnusLogo from "../SaturnusLogo";
-import { LogoWrapper } from "./styles";
 import HeaderButton from "./HeaderButton";
+import pkg from "../../../package.json";
+import { LogoWrapper, VersionTag, SiteName } from "./styles";
 import "./Header.scss";
 
 function Header() {
@@ -16,9 +17,10 @@ function Header() {
           <SaturnusLogo />
         </LogoWrapper>
       </Link>
-      <div>
+      <SiteName>
         <Link to="/">Saturnus</Link>
-      </div>
+        <VersionTag>{pkg.version}</VersionTag>
+      </SiteName>
       <LoggedInUserMenu />
     </ContentBox>
   );
