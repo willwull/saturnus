@@ -1,6 +1,28 @@
 import styled, { css } from "styled-components";
 import { transparentize } from "polished";
 
+export const CommentComponent = styled.div`
+  margin-bottom: 20px;
+
+  & > p:first-child {
+    margin-top: 10px;
+  }
+`;
+
+export const CommentTitle = styled.button`
+  text-align: left;
+  word-break: break-word;
+  font-size: 14px;
+
+  .comment-author {
+    margin-right: 1ch;
+  }
+
+  .secondary {
+    opacity: 0.5;
+  }
+`;
+
 interface CommentBodyProps {
   isCollapsed: boolean;
 }

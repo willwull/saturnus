@@ -6,8 +6,12 @@ import { shortenNumber } from "../../utils";
 import GoldCounter from "../GoldCounter";
 import TextContent from "../TextContent";
 import Icon from "../Icon";
-import { CommentBody, ChildWrapper } from "./styles";
-import "./Comment.scss";
+import {
+  CommentBody,
+  ChildWrapper,
+  CommentTitle,
+  CommentComponent,
+} from "./styles";
 
 // Snoowrap type is wrong??
 export interface CommentInterface extends CommentType {
@@ -55,8 +59,8 @@ class Comment extends Component<Props, State> {
     }
 
     return (
-      <div className="comment-component">
-        <button className="comment-info" onClick={this.toggleCollapse}>
+      <CommentComponent>
+        <CommentTitle onClick={this.toggleCollapse}>
           {/* Stickied icon */}
           {comment.stickied && (
             <span className="mod">
@@ -78,7 +82,7 @@ class Comment extends Component<Props, State> {
               <GoldCounter count={comment.gilded} />
             </span>
           )}
-        </button>
+        </CommentTitle>
         <CommentBody isCollapsed={this.state.isCollapsed}>
           <TextContent>{comment.body_html}</TextContent>
 
@@ -89,7 +93,7 @@ class Comment extends Component<Props, State> {
               </ChildWrapper>
             ))}
         </CommentBody>
-      </div>
+      </CommentComponent>
     );
   }
 }
