@@ -2,12 +2,26 @@ import styled, { css } from "styled-components";
 import { transparentize } from "polished";
 
 export const CommentComponent = styled.div`
+  position: relative;
   display: grid;
   grid-template-columns: 15px 1fr;
 
   & > p:first-child {
     margin-top: 10px;
   }
+`;
+
+// Element.scrollIntoView() doesn't have an offset option,
+// so we place a scroll anchor slightly above the comment
+// in order to scroll to where we want
+// 65px = header height + 15px
+type AnchorProps = {
+  isModal: boolean;
+};
+
+export const CommentScrollAnchor = styled.div`
+  position: absolute;
+  top: ${(props: AnchorProps) => (props.isModal ? "-10px" : "-65px")};
 `;
 
 export const CollapseStrip = styled.div`

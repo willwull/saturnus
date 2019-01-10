@@ -1,4 +1,5 @@
 import React, { Component } from "react";
+import { withRouter, RouteComponentProps } from "react-router-dom";
 import { Comment as CommentType } from "snoowrap";
 import moment from "moment-mini";
 
@@ -13,6 +14,7 @@ import {
   CommentComponent,
   Collapser,
   CollapseStrip,
+  CommentScrollAnchor,
 } from "./styles";
 
 // Snoowrap type is wrong??
@@ -21,9 +23,9 @@ export interface CommentInterface extends CommentType {
   is_submitter: boolean;
 }
 
-interface Props {
+type Props = {
   comment: CommentInterface;
-}
+} & RouteComponentProps;
 
 interface State {
   isCollapsed: boolean;
@@ -34,10 +36,20 @@ class Comment extends Component<Props, State> {
     isCollapsed: false,
   };
 
+  scrollRef = React.createRef<HTMLDivElement>();
+
   toggleCollapse = () => {
-    this.setState(state => ({
-      isCollapsed: !state.isCollapsed,
-    }));
+    this.setState(
+      state => ({
+        isCollapsed: !state.isCollapsed,
+      }),
+      () => {
+        this.scrollRef.current!.scrollIntoView({
+          behavior: "smooth",
+          block: "start",
+        });
+      },
+    );
   };
 
   render() {
@@ -60,8 +72,19 @@ class Comment extends Component<Props, State> {
       score = shortenNumber(comment.score);
     }
 
+    // If the post page is in modal mode, it has top:50px applied.
+    // If not, the component is at top: 0.
+    // Therefore, the scroll anchor should have a different offset
+    // depending on the mode of the post page
+    const { location } = this.props;
+    const isModal = location.state && location.state.modal;
+
+    // TODO: isModal is always true, should be false on initial render
+    comment.depth === 0 && console.log(location.state);
+
     return (
       <CommentComponent>
+        <CommentScrollAnchor isModal={isModal} innerRef={this.scrollRef} />
         <div>
           <Collapser onClick={this.toggleCollapse} tabIndex={0}>
             <CollapseStrip />
@@ -98,7 +121,7 @@ class Comment extends Component<Props, State> {
               comment.depth !== 5 &&
               comment.replies.map((reply: any) => (
                 <ChildWrapper key={reply.id}>
-                  <Comment comment={reply} />
+                  <Comment {...this.props} comment={reply} />
                 </ChildWrapper>
               ))}
           </CommentBody>
@@ -108,4 +131,4 @@ class Comment extends Component<Props, State> {
   }
 }
 
-export default Comment;
+export default withRouter(Comment);
