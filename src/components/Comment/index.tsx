@@ -1,5 +1,4 @@
 import React, { Component } from "react";
-import { withRouter, RouteComponentProps } from "react-router-dom";
 import { Comment as CommentType } from "snoowrap";
 import scrollIntoView from "smooth-scroll-into-view-if-needed";
 import moment from "moment-mini";
@@ -26,7 +25,8 @@ export interface CommentInterface extends CommentType {
 
 type Props = {
   comment: CommentInterface;
-} & RouteComponentProps;
+  isModal: boolean; // used to determine the collapse scroll offset
+};
 
 interface State {
   isCollapsed: boolean;
@@ -78,11 +78,7 @@ class Comment extends Component<Props, State> {
     // If not, the component is at top: 0.
     // Therefore, the scroll anchor should have a different offset
     // depending on the mode of the post page
-    const { location } = this.props;
-    const isModal = location.state && location.state.modal;
-
-    // TODO: isModal is always true, should be false on initial render
-    comment.depth === 0 && console.log(location.state);
+    const { isModal } = this.props;
 
     return (
       <CommentComponent>
@@ -133,4 +129,4 @@ class Comment extends Component<Props, State> {
   }
 }
 
-export default withRouter(Comment);
+export default Comment;

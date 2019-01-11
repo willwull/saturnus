@@ -40,7 +40,7 @@ function PostModal() {
   return (
     <PostPageWrapper className="fuck-me">
       <Page>
-        <CurrentPost />
+        <CurrentPost isModal={true} />
       </Page>
     </PostPageWrapper>
   );

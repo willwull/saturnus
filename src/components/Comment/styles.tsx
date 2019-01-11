@@ -14,14 +14,14 @@ export const CommentComponent = styled.div`
 // Element.scrollIntoView() doesn't have an offset option,
 // so we place a scroll anchor slightly above the comment
 // in order to scroll to where we want
-// 65px = header height + 15px
+// 70px = header height + 20px
 type AnchorProps = {
   isModal: boolean;
 };
 
 export const CommentScrollAnchor = styled.div`
   position: absolute;
-  top: ${(props: AnchorProps) => (props.isModal ? "-10px" : "-65px")};
+  top: ${(props: AnchorProps) => (props.isModal ? "-20px" : "-70px")};
 `;
 
 export const CollapseStrip = styled.div`

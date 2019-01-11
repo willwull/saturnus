@@ -7,15 +7,21 @@ import Post from "../components/Post";
 import CommentFeed from "../components/CommentFeed";
 import { Submission } from "snoowrap";
 import { RootState, DispatchType } from "../reducers";
-import { Dispatch, Action } from "redux";
 import { postVote } from "../actions/voting";
 import { CommentInterface } from "../components/Comment";
-import { ThunkDispatch } from "redux-thunk";
 
 type StateProps = {
   post: Submission;
   isLoading: boolean;
   errorMsg: string;
+};
+
+type OwnProps = {
+  isModal?: boolean; // used to know whether this comment is rendered inside a page or modal
+};
+
+type DefaultProps = {
+  isModal: boolean;
 };
 
 type DispatchProps = {
@@ -27,9 +33,16 @@ type MatchParams = {
   postId: string;
 };
 
-type Props = StateProps & DispatchProps & RouteComponentProps<MatchParams>;
+type Props = StateProps &
+  OwnProps &
+  DispatchProps &
+  RouteComponentProps<MatchParams>;
 
 class CurrentPost extends Component<Props, {}> {
+  static defaultProps: DefaultProps = {
+    isModal: false,
+  };
+
   componentDidMount() {
     const {
       match: { params },
@@ -50,7 +63,7 @@ class CurrentPost extends Component<Props, {}> {
   }
 
   render() {
-    const { isLoading, post, voteOnPost } = this.props;
+    const { isLoading, post, voteOnPost, isModal } = this.props;
 
     if (isLoading || !post.id) {
       return <Loading type="regular" />;
@@ -62,7 +75,10 @@ class CurrentPost extends Component<Props, {}> {
         <Post post={post} expanded voteOnPost={voteOnPost} />
 
         {/* Workaround until snoowrap types are fixed */}
-        <CommentFeed comments={(post.comments as any) as CommentInterface[]} />
+        <CommentFeed
+          comments={(post.comments as any) as CommentInterface[]}
+          isModal={!!isModal}
+        />
       </React.Fragment>
     );
   }
