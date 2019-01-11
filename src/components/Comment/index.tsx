@@ -1,6 +1,7 @@
 import React, { Component } from "react";
 import { withRouter, RouteComponentProps } from "react-router-dom";
 import { Comment as CommentType } from "snoowrap";
+import scrollIntoView from "smooth-scroll-into-view-if-needed";
 import moment from "moment-mini";
 
 import { shortenNumber } from "../../utils";
@@ -44,8 +45,9 @@ class Comment extends Component<Props, State> {
         isCollapsed: !state.isCollapsed,
       }),
       () => {
-        this.scrollRef.current!.scrollIntoView({
+        scrollIntoView(this.scrollRef.current!, {
           behavior: "smooth",
+          scrollMode: "if-needed",
           block: "start",
         });
       },
