@@ -24,10 +24,32 @@ export const CommentScrollAnchor = styled.div`
   top: ${(props: AnchorProps) => (props.isModal ? "-20px" : "-70px")};
 `;
 
+// rainbow colors
+const commentColors = [
+  "#df5141",
+  "#f09747",
+  "#f2d25d",
+  "#3f6e4f",
+  "#3472d4",
+  "#2b4583",
+  "#5e3d90",
+];
+
+const getCommentColorByDepth = (depth: number) =>
+  commentColors[depth % commentColors.length];
+
+type StripProps = {
+  depth: number;
+};
+
+const getStripColor = (props: StripProps) =>
+  getCommentColorByDepth(props.depth);
+
 export const CollapseStrip = styled.div`
-  width: 3px;
+  width: 2px;
   height: 100%;
-  background: ${props => transparentize(0.9, props.theme.text)};
+  background: ${getStripColor};
+  opacity: 0.5;
 `;
 
 export const Collapser = styled.div`
@@ -39,12 +61,12 @@ export const Collapser = styled.div`
     outline: none;
 
     ${CollapseStrip} {
-      background: ${props => transparentize(0.7, props.theme.text)};
+      opacity: 1;
     }
   }
 
   &:hover ${CollapseStrip} {
-    background: ${props => transparentize(0.7, props.theme.text)};
+    opacity: 1;
   }
 `;
 

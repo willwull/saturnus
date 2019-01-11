@@ -56,7 +56,7 @@ class Comment extends Component<Props, State> {
 
   render() {
     const { comment } = this.props;
-    if (comment.depth > 5) {
+    if (comment.depth > 6) {
       return null;
     }
 
@@ -85,7 +85,7 @@ class Comment extends Component<Props, State> {
         <CommentScrollAnchor isModal={isModal} innerRef={this.scrollRef} />
         <div>
           <Collapser onClick={this.toggleCollapse} tabIndex={0}>
-            <CollapseStrip />
+            <CollapseStrip depth={comment.depth} />
           </Collapser>
         </div>
         <div>
