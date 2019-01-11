@@ -8,19 +8,22 @@ export const SidebarLink = styled(NavLink)`
   padding: 15px;
   color: inherit;
 
-  &:hover {
-    background: ${props => props.theme.primary};
-    color: white;
-  }
-
   &.active {
     background: ${props => transparentize(0.85, props.theme.primary)};
     color: ${props => props.theme.primary};
     border-right: 5px solid ${props => props.theme.primary};
+  }
 
+  &:hover,
+  &:active {
+    background: ${props => props.theme.primary};
+    color: white;
+  }
+
+  @media (hover: none) {
     &:hover {
-      background: ${props => props.theme.primary};
-      color: white;
+      background: none;
+      color: inherit;
     }
   }
 
