@@ -97,6 +97,8 @@ export const CommentBody = styled.div`
 
   margin-top: 15px;
 
+  cursor: pointer;
+
   a {
     color: ${props => props.theme.primary};
     word-break: break-word;

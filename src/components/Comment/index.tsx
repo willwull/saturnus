@@ -113,7 +113,9 @@ class Comment extends Component<Props, State> {
             )}
           </CommentTitle>
           <CommentBody isCollapsed={this.state.isCollapsed}>
-            <TextContent>{comment.body_html}</TextContent>
+            <div onClick={this.toggleCollapse}>
+              <TextContent>{comment.body_html}</TextContent>
+            </div>
 
             {comment.replies.length !== 0 &&
               comment.depth !== 5 &&
