@@ -27,7 +27,23 @@ export const ImgPreview = styled.img`
   ${MediaPreviewStyles};
 `;
 
+type TextProps = {
+  expanded?: boolean;
+};
 export const SelfText = styled.div`
+  opacity: ${(props: TextProps) => (props.expanded ? "1" : "0.6")};
+
+  ${(props: TextProps) =>
+    !props.expanded &&
+    css`
+      max-height: 200px;
+      overflow: hidden;
+      position: relative;
+    `} /**/
+  p:first-child {
+    margin-top: 2px;
+  }
+
   a {
     color: ${props => props.theme.primary};
   }
