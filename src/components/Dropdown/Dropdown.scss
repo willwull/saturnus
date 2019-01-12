@@ -1,8 +1,9 @@
 .dropdown-wrapper {
-  display: inline-block;
+  display: flex;
   position: relative;
 
   .dropdown-overlay {
+    top: 80%;
     z-index: 50;
     min-width: max-content; // make sure the width of the overlay is not limited by the wrapper
 
