@@ -2,11 +2,11 @@ import React, { Component } from "react";
 import { withRouter, RouteComponentProps } from "react-router-dom";
 import { connect } from "react-redux";
 
-import PrimaryButton from "../components/Buttons/PrimaryButton";
 import { storeVerificationState } from "../LocalCache";
 import { getAuthUrl } from "../api/authentication";
 import { fetchUser, signOut } from "../actions/user";
 import AuthUserMenu from "../components/AuthUserMenu";
+import GuestUserMenu from "../components/GuestUserMenu";
 import { UserState } from "../reducers/user";
 import { RootState, DispatchType } from "../reducers";
 
@@ -32,7 +32,7 @@ class UserMenu extends Component<Props, {}> {
     }
   }
 
-  onClick = () => {
+  handleSignIn = () => {
     const redirectPath = this.props.location.pathname;
     const verificationState = `${Date.now().toString()}:${redirectPath}`;
 
@@ -49,13 +49,9 @@ class UserMenu extends Component<Props, {}> {
 
     if (isLoading) return null;
 
-    // user is not logged in, show sign in button
+    // user is not logged in, guest menu
     if (!loggedIn && !(data as any).id) {
-      return (
-        <PrimaryButton className="signin-btn" onClick={this.onClick}>
-          Sign in
-        </PrimaryButton>
-      );
+      return <GuestUserMenu signIn={this.handleSignIn} />;
     }
 
     // user is logged in, show their profile pic and name
