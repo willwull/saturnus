@@ -46,7 +46,7 @@ const getStripColor = (props: StripProps) =>
   getCommentColorByDepth(props.depth);
 
 export const CollapseStrip = styled.div`
-  width: 2px;
+  width: 3px;
   height: 100%;
   background: ${getStripColor};
   opacity: 0.5;
@@ -96,8 +96,6 @@ export const CommentBody = styled.div`
     `};
 
   margin-top: 15px;
-
-  cursor: pointer;
 
   a {
     color: ${props => props.theme.primary};
