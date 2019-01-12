@@ -113,7 +113,7 @@ class Comment extends Component<Props, State> {
             )}
           </CommentTitle>
           <CommentBody isCollapsed={this.state.isCollapsed}>
-            <div onClick={this.toggleCollapse}>
+            <div onTouchStart={this.toggleCollapse}>
               <TextContent>{comment.body_html}</TextContent>
             </div>
 
