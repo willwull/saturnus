@@ -1,6 +1,7 @@
 import React, { Component } from "react";
 import { connect } from "react-redux";
 import { withRouter, RouteComponentProps } from "react-router-dom";
+import Helmet from "react-helmet";
 import { fetchCurrentPost } from "../actions/currentPost";
 import Loading from "../components/Loading";
 import Post from "../components/Post";
@@ -72,6 +73,15 @@ class CurrentPost extends Component<Props, {}> {
     console.log(post);
     return (
       <React.Fragment>
+        <Helmet>
+          <meta property="og:title" content={post.title} />
+          {post.preview.images.length > 0 && (
+            <meta
+              property="og:image"
+              content={post.preview.images[0].resolutions[0].url}
+            />
+          )}
+        </Helmet>
         <Post post={post} expanded voteOnPost={voteOnPost} />
 
         {/* Workaround until snoowrap types are fixed */}
