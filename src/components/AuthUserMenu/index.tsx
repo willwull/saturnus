@@ -10,7 +10,7 @@ interface Props {
   signOut: (event: React.MouseEvent<HTMLLIElement>) => void;
 }
 
-class UserMenu extends Component<Props, {}> {
+class AuthUserMenu extends Component<Props, {}> {
   render() {
     const { userData, signOut } = this.props;
     const karma = userData.link_karma + userData.comment_karma;
@@ -50,4 +50,4 @@ class UserMenu extends Component<Props, {}> {
   }
 }
 
-export default UserMenu;
+export default AuthUserMenu;

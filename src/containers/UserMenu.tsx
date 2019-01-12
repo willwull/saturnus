@@ -6,7 +6,7 @@ import PrimaryButton from "../components/Buttons/PrimaryButton";
 import { storeVerificationState } from "../LocalCache";
 import { getAuthUrl } from "../api/authentication";
 import { fetchUser, signOut } from "../actions/user";
-import UserMenu from "../components/UserMenu";
+import AuthUserMenu from "../components/AuthUserMenu";
 import { UserState } from "../reducers/user";
 import { RootState, DispatchType } from "../reducers";
 
@@ -21,7 +21,7 @@ type DispatchProps = {
 
 type Props = StateProps & DispatchProps & RouteComponentProps;
 
-class LoggedInUserMenu extends Component<Props, {}> {
+class UserMenu extends Component<Props, {}> {
   componentDidMount() {
     const { user, fetch } = this.props;
 
@@ -59,7 +59,7 @@ class LoggedInUserMenu extends Component<Props, {}> {
     }
 
     // user is logged in, show their profile pic and name
-    return <UserMenu userData={data} signOut={signOutFunc} />;
+    return <AuthUserMenu userData={data} signOut={signOutFunc} />;
   }
 }
 
@@ -84,5 +84,5 @@ export default withRouter(
   connect<StateProps, DispatchProps, {}, RootState>(
     mapStateToProps,
     mapDispatchToProps,
-  )(LoggedInUserMenu),
+  )(UserMenu),
 );
