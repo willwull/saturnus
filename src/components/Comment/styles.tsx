@@ -74,6 +74,7 @@ export const CommentTitle = styled.button`
   text-align: left;
   word-break: break-word;
   font-size: 14px;
+  width: 100%;
 
   .comment-author {
     margin-right: 1ch;
