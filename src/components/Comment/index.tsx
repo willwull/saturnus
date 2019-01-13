@@ -1,13 +1,21 @@
 import React, { Component } from "react";
 import { Comment as CommentType } from "snoowrap";
+import scrollIntoView from "smooth-scroll-into-view-if-needed";
 import moment from "moment-mini";
 
 import { shortenNumber } from "../../utils";
 import GoldCounter from "../GoldCounter";
 import TextContent from "../TextContent";
 import Icon from "../Icon";
-import { CommentBody, ChildWrapper } from "./styles";
-import "./Comment.scss";
+import {
+  CommentBody,
+  ChildWrapper,
+  CommentTitle,
+  CommentComponent,
+  Collapser,
+  CollapseStrip,
+  CommentScrollAnchor,
+} from "./styles";
 
 // Snoowrap type is wrong??
 export interface CommentInterface extends CommentType {
@@ -15,9 +23,10 @@ export interface CommentInterface extends CommentType {
   is_submitter: boolean;
 }
 
-interface Props {
+type Props = {
   comment: CommentInterface;
-}
+  isModal: boolean; // used to determine the collapse scroll offset
+};
 
 interface State {
   isCollapsed: boolean;
@@ -28,15 +37,26 @@ class Comment extends Component<Props, State> {
     isCollapsed: false,
   };
 
+  scrollRef = React.createRef<HTMLDivElement>();
+
   toggleCollapse = () => {
-    this.setState(state => ({
-      isCollapsed: !state.isCollapsed,
-    }));
+    this.setState(
+      state => ({
+        isCollapsed: !state.isCollapsed,
+      }),
+      () => {
+        scrollIntoView(this.scrollRef.current!, {
+          behavior: "smooth",
+          scrollMode: "if-needed",
+          block: "start",
+        });
+      },
+    );
   };
 
   render() {
     const { comment } = this.props;
-    if (comment.depth > 5) {
+    if (comment.depth > 6) {
       return null;
     }
 
@@ -54,42 +74,57 @@ class Comment extends Component<Props, State> {
       score = shortenNumber(comment.score);
     }
 
+    // If the post page is in modal mode, it has top:50px applied.
+    // If not, the component is at top: 0.
+    // Therefore, the scroll anchor should have a different offset
+    // depending on the mode of the post page
+    const { isModal } = this.props;
+
     return (
-      <div className="comment-component">
-        <button className="comment-info" onClick={this.toggleCollapse}>
-          {/* Stickied icon */}
-          {comment.stickied && (
-            <span className="mod">
-              <Icon icon="thumbtack" />{" "}
-            </span>
-          )}
+      <CommentComponent>
+        <CommentScrollAnchor isModal={isModal} innerRef={this.scrollRef} />
+        <div>
+          <Collapser onClick={this.toggleCollapse} tabIndex={0}>
+            <CollapseStrip depth={comment.depth} />
+          </Collapser>
+        </div>
+        <div>
+          <CommentTitle onClick={this.toggleCollapse}>
+            {/* Stickied icon */}
+            {comment.stickied && (
+              <span className="mod">
+                <Icon icon="thumbtack" />{" "}
+              </span>
+            )}
 
-          <b className={authorNameClass}>{comment.author.name}</b>
+            <b className={authorNameClass}>{comment.author.name}</b>
 
-          <span className="secondary">
-            <Icon icon="far long-arrow-up" /> {score}
-            {" · "}
-            {moment.unix(comment.created_utc).fromNow()}
-          </span>
-
-          {comment.gilded !== 0 && (
-            <span>
+            <span className="secondary">
+              <Icon icon="far long-arrow-up" /> {score}
               {" · "}
-              <GoldCounter count={comment.gilded} />
+              {moment.unix(comment.created_utc).fromNow()}
             </span>
-          )}
-        </button>
-        <CommentBody isCollapsed={this.state.isCollapsed}>
-          <TextContent>{comment.body_html}</TextContent>
 
-          {comment.replies.length !== 0 &&
-            comment.replies.map((reply: any) => (
-              <ChildWrapper key={reply.id}>
-                <Comment comment={reply} />
-              </ChildWrapper>
-            ))}
-        </CommentBody>
-      </div>
+            {comment.gilded !== 0 && (
+              <span>
+                {" · "}
+                <GoldCounter count={comment.gilded} />
+              </span>
+            )}
+          </CommentTitle>
+          <CommentBody isCollapsed={this.state.isCollapsed}>
+            <TextContent>{comment.body_html}</TextContent>
+
+            {comment.replies.length !== 0 &&
+              comment.depth !== 5 &&
+              comment.replies.map((reply: any) => (
+                <ChildWrapper key={reply.id}>
+                  <Comment {...this.props} comment={reply} />
+                </ChildWrapper>
+              ))}
+          </CommentBody>
+        </div>
+      </CommentComponent>
     );
   }
 }

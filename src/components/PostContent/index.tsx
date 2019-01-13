@@ -10,7 +10,7 @@ import "./PostContent.scss";
 
 type Props = {
   post: Submission;
-  expanded?: boolean;
+  expanded?: boolean; // true if on PostPage, false in post feed
 };
 
 type State = {
@@ -38,7 +38,7 @@ class PostContent extends Component<Props, State> {
       // spoiler marked text post
       if (post.is_self) {
         if (post.selftext_html) {
-          return <div className="post-self-text">[Hidden text]</div>;
+          return <SelfText>[Hidden text]</SelfText>;
         }
 
         // if there is no actual text, no need to show "[Hidden text]"
@@ -83,10 +83,8 @@ class PostContent extends Component<Props, State> {
         return null;
       }
 
-      const classes = expanded ? "post-self-text" : "post-self-text default";
-
       return (
-        <SelfText className={classes}>
+        <SelfText expanded={!!expanded}>
           <TextContent>{post.selftext_html}</TextContent>
 
           {/* gradient overlay that indicates that the text is cut off */}

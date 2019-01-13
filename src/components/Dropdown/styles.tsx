@@ -1,6 +1,6 @@
 import styled from "styled-components";
 
-export const DropdownWrapper = styled.button`
+export const DropdownWrapper = styled.div`
   display: block;
   text-align: inherit;
   overflow: visible;

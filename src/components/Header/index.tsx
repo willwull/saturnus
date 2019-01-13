@@ -1,6 +1,6 @@
 import React from "react";
 import { Link } from "react-router-dom";
-import LoggedInUserMenu from "../../containers/LoggedInUserMenu";
+import UserMenu from "../../containers/UserMenu";
 import ContentBox from "../ContentBox";
 import SaturnusLogo from "../SaturnusLogo";
 import HeaderButton from "./HeaderButton";
@@ -21,7 +21,7 @@ function Header() {
         <Link to="/">Saturnus</Link>
         <VersionTag>{pkg.version}</VersionTag>
       </SiteName>
-      <LoggedInUserMenu />
+      <UserMenu />
     </ContentBox>
   );
 }

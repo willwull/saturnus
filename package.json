@@ -1,6 +1,6 @@
 {
   "name": "saturnus",
-  "version": "0.3.0",
+  "version": "0.4.0",
   "private": true,
   "homepage": "https://saturnusapp.com",
   "dependencies": {
@@ -34,6 +34,7 @@
     "react-scripts": "2.1.1",
     "redux": "^4.0.0",
     "redux-thunk": "^2.3.0",
+    "smooth-scroll-into-view-if-needed": "^1.1.23",
     "snoowrap": "^1.15.2",
     "styled-components": "^3.3.3"
   },

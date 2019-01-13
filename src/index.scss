@@ -74,6 +74,10 @@ blockquote {
 // reddit text content
 .md {
   word-break: break-word;
+
+  code {
+    white-space: pre-wrap;
+  }
 }
 
 .main-content {
