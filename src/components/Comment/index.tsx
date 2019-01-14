@@ -82,7 +82,7 @@ class Comment extends Component<Props, State> {
 
     return (
       <CommentComponent>
-        <CommentScrollAnchor isModal={isModal} innerRef={this.scrollRef} />
+        <CommentScrollAnchor isModal={isModal} ref={this.scrollRef} />
         <div>
           <Collapser onClick={this.toggleCollapse} tabIndex={0}>
             <CollapseStrip depth={comment.depth} />
