@@ -24,15 +24,17 @@ class SubscriptionList extends Component<Props, {}> {
   }
 
   render() {
-    if (this.props.isLoading) {
+    const { isLoading, error, subscriptions } = this.props;
+
+    if (isLoading && subscriptions.length === 0) {
       return <Loading type="regular" />;
     }
 
-    if (this.props.error) {
+    if (error) {
       return this.props.error;
     }
 
-    return <SubredditList subreddits={this.props.subscriptions} />;
+    return <SubredditList subreddits={subscriptions} />;
   }
 }
 
@@ -49,7 +51,7 @@ function mapStateToProps({
 function mapDispatchToProps(dispatch: DispatchType): DispatchProps {
   return {
     fetch: () => {
-      dispatch(fetchMySubs());
+      dispatch(fetchMySubs({ skipCache: false }));
     },
   };
 }
