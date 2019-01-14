@@ -33,6 +33,8 @@ export function fetchUser() {
 
       dispatch(setUser(user));
 
+      LocalCache.storeLastActiveUser(user.name);
+
       return user;
     });
   };
@@ -58,16 +60,17 @@ export function fetchMySubs(options = { skipCache: false }) {
     dispatch({ type: REQUEST_MY_SUBS });
 
     try {
+      const state = getState();
+
       if (!options.skipCache) {
         const cachedSubs = LocalCache.getStoredSubs();
-        if (cachedSubs) {
+        if (cachedSubs && cachedSubs.length > 0) {
           console.log(cachedSubs);
           dispatch({ type: RECEIVE_MY_SUBS, subscriptions: cachedSubs });
           return;
         }
       }
 
-      const state = getState();
       const r = reddit.getSnoowrap();
 
       let subscriptions;
@@ -83,7 +86,7 @@ export function fetchMySubs(options = { skipCache: false }) {
 
       if (state.user.loggedIn) {
         // if logged in user, cache their subscriptions
-        LocalCache.storeMySubs(subscriptions);
+        LocalCache.storeMySubs(subscriptions, (state.user.data as any).name);
       }
 
       dispatch({ type: RECEIVE_MY_SUBS, subscriptions });

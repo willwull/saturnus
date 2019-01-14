@@ -28,13 +28,6 @@ type Props = {
 
 class Root extends Component<Props, {}> {
   componentDidMount() {
-    // in development mode, since we use hot module replacement, we don't
-    // need to re-initialize snoowrap each time Root is mounted if we have
-    // already initialized it once.
-    if (process.env.NODE_ENV === "development" && this.props.user.loggedIn) {
-      return;
-    }
-
     const url = new URLSearchParams(this.props.location.search);
     const authCallBackCode = url.get("code");
     const verificationState = url.get("state");
@@ -65,7 +58,8 @@ class Root extends Component<Props, {}> {
     }
 
     // user has signed in in the past, use their refresh token to init snoowrap
-    if (storedTokens && storedTokens[lastActiveUser]) {
+    if (storedTokens && lastActiveUser && storedTokens[lastActiveUser]) {
+      console.log("Looking for refresh token");
       const tokens = storedTokens[lastActiveUser];
       console.log(`trying stored refresh token: ${tokens.refresh_token}`);
       this.props.createRefreshSnoowrap(tokens.refresh_token);
@@ -73,6 +67,7 @@ class Root extends Component<Props, {}> {
     }
 
     // default, logged out usage
+    console.log("Logged out snoowrap");
     this.props.createSnoowrap();
   }
 

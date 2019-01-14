@@ -42,19 +42,21 @@ export function storeLastActiveUser(username: string) {
   set(LAST_ACTIVE_USER, username);
 }
 
-export function getLastActiveUser() {
+export function getLastActiveUser(): string | null {
   return get(LAST_ACTIVE_USER);
 }
 
 /* Since fetching all subscriptions can be slow, we can store it in our cache */
-export function getStoredSubs() {
+export function getStoredSubs(): SimpleSubreddit[] {
   const user = getLastActiveUser();
+  if (!user) {
+    return [];
+  }
   const storedValue = get(MY_SUBSCRIPTIONS) || {};
   return storedValue[user];
 }
 
-export function storeMySubs(subscriptions: Subreddit[]) {
-  const user = getLastActiveUser();
+export function storeMySubs(subscriptions: Subreddit[], user: string) {
   const stored = getStoredSubs();
 
   // The original subscriptions array contain a lot of information
@@ -75,8 +77,8 @@ export function storeMySubs(subscriptions: Subreddit[]) {
 }
 
 /* Cache which theme the user uses */
-export function getStoredTheme() {
-  return get(IS_DARK_THEME);
+export function getStoredTheme(): boolean {
+  return !!get(IS_DARK_THEME);
 }
 
 export function storeTheme(isDarkTheme: boolean) {
