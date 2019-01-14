@@ -1,7 +1,8 @@
-import React, { Component } from "react";
+import React, { Component, Fragment } from "react";
 import { Route } from "react-router-dom";
-import styled, { ThemeProvider } from "styled-components";
+import { ThemeProvider, createGlobalStyle } from "styled-components";
 
+import { ThemeColors } from "./reducers/theme";
 import ScrollToTop from "./components/ScrollToTop";
 import Header from "./components/Header";
 import AppSidebar from "./containers/AppSidebar";
@@ -12,10 +13,17 @@ import PostPage from "./pages/PostPage";
 import TestingGrounds from "./pages/TestingGrounds";
 import ModalSwitch from "./components/ModalSwitch";
 import PostModal from "./pages/PostModal";
+import Loading from "./components/Loading";
 
-const GlobalStyles = styled.div`
-  background: ${props => props.theme.body};
-  color: ${props => props.theme.text};
+type GlobalStyleProps = {
+  theme: ThemeColors;
+};
+
+const GlobalStyles = createGlobalStyle<GlobalStyleProps>`
+  html, body {
+    background: ${props => props.theme.body};
+    color: ${props => props.theme.text};
+  }
 
   blockquote {
     background: ${props => props.theme.body};
@@ -34,6 +42,7 @@ type Props = {
   theme: {
     body: string;
   };
+  isLoading: boolean;
 };
 
 class App extends Component<Props, {}> {
@@ -44,14 +53,27 @@ class App extends Component<Props, {}> {
   }
 
   render() {
-    const { theme } = this.props;
+    const { theme, isLoading } = this.props;
+
+    if (isLoading) {
+      return (
+        <ThemeProvider theme={theme}>
+          <Fragment>
+            <GlobalStyles />
+            <Loading type="fullscreen" />
+          </Fragment>
+        </ThemeProvider>
+      );
+    }
+
     const subSortOptions = "hot|top|new|controversial|rising";
     const frontSortOptions = `${subSortOptions}|best`;
 
     return (
       <ThemeProvider theme={theme}>
-        <ScrollToTop>
-          <GlobalStyles>
+        <Fragment>
+          <GlobalStyles />
+          <ScrollToTop>
             <Header />
             <AppSidebar />
             <ModalSwitch
@@ -75,8 +97,8 @@ class App extends Component<Props, {}> {
               <Route path="/testinggrounds" component={TestingGrounds} />
               <Route component={NotfoundPage} />
             </ModalSwitch>
-          </GlobalStyles>
-        </ScrollToTop>
+          </ScrollToTop>
+        </Fragment>
       </ThemeProvider>
     );
   }

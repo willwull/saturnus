@@ -8,7 +8,6 @@ import {
   initRefreshToken,
 } from "./actions/snoowrap";
 import { closeSidebar } from "./actions/sidebar";
-import Loading from "./components/Loading";
 import * as LocalCache from "./LocalCache";
 import App from "./App";
 import { UserState } from "./reducers/user";
@@ -84,11 +83,7 @@ class Root extends Component<Props, {}> {
       return <div>{errorMsg}</div>;
     }
 
-    if (isLoading) {
-      return <Loading type="fullscreen" />;
-    }
-
-    return <App theme={this.props.theme} />;
+    return <App isLoading={isLoading} theme={this.props.theme} />;
   }
 }
 
