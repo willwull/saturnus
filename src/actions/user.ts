@@ -20,6 +20,13 @@ function setUser(user: RedditUser) {
   return { type: RECEIVED_USER, user };
 }
 
+export function setUserStatus(loggedIn: boolean) {
+  return {
+    type: SET_USER_STATUS,
+    status: loggedIn,
+  };
+}
+
 export function fetchUser() {
   return (dispatch: ThunkDispatch<UserState, void, Action>) => {
     const r = reddit.getSnoowrap();
@@ -43,7 +50,7 @@ export function fetchUser() {
 export function signOut() {
   return (dispatch: ThunkDispatch<UserState, void, Action>) => {
     // clear cache so the user's saved refresh tokens are cleared
-    LocalCache.clearAll();
+    LocalCache.clearSession();
 
     dispatch({
       type: USER_SIGN_OUT,
@@ -52,7 +59,10 @@ export function signOut() {
   };
 }
 
-export function fetchMySubs(options = { skipCache: false }) {
+export type SubFetchOptions = {
+  skipCache: boolean;
+};
+export function fetchMySubs(options: SubFetchOptions = { skipCache: false }) {
   return async (
     dispatch: ThunkDispatch<UserState, void, Action>,
     getState: () => RootState,
@@ -78,6 +88,7 @@ export function fetchMySubs(options = { skipCache: false }) {
         subscriptions = await r.getSubscriptions();
       } else {
         // get default subs if not logged in
+        console.log("User not logged in, fetching defaults");
         subscriptions = await r.getDefaultSubreddits();
       }
 

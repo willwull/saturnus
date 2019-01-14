@@ -85,6 +85,11 @@ export function storeTheme(isDarkTheme: boolean) {
   set(IS_DARK_THEME, isDarkTheme);
 }
 
-export function clearAll() {
+/**
+ * Clear localStorage, except which theme is in use.
+ */
+export function clearSession() {
+  const currentTheme = getStoredTheme();
   localStorage.clear();
+  storeTheme(currentTheme);
 }
