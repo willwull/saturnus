@@ -47,6 +47,11 @@ export const SelfText = styled.div`
   a {
     color: ${props => props.theme.primary};
   }
+
+  @media (max-width: 576px) {
+    padding-right: var(--content-padding);
+    padding-left: var(--content-padding);
+  }
 `;
 
 export const VideoContainer = styled.div`
