@@ -15,6 +15,7 @@ import Icon from "../Icon";
 import Dropdown from "../Dropdown";
 import PostShareMenu from "./PostShareMenu";
 import { UpvoteBtn, DownvoteBtn, ShareButtonWrapper, Score } from "./styles";
+import Desktop from "../Desktop";
 
 type Props = {
   post: Submission;
@@ -148,7 +149,7 @@ class Post extends React.Component<Props, {}> {
               className="comments"
             >
               <Icon icon="comment-alt" /> {shortenNumber(post.num_comments)}{" "}
-              comments
+              <Desktop>comments</Desktop>
             </Link>
           </div>
         </div>
