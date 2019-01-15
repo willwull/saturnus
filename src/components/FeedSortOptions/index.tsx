@@ -81,7 +81,7 @@ class FeedSortOptions extends Component<Props, {}> {
         </Dropdown>
 
         {(currentSort === "top" || currentSort === "controversial") && (
-          <Dropdown overlay={timeMenu} placement="bottomRight">
+          <Dropdown overlay={timeMenu} placement="bottomLeft">
             {mapTimeToElement(currentTimeSort!)}
           </Dropdown>
         )}

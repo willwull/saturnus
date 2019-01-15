@@ -1,7 +1,7 @@
 import reddit from "../api/reddit";
 import * as LocalCache from "../LocalCache";
 import { appOnlyOauth, getAuthTokens } from "../api/authentication";
-import { fetchUser } from "./user";
+import { fetchUser, setUserStatus } from "./user";
 import { SnoowrapAuthType, SnoowrapState } from "../reducers/snoowrap";
 import { Dispatch, Action } from "redux";
 import { ThunkDispatch } from "redux-thunk";
@@ -65,13 +65,17 @@ export function authSnoowrap(authCode: string) {
       const tokens = await getAuthTokens(authCode);
       reddit.initRefreshToken(tokens.refresh_token);
 
+      // set user to logged in
+      // this is needed so the user's subscriptions will be
+      // fetched instead of the default subs
+      dispatch(setUserStatus(true));
+      dispatch(receiveSnoowrap("auth"));
+
       // for some reason, writing this as async triggers a TS error
       dispatch(fetchUser()).then(user => {
         // store the tokens in cache
         LocalCache.storeAuthTokens(user.name, tokens);
         LocalCache.storeLastActiveUser(user.name);
-
-        dispatch(receiveSnoowrap("auth"));
       });
     } catch (error) {
       console.error(error);
@@ -89,14 +93,8 @@ export function authSnoowrap(authCode: string) {
  */
 export function initRefreshToken(refreshToken: string) {
   return async (dispatch: ThunkDispatch<SnoowrapState, void, Action>) => {
-    dispatch({ type: REQUEST_SNOOWRAP });
-
     try {
       reddit.initRefreshToken(refreshToken);
-
-      const user = await dispatch<any>(fetchUser());
-
-      LocalCache.storeLastActiveUser(user.name);
 
       dispatch(receiveSnoowrap("auth"));
     } catch (error) {

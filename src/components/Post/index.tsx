@@ -14,7 +14,14 @@ import GoldCounter from "../GoldCounter";
 import Icon from "../Icon";
 import Dropdown from "../Dropdown";
 import PostShareMenu from "./PostShareMenu";
-import { UpvoteBtn, DownvoteBtn, ShareButtonWrapper, Score } from "./styles";
+import {
+  UpvoteBtn,
+  DownvoteBtn,
+  ShareButtonWrapper,
+  Score,
+  NavClickTarget,
+} from "./styles";
+import Desktop from "../Desktop";
 
 type Props = {
   post: Submission;
@@ -50,8 +57,16 @@ class Post extends React.Component<Props, {}> {
     );
     const textColor = bgColor.luminosity() < 0.6 ? "white" : "black";
 
+    const clickTarget = (
+      <NavClickTarget to={{ pathname: post.permalink, state: { modal: true } }}>
+        Open post
+      </NavClickTarget>
+    );
+
     return (
       <ContentBox className="post-component">
+        {/* If were already in the post page, no need to make post clickable */}
+        {!expanded && clickTarget}
         <div className="score">
           <UpvoteBtn active={isUpvoted} onClick={this.upvote}>
             <Icon icon="arrow-up" />
@@ -99,12 +114,7 @@ class Post extends React.Component<Props, {}> {
               )}
             </div>
 
-            <Link
-              to={{ pathname: post.permalink, state: { modal: true } }}
-              className="post-title"
-            >
-              {post.title}
-            </Link>
+            <div className="post-title">{post.title}</div>
           </div>
 
           <div className="content-wrapper">
@@ -143,13 +153,10 @@ class Post extends React.Component<Props, {}> {
               </Dropdown>
             </ShareButtonWrapper>
 
-            <Link
-              to={{ pathname: post.permalink, state: { modal: true } }}
-              className="comments"
-            >
+            <span className="comments">
               <Icon icon="comment-alt" /> {shortenNumber(post.num_comments)}{" "}
-              comments
-            </Link>
+              <Desktop>comments</Desktop>
+            </span>
           </div>
         </div>
       </ContentBox>

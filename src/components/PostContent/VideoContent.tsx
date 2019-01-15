@@ -90,7 +90,7 @@ class VideoContent extends Component<Props, State> {
       <InView threshold={0.4} onChange={this.handleInView}>
         <VideoContainer>
           <VideoPreview
-            innerRef={this.videoRef}
+            ref={this.videoRef}
             playsInline
             preload="auto"
             autoPlay={autoPlay}

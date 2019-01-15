@@ -1,4 +1,18 @@
 import styled from "styled-components";
+import { Link } from "react-router-dom";
+
+// This component is used to make the entire post covered
+// by a Link component, so that the entire post can be
+// clicked, including empty areas
+export const NavClickTarget = styled(Link)`
+  position: absolute;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  left: 0;
+  opacity: 0;
+  z-index: 0 !important;
+`;
 
 export const ShareButtonWrapper = styled.div`
   margin-left: auto;

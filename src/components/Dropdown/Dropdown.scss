@@ -1,6 +1,10 @@
 .dropdown-wrapper {
-  display: flex;
+  display: inline-block;
   position: relative;
+
+  & > button {
+    vertical-align: middle;
+  }
 
   .dropdown-overlay {
     top: 80%;

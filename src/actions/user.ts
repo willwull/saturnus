@@ -20,6 +20,13 @@ function setUser(user: RedditUser) {
   return { type: RECEIVED_USER, user };
 }
 
+export function setUserStatus(loggedIn: boolean) {
+  return {
+    type: SET_USER_STATUS,
+    status: loggedIn,
+  };
+}
+
 export function fetchUser() {
   return (dispatch: ThunkDispatch<UserState, void, Action>) => {
     const r = reddit.getSnoowrap();
@@ -33,6 +40,8 @@ export function fetchUser() {
 
       dispatch(setUser(user));
 
+      LocalCache.storeLastActiveUser(user.name);
+
       return user;
     });
   };
@@ -41,7 +50,7 @@ export function fetchUser() {
 export function signOut() {
   return (dispatch: ThunkDispatch<UserState, void, Action>) => {
     // clear cache so the user's saved refresh tokens are cleared
-    LocalCache.clearAll();
+    LocalCache.clearSession();
 
     dispatch({
       type: USER_SIGN_OUT,
@@ -50,7 +59,10 @@ export function signOut() {
   };
 }
 
-export function fetchMySubs(options = { skipCache: false }) {
+export type SubFetchOptions = {
+  skipCache: boolean;
+};
+export function fetchMySubs(options: SubFetchOptions = { skipCache: false }) {
   return async (
     dispatch: ThunkDispatch<UserState, void, Action>,
     getState: () => RootState,
@@ -58,16 +70,17 @@ export function fetchMySubs(options = { skipCache: false }) {
     dispatch({ type: REQUEST_MY_SUBS });
 
     try {
+      const state = getState();
+
       if (!options.skipCache) {
         const cachedSubs = LocalCache.getStoredSubs();
-        if (cachedSubs) {
+        if (cachedSubs && cachedSubs.length > 0) {
           console.log(cachedSubs);
           dispatch({ type: RECEIVE_MY_SUBS, subscriptions: cachedSubs });
           return;
         }
       }
 
-      const state = getState();
       const r = reddit.getSnoowrap();
 
       let subscriptions;
@@ -75,6 +88,7 @@ export function fetchMySubs(options = { skipCache: false }) {
         subscriptions = await r.getSubscriptions();
       } else {
         // get default subs if not logged in
+        console.log("User not logged in, fetching defaults");
         subscriptions = await r.getDefaultSubreddits();
       }
 
@@ -83,7 +97,7 @@ export function fetchMySubs(options = { skipCache: false }) {
 
       if (state.user.loggedIn) {
         // if logged in user, cache their subscriptions
-        LocalCache.storeMySubs(subscriptions);
+        LocalCache.storeMySubs(subscriptions, (state.user.data as any).name);
       }
 
       dispatch({ type: RECEIVE_MY_SUBS, subscriptions });

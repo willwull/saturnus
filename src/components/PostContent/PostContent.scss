@@ -37,12 +37,3 @@
     }
   }
 }
-
-@media (max-width: 576px) {
-  .post-self-text {
-    padding: {
-      right: var(--content-padding);
-      left: var(--content-padding);
-    }
-  }
-}

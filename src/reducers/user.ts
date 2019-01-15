@@ -9,6 +9,7 @@ import {
 } from "../actions/user";
 import { RedditUser } from "snoowrap";
 import { SimpleSubreddit } from "../components/SubredditList";
+import * as LocalCache from "../LocalCache";
 
 export type UserState = {
   loggedIn: boolean;
@@ -20,7 +21,7 @@ export type UserState = {
 };
 
 const defaultUser: UserState = {
-  loggedIn: false,
+  loggedIn: !!LocalCache.getLastActiveUser(),
   isLoading: false,
   data: {},
   subsLoading: false,
