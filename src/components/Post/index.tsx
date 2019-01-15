@@ -57,8 +57,9 @@ class Post extends React.Component<Props, {}> {
     );
     const textColor = bgColor.luminosity() < 0.6 ? "white" : "black";
 
+    // Test: don't use modal version and let's see how it works
     const clickTarget = (
-      <NavClickTarget to={{ pathname: post.permalink, state: { modal: true } }}>
+      <NavClickTarget to={{ pathname: post.permalink }}>
         Open post
       </NavClickTarget>
     );
