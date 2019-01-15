@@ -4,6 +4,7 @@
 }
 
 .post-component {
+  position: relative; // needed for NavClickTarget to work
   margin-bottom: 20px;
   padding: 20px;
 
@@ -12,6 +13,11 @@
   display: grid;
   grid-template-columns: auto 1fr;
   grid-gap: 20px;
+
+  a,
+  button {
+    z-index: 1; // needed for NavClickTarget to work
+  }
 
   .score {
     display: flex;
