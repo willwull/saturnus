@@ -57,13 +57,16 @@ class Post extends React.Component<Props, {}> {
     );
     const textColor = bgColor.luminosity() < 0.6 ? "white" : "black";
 
+    const clickTarget = (
+      <NavClickTarget to={{ pathname: post.permalink, state: { modal: true } }}>
+        Open post
+      </NavClickTarget>
+    );
+
     return (
       <ContentBox className="post-component">
-        <NavClickTarget
-          to={{ pathname: post.permalink, state: { modal: true } }}
-        >
-          Open post
-        </NavClickTarget>
+        {/* If were already in the post page, no need to make post clickable */}
+        {!expanded && clickTarget}
         <div className="score">
           <UpvoteBtn active={isUpvoted} onClick={this.upvote}>
             <Icon icon="arrow-up" />
