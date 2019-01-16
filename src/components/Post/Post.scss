@@ -17,6 +17,7 @@
   a,
   button {
     z-index: 1; // needed for NavClickTarget to work
+    position: relative;
   }
 
   .score {

@@ -4,14 +4,15 @@ import { Link } from "react-router-dom";
 // This component is used to make the entire post covered
 // by a Link component, so that the entire post can be
 // clicked, including empty areas
+// https://www.sarasoueidan.com/blog/nested-links/
 export const NavClickTarget = styled(Link)`
-  position: absolute;
+  position: absolute !important;
+  z-index: 0 !important;
   top: 0;
   right: 0;
   bottom: 0;
   left: 0;
   opacity: 0;
-  z-index: 0 !important;
 `;
 
 export const ShareButtonWrapper = styled.div`
