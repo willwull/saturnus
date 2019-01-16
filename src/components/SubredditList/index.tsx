@@ -1,6 +1,7 @@
 import React, { Fragment } from "react";
 import { SidebarLink } from "../Sidebar";
-import { FallBackIcon, SubIcon, ListLetter } from "./styles";
+import { ListLetter, SubName } from "./styles";
+import SubIcon from "../SubIcon";
 
 export type SimpleSubreddit = {
   id: string;
@@ -22,13 +23,8 @@ type SubGroup = {
 function mapSubToListElem(sub: SimpleSubreddit) {
   return (
     <SidebarLink key={sub.id} to={sub.url}>
-      {sub.icon_img ? (
-        <SubIcon src={sub.icon_img} />
-      ) : (
-        <FallBackIcon color={sub.key_color} />
-      )}
-
-      {sub.display_name_prefixed}
+      <SubIcon icon={sub.icon_img} color={sub.key_color} size={20} />
+      <SubName>{sub.display_name_prefixed}</SubName>
     </SidebarLink>
   );
 }
