@@ -5,6 +5,7 @@ import { search } from "../actions/search";
 import { Subreddit } from "snoowrap";
 import SubSearchResult from "../components/SubSearchResult";
 import { PadOnNarrow } from "../components/Page";
+import Loading from "../components/Loading";
 
 type OwnProps = {
   query: string;
@@ -38,7 +39,12 @@ class CurrentSearchResults extends Component<Props, {}> {
   }
 
   render() {
-    const { subreddits } = this.props;
+    const { subreddits, isLoading } = this.props;
+
+    if (isLoading) {
+      return <Loading type="regular" />;
+    }
+
     return (
       <div>
         <PadOnNarrow>
