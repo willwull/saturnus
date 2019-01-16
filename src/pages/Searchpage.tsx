@@ -1,6 +1,6 @@
 import React from "react";
 import { RouteComponentProps, Redirect } from "react-router-dom";
-import Page from "../components/Page";
+import Page, { PadOnNarrow } from "../components/Page";
 import CurrentSearchResults from "../containers/CurrentSearchResults";
 
 type Props = RouteComponentProps;
@@ -17,7 +17,7 @@ function Searchpage({ location }: Props) {
 
   return (
     <Page>
-      Search results for "{q}":
+      <PadOnNarrow>Search results for "{q}":</PadOnNarrow>
       <CurrentSearchResults query={q} />
     </Page>
   );

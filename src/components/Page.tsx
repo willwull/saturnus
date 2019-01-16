@@ -5,4 +5,10 @@ const Page = styled.div`
   margin: 70px auto 20px auto;
 `;
 
+export const PadOnNarrow = styled.div`
+  @media (max-width: 874px) {
+    padding: 0 var(--content-padding);
+  }
+`;
+
 export default Page;

@@ -12,6 +12,10 @@ export const Wrapper = styled(Link)`
   border-radius: 5px;
   background: ${props => props.theme.contentBg};
   align-items: center;
+
+  @media (max-width: 500px) {
+    grid-template-columns: auto 1fr;
+  }
 `;
 
 export const Name = styled.div`
@@ -25,4 +29,9 @@ export const Subtext = styled.div`
 export const Description = styled.div`
   font-size: 14px;
   color: ${props => transparentize(0.25, props.theme.text)};
+
+  @media (max-width: 500px) {
+    grid-column: 1 / -1;
+    font-size: 12px;
+  }
 `;

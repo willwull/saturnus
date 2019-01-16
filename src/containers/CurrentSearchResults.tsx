@@ -4,6 +4,7 @@ import { DispatchType, RootState } from "../reducers";
 import { search } from "../actions/search";
 import { Subreddit } from "snoowrap";
 import SubSearchResult from "../components/SubSearchResult";
+import { PadOnNarrow } from "../components/Page";
 
 type OwnProps = {
   query: string;
@@ -40,7 +41,9 @@ class CurrentSearchResults extends Component<Props, {}> {
     const { subreddits } = this.props;
     return (
       <div>
-        <h2>Subreddits:</h2>
+        <PadOnNarrow>
+          <h2>Subreddits:</h2>
+        </PadOnNarrow>
         {subreddits.map(sub => (
           <SubSearchResult key={sub.display_name_prefixed} subreddit={sub} />
         ))}
