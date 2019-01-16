@@ -1,9 +1,5 @@
 import styled from "styled-components";
 
-export const Username = styled.span`
-  margin-right: 1ch;
-
-  @media (max-width: 320px) {
-    display: none;
-  }
+export const Wrapper = styled.div`
+  padding: 0 5px;
 `;
