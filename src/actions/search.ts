@@ -21,7 +21,10 @@ export function search(query: string) {
     getState: () => RootState,
   ) => {
     const state = getState();
-    if (query === state.search.query && state.search.subreddits.length > 0) {
+    if (
+      query === state.search.lastSearchQuery &&
+      state.search.subreddits.length > 0
+    ) {
       // searched for the same thing, no need to perform a new search
       console.log("Skipping search, same query", query);
       return;
