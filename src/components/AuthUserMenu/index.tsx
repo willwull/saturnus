@@ -18,6 +18,9 @@ class AuthUserMenu extends Component<Props, {}> {
     const overlay = (
       <Menu>
         <Menu.Item>
+          <Icon icon="far user-circle" fixedWidth /> {userData.name}
+        </Menu.Item>
+        <Menu.Item>
           <Icon icon="far star" fixedWidth /> {karma} karma
         </Menu.Item>
         <Menu.Divider />
