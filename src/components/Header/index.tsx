@@ -13,11 +13,11 @@ function Header() {
   return (
     <ContentBox className="header-component">
       <HeaderButton />
-      <Link to="/">
-        <LogoWrapper>
+      <LogoWrapper>
+        <Link to="/">
           <SaturnusLogo />
-        </LogoWrapper>
-      </Link>
+        </Link>
+      </LogoWrapper>
       <SiteName>
         <Link to="/">Saturnus</Link>
         <VersionTag>{pkg.version}</VersionTag>
