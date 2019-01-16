@@ -65,8 +65,6 @@ class Post extends React.Component<Props, {}> {
 
     return (
       <ContentBox className="post-component">
-        {/* If were already in the post page, no need to make post clickable */}
-        {!expanded && clickTarget}
         <div className="score">
           <UpvoteBtn active={isUpvoted} onClick={this.upvote}>
             <Icon icon="arrow-up" />
@@ -159,6 +157,8 @@ class Post extends React.Component<Props, {}> {
             </span>
           </div>
         </div>
+        {/* If were already in the post page, no need to make post clickable */}
+        {!expanded && clickTarget}
       </ContentBox>
     );
   }
