@@ -1,6 +1,7 @@
 import React from "react";
 import { RouteComponentProps, Redirect } from "react-router-dom";
 import Page from "../components/Page";
+import SearchResults from "../containers/SearchResults";
 
 type Props = RouteComponentProps;
 
@@ -14,7 +15,12 @@ function Searchpage({ location }: Props) {
     return <Redirect to="/" />;
   }
 
-  return <Page>Search results for {q}</Page>;
+  return (
+    <Page>
+      Search results for {q}
+      <SearchResults query={q} />
+    </Page>
+  );
 }
 
 export default Searchpage;
