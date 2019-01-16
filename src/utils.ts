@@ -9,18 +9,27 @@ export function isImgUrl(url: string): boolean {
 
 /**
  * Shortens numbers over 1000.
- * 1000 -> 1k etc
+ * 1000 -> 1k
+ * 10000000 -> 1m
  *
  * @param {number} num
  * @param {string} numberOfDecimals
  * @returns {string}
  */
 export function shortenNumber(num: number): string {
+  if (!num) return "0";
+
   if (num < 1000) return num.toString();
 
-  const newNum = num / 1000;
+  if (num < 1000000) {
+    const newNum = num / 1000;
+    const rounded = Math.round(newNum * 10) / 10;
+    return `${rounded}k`;
+  }
+
+  const newNum = num / 1000000;
   const rounded = Math.round(newNum * 10) / 10;
-  return `${rounded}k`;
+  return `${rounded}m`;
 }
 
 /**
