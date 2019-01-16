@@ -11,7 +11,7 @@ export const SearchForm = styled.form`
   align-items: center;
   line-height: 1;
   grid-gap: 5px;
-  border-radius: 25px;
+  border-radius: 5px;
   transition: 100ms all;
 
   &,
