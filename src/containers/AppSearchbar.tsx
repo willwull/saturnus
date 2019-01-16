@@ -39,6 +39,16 @@ class AppSearchbar extends Component<Props, {}> {
     this.props.setValue("");
   };
 
+  componentDidUpdate(prevProps: Props) {
+    // if we navigate away from the search page, clear the search bar
+    const { location } = this.props;
+    const isOnSearchPage = location.pathname.includes("/search");
+
+    if (prevProps.location !== location && !isOnSearchPage) {
+      this.clearFunc();
+    }
+  }
+
   render() {
     const { query } = this.props;
 
