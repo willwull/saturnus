@@ -7,6 +7,7 @@ import HeaderButton from "./HeaderButton";
 import pkg from "../../../package.json";
 import { LogoWrapper, VersionTag, SiteName } from "./styles";
 import "./Header.scss";
+import Searchbar from "../Searchbar";
 
 function Header() {
   return (
@@ -21,6 +22,7 @@ function Header() {
         <Link to="/">Saturnus</Link>
         <VersionTag>{pkg.version}</VersionTag>
       </SiteName>
+      <Searchbar />
       <UserMenu />
     </ContentBox>
   );
