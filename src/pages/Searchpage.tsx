@@ -1,7 +1,7 @@
 import React from "react";
 import { RouteComponentProps, Redirect } from "react-router-dom";
 import Page from "../components/Page";
-import SearchResults from "../containers/SearchResults";
+import CurrentSearchResults from "../containers/CurrentSearchResults";
 
 type Props = RouteComponentProps;
 
@@ -18,7 +18,7 @@ function Searchpage({ location }: Props) {
   return (
     <Page>
       Search results for {q}
-      <SearchResults query={q} />
+      <CurrentSearchResults query={q} />
     </Page>
   );
 }

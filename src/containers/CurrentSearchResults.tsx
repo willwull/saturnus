@@ -20,7 +20,7 @@ type DispatchProps = {
 
 type Props = OwnProps & StateProps & DispatchProps;
 
-class SearchResults extends Component<Props, {}> {
+class CurrentSearchResults extends Component<Props, {}> {
   componentDidMount() {
     this.performSearch();
   }
@@ -69,4 +69,4 @@ function mapDispatchToProps(dispatch: DispatchType): DispatchProps {
 export default connect(
   mapStateToProps,
   mapDispatchToProps,
-)(SearchResults);
+)(CurrentSearchResults);
