@@ -10,9 +10,17 @@ type State = {
 };
 
 class Searchbar extends Component<Props, State> {
-  state: State = {
-    searchValue: "",
-  };
+  constructor(props: Props) {
+    super(props);
+
+    const queryString = this.props.location.search;
+    const searchParams = new URLSearchParams(queryString);
+    const q = searchParams.get("q");
+
+    this.state = {
+      searchValue: q || "",
+    };
+  }
 
   inputRef = React.createRef<HTMLInputElement>();
 
