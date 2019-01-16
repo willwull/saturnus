@@ -18,6 +18,7 @@ class Searchbar extends Component<Props, {}> {
   onSubmit = (event: FormEvent) => {
     event.preventDefault();
     this.props.onSubmit();
+    this.inputRef.current!.blur();
   };
 
   onInputChange = (event: ChangeEvent<HTMLInputElement>) => {
