@@ -3,7 +3,7 @@ import { connect } from "react-redux";
 import { DispatchType, RootState } from "../reducers";
 import { search } from "../actions/search";
 import { Subreddit } from "snoowrap";
-import { Link } from "react-router-dom";
+import SubSearchResult from "../components/SubSearchResult";
 
 type OwnProps = {
   query: string;
@@ -42,9 +42,7 @@ class CurrentSearchResults extends Component<Props, {}> {
       <div>
         <h2>Subreddits:</h2>
         {subreddits.map(sub => (
-          <div key={sub.display_name}>
-            <Link to={sub.url}>{sub.display_name_prefixed}</Link>
-          </div>
+          <SubSearchResult key={sub.display_name_prefixed} subreddit={sub} />
         ))}
       </div>
     );

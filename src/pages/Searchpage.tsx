@@ -17,7 +17,7 @@ function Searchpage({ location }: Props) {
 
   return (
     <Page>
-      Search results for {q}
+      Search results for "{q}":
       <CurrentSearchResults query={q} />
     </Page>
   );
