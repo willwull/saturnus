@@ -5,9 +5,9 @@ import ContentBox from "../ContentBox";
 import SaturnusLogo from "../SaturnusLogo";
 import HeaderButton from "./HeaderButton";
 import pkg from "../../../package.json";
+import AppSearchbar from "../../containers/AppSearchbar";
 import { LogoWrapper, VersionTag, SiteName } from "./styles";
 import "./Header.scss";
-import Searchbar from "../Searchbar";
 
 function Header() {
   return (
@@ -22,7 +22,7 @@ function Header() {
         <Link to="/">Saturnus</Link>
         <VersionTag>{pkg.version}</VersionTag>
       </SiteName>
-      <Searchbar />
+      <AppSearchbar />
       <UserMenu />
     </ContentBox>
   );

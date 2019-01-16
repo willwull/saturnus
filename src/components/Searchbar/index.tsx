@@ -3,46 +3,35 @@ import { withRouter, RouteComponentProps } from "react-router";
 import { SearchForm, Input, ClearButton } from "./styles";
 import Icon from "../Icon";
 
-type Props = RouteComponentProps;
-
-type State = {
-  searchValue: string;
+type OwnProps = {
+  value: string;
+  onChange: (query: string) => void;
+  onSubmit: () => void;
+  clearFunc: () => void;
 };
 
-class Searchbar extends Component<Props, State> {
-  constructor(props: Props) {
-    super(props);
+type Props = OwnProps & RouteComponentProps;
 
-    const queryString = this.props.location.search;
-    const searchParams = new URLSearchParams(queryString);
-    const q = searchParams.get("q");
-
-    this.state = {
-      searchValue: q || "",
-    };
-  }
-
+class Searchbar extends Component<Props, {}> {
   inputRef = React.createRef<HTMLInputElement>();
 
   onSubmit = (event: FormEvent) => {
     event.preventDefault();
-    const { history } = this.props;
-    history.push(`/search?q=${this.state.searchValue}`);
+    this.props.onSubmit();
   };
 
   onInputChange = (event: ChangeEvent<HTMLInputElement>) => {
-    this.setState({ searchValue: event.target.value });
+    this.props.onChange(event.target.value);
   };
 
   clearInput = () => {
-    this.setState({ searchValue: "" }, () => {
-      this.inputRef.current!.focus();
-    });
+    this.props.clearFunc();
+    this.inputRef.current!.focus();
   };
 
   render() {
-    const { searchValue } = this.state;
-    const showClearBtn = searchValue !== "";
+    const { value } = this.props;
+    const showClearBtn = value !== "";
 
     return (
       <SearchForm onSubmit={this.onSubmit}>
@@ -50,7 +39,7 @@ class Searchbar extends Component<Props, State> {
         <Input
           ref={this.inputRef}
           type="text"
-          value={searchValue}
+          value={value}
           onChange={this.onInputChange}
           placeholder="Search"
         />
