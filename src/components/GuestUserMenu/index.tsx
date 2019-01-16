@@ -3,8 +3,8 @@ import ThemeTogglerMenuItem from "../../containers/ThemeTogglerMenuItem";
 import Dropdown from "../Dropdown";
 import Menu from "../Menu";
 import Icon from "../Icon";
-import { Username } from "../AuthUserMenu/styles";
 import { GuestIconWrapper } from "./styles";
+import { Wrapper } from "../AuthUserMenu/styles";
 
 interface Props {
   signIn: () => void;
@@ -23,15 +23,16 @@ class GuestUserMenu extends Component<Props, {}> {
     );
 
     return (
-      <Dropdown overlay={overlay} placement="bottomRight">
-        <div className="user-menu">
-          <GuestIconWrapper>
-            <Icon icon="far user" />
-          </GuestIconWrapper>
-          <Username>Guest</Username>
-          <Icon icon="caret-down" />
-        </div>
-      </Dropdown>
+      <Wrapper>
+        <Dropdown overlay={overlay} placement="bottomRight">
+          <div className="user-menu">
+            <GuestIconWrapper>
+              <Icon icon="far user" />
+            </GuestIconWrapper>
+            <Icon icon="caret-down" />
+          </div>
+        </Dropdown>
+      </Wrapper>
     );
   }
 }

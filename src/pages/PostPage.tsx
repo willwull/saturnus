@@ -1,11 +1,6 @@
 import React from "react";
-import styled from "styled-components";
 import CurrentPost from "../containers/CurrentPost";
-
-const Page = styled.div`
-  max-width: 850px;
-  margin: 70px auto 20px auto;
-`;
+import Page from "../components/Page";
 
 function PostPage() {
   return (

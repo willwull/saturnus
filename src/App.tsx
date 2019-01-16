@@ -14,6 +14,7 @@ import TestingGrounds from "./pages/TestingGrounds";
 import ModalSwitch from "./components/ModalSwitch";
 import PostModal from "./pages/PostModal";
 import Loading from "./components/Loading";
+import Searchpage from "./pages/Searchpage";
 
 type GlobalStyleProps = {
   theme: ThemeColors;
@@ -94,6 +95,7 @@ class App extends Component<Props, {}> {
                 path="/r/:subreddit/comments/:postId/:postTitle"
                 component={PostPage}
               />
+              <Route path="/search" component={Searchpage} />
               <Route path="/testinggrounds" component={TestingGrounds} />
               <Route component={NotfoundPage} />
             </ModalSwitch>

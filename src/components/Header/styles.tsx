@@ -8,14 +8,26 @@ export const LogoWrapper = styled.div`
   border-radius: 50%;
   width: 30px;
   height: 30px;
-  display: flex;
-  justify-content: center;
-  align-items: center;
+
+  &,
+  & > * {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+
+  @media (max-width: 499px) {
+    display: none;
+  }
 `;
 
 export const SiteName = styled.div`
   display: flex;
   align-items: center;
+
+  @media (max-width: 499px) {
+    display: none;
+  }
 `;
 
 export const VersionTag = styled.span`
@@ -29,4 +41,8 @@ export const VersionTag = styled.span`
   align-items: center;
   justify-content: center;
   border-radius: 5px;
+
+  @media (max-width: 499px) {
+    display: none;
+  }
 `;

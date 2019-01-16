@@ -7,6 +7,7 @@ import currentPost from "./currentPost";
 import user, { UserState } from "./user";
 import sidebar from "./sidebar";
 import { ThunkDispatch } from "redux-thunk";
+import search, { SearchState } from "./search";
 
 export type RootState = {
   theme: ThemeState;
@@ -16,6 +17,7 @@ export type RootState = {
   snoowrap: SnoowrapState;
   currentPost: any; // TODO
   user: UserState;
+  search: SearchState;
 };
 
 export type DispatchType = Dispatch<Action> &
@@ -29,4 +31,5 @@ export default combineReducers<RootState>({
   snoowrap,
   currentPost,
   user,
+  search,
 });
