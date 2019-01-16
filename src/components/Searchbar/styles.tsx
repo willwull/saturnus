@@ -12,11 +12,32 @@ export const SearchForm = styled.form`
   line-height: 1;
   grid-gap: 5px;
   border-radius: 25px;
+  transition: 100ms all;
+
+  &,
+  & input {
+    color: ${props => props.theme.text};
+  }
+
+  /*
+  Since we add a border on focus, we need an invisible border to
+  prevent content jumping when a border is added.
+  */
+  border: 2px solid rgba(0, 0, 0, 0);
+
+  &:focus-within {
+    border: 2px solid ${props => props.theme.primary};
+    background: white;
+
+    &,
+    & input {
+      color: black;
+    }
+  }
 `;
 
 export const Input = styled.input`
   background: none;
-  color: ${props => props.theme.text};
   border: none;
   outline: none;
   width: 98%;
@@ -25,4 +46,11 @@ export const Input = styled.input`
   &::placeholder {
     color: ${props => transparentize(0.7, props.theme.text)};
   }
+`;
+
+export const ClearButton = styled.button`
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  width: 20px;
 `;
