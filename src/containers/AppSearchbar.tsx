@@ -19,16 +19,23 @@ class AppSearchbar extends Component<Props, {}> {
   constructor(props: Props) {
     super(props);
 
-    const queryString = this.props.location.search;
+    this.setCorrectValue();
+  }
+
+  setCorrectValue() {
+    const { location, setValue } = this.props;
+    const queryString = location.search;
     const searchParams = new URLSearchParams(queryString);
     const q = searchParams.get("q");
 
     if (q) {
-      props.setValue(q);
-    } else if (props.location.pathname.includes("/r/")) {
+      setValue(q);
+    } else if (location.pathname === "/") {
+      this.clearFunc();
+    } else if (location.pathname.includes("/r/")) {
       // [0] is "", [1] is "r"
       const subredditName = location.pathname.split("/")[2];
-      props.setValue(`r/${subredditName} `);
+      setValue(`r/${subredditName} `);
     }
   }
 
@@ -50,15 +57,7 @@ class AppSearchbar extends Component<Props, {}> {
     const { location, match } = this.props;
 
     if (prevProps.location !== location) {
-      console.log(location.pathname);
-      console.log(match.params);
-      if (location.pathname === "/") {
-        this.clearFunc();
-      } else if (location.pathname.includes("/r/")) {
-        // [0] is "", [1] is "r"
-        const subredditName = location.pathname.split("/")[2];
-        this.props.setValue(`r/${subredditName} `);
-      }
+      this.setCorrectValue();
     }
   }
 
