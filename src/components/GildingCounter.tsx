@@ -2,7 +2,7 @@ import React from "react";
 import styled from "styled-components";
 import Icon from "./Icon";
 
-const GoldWrapper = styled.span`
+const GildingWrapper = styled.span`
   margin-top: 15px;
   text-align: center;
   color: #ccac00;
@@ -13,24 +13,29 @@ const Circle = styled(Icon)`
   color: gold;
 `;
 
-const Star = styled(Icon)`
+const GildingIcon = styled(Icon)`
   color: ${props => props.theme.contentBg};
 `;
 
 type Props = {
   count: number;
+  type?: "gold" | "platinum" | "silver";
 };
 
-function GoldCounter({ count }: Props) {
+function GildingCounter({ count }: Props) {
   return (
-    <GoldWrapper className="gold-icon">
+    <GildingWrapper className="gold-icon">
       <span className="fa-layers fa-fw">
         <Circle icon="circle" fixedWidth />
-        <Star icon="star" transform="shrink-6" fixedWidth />
+        <GildingIcon icon="star" transform="shrink-6" fixedWidth />
       </span>
       {count}
-    </GoldWrapper>
+    </GildingWrapper>
   );
 }
 
-export default GoldCounter;
+GildingCounter.defaultProps = {
+  type: "gold",
+};
+
+export default GildingCounter;

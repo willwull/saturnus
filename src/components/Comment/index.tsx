@@ -4,7 +4,7 @@ import scrollIntoView from "smooth-scroll-into-view-if-needed";
 import moment from "moment-mini";
 
 import { shortenNumber } from "../../utils";
-import GoldCounter from "../GoldCounter";
+import GildingCounter from "../GildingCounter";
 import TextContent from "../TextContent";
 import Icon from "../Icon";
 import {
@@ -108,7 +108,7 @@ class Comment extends Component<Props, State> {
             {comment.gilded !== 0 && (
               <span>
                 {" · "}
-                <GoldCounter count={comment.gilded} />
+                <GildingCounter count={comment.gilded} />
               </span>
             )}
           </CommentTitle>

@@ -10,7 +10,7 @@ import PostContent from "../PostContent";
 import { shortenNumber } from "../../utils";
 import "./Post.scss";
 import Flair from "../Flair";
-import GoldCounter from "../GoldCounter";
+import GildingCounter from "../GildingCounter";
 import Icon from "../Icon";
 import Dropdown from "../Dropdown";
 import PostShareMenu from "./PostShareMenu";
@@ -91,7 +91,7 @@ class Post extends React.Component<Props, {}> {
           )}
 
           {/* Gilded icon */}
-          {post.gilded !== 0 && <GoldCounter count={post.gilded} />}
+          {post.gilded !== 0 && <GildingCounter count={post.gilded} />}
         </div>
 
         {/* Actual post content */}
