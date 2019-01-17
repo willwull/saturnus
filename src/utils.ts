@@ -88,7 +88,11 @@ export function copyToClipboard(str: string) {
  */
 export function shortTimeDiff(time: number): string {
   const longDate = moment.unix(time).fromNow(true);
+  console.log(longDate);
+  if (longDate === "a few seconds") return "now";
+
   const short = longDate
+    .replace(/an?/, "1")
     .replace(/\sseconds?/, "s")
     .replace(/\sminutes?/, "m")
     .replace(/\shours?/, "h")
