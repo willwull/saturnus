@@ -92,13 +92,13 @@ export function shortTimeDiff(time: number): string {
   if (longDate === "a few seconds") return "now";
 
   const short = longDate
-    .replace(/an?/, "1")
     .replace(/\sseconds?/, "s")
     .replace(/\sminutes?/, "m")
     .replace(/\shours?/, "h")
     .replace(/\sdays?/, "d")
     .replace(/\smonths?/, "mo")
-    .replace(/\syears?/, "y");
+    .replace(/\syears?/, "y")
+    .replace(/an?/, "1");
 
   return short;
 }
