@@ -79,6 +79,7 @@ export const VideoProgressContainer = styled.div`
   width: 100%;
   background: rgba(255, 255, 255, 0.4);
   margin-bottom: 10px;
+  z-index: 3;
 `;
 
 // Width of progress bar is set with inline styles
