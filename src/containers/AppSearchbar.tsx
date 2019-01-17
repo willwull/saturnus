@@ -1,8 +1,8 @@
-import React, { Component, FormEvent, ChangeEvent } from "react";
+import React, { Component } from "react";
+import { withRouter, RouteComponentProps } from "react-router";
 import { RootState, DispatchType } from "../reducers";
 import { setSearchValue } from "../actions/search";
 import { connect } from "react-redux";
-import { withRouter, RouteComponentProps } from "react-router";
 import Searchbar from "../components/Searchbar";
 
 type StateProps = {
