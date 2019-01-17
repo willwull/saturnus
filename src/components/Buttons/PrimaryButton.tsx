@@ -1,5 +1,6 @@
 import styled from "styled-components";
 import { lighten, darken } from "polished";
+import { Link } from "react-router-dom";
 
 const PrimaryButton = styled.button`
   background: ${props => props.theme.primary};
@@ -21,5 +22,7 @@ const PrimaryButton = styled.button`
     cursor: default;
   }
 `;
+
+export const PrimaryLink = PrimaryButton.withComponent(Link);
 
 export default PrimaryButton;
