@@ -3,7 +3,7 @@ import { Comment as CommentType } from "snoowrap";
 import scrollIntoView from "smooth-scroll-into-view-if-needed";
 import moment from "moment-mini";
 
-import { shortenNumber } from "../../utils";
+import { shortenNumber, shortTimeDiff } from "../../utils";
 import GildingCounter from "../GildingCounter";
 import TextContent from "../TextContent";
 import Icon from "../Icon";
@@ -106,7 +106,7 @@ class Comment extends Component<Props, State> {
             <span className="secondary">
               <Icon icon="far long-arrow-up" /> {score}
               {" · "}
-              {moment.unix(comment.created_utc).fromNow()}
+              {shortTimeDiff(comment.created_utc)}
             </span>
 
             {platinumCounter !== 0 && (

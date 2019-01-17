@@ -1,3 +1,5 @@
+import moment from "moment-mini";
+
 /**
  * Takes an url and checks if it links to an image
  * @param {string} url
@@ -75,4 +77,24 @@ export function copyToClipboard(str: string) {
   el.setSelectionRange(0, el.value.length); // required to work on iOS
   document.execCommand("copy");
   document.body.removeChild(el);
+}
+
+/**
+ * Creates a short time difference string.
+ *
+ * @export
+ * @param {number} time
+ * @returns {string}
+ */
+export function shortTimeDiff(time: number): string {
+  const longDate = moment.unix(time).fromNow(true);
+  const short = longDate
+    .replace(/\sseconds?/, "s")
+    .replace(/\sminutes?/, "m")
+    .replace(/\shours?/, "h")
+    .replace(/\sdays?/, "d")
+    .replace(/\smonths?/, "mo")
+    .replace(/\syears?/, "y");
+
+  return short;
 }
