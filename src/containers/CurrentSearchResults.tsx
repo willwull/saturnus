@@ -2,10 +2,11 @@ import React, { Component } from "react";
 import { connect } from "react-redux";
 import { DispatchType, RootState } from "../reducers";
 import { search } from "../actions/search";
-import { Subreddit } from "snoowrap";
+import { Subreddit, Submission } from "snoowrap";
 import SubSearchResult from "../components/SubSearchResult";
 import { PadOnNarrow } from "../components/Page";
 import Loading from "../components/Loading";
+import Post from "../components/Post";
 
 type OwnProps = {
   query: string;
@@ -14,6 +15,7 @@ type OwnProps = {
 type StateProps = {
   isLoading: boolean;
   subreddits: Subreddit[];
+  posts: Submission[];
 };
 
 type DispatchProps = {
@@ -39,7 +41,7 @@ class CurrentSearchResults extends Component<Props, {}> {
   }
 
   render() {
-    const { subreddits, isLoading } = this.props;
+    const { subreddits, isLoading, posts } = this.props;
 
     if (isLoading) {
       return <Loading type="regular" />;
@@ -50,9 +52,20 @@ class CurrentSearchResults extends Component<Props, {}> {
         <PadOnNarrow>
           <h2>Subreddits:</h2>
         </PadOnNarrow>
-        {subreddits.map(sub => (
-          <SubSearchResult key={sub.display_name_prefixed} subreddit={sub} />
-        ))}
+        {subreddits
+          .slice(0, 3)
+          .map(sub => (
+            <SubSearchResult key={sub.display_name_prefixed} subreddit={sub} />
+          ))}
+
+        <PadOnNarrow>
+          <h2>Posts:</h2>
+        </PadOnNarrow>
+        {posts
+          .slice(0, 5)
+          .map(post => (
+            <Post key={post.id} post={post} voteOnPost={() => null} />
+          ))}
       </div>
     );
   }
@@ -62,6 +75,7 @@ function mapStateToProps({ search }: RootState): StateProps {
   return {
     isLoading: search.isLoading,
     subreddits: search.subreddits,
+    posts: search.posts,
   };
 }
 
