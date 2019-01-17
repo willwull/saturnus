@@ -27,21 +27,40 @@ class AppSearchbar extends Component<Props, {}> {
     const queryString = location.search;
     const searchParams = new URLSearchParams(queryString);
     const q = searchParams.get("q");
+    const restrictSr = searchParams.get("restrict_sr");
 
-    if (q) {
+    if (q && !restrictSr) {
+      // we are on the search result page
       setValue(q);
     } else if (location.pathname === "/") {
+      // we are on the home page, clear search bar
       this.clearFunc();
     } else if (location.pathname.includes("/r/")) {
       // [0] is "", [1] is "r"
       const subredditName = location.pathname.split("/")[2];
-      setValue(`r/${subredditName} `);
+
+      if (/\/r\/\S+\/search/.test(location.pathname)) {
+        // we are on the subreddit search page
+        setValue(`r/${subredditName} ${q}`);
+      } else {
+        // we are on a subreddit feed
+        setValue(`r/${subredditName} `);
+      }
     }
   }
 
   onSubmit = () => {
     const { history, query } = this.props;
-    history.push(`/search?q=${query}`);
+
+    const [subreddit, ...restOfQuery] = query.split(/\s+/);
+    const searchIncludesSubreddit = /r\/\S+/.test(subreddit);
+
+    if (searchIncludesSubreddit) {
+      const q = restOfQuery.join(" ");
+      history.push(`/${subreddit}/search?q=${q}&restrict_sr=true`);
+    } else {
+      history.push(`/search?q=${query}`);
+    }
   };
 
   onChange = (query: string) => {

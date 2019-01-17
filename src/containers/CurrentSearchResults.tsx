@@ -20,6 +20,12 @@ export type SearchType = "" | "link" | "sr";
 type OwnProps = {
   query: string;
   type?: SearchType;
+  limitToSub?: string;
+};
+
+type DefaultProps = {
+  type: SearchType;
+  limitToSub: string;
 };
 
 type StateProps = {
@@ -29,12 +35,17 @@ type StateProps = {
 };
 
 type DispatchProps = {
-  search: (query: string) => void;
+  search: (query: string, subreddit: string) => void;
 };
 
 type Props = OwnProps & StateProps & DispatchProps;
 
 class CurrentSearchResults extends Component<Props, {}> {
+  static defaultProps: DefaultProps = {
+    type: "",
+    limitToSub: "",
+  };
+
   componentDidMount() {
     this.performSearch();
   }
@@ -46,8 +57,8 @@ class CurrentSearchResults extends Component<Props, {}> {
   }
 
   performSearch() {
-    const { query, search } = this.props;
-    search(query);
+    const { query, search, limitToSub } = this.props;
+    search(query, limitToSub!);
   }
 
   render() {
@@ -133,8 +144,8 @@ function mapStateToProps({ search }: RootState): StateProps {
 
 function mapDispatchToProps(dispatch: DispatchType): DispatchProps {
   return {
-    search: (query: string) => {
-      dispatch(search(query));
+    search: (query: string, subreddit: string) => {
+      dispatch(search(query, subreddit));
     },
   };
 }

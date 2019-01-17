@@ -16,7 +16,7 @@ export function setSearchValue(query: string) {
   };
 }
 
-export function search(query: string) {
+export function search(query: string, subreddit = "") {
   return (
     dispatch: ThunkDispatch<any, void, Action>,
     getState: () => RootState,
@@ -37,6 +37,7 @@ export function search(query: string) {
     });
 
     const r = reddit.getSnoowrap();
+
     // TODO: snoowrap type is wrong, again...
     (r as any).searchSubreddits({ query }).then((results: Subreddit[]) => {
       console.log(results);
@@ -47,7 +48,12 @@ export function search(query: string) {
       });
     });
 
-    (r as any).search({ query }).then((results: Submission[]) => {
+    const options = {
+      query,
+      subreddit: subreddit || null,
+    };
+
+    (r as any).search(options).then((results: Submission[]) => {
       console.log(results);
 
       dispatch({
