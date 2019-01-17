@@ -1,4 +1,4 @@
-import React, { Component } from "react";
+import React, { Component, Fragment } from "react";
 import { Comment as CommentType } from "snoowrap";
 import scrollIntoView from "smooth-scroll-into-view-if-needed";
 import moment from "moment-mini";
@@ -80,6 +80,10 @@ class Comment extends Component<Props, State> {
     // depending on the mode of the post page
     const { isModal } = this.props;
 
+    const platinumCounter = (comment as any).gildings.gid_1;
+    const goldCounter = (comment as any).gildings.gid_2;
+    const silverCounter = (comment as any).gildings.gid_3;
+
     return (
       <CommentComponent>
         <CommentScrollAnchor isModal={isModal} ref={this.scrollRef} />
@@ -105,11 +109,25 @@ class Comment extends Component<Props, State> {
               {moment.unix(comment.created_utc).fromNow()}
             </span>
 
-            {comment.gilded !== 0 && (
-              <span>
-                {" · "}
-                <GildingCounter count={comment.gilded} />
-              </span>
+            {platinumCounter !== 0 && (
+              <Fragment>
+                {" "}
+                <GildingCounter count={platinumCounter} type="platinum" />
+              </Fragment>
+            )}
+
+            {goldCounter !== 0 && (
+              <Fragment>
+                {" "}
+                <GildingCounter count={goldCounter} />
+              </Fragment>
+            )}
+
+            {silverCounter !== 0 && (
+              <Fragment>
+                {" "}
+                <GildingCounter count={silverCounter} type="silver" />
+              </Fragment>
             )}
           </CommentTitle>
           <CommentBody isCollapsed={this.state.isCollapsed}>
