@@ -23,7 +23,13 @@ class AppSearchbar extends Component<Props, {}> {
     const searchParams = new URLSearchParams(queryString);
     const q = searchParams.get("q");
 
-    props.setValue(q || "");
+    if (q) {
+      props.setValue(q);
+    } else if (props.location.pathname.includes("/r/")) {
+      // [0] is "", [1] is "r"
+      const subredditName = location.pathname.split("/")[2];
+      props.setValue(`r/${subredditName} `);
+    }
   }
 
   onSubmit = () => {
@@ -41,11 +47,18 @@ class AppSearchbar extends Component<Props, {}> {
 
   componentDidUpdate(prevProps: Props) {
     // if we navigate away from the search page, clear the search bar
-    const { location } = this.props;
-    const isOnSearchPage = location.pathname.includes("/search");
+    const { location, match } = this.props;
 
-    if (prevProps.location !== location && !isOnSearchPage) {
-      this.clearFunc();
+    if (prevProps.location !== location) {
+      console.log(location.pathname);
+      console.log(match.params);
+      if (location.pathname === "/") {
+        this.clearFunc();
+      } else if (location.pathname.includes("/r/")) {
+        // [0] is "", [1] is "r"
+        const subredditName = location.pathname.split("/")[2];
+        this.props.setValue(`r/${subredditName} `);
+      }
     }
   }
 
