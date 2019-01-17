@@ -80,9 +80,9 @@ class Comment extends Component<Props, State> {
     // depending on the mode of the post page
     const { isModal } = this.props;
 
-    const platinumCounter = (comment as any).gildings.gid_1;
+    const platinumCounter = (comment as any).gildings.gid_3;
     const goldCounter = (comment as any).gildings.gid_2;
-    const silverCounter = (comment as any).gildings.gid_3;
+    const silverCounter = (comment as any).gildings.gid_1;
 
     return (
       <CommentComponent>

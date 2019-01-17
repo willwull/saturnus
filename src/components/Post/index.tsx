@@ -63,9 +63,9 @@ class Post extends React.Component<Props, {}> {
       </NavClickTarget>
     );
 
-    const platinumCounter = (post as any).gildings.gid_1;
+    const platinumCounter = (post as any).gildings.gid_3;
     const goldCounter = (post as any).gildings.gid_2;
-    const silverCounter = (post as any).gildings.gid_3;
+    const silverCounter = (post as any).gildings.gid_1;
 
     return (
       <ContentBox className="post-component">
