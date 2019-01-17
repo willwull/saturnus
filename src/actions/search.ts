@@ -24,6 +24,7 @@ export function search(query: string, subreddit = "") {
     const state = getState();
     if (
       query === state.search.lastSearchQuery &&
+      subreddit === state.search.lastSearchSub &&
       state.search.subreddits.length > 0
     ) {
       // searched for the same thing, no need to perform a new search
@@ -34,6 +35,7 @@ export function search(query: string, subreddit = "") {
     dispatch({
       type: REQUEST_SEARCH_RESULTS,
       query,
+      subreddit,
     });
 
     const r = reddit.getSnoowrap();

@@ -51,7 +51,10 @@ class CurrentSearchResults extends Component<Props, {}> {
   }
 
   componentDidUpdate(prevProps: Props) {
-    if (prevProps.query !== this.props.query) {
+    if (
+      prevProps.query !== this.props.query ||
+      prevProps.limitToSub !== this.props.limitToSub
+    ) {
       this.performSearch();
     }
   }

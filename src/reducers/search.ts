@@ -9,6 +9,7 @@ import {
 export type SearchState = {
   query: string;
   lastSearchQuery: string;
+  lastSearchSub: string;
   isLoading: boolean;
   subreddits: Subreddit[];
   posts: Submission[];
@@ -17,6 +18,7 @@ export type SearchState = {
 const defaultState: SearchState = {
   query: "",
   lastSearchQuery: "",
+  lastSearchSub: "",
   isLoading: false,
   subreddits: [],
   posts: [],
@@ -27,7 +29,12 @@ export default function search(state = defaultState, action: any): SearchState {
     case SET_SEARCH_INPUT_VALUE:
       return { ...state, query: action.query };
     case REQUEST_SEARCH_RESULTS:
-      return { ...state, isLoading: true, lastSearchQuery: action.query };
+      return {
+        ...state,
+        isLoading: true,
+        lastSearchQuery: action.query,
+        lastSearchSub: action.subreddit,
+      };
     case RECEIVE_SUB_SEARCH:
       return { ...state, isLoading: false, subreddits: action.subreddits };
     case RECEIVE_POST_SEARCH:
