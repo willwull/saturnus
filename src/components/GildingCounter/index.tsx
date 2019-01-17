@@ -1,6 +1,6 @@
 import React from "react";
 import styled from "styled-components";
-import Icon from "./Icon";
+import Icon from "../Icon";
 
 const GildingWrapper = styled.span`
   margin-top: 15px;
@@ -22,12 +22,23 @@ type Props = {
   type?: "gold" | "platinum" | "silver";
 };
 
-function GildingCounter({ count }: Props) {
+function GildingCounter({ count, type }: Props) {
+  const icons = {
+    gold: "star",
+    platinum: "dice-d10",
+    silver: "splotch",
+  };
+
+  const colors = {
+    gold: "gold",
+    platinum: "#25d8c3",
+  };
+
   return (
     <GildingWrapper className="gold-icon">
       <span className="fa-layers fa-fw">
         <Circle icon="circle" fixedWidth />
-        <GildingIcon icon="star" transform="shrink-6" fixedWidth />
+        <GildingIcon icon={icons[type!]} transform="shrink-6" fixedWidth />
       </span>
       {count}
     </GildingWrapper>
