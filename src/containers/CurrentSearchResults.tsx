@@ -30,6 +30,7 @@ type DefaultProps = {
 
 type StateProps = {
   isLoading: boolean;
+  isLoadingPosts: boolean;
   subreddits: Subreddit[];
   posts: Submission[];
 };
@@ -65,14 +66,22 @@ class CurrentSearchResults extends Component<Props, {}> {
   }
 
   render() {
-    const { subreddits, isLoading, posts, query, type } = this.props;
-
-    if (isLoading) {
-      return <Loading type="regular" />;
-    }
+    const {
+      subreddits,
+      isLoading,
+      isLoadingPosts,
+      posts,
+      query,
+      type,
+    } = this.props;
 
     const showSubResults = type !== "link";
     const showPostResults = type !== "sr";
+
+    const showMoreSubsBtn =
+      type !== "sr" && !isLoading && subreddits.length > 3;
+    const showMorePostsBtn =
+      type !== "link" && !isLoadingPosts && posts.length > 5;
 
     let subResults;
     if (type === "sr") {
@@ -88,6 +97,24 @@ class CurrentSearchResults extends Component<Props, {}> {
       postResults = posts.slice(0, 5);
     }
 
+    let subContent;
+    if (isLoading) {
+      subContent = <Loading type="regular" />;
+    } else {
+      subContent = subResults.map(sub => (
+        <SubSearchResult key={sub.display_name_prefixed} subreddit={sub} />
+      ));
+    }
+
+    let postContent;
+    if (isLoadingPosts) {
+      postContent = <Loading type="regular" />;
+    } else {
+      postContent = postResults.map(post => (
+        <Post key={post.id} post={post} voteOnPost={() => null} />
+      ));
+    }
+
     return (
       <div>
         {showSubResults && (
@@ -96,14 +123,9 @@ class CurrentSearchResults extends Component<Props, {}> {
               <h2>Subreddits:</h2>
             </PadOnNarrow>
 
-            {subResults.map(sub => (
-              <SubSearchResult
-                key={sub.display_name_prefixed}
-                subreddit={sub}
-              />
-            ))}
+            {subContent}
 
-            {showPostResults && (
+            {showMoreSubsBtn && (
               <LinkWrapper>
                 <PrimaryLink to={`/search?q=${query}&type=sr`}>
                   See all
@@ -119,11 +141,9 @@ class CurrentSearchResults extends Component<Props, {}> {
               <h2>Posts:</h2>
             </PadOnNarrow>
 
-            {postResults.map(post => (
-              <Post key={post.id} post={post} voteOnPost={() => null} />
-            ))}
+            {postContent}
 
-            {showSubResults && (
+            {showMorePostsBtn && (
               <LinkWrapper>
                 <PrimaryLink to={`/search?q=${query}&type=link`}>
                   See all
@@ -140,6 +160,7 @@ class CurrentSearchResults extends Component<Props, {}> {
 function mapStateToProps({ search }: RootState): StateProps {
   return {
     isLoading: search.isLoading,
+    isLoadingPosts: search.isLoadingPosts,
     subreddits: search.subreddits,
     posts: search.posts,
   };
