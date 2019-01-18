@@ -3,7 +3,7 @@ import ThemeTogglerMenuItem from "../../containers/ThemeTogglerMenuItem";
 import Dropdown from "../Dropdown";
 import Menu from "../Menu";
 import Icon from "../Icon";
-import { Username } from "./styles";
+import { Wrapper } from "./styles";
 
 interface Props {
   userData: any;
@@ -17,6 +17,9 @@ class AuthUserMenu extends Component<Props, {}> {
 
     const overlay = (
       <Menu>
+        <Menu.Item>
+          <Icon icon="far user-circle" fixedWidth /> {userData.name}
+        </Menu.Item>
         <Menu.Item>
           <Icon icon="far star" fixedWidth /> {karma} karma
         </Menu.Item>
@@ -35,17 +38,18 @@ class AuthUserMenu extends Component<Props, {}> {
     );
 
     return (
-      <Dropdown overlay={overlay} placement="bottomRight">
-        <div className="user-menu">
-          <img
-            className="user-img"
-            src={userData.icon_img}
-            alt={userData.name}
-          />
-          <Username>{userData.name}</Username>
-          <Icon icon="caret-down" />
-        </div>
-      </Dropdown>
+      <Wrapper>
+        <Dropdown overlay={overlay} placement="bottomRight">
+          <div className="user-menu">
+            <img
+              className="user-img"
+              src={userData.icon_img}
+              alt={userData.name}
+            />
+            <Icon icon="caret-down" />
+          </div>
+        </Dropdown>
+      </Wrapper>
     );
   }
 }

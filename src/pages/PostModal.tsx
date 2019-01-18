@@ -12,7 +12,7 @@ const fadeInAnim = keyframes`
 `;
 
 const PostPageWrapper = styled.div`
-  z-index: 2; /* must be higher than a, button in post-component */
+  z-index: 10; /* must be higher than a, button, pause overlay in post-component */
   position: fixed;
   top: 50px;
   left: 0;

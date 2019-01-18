@@ -1,10 +1,10 @@
-import React, { Component } from "react";
+import React, { Component, Fragment } from "react";
 import { Comment as CommentType } from "snoowrap";
 import scrollIntoView from "smooth-scroll-into-view-if-needed";
 import moment from "moment-mini";
 
-import { shortenNumber } from "../../utils";
-import GoldCounter from "../GoldCounter";
+import { shortenNumber, shortTimeDiff } from "../../utils";
+import GildingCounter from "../GildingCounter";
 import TextContent from "../TextContent";
 import Icon from "../Icon";
 import {
@@ -80,6 +80,10 @@ class Comment extends Component<Props, State> {
     // depending on the mode of the post page
     const { isModal } = this.props;
 
+    const platinumCounter = (comment as any).gildings.gid_3;
+    const goldCounter = (comment as any).gildings.gid_2;
+    const silverCounter = (comment as any).gildings.gid_1;
+
     return (
       <CommentComponent>
         <CommentScrollAnchor isModal={isModal} ref={this.scrollRef} />
@@ -102,14 +106,28 @@ class Comment extends Component<Props, State> {
             <span className="secondary">
               <Icon icon="far long-arrow-up" /> {score}
               {" · "}
-              {moment.unix(comment.created_utc).fromNow()}
+              {shortTimeDiff(comment.created_utc)}
             </span>
 
-            {comment.gilded !== 0 && (
-              <span>
-                {" · "}
-                <GoldCounter count={comment.gilded} />
-              </span>
+            {platinumCounter !== 0 && (
+              <Fragment>
+                {" "}
+                <GildingCounter count={platinumCounter} type="platinum" />
+              </Fragment>
+            )}
+
+            {goldCounter !== 0 && (
+              <Fragment>
+                {" "}
+                <GildingCounter count={goldCounter} />
+              </Fragment>
+            )}
+
+            {silverCounter !== 0 && (
+              <Fragment>
+                {" "}
+                <GildingCounter count={silverCounter} type="silver" />
+              </Fragment>
             )}
           </CommentTitle>
           <CommentBody isCollapsed={this.state.isCollapsed}>

@@ -5,6 +5,7 @@ import ContentBox from "../ContentBox";
 import SaturnusLogo from "../SaturnusLogo";
 import HeaderButton from "./HeaderButton";
 import pkg from "../../../package.json";
+import AppSearchbar from "../../containers/AppSearchbar";
 import { LogoWrapper, VersionTag, SiteName } from "./styles";
 import "./Header.scss";
 
@@ -12,15 +13,16 @@ function Header() {
   return (
     <ContentBox className="header-component">
       <HeaderButton />
-      <Link to="/">
-        <LogoWrapper>
+      <LogoWrapper>
+        <Link to="/">
           <SaturnusLogo />
-        </LogoWrapper>
-      </Link>
+        </Link>
+      </LogoWrapper>
       <SiteName>
         <Link to="/">Saturnus</Link>
         <VersionTag>{pkg.version}</VersionTag>
       </SiteName>
+      <AppSearchbar />
       <UserMenu />
     </ContentBox>
   );

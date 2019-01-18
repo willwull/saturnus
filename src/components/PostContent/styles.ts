@@ -15,12 +15,19 @@ export const ContentOverflowGradient = styled.div`
   );
 `;
 
+export const RichMedia = styled.div`
+  position: relative;
+  z-index: 1;
+`;
+
 const MediaPreviewStyles = css`
   width: 100%;
   max-height: var(--max-content-height);
   object-fit: contain;
   margin-bottom: 10px;
   background: ${props => transparentize(0.3, props.theme.body)};
+  position: relative;
+  z-index: 1;
 `;
 
 export const ImgPreview = styled.img`
@@ -72,6 +79,7 @@ export const VideoProgressContainer = styled.div`
   width: 100%;
   background: rgba(255, 255, 255, 0.4);
   margin-bottom: 10px;
+  z-index: 3;
 `;
 
 // Width of progress bar is set with inline styles
@@ -93,6 +101,7 @@ export const PauseOverlay = styled.div`
   color: white;
   font-size: 3em;
   transition: all 300ms;
+  z-index: 2;
 
   &:hover {
     background: rgba(0, 0, 0, 0.2);

@@ -83,6 +83,10 @@ export const CommentTitle = styled.button`
   .secondary {
     opacity: 0.5;
   }
+
+  @media (max-width: 320px) {
+    font-size: 12px;
+  }
 `;
 
 interface CommentBodyProps {

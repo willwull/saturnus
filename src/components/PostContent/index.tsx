@@ -5,7 +5,12 @@ import LinkPreview from "../LinkPreview";
 import TextContent from "../TextContent";
 import Icon from "../Icon";
 import VideoContent from "./VideoContent";
-import { ContentOverflowGradient, ImgPreview, SelfText } from "./styles";
+import {
+  ContentOverflowGradient,
+  ImgPreview,
+  SelfText,
+  RichMedia,
+} from "./styles";
 import "./PostContent.scss";
 
 type Props = {
@@ -132,7 +137,9 @@ class PostContent extends Component<Props, State> {
       post.media
     ) {
       return (
-        <div dangerouslySetInnerHTML={{ __html: post.media.oembed.html }} />
+        <RichMedia
+          dangerouslySetInnerHTML={{ __html: post.media.oembed.html }}
+        />
       );
     }
 

@@ -10,7 +10,7 @@ import PostContent from "../PostContent";
 import { shortenNumber } from "../../utils";
 import "./Post.scss";
 import Flair from "../Flair";
-import GoldCounter from "../GoldCounter";
+import GildingCounter from "../GildingCounter";
 import Icon from "../Icon";
 import Dropdown from "../Dropdown";
 import PostShareMenu from "./PostShareMenu";
@@ -63,6 +63,10 @@ class Post extends React.Component<Props, {}> {
       </NavClickTarget>
     );
 
+    const platinumCounter = (post as any).gildings.gid_3;
+    const goldCounter = (post as any).gildings.gid_2;
+    const silverCounter = (post as any).gildings.gid_1;
+
     return (
       <ContentBox className="post-component">
         <div className="score">
@@ -90,8 +94,20 @@ class Post extends React.Component<Props, {}> {
             </div>
           )}
 
+          {/* Platinum icon */}
+          {platinumCounter !== 0 && (
+            <GildingCounter count={platinumCounter} type="platinum" />
+          )}
+
           {/* Gilded icon */}
-          {post.gilded !== 0 && <GoldCounter count={post.gilded} />}
+          {goldCounter !== 0 && (
+            <GildingCounter count={goldCounter} type="gold" />
+          )}
+
+          {/* Silver icon */}
+          {silverCounter !== 0 && (
+            <GildingCounter count={silverCounter} type="silver" />
+          )}
         </div>
 
         {/* Actual post content */}

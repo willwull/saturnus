@@ -1,3 +1,5 @@
+import moment from "moment-mini";
+
 /**
  * Takes an url and checks if it links to an image
  * @param {string} url
@@ -9,18 +11,27 @@ export function isImgUrl(url: string): boolean {
 
 /**
  * Shortens numbers over 1000.
- * 1000 -> 1k etc
+ * 1000 -> 1k
+ * 10000000 -> 1m
  *
  * @param {number} num
  * @param {string} numberOfDecimals
  * @returns {string}
  */
 export function shortenNumber(num: number): string {
+  if (!num) return "0";
+
   if (num < 1000) return num.toString();
 
-  const newNum = num / 1000;
+  if (num < 1000000) {
+    const newNum = num / 1000;
+    const rounded = Math.round(newNum * 10) / 10;
+    return `${rounded}k`;
+  }
+
+  const newNum = num / 1000000;
   const rounded = Math.round(newNum * 10) / 10;
-  return `${rounded}k`;
+  return `${rounded}m`;
 }
 
 /**
@@ -66,4 +77,27 @@ export function copyToClipboard(str: string) {
   el.setSelectionRange(0, el.value.length); // required to work on iOS
   document.execCommand("copy");
   document.body.removeChild(el);
+}
+
+/**
+ * Creates a short time difference string.
+ *
+ * @export
+ * @param {number} time
+ * @returns {string}
+ */
+export function shortTimeDiff(time: number): string {
+  const longDate = moment.unix(time).fromNow(true);
+  if (longDate === "a few seconds") return "now";
+
+  const short = longDate
+    .replace(/\sseconds?/, "s")
+    .replace(/\sminutes?/, "m")
+    .replace(/\shours?/, "h")
+    .replace(/\sdays?/, "d")
+    .replace(/\smonths?/, "mo")
+    .replace(/\syears?/, "y")
+    .replace(/an?/, "1");
+
+  return short;
 }
