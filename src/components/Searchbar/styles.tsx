@@ -3,7 +3,7 @@ import { transparentize } from "polished";
 
 export const SearchForm = styled.form`
   background: ${props => props.theme.body};
-  height: 30px;
+  height: 35px;
   font-size: 16px;
   padding: 0 10px;
   display: grid;
@@ -41,6 +41,7 @@ export const Input = styled.input`
   border: none;
   outline: none;
   width: 98%;
+  height: 100%;
   padding: 0;
 
   &::placeholder {
