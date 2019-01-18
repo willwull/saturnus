@@ -100,6 +100,8 @@ class CurrentSearchResults extends Component<Props, {}> {
     let subContent;
     if (isLoading) {
       subContent = <Loading type="regular" />;
+    } else if (subResults.length === 0) {
+      subContent = <PadOnNarrow>Found nothing :(</PadOnNarrow>;
     } else {
       subContent = subResults.map(sub => (
         <SubSearchResult key={sub.display_name_prefixed} subreddit={sub} />
@@ -109,6 +111,8 @@ class CurrentSearchResults extends Component<Props, {}> {
     let postContent;
     if (isLoadingPosts) {
       postContent = <Loading type="regular" />;
+    } else if (postResults.length === 0) {
+      postContent = <PadOnNarrow>Found nothing :(</PadOnNarrow>;
     } else {
       postContent = postResults.map(post => (
         <Post key={post.id} post={post} voteOnPost={() => null} />
