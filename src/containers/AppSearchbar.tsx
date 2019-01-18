@@ -55,7 +55,11 @@ class AppSearchbar extends Component<Props, {}> {
     const [subreddit, ...restOfQuery] = query.split(/\s+/);
     const searchIncludesSubreddit = /r\/\S+/.test(subreddit);
 
-    if (searchIncludesSubreddit) {
+    if (
+      searchIncludesSubreddit &&
+      restOfQuery.length > 0 &&
+      restOfQuery[0] !== ""
+    ) {
       const q = restOfQuery.join(" ");
       history.push(`/${subreddit}/search?q=${q}&restrict_sr=true`);
     } else {
@@ -73,7 +77,7 @@ class AppSearchbar extends Component<Props, {}> {
 
   componentDidUpdate(prevProps: Props) {
     // if we navigate away from the search page, clear the search bar
-    const { location, match } = this.props;
+    const { location } = this.props;
 
     if (prevProps.location !== location) {
       this.setCorrectValue();
