@@ -9,6 +9,12 @@ type Props = {
 };
 
 function SubSearchResult({ subreddit }: Props) {
+  let subText;
+  if (subreddit.subreddit_type === "private" && !subreddit.user_is_subscriber) {
+    subText = "Private subreddit";
+  } else {
+    subText = `${shortenNumber(subreddit.subscribers)} subscribers`;
+  }
   return (
     <Wrapper to={`/${subreddit.display_name_prefixed}`}>
       <SubIcon
@@ -18,7 +24,7 @@ function SubSearchResult({ subreddit }: Props) {
       />
       <div>
         <Name>{subreddit.display_name_prefixed}</Name>
-        <Subtext>{shortenNumber(subreddit.subscribers)} subscribers</Subtext>
+        <Subtext>{subText}</Subtext>
       </div>
       <Description>{subreddit.public_description}</Description>
     </Wrapper>
