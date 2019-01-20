@@ -1,5 +1,6 @@
 import styled from "styled-components";
 import { transparentize } from "polished";
+import { Link } from "react-router-dom";
 
 export const ExternalLink = styled.a`
   border: 1px solid ${props => transparentize(0.85, props.theme.text)};
@@ -14,6 +15,8 @@ export const ExternalLink = styled.a`
     margin-left: var(--content-padding);
   }
 `;
+
+export const InternalLink = ExternalLink.withComponent(Link);
 
 export const BigPreviewImg = styled.img`
   border-bottom: 1px solid ${props => transparentize(0.85, props.theme.text)};
