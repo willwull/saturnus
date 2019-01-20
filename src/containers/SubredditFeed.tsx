@@ -19,6 +19,7 @@ type StateProps = {
   isLoading: boolean;
   isLoadingMore: boolean;
   posts: Submission[];
+  storedSortMode: PostsSortMode;
 };
 
 type DispatchProps = {
@@ -55,11 +56,23 @@ class SubredditFeed extends Component<Props, {}> {
   }
 
   loadPosts = () => {
-    const { subreddit, sortMode, location, posts, history } = this.props;
+    const {
+      subreddit,
+      sortMode,
+      storedSortMode,
+      location,
+      posts,
+      history,
+    } = this.props;
 
-    // If the user has already visited this sub and gets here by backing, we
-    // don't reload the feed.
-    if (posts.length !== 0 && history.action === "POP") {
+    // If the user has already visited this sub and gets here by backing,
+    // we don't reload the feed unless the difference between the locations
+    // is the post sort mode.
+    if (
+      posts.length !== 0 &&
+      history.action === "POP" &&
+      sortMode === storedSortMode
+    ) {
       console.log("Skipping fetch of posts");
       return;
     }
@@ -121,6 +134,7 @@ function mapStateToProps({ posts }: RootState, ownProps: OwnProps): StateProps {
     isLoading: false,
     isLoadingMore: false,
     items: [],
+    sortMode: "",
   };
 
   const props = {
@@ -128,6 +142,7 @@ function mapStateToProps({ posts }: RootState, ownProps: OwnProps): StateProps {
     isLoading: currentPosts.isLoading,
     isLoadingMore: currentPosts.isLoadingMore,
     posts: currentPosts.items,
+    storedSortMode: currentPosts.sortMode,
   };
 
   return props;
