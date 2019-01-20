@@ -1,4 +1,4 @@
-import React from "react";
+import React, { Fragment } from "react";
 import { Submission } from "snoowrap";
 import { splitUrl, isImgUrl } from "../../utils";
 import {
@@ -8,6 +8,7 @@ import {
   Thumbnail,
   Url,
   Domain,
+  InternalLink,
 } from "./styles";
 import Icon from "../Icon";
 
@@ -18,11 +19,16 @@ type Props = {
 function LinkPreview({ post }: Props) {
   const [domain, rest] = splitUrl(post.url);
 
-  // if image link, use image icon, otherwise safari
-  const icon =
-    isImgUrl(post.url) || post.domain === "imgur.com"
-      ? "fa image"
-      : "fab safari";
+  const isInternalLink = /(reddit\.com|saturnusapp)/.test(domain);
+
+  let icon;
+  if (isImgUrl(post.url) || post.domain === "imgur.com") {
+    icon = "fa image";
+  } else if (isInternalLink) {
+    icon = "fab reddit-alien";
+  } else {
+    icon = "fab safari";
+  }
 
   // big thumbnail for certain links
   let bigPreview;
@@ -36,8 +42,8 @@ function LinkPreview({ post }: Props) {
     );
   }
 
-  return (
-    <ExternalLink href={post.url} rel="noopener noreferrer" target="_blank">
+  const content = (
+    <Fragment>
       {bigPreview}
       <LinkBar>
         <Thumbnail>
@@ -49,10 +55,22 @@ function LinkPreview({ post }: Props) {
           <span>{rest}</span>
         </Url>
 
-        <div className="arrow">
-          <Icon icon="external-link" />
-        </div>
+        {!isInternalLink && (
+          <div className="arrow">
+            <Icon icon="external-link" />
+          </div>
+        )}
       </LinkBar>
+    </Fragment>
+  );
+
+  if (isInternalLink) {
+    return <InternalLink to={rest}>{content}</InternalLink>;
+  }
+
+  return (
+    <ExternalLink href={post.url} rel="noopener noreferrer" target="_blank">
+      {content}
     </ExternalLink>
   );
 }
