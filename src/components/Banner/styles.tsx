@@ -48,6 +48,7 @@ const commonCSS = css`
 
   @media (max-width: 399px) {
     margin-bottom: 8px;
+    margin-right: 0;
   }
 `;
 
@@ -60,8 +61,5 @@ export const Fallback = styled.div`
   display: flex;
   align-items: center;
   justify-content: center;
-
-  .saturnus-logo {
-    font-size: 0.85em;
-  }
+  font-size: 32px;
 `;
