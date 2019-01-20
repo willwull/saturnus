@@ -1,6 +1,6 @@
 import React, { Fragment } from "react";
 import { SidebarLink } from "../Sidebar";
-import { ListLetter, SubName } from "./styles";
+import { ListLetter, SubName, EmptyMessage } from "./styles";
 import SubIcon from "../SubIcon";
 
 export type SimpleSubreddit = {
@@ -35,7 +35,9 @@ type Props = {
 
 function SubredditList({ subreddits }: Props) {
   if (!subreddits || !subreddits.length) {
-    return <div>"Nothing to see here"</div>;
+    return (
+      <EmptyMessage>You haven't subscribed to any subreddits yet!</EmptyMessage>
+    );
   }
 
   const sorted = subreddits.sort((a: SimpleSubreddit, b: SimpleSubreddit) => {
