@@ -24,6 +24,15 @@ const BannerWrapper = styled.div`
 const Title = styled.h1`
   display: flex;
   align-items: center;
+
+  @media (max-width: 560px) {
+    font-size: 1.5em;
+  }
+
+  @media (max-width: 399px) {
+    flex-direction: column;
+    font-size: 1.2em;
+  }
 `;
 
 type Props = {

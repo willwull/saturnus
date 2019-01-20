@@ -12,10 +12,14 @@ const commonCSS = css`
   display: inline-block;
   border-radius: 50%;
   border: 2px solid white;
-  width: 1.5em;
-  height: 1.5em;
+  width: 50px;
+  height: 50px;
   margin-right: 1ch;
   background-color: ${(props: IconProps) => props.color || props.theme.primary};
+
+  @media (max-width: 399px) {
+    margin-bottom: 8px;
+  }
 `;
 
 const IconImg = styled.img`
