@@ -1,30 +1,7 @@
 import React from "react";
 import { Subreddit } from "snoowrap";
-import styled from "styled-components";
 import SubredditIcon from "./SubredditIcon";
-
-type BannerWrapperProps = {
-  imgSrc: string;
-};
-
-const BannerWrapper = styled.div`
-  width: 100%;
-  height: 200px;
-  background-color: ${props => props.theme.primary};
-  background-image: ${(props: BannerWrapperProps) => `url(${props.imgSrc})`};
-  background-size: cover;
-  background-position: center;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  color: white;
-  padding: 40px;
-`;
-
-const Title = styled.h1`
-  display: flex;
-  align-items: center;
-`;
+import { BannerWrapper, Title } from "./styles";
 
 type Props = {
   subreddit: Subreddit | null;
