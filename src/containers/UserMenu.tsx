@@ -54,7 +54,7 @@ class UserMenu extends Component<Props, {}> {
     }
 
     // user is logged in, show their profile pic and name
-    return <AuthUserMenu userData={data} signOut={signOutFunc} />;
+    return <AuthUserMenu userData={data!} signOut={signOutFunc} />;
   }
 }
 

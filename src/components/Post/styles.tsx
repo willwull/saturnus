@@ -25,7 +25,7 @@ export const VoteButton = styled.button`
   padding: 3px 6px;
 `;
 
-export const getVoteColor = (vote?: boolean) => {
+export const getVoteColor = (vote: boolean | null) => {
   switch (vote) {
     case true:
       return "orange";
@@ -55,7 +55,7 @@ export const DownvoteBtn = styled(VoteButton)`
 `;
 
 type ScoreProps = {
-  vote?: boolean;
+  vote: boolean | null;
 };
 
 export const Score = styled.div`

@@ -4,9 +4,10 @@ import Dropdown from "../Dropdown";
 import Menu from "../Menu";
 import Icon from "../Icon";
 import { Wrapper } from "./styles";
+import { RedditUser } from "snoowrap";
 
 interface Props {
-  userData: any;
+  userData: RedditUser;
   signOut: (event: React.MouseEvent<HTMLLIElement>) => void;
 }
 

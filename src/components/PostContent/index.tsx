@@ -120,13 +120,13 @@ class PostContent extends Component<Props, State> {
     // v.redd.it videos
     if (post.is_video) {
       // TODO: support reddit videos with audio
-      const videoStream = post.media.reddit_video.fallback_url;
+      const videoStream = post.media!.reddit_video!.fallback_url;
 
       return (
         <VideoContent
           src={videoStream}
-          muted={!!post.media.reddit_video.is_gif}
-          autoPlay={!!post.media.reddit_video.is_gif}
+          muted={!!post.media!.reddit_video!.is_gif}
+          autoPlay={!!post.media!.reddit_video!.is_gif}
         />
       );
     }
@@ -138,7 +138,7 @@ class PostContent extends Component<Props, State> {
     ) {
       return (
         <RichMedia
-          dangerouslySetInnerHTML={{ __html: post.media.oembed.html }}
+          dangerouslySetInnerHTML={{ __html: post.media!.oembed!.html }}
         />
       );
     }
