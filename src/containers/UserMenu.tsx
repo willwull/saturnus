@@ -26,8 +26,7 @@ class UserMenu extends Component<Props, {}> {
     const { user, fetch } = this.props;
 
     // user is logged in, but we haven't fetched all data yet
-    // TODO: workaround until snoowrap types are fixed
-    if (user.loggedIn && !(user.data as any).id) {
+    if (user.loggedIn && user.data === null) {
       fetch();
     }
   }
@@ -47,10 +46,10 @@ class UserMenu extends Component<Props, {}> {
       signOut: signOutFunc,
     } = this.props;
 
-    if (isLoading) return null;
+    if (isLoading || (loggedIn && data === null)) return null;
 
     // user is not logged in, guest menu
-    if (!loggedIn && !(data as any).id) {
+    if (!loggedIn) {
       return <GuestUserMenu signIn={this.handleSignIn} />;
     }
 
