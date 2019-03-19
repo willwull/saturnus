@@ -26,7 +26,7 @@ import Desktop from "../Desktop";
 type Props = {
   post: Submission;
   expanded?: boolean;
-  voteOnPost: (post: Submission, vote: "up" | "down") => void;
+  voteOnPost?: (post: Submission, vote: "up" | "down") => void;
 };
 
 class Post extends React.Component<Props, {}> {
@@ -36,12 +36,12 @@ class Post extends React.Component<Props, {}> {
 
   upvote = () => {
     const { post, voteOnPost } = this.props;
-    voteOnPost(post, "up");
+    voteOnPost && voteOnPost(post, "up");
   };
 
   downvote = () => {
     const { post, voteOnPost } = this.props;
-    voteOnPost(post, "down");
+    voteOnPost && voteOnPost(post, "down");
   };
 
   render() {
