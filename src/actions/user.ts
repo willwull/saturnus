@@ -16,6 +16,9 @@ export const REQUEST_MY_SUBS = "REQUEST_MY_SUBS";
 export const RECEIVE_MY_SUBS = "RECEIVE_MY_SUBS";
 export const MY_SUBS_ERROR = "MY_SUBS_ERROR";
 
+export const REQUEST_MY_SAVED_CONTENT = "REQUEST_MY_SAVED_CONTENT";
+export const RECEIVE_MY_SAVED_CONTENT = "RECEIVE_MY_SAVED_CONTENT";
+
 function setUser(user: RedditUser) {
   return { type: RECEIVED_USER, user };
 }
@@ -107,5 +110,25 @@ export function fetchMySubs(options: SubFetchOptions = { skipCache: false }) {
         type: MY_SUBS_ERROR,
       });
     }
+  };
+}
+
+// MARK: Saved Content
+
+export function fetchSavedContent() {
+  return async (
+    dispatch: ThunkDispatch<UserState, void, Action>,
+    getState: () => RootState,
+  ) => {
+    dispatch({ type: REQUEST_MY_SAVED_CONTENT });
+
+    const userData = getState().user.data!;
+
+    const content = await userData.getSavedContent();
+
+    dispatch({
+      type: RECEIVE_MY_SAVED_CONTENT,
+      content,
+    });
   };
 }
