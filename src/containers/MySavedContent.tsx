@@ -4,8 +4,9 @@ import { RootState, DispatchType } from "../reducers";
 import { connect } from "react-redux";
 import { fetchSavedContent } from "../actions/user";
 import Loading from "../components/Loading";
-import { Submission, Comment } from "snoowrap";
+import { Submission, Comment as IComment } from "snoowrap";
 import Post from "../components/Post";
+import StandaloneComment from "../components/Comment/StandaloneComment";
 
 type StateProps = {
   user: UserState;
@@ -36,11 +37,13 @@ function MySavedContent({ user, fetch }: Props) {
           const post = content as Submission;
           return <Post key={post.id} post={post} />;
         } else {
-          const comment = content as Comment;
+          const comment = content as IComment;
           return (
-            <p key={comment.id} style={{ color: "red" }}>
-              {comment.body}
-            </p>
+            <StandaloneComment
+              key={comment.id}
+              comment={comment}
+              isModal={false}
+            />
           );
         }
       })}
