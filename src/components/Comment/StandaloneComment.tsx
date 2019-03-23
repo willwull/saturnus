@@ -1,6 +1,5 @@
 import React from "react";
 import Comment, { Props } from ".";
-import ContentBox from "../ContentBox";
 import { StandaloneCommentWrapper, CommentContext } from "./styles";
 import { NavClickTarget } from "../Post/styles";
 
