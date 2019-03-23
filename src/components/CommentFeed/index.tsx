@@ -1,11 +1,12 @@
 import React from "react";
+import { Comment as IComment } from "snoowrap";
 import ContentBox from "../ContentBox";
-import Comment, { CommentInterface } from "../Comment";
+import Comment from "../Comment";
 import { NoComments } from "./styles";
 import "./CommentFeed.scss";
 
 type Props = {
-  comments: CommentInterface[];
+  comments: IComment[];
   isModal: boolean; // just passed through to Comment
 };
 
