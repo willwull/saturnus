@@ -25,7 +25,7 @@ class AuthUserMenu extends Component<Props, {}> {
           <Icon icon="far star" fixedWidth /> {karma} karma
         </Menu.Item>
         <Menu.Link to={`/user/${userData.name}/saved`}>
-          <Icon icon="far bookmark" fixedWidth /> Saved posts
+          <Icon icon="far bookmark" fixedWidth /> Saved content
         </Menu.Link>
         <Menu.Divider />
         <ThemeTogglerMenuItem />
