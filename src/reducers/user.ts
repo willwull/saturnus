@@ -8,6 +8,7 @@ import {
   MY_SUBS_ERROR,
   REQUEST_MY_SAVED_CONTENT,
   RECEIVE_MY_SAVED_CONTENT,
+  REQUST_MORE_SAVED_CONTENT,
 } from "../actions/user";
 import { RedditUser, Comment, Submission } from "snoowrap";
 import { SimpleSubreddit } from "../components/SubredditList";
@@ -26,13 +27,17 @@ export type UserState = {
 export type SavedContentState = {
   hasFetched: boolean;
   content: (Comment | Submission)[];
+  hasMoreContent: boolean;
   isLoading: boolean;
+  isLoadingMore: boolean;
 };
 
 const defaultSavedContent: SavedContentState = {
   hasFetched: false,
   content: [],
+  hasMoreContent: true,
   isLoading: false,
+  isLoadingMore: false,
 };
 
 const defaultUser: UserState = {
@@ -55,12 +60,19 @@ function savedContent(
         ...state,
         isLoading: true,
       };
+    case REQUST_MORE_SAVED_CONTENT:
+      return {
+        ...state,
+        isLoadingMore: true,
+      };
     case RECEIVE_MY_SAVED_CONTENT:
       return {
         ...state,
         isLoading: false,
+        isLoadingMore: false,
         hasFetched: true,
         content: action.content,
+        hasMoreContent: action.hasMoreContent,
       };
     default:
       return state;
@@ -92,6 +104,7 @@ export default function user(state = defaultUser, action: any): UserState {
         subsError: "Something went wrong",
       };
     case REQUEST_MY_SAVED_CONTENT:
+    case REQUST_MORE_SAVED_CONTENT:
     case RECEIVE_MY_SAVED_CONTENT:
       return {
         ...state,

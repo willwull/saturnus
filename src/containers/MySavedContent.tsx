@@ -2,11 +2,12 @@ import React, { useEffect } from "react";
 import { UserState } from "../reducers/user";
 import { RootState, DispatchType } from "../reducers";
 import { connect } from "react-redux";
-import { fetchSavedContent } from "../actions/user";
+import { fetchSavedContent, fetchMoreSavedContent } from "../actions/user";
 import Loading from "../components/Loading";
 import { Submission, Comment as IComment } from "snoowrap";
 import Post from "../components/Post";
 import StandaloneComment from "../components/Comment/StandaloneComment";
+import PrimaryButton from "../components/Buttons/PrimaryButton";
 
 type StateProps = {
   user: UserState;
@@ -14,11 +15,12 @@ type StateProps = {
 
 type DispatchProps = {
   fetch: () => void;
+  fetchMore: () => void;
 };
 
 type Props = StateProps & DispatchProps;
 
-function MySavedContent({ user, fetch }: Props) {
+function MySavedContent({ user, fetch, fetchMore }: Props) {
   useEffect(() => {
     if (!user.savedContent.hasFetched) {
       fetch();
@@ -29,7 +31,7 @@ function MySavedContent({ user, fetch }: Props) {
     return <Loading type="regular" />;
   }
 
-  const { content } = user.savedContent;
+  const { content, isLoadingMore, hasMoreContent } = user.savedContent;
   return (
     <div>
       {content.map(content => {
@@ -47,6 +49,17 @@ function MySavedContent({ user, fetch }: Props) {
           );
         }
       })}
+
+      {hasMoreContent && (
+        <PrimaryButton
+          className="load-more-btn"
+          onClick={fetchMore}
+          disabled={isLoadingMore}
+        >
+          Load more
+          {isLoadingMore && <Loading type="inline" />}
+        </PrimaryButton>
+      )}
     </div>
   );
 }
@@ -61,6 +74,9 @@ function mapDispatchToProps(dispatch: DispatchType): DispatchProps {
   return {
     fetch: () => {
       dispatch(fetchSavedContent());
+    },
+    fetchMore: () => {
+      dispatch(fetchMoreSavedContent());
     },
   };
 }

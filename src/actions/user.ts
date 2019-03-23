@@ -5,7 +5,7 @@ import { ThunkDispatch } from "redux-thunk";
 import { UserState } from "../reducers/user";
 import { Action } from "redux";
 import { RootState } from "../reducers";
-import { RedditUser } from "snoowrap";
+import { RedditUser, Listing, Submission } from "snoowrap";
 
 export const USER_SIGN_OUT = "USER_SIGN_OUT";
 export const SET_USER_STATUS = "SET_USER_STATUS";
@@ -17,6 +17,7 @@ export const RECEIVE_MY_SUBS = "RECEIVE_MY_SUBS";
 export const MY_SUBS_ERROR = "MY_SUBS_ERROR";
 
 export const REQUEST_MY_SAVED_CONTENT = "REQUEST_MY_SAVED_CONTENT";
+export const REQUST_MORE_SAVED_CONTENT = "REQUEST_MORE_SAVED_CONTENT";
 export const RECEIVE_MY_SAVED_CONTENT = "RECEIVE_MY_SAVED_CONTENT";
 
 function setUser(user: RedditUser) {
@@ -129,6 +130,30 @@ export function fetchSavedContent() {
     dispatch({
       type: RECEIVE_MY_SAVED_CONTENT,
       content,
+      hasMoreContent: !content.isFinished,
+    });
+  };
+}
+
+export function fetchMoreSavedContent() {
+  return async (
+    dispatch: ThunkDispatch<UserState, void, Action>,
+    getState: () => RootState,
+  ) => {
+    const { content } = getState().user.savedContent;
+    dispatch({ type: REQUST_MORE_SAVED_CONTENT });
+
+    const oldAndNewContent: Listing<
+      Comment | Submission
+    > = await (content as any).fetchMore({
+      amount: 25,
+      skipReplies: true,
+    });
+
+    dispatch({
+      type: RECEIVE_MY_SAVED_CONTENT,
+      content: oldAndNewContent,
+      hasMoreContent: !oldAndNewContent.isFinished,
     });
   };
 }
