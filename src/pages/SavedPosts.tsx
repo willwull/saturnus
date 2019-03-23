@@ -6,6 +6,7 @@ import { RootState } from "../reducers";
 import { connect } from "react-redux";
 import Loading from "../components/Loading";
 import MySavedContent from "../containers/MySavedContent";
+import { Feed } from "../components/PostFeed/styles";
 
 type StateProps = {
   user: UserState;
@@ -30,7 +31,9 @@ function SavedPosts({ user, match }: Props) {
     if (match.params.username === user.data.name) {
       return (
         <Page>
-          <MySavedContent />
+          <Feed>
+            <MySavedContent />
+          </Feed>
         </Page>
       );
     }
