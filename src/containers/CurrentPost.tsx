@@ -8,7 +8,6 @@ import CommentFeed from "../components/CommentFeed";
 import { Submission } from "snoowrap";
 import { RootState, DispatchType } from "../reducers";
 import { postVote } from "../actions/voting";
-import { CommentInterface } from "../components/Comment";
 
 type StateProps = {
   post: Submission;
@@ -73,12 +72,7 @@ class CurrentPost extends Component<Props, {}> {
     return (
       <React.Fragment>
         <Post post={post} expanded voteOnPost={voteOnPost} />
-
-        {/* Workaround until snoowrap types are fixed */}
-        <CommentFeed
-          comments={(post.comments as any) as CommentInterface[]}
-          isModal={!!isModal}
-        />
+        <CommentFeed comments={post.comments} isModal={!!isModal} />
       </React.Fragment>
     );
   }
