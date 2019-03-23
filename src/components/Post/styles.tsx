@@ -15,9 +15,14 @@ export const NavClickTarget = styled(Link)`
   opacity: 0;
 `;
 
-export const ShareButtonWrapper = styled.div`
+export const DropDownBtnWrapper = styled.div`
   margin-left: auto;
-  margin-right: 24px;
+  margin-right: 14px;
+
+  button {
+    font-size: 1.5em;
+    width: 44px;
+  }
 `;
 
 export const VoteButton = styled.button`

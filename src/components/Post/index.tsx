@@ -13,11 +13,11 @@ import Flair from "../Flair";
 import GildingCounter from "../GildingCounter";
 import Icon from "../Icon";
 import Dropdown from "../Dropdown";
-import PostShareMenu from "./PostShareMenu";
+import PostDropDown from "./PostDropDown";
 import {
   UpvoteBtn,
   DownvoteBtn,
-  ShareButtonWrapper,
+  DropDownBtnWrapper,
   Score,
   NavClickTarget,
 } from "./styles";
@@ -158,14 +158,14 @@ class Post extends React.Component<Props, {}> {
               {post.subreddit.display_name}
             </Link>
 
-            <ShareButtonWrapper>
+            <DropDownBtnWrapper>
               <Dropdown
-                overlay={<PostShareMenu post={post} />}
+                overlay={<PostDropDown post={post} />}
                 placement="bottomRight"
               >
-                <Icon icon="share" /> Share
+                <Icon icon="fa ellipsis-h" />
               </Dropdown>
-            </ShareButtonWrapper>
+            </DropDownBtnWrapper>
 
             <span className="comments">
               <Icon icon="comment-alt" /> {shortenNumber(post.num_comments)}{" "}

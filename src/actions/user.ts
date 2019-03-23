@@ -5,7 +5,7 @@ import { ThunkDispatch } from "redux-thunk";
 import { UserState } from "../reducers/user";
 import { Action } from "redux";
 import { RootState } from "../reducers";
-import { RedditUser, Listing, Submission } from "snoowrap";
+import { RedditUser, Listing, Submission, Comment } from "snoowrap";
 
 export const USER_SIGN_OUT = "USER_SIGN_OUT";
 export const SET_USER_STATUS = "SET_USER_STATUS";
@@ -19,6 +19,7 @@ export const MY_SUBS_ERROR = "MY_SUBS_ERROR";
 export const REQUEST_MY_SAVED_CONTENT = "REQUEST_MY_SAVED_CONTENT";
 export const REQUST_MORE_SAVED_CONTENT = "REQUEST_MORE_SAVED_CONTENT";
 export const RECEIVE_MY_SAVED_CONTENT = "RECEIVE_MY_SAVED_CONTENT";
+export const DID_SAVE_CONTENT = "DID_SAVE_CONTENT";
 
 function setUser(user: RedditUser) {
   return { type: RECEIVED_USER, user };
@@ -155,5 +156,25 @@ export function fetchMoreSavedContent() {
       content: oldAndNewContent,
       hasMoreContent: !oldAndNewContent.isFinished,
     });
+  };
+}
+
+export function saveContent(content: Submission | Comment) {
+  return async (dispatch: ThunkDispatch<UserState, void, Action>) => {
+    if (!content.saved) {
+      await (content as any).save();
+      dispatch({
+        type: DID_SAVE_CONTENT,
+        affectedContent: content,
+        saved: true,
+      });
+    } else {
+      await (content as any).unsave();
+      dispatch({
+        type: DID_SAVE_CONTENT,
+        affectedContent: content,
+        saved: false,
+      });
+    }
   };
 }

@@ -3,6 +3,7 @@ import { Submission } from "snoowrap";
 import Menu from "../Menu";
 import { copyToClipboard } from "../../utils";
 import Icon from "../Icon";
+import SavePostMenuItem from "../../containers/SavePostMenuItem";
 
 function copyPostLink(post: Submission) {
   const url = window.location.host + post.permalink;
@@ -17,9 +18,11 @@ type Props = {
   post: Submission;
 };
 
-function PostShareMenu({ post }: Props) {
+function PostDropDown({ post }: Props) {
   return (
     <Menu>
+      <SavePostMenuItem post={post} />
+
       <Menu.Item onClick={() => copyPostLink(post)}>
         <Icon icon="far copy" fixedWidth /> Copy post link
       </Menu.Item>
@@ -33,4 +36,4 @@ function PostShareMenu({ post }: Props) {
   );
 }
 
-export default PostShareMenu;
+export default PostDropDown;
