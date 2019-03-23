@@ -1,13 +1,16 @@
 import React, { useEffect } from "react";
+import { connect } from "react-redux";
+import { Submission, Comment as IComment } from "snoowrap";
+
 import { UserState } from "../reducers/user";
 import { RootState, DispatchType } from "../reducers";
-import { connect } from "react-redux";
 import { fetchSavedContent, fetchMoreSavedContent } from "../actions/user";
-import Loading from "../components/Loading";
-import { Submission, Comment as IComment } from "snoowrap";
+
 import Post from "../components/Post";
-import StandaloneComment from "../components/Comment/StandaloneComment";
+import Loading from "../components/Loading";
+import ImageMessage from "../components/ImageMessage";
 import PrimaryButton from "../components/Buttons/PrimaryButton";
+import StandaloneComment from "../components/Comment/StandaloneComment";
 
 type StateProps = {
   user: UserState;
@@ -29,6 +32,10 @@ function MySavedContent({ user, fetch, fetchMore }: Props) {
 
   if (user.savedContent.isLoading || !user.savedContent.hasFetched) {
     return <Loading type="regular" />;
+  }
+
+  if (user.savedContent.content.length === 0) {
+    return <ImageMessage />;
   }
 
   const { content, isLoadingMore, hasMoreContent } = user.savedContent;
