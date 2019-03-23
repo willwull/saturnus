@@ -11,6 +11,7 @@ import Loading from "../components/Loading";
 import ImageMessage from "../components/ImageMessage";
 import PrimaryButton from "../components/Buttons/PrimaryButton";
 import StandaloneComment from "../components/Comment/StandaloneComment";
+import { postVote } from "../actions/voting";
 
 type StateProps = {
   user: UserState;
@@ -19,11 +20,12 @@ type StateProps = {
 type DispatchProps = {
   fetch: () => void;
   fetchMore: () => void;
+  voteOnPost: (post: Submission, vote: "up" | "down") => void;
 };
 
 type Props = StateProps & DispatchProps;
 
-function MySavedContent({ user, fetch, fetchMore }: Props) {
+function MySavedContent({ user, fetch, fetchMore, voteOnPost }: Props) {
   useEffect(() => {
     if (!user.savedContent.hasFetched) {
       fetch();
@@ -44,7 +46,7 @@ function MySavedContent({ user, fetch, fetchMore }: Props) {
       {content.map(content => {
         if ((content as Submission).title) {
           const post = content as Submission;
-          return <Post key={post.id} post={post} />;
+          return <Post key={post.id} post={post} voteOnPost={voteOnPost} />;
         } else {
           const comment = content as IComment;
           return (
@@ -84,6 +86,9 @@ function mapDispatchToProps(dispatch: DispatchType): DispatchProps {
     },
     fetchMore: () => {
       dispatch(fetchMoreSavedContent());
+    },
+    voteOnPost: (post, vote) => {
+      dispatch(postVote(post, vote));
     },
   };
 }

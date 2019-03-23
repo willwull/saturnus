@@ -13,6 +13,7 @@ import {
 import { RedditUser, Comment, Submission } from "snoowrap";
 import { SimpleSubreddit } from "../components/SubredditList";
 import * as LocalCache from "../LocalCache";
+import { POST_VOTE } from "../actions/voting";
 
 export type UserState = {
   loggedIn: boolean;
@@ -50,11 +51,30 @@ const defaultUser: UserState = {
   savedContent: defaultSavedContent,
 };
 
+function updateContentAfterVote(
+  content: (Comment | Submission)[],
+  updatedPost: Submission,
+): (Comment | Submission)[] {
+  const newContent = content.map(content => {
+    if (content.id === updatedPost.id) {
+      return updatedPost;
+    } else {
+      return content;
+    }
+  });
+  return newContent;
+}
+
 function savedContent(
   state = defaultSavedContent,
   action: any,
 ): SavedContentState {
   switch (action.type) {
+    case POST_VOTE:
+      return {
+        ...state,
+        content: updateContentAfterVote(state.content, action.updatedPost),
+      };
     case REQUEST_MY_SAVED_CONTENT:
       return {
         ...state,
@@ -103,6 +123,7 @@ export default function user(state = defaultUser, action: any): UserState {
         subsLoading: false,
         subsError: "Something went wrong",
       };
+    case POST_VOTE:
     case REQUEST_MY_SAVED_CONTENT:
     case REQUST_MORE_SAVED_CONTENT:
     case RECEIVE_MY_SAVED_CONTENT:
