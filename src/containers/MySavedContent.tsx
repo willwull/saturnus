@@ -47,16 +47,16 @@ function MySavedContent({ user, fetch, fetchMore, voteOnPost }: Props) {
         if ((content as Submission).title) {
           const post = content as Submission;
           return <Post key={post.id} post={post} voteOnPost={voteOnPost} />;
-        } else {
-          const comment = content as IComment;
-          return (
-            <StandaloneComment
-              key={comment.id}
-              comment={comment}
-              isModal={false}
-            />
-          );
         }
+
+        const comment = content as IComment;
+        return (
+          <StandaloneComment
+            key={comment.id}
+            comment={comment}
+            isModal={false}
+          />
+        );
       })}
 
       {hasMoreContent && (

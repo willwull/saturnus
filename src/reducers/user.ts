@@ -58,9 +58,9 @@ function updateContentAfterVote(
   const newContent = content.map(content => {
     if (content.id === updatedPost.id) {
       return updatedPost;
-    } else {
-      return content;
     }
+
+    return content;
   });
   return newContent;
 }
