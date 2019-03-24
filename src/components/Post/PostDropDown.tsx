@@ -4,6 +4,7 @@ import Menu from "../Menu";
 import { copyToClipboard } from "../../utils";
 import Icon from "../Icon";
 import SavePostMenuItem from "../../containers/SavePostMenuItem";
+import LoggedIn from "../../containers/LoggedIn";
 
 function copyPostLink(post: Submission) {
   const url = window.location.host + post.permalink;
@@ -21,7 +22,9 @@ type Props = {
 function PostDropDown({ post }: Props) {
   return (
     <Menu>
-      <SavePostMenuItem post={post} />
+      <LoggedIn>
+        <SavePostMenuItem post={post} />
+      </LoggedIn>
 
       <Menu.Item onClick={() => copyPostLink(post)}>
         <Icon icon="far copy" fixedWidth /> Copy post link
