@@ -9,6 +9,7 @@ import {
   REQUEST_MY_SAVED_CONTENT,
   RECEIVE_MY_SAVED_CONTENT,
   REQUST_MORE_SAVED_CONTENT,
+  DID_SAVE_CONTENT,
 } from "../actions/user";
 import { RedditUser, Comment, Submission } from "snoowrap";
 import { SimpleSubreddit } from "../components/SubredditList";
@@ -65,6 +66,28 @@ function updateContentAfterVote(
   return newContent;
 }
 
+function updateContentAfterSave(
+  state: SavedContentState,
+  updatedPost: Comment | Submission,
+  saved: boolean,
+): SavedContentState {
+  // saved new content, add it to our local list
+  if (saved) {
+    if (state.hasFetched) {
+      return {
+        ...state,
+        content: [updatedPost, ...state.content],
+      };
+    }
+  }
+
+  // unsaved content, remove it from our local list
+  return {
+    ...state,
+    content: state.content.filter(content => content.id !== updatedPost.id),
+  };
+}
+
 function savedContent(
   state = defaultSavedContent,
   action: any,
@@ -75,6 +98,12 @@ function savedContent(
         ...state,
         content: updateContentAfterVote(state.content, action.updatedPost),
       };
+    case DID_SAVE_CONTENT:
+      return updateContentAfterSave(
+        state,
+        action.affectedContent,
+        action.saved,
+      );
     case REQUEST_MY_SAVED_CONTENT:
       return {
         ...state,
@@ -124,6 +153,7 @@ export default function user(state = defaultUser, action: any): UserState {
         subsError: "Something went wrong",
       };
     case POST_VOTE:
+    case DID_SAVE_CONTENT:
     case REQUEST_MY_SAVED_CONTENT:
     case REQUST_MORE_SAVED_CONTENT:
     case RECEIVE_MY_SAVED_CONTENT:
