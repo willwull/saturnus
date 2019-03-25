@@ -1,10 +1,13 @@
-import { Subreddit, Submission } from "snoowrap";
+import { Subreddit, Submission, Listing } from "snoowrap";
 import {
   REQUEST_SEARCH_RESULTS,
   RECEIVE_SUB_SEARCH,
   SET_SEARCH_INPUT_VALUE,
   RECEIVE_POST_SEARCH,
 } from "../actions/search";
+import { mapPostsToId } from "./posts";
+
+// MARK: Types
 
 export type SearchState = {
   query: string;
@@ -13,7 +16,9 @@ export type SearchState = {
   isLoading: boolean;
   isLoadingPosts: boolean;
   subreddits: Subreddit[];
-  posts: Submission[];
+  /** List of post IDs */
+  posts: string[];
+  originalPostListing: Listing<Submission> | null;
 };
 
 const defaultState: SearchState = {
@@ -24,7 +29,10 @@ const defaultState: SearchState = {
   isLoadingPosts: false,
   subreddits: [],
   posts: [],
+  originalPostListing: null,
 };
+
+// MARK: Reducer
 
 export default function search(state = defaultState, action: any): SearchState {
   switch (action.type) {
@@ -41,7 +49,12 @@ export default function search(state = defaultState, action: any): SearchState {
     case RECEIVE_SUB_SEARCH:
       return { ...state, isLoading: false, subreddits: action.subreddits };
     case RECEIVE_POST_SEARCH:
-      return { ...state, isLoadingPosts: false, posts: action.posts };
+      return {
+        ...state,
+        isLoadingPosts: false,
+        posts: mapPostsToId(action.posts),
+        originalPostListing: action.posts,
+      };
     default:
       return state;
   }

@@ -9,11 +9,15 @@ import Loading from "../components/Loading";
 import Post from "../components/Post";
 import { PrimaryLink } from "../components/Buttons/PrimaryButton";
 import styled from "styled-components";
+import { mapIdsToPosts } from "../reducers/posts";
+import { postVote } from "../actions/voting";
 
 const LinkWrapper = styled.div`
   display: flex;
   justify-content: center;
 `;
+
+// MARK: Types
 
 export type SearchType = "" | "link" | "sr";
 
@@ -37,9 +41,12 @@ type StateProps = {
 
 type DispatchProps = {
   search: (query: string, subreddit: string) => void;
+  voteOnPost: (post: Submission, vote: "up" | "down") => void;
 };
 
 type Props = OwnProps & StateProps & DispatchProps;
+
+// MARK: Component
 
 class CurrentSearchResults extends Component<Props, {}> {
   static defaultProps: DefaultProps = {
@@ -73,6 +80,7 @@ class CurrentSearchResults extends Component<Props, {}> {
       posts,
       query,
       type,
+      voteOnPost,
     } = this.props;
 
     const showSubResults = type !== "link";
@@ -115,7 +123,7 @@ class CurrentSearchResults extends Component<Props, {}> {
       postContent = <PadOnNarrow>Found nothing :(</PadOnNarrow>;
     } else {
       postContent = postResults.map(post => (
-        <Post key={post.id} post={post} voteOnPost={() => null} />
+        <Post key={post.id} post={post} voteOnPost={voteOnPost} />
       ));
     }
 
@@ -161,12 +169,14 @@ class CurrentSearchResults extends Component<Props, {}> {
   }
 }
 
-function mapStateToProps({ search }: RootState): StateProps {
+// MARK: Redux
+
+function mapStateToProps({ search, posts }: RootState): StateProps {
   return {
     isLoading: search.isLoading,
     isLoadingPosts: search.isLoadingPosts,
     subreddits: search.subreddits,
-    posts: search.posts,
+    posts: mapIdsToPosts(search.posts, posts),
   };
 }
 
@@ -174,6 +184,9 @@ function mapDispatchToProps(dispatch: DispatchType): DispatchProps {
   return {
     search: (query: string, subreddit: string) => {
       dispatch(search(query, subreddit));
+    },
+    voteOnPost: (post: Submission, vote: "up" | "down") => {
+      dispatch(postVote(post, vote));
     },
   };
 }
