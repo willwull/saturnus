@@ -52,7 +52,28 @@ export const InfoContainer = styled.div`
 export const Title = styled.div`
   display: flex;
   justify-content: space-between;
+  align-items: center;
   margin-top: 10px;
+
+  @media (max-width: 600px) {
+    h1 {
+      font-size: 20px;
+    }
+
+    button {
+      font-size: 12px;
+    }
+  }
+
+  @media (max-width: 400px) {
+    flex-direction: column;
+    align-items: flex-start;
+
+    button {
+      margin-top: 8px;
+      margin-bottom: 12px;
+    }
+  }
 `;
 
 export const SubStats = styled.div`
