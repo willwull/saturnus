@@ -31,7 +31,7 @@ export default function currentPost(
 ): CurrentPostState {
   switch (action.type) {
     case REQUEST_CURRENT_POST:
-      return { ...state, isLoading: true };
+      return { ...state, isLoading: true, errorMsg: null };
     case RECEIVE_CURRENT_POST:
       return {
         ...state,
