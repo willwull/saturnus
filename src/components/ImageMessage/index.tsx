@@ -1,15 +1,34 @@
 import React from "react";
 
 // image from unDraw.co
-import { ReactComponent as NotFoundImg } from "../../images/no-saved-content.svg";
+import { ReactComponent as NoSavedContentImg } from "../../images/no-saved-content.svg";
+import { ReactComponent as NotFoundImg } from "../../images/not-found.svg";
 import { MessageWrapper } from "./styles";
 
-function ImageMessage() {
+type Props = {
+  page: "404" | "NoSavedContent";
+};
+
+function ImageMessage({ page }: Props) {
+  let img;
+  let text;
+
+  switch (page) {
+    case "404":
+      img = <NotFoundImg />;
+      text = "This page doesn't seem to exist";
+      break;
+    case "NoSavedContent":
+      img = <NoSavedContentImg />;
+      text = "Looks like you haven't saved anything yet!";
+      break;
+  }
+
   return (
     <MessageWrapper>
-      <NotFoundImg />
+      {img}
       <br />
-      <h1>Looks like you haven't saved anything yet!</h1>
+      <h1>{text}</h1>
     </MessageWrapper>
   );
 }
