@@ -12,18 +12,58 @@ import { PadOnNarrow } from "../Page";
 import PrimaryButton from "../Buttons/PrimaryButton";
 import { numberWithSpaces } from "../../utils";
 import TextContent from "../TextContent";
+import Icon from "../Icon";
 
 type Props = {
-  subreddit: Subreddit | null;
+  data: Subreddit | null;
   isLoading: boolean;
+  isLoadingSubscription: boolean;
+  error: boolean;
+  isLoggedIn: boolean;
+  subscribe: (sub: Subreddit, action: "sub" | "unsub") => void;
 };
 
-function Banner({ subreddit, isLoading }: Props) {
-  if (subreddit === null) {
+function Banner({
+  data,
+  isLoading,
+  isLoadingSubscription,
+  subscribe,
+  isLoggedIn,
+}: Props) {
+  if (data === null) {
     return <BannerImg imgSrc="" />;
   }
 
-  const imageSrc = subreddit.banner_background_image || subreddit.banner_img;
+  function onSubscribeClick() {
+    subscribe(data!, "sub");
+  }
+
+  function onUnsubscribeClick() {
+    subscribe(data!, "unsub");
+  }
+
+  const imageSrc = data.banner_background_image || data.banner_img;
+
+  let btn;
+  if (data.user_is_subscriber) {
+    btn = (
+      <PrimaryButton
+        disabled={!isLoggedIn || isLoadingSubscription}
+        onClick={onUnsubscribeClick}
+      >
+        <Icon icon="far check" /> Subscribed
+      </PrimaryButton>
+    );
+  } else {
+    btn = (
+      <PrimaryButton
+        disabled={!isLoggedIn || isLoadingSubscription}
+        onClick={onSubscribeClick}
+      >
+        <Icon icon="far plus" /> Subscribe
+      </PrimaryButton>
+    );
+  }
 
   return (
     <BannerWrapper>
@@ -32,19 +72,17 @@ function Banner({ subreddit, isLoading }: Props) {
         <Fragment>
           <InfoContainer>
             <PadOnNarrow>
-              <SubredditIcon subreddit={subreddit} />
+              <SubredditIcon subreddit={data} />
               <Title>
-                <h1>{subreddit.display_name_prefixed}</h1>
-                <div>
-                  <PrimaryButton>Subscribe</PrimaryButton>
-                </div>
+                <h1>{data.display_name_prefixed}</h1>
+                <div>{btn}</div>
               </Title>
               <SubStats>
-                {numberWithSpaces(subreddit.subscribers)} subscribers
+                {numberWithSpaces(data.subscribers)} subscribers
                 {" • "}
-                {numberWithSpaces(subreddit.active_user_count)} online
+                {numberWithSpaces(data.active_user_count)} online
               </SubStats>
-              <TextContent>{subreddit.public_description_html}</TextContent>
+              <TextContent>{data.public_description_html}</TextContent>
             </PadOnNarrow>
           </InfoContainer>
         </Fragment>
