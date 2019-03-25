@@ -16,6 +16,8 @@ import { SimpleSubreddit } from "../components/SubredditList";
 import * as LocalCache from "../LocalCache";
 import { POST_VOTE } from "../actions/voting";
 
+// MARK: Types
+
 export type UserState = {
   loggedIn: boolean;
   isLoading: boolean;
@@ -34,6 +36,8 @@ export type SavedContentState = {
   isLoadingMore: boolean;
 };
 
+// MARK: Default state
+
 const defaultSavedContent: SavedContentState = {
   hasFetched: false,
   content: [],
@@ -51,6 +55,8 @@ const defaultUser: UserState = {
   subsError: null,
   savedContent: defaultSavedContent,
 };
+
+// MARK: Saved content
 
 function updateContentAfterVote(
   content: (Comment | Submission)[],
@@ -127,6 +133,8 @@ function savedContent(
       return state;
   }
 }
+
+// MARK: Main reducer
 
 export default function user(state = defaultUser, action: any): UserState {
   switch (action.type) {
