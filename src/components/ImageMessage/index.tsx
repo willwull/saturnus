@@ -1,12 +1,13 @@
 import React from "react";
 
 // image from unDraw.co
-import { ReactComponent as NoSavedContentImg } from "../../images/no-saved-content.svg";
+import { ReactComponent as BugImg } from "../../images/bug.svg";
 import { ReactComponent as NotFoundImg } from "../../images/not-found.svg";
+import { ReactComponent as NoSavedContentImg } from "../../images/no-saved-content.svg";
 import { MessageWrapper } from "./styles";
 
 type Props = {
-  page: "404" | "NoSavedContent";
+  page: "404" | "NoSavedContent" | "Bug";
 };
 
 function ImageMessage({ page }: Props) {
@@ -21,6 +22,10 @@ function ImageMessage({ page }: Props) {
     case "NoSavedContent":
       img = <NoSavedContentImg />;
       text = "Looks like you haven't saved anything yet!";
+      break;
+    case "Bug":
+      img = <BugImg />;
+      text = "Something went wrong :(";
       break;
   }
 

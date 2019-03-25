@@ -1,10 +1,14 @@
 import React, { Component } from "react";
-import PropTypes from "prop-types";
 import styled from "styled-components";
 import { RouteComponentProps } from "react-router-dom";
 import SubredditFeed from "../containers/SubredditFeed";
 import SubredditBanner from "../containers/SubredditBanner";
 import { PostsSortMode } from "../reducers/posts";
+import { RootState } from "../reducers";
+import ImageMessage from "../components/ImageMessage";
+import { connect } from "react-redux";
+
+// MARK: Types
 
 type PageProps = {
   withBanner: boolean;
@@ -19,15 +23,31 @@ export type SubPageParams = {
   sortMode: string;
 };
 
-type Props = RouteComponentProps<SubPageParams>;
+type StateProps = {
+  error: boolean;
+};
+
+type Props = StateProps & RouteComponentProps<SubPageParams>;
+
+// MARK: Component
 
 class SubredditPage extends Component<Props, {}> {
   render() {
     const {
       location: { pathname },
       match: { params },
+      error,
     } = this.props;
     const { subreddit, sortMode } = params;
+
+    if (error) {
+      console.log("error");
+      return (
+        <Page withBanner={false}>
+          <ImageMessage page={"Bug"} />;
+        </Page>
+      );
+    }
 
     const actualSortMode = sortMode === "best" || !sortMode ? "hot" : sortMode;
     const inAllOrPopular = /^\/r\/(all|popular)\/?$/.test(pathname);
@@ -46,4 +66,21 @@ class SubredditPage extends Component<Props, {}> {
   }
 }
 
-export default SubredditPage;
+// MARK: Redux
+
+function mapStateToProps({ posts }: RootState, ownProps: Props): StateProps {
+  const {
+    match: { params },
+  } = ownProps;
+  const { subreddit } = params;
+  const thisSub = posts.bySubreddit[subreddit] || { error: false };
+
+  return {
+    error: thisSub.error,
+  };
+}
+
+export default connect(
+  mapStateToProps,
+  null,
+)(SubredditPage);
