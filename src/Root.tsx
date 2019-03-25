@@ -41,7 +41,6 @@ class Root extends Component<Props, {}> {
       storedState &&
       storedState === verificationState
     ) {
-      console.log(`redirected from reddit with: ${authCallBackCode}`);
       this.props.createAuthSnoowrap(authCallBackCode);
 
       // after the auth code has been used once, it's no longer valid,
@@ -58,15 +57,12 @@ class Root extends Component<Props, {}> {
 
     // user has signed in in the past, use their refresh token to init snoowrap
     if (storedTokens && lastActiveUser && storedTokens[lastActiveUser]) {
-      console.log("Looking for refresh token");
       const tokens = storedTokens[lastActiveUser];
-      console.log(`trying stored refresh token: ${tokens.refresh_token}`);
       this.props.createRefreshSnoowrap(tokens.refresh_token);
       return;
     }
 
     // default, logged out usage
-    console.log("Logged out snoowrap");
     this.props.createSnoowrap();
   }
 

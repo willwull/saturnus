@@ -53,6 +53,8 @@ function fetchPostError(subreddit: string) {
   };
 }
 
+// MARK: Thunk actions
+
 function shouldFetch(
   state: RootState,
   subreddit: string,
@@ -65,26 +67,19 @@ function shouldFetch(
 
   // if nothing has been fetched for the current sub, we need to fetch
   if (!currentSub || !currentSub.receivedAt) {
-    console.log("nothing fetched");
     return true;
   }
 
   // if the user changes sort mode, we should fetch new and skip the cache
   if (sortMode !== currentSub.sortMode) {
-    console.log(sortMode);
-    console.log(currentSub.sortMode);
-    console.log(currentSub);
-    console.log("different sort");
     return true;
   }
 
   if (time !== currentSub.time) {
-    console.log("different time");
     return true;
   }
 
   // if we have already fetched, only fetch again if it was 10 minutes ago
-  console.log("comparing time");
   const then = moment(currentSub.receivedAt);
   const diff = moment().diff(then, "minutes");
   return diff > 10;
@@ -132,7 +127,6 @@ export function fetchPosts(
           });
       }
 
-      console.log(posts);
       dispatch(receivePosts(subreddit, posts));
     } catch (error) {
       console.error(error);

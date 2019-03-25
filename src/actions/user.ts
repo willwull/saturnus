@@ -41,12 +41,8 @@ export function fetchUser() {
 
     // for some reason, writing this as async triggers a TS error
     return r.getMe().then(user => {
-      console.log(user);
-
       dispatch(setUser(user));
-
       LocalCache.storeLastActiveUser(user.name);
-
       return user;
     });
   };
@@ -80,7 +76,6 @@ export function fetchMySubs(options: SubFetchOptions = { skipCache: false }) {
       if (!options.skipCache) {
         const cachedSubs = LocalCache.getStoredSubs();
         if (cachedSubs && cachedSubs.length > 0) {
-          console.log(cachedSubs);
           dispatch({ type: RECEIVE_MY_SUBS, subscriptions: cachedSubs });
           return;
         }
@@ -93,12 +88,10 @@ export function fetchMySubs(options: SubFetchOptions = { skipCache: false }) {
         subscriptions = await r.getSubscriptions();
       } else {
         // get default subs if not logged in
-        console.log("User not logged in, fetching defaults");
         subscriptions = await r.getDefaultSubreddits();
       }
 
       subscriptions = await subscriptions.fetchAll();
-      console.log(subscriptions);
 
       if (state.user.loggedIn) {
         // if logged in user, cache their subscriptions
