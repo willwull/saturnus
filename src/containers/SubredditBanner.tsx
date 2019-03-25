@@ -1,18 +1,21 @@
 import React, { Component } from "react";
 import { connect } from "react-redux";
-import { fetchSubreddit } from "../actions/subreddits";
+import { fetchSubreddit, subscribeToSub } from "../actions/subreddits";
 import Banner from "../components/Banner";
 import { Subreddit } from "snoowrap";
 import { RootState, DispatchType } from "../reducers";
 
 type StateProps = {
   data: Subreddit | null;
+  isLoadingSubscription: boolean;
   isLoading: boolean;
   error: boolean;
+  isLoggedIn: boolean;
 };
 
 type DispatchProps = {
   getSub: (subredditName: string) => void;
+  subscribe: (subreddit: Subreddit, action: "sub" | "unsub") => void;
 };
 
 type OwnProps = {
@@ -35,31 +38,51 @@ class SubredditBanner extends Component<Props, {}> {
   }
 
   render() {
-    const { isLoading, data } = this.props;
-
-    return <Banner subreddit={data} isLoading={isLoading} />;
+    const {
+      data,
+      isLoading,
+      isLoadingSubscription,
+      error,
+      subscribe,
+      isLoggedIn,
+    } = this.props;
+    return (
+      <Banner
+        data={data}
+        isLoading={isLoading}
+        isLoadingSubscription={isLoadingSubscription}
+        error={error}
+        subscribe={subscribe}
+        isLoggedIn={isLoggedIn}
+      />
+    );
   }
 }
 
 function mapStateToProps(
-  { subreddits }: RootState,
+  { subreddits, user }: RootState,
   ownProps: OwnProps,
 ): StateProps {
   const currentSub = subreddits[ownProps.subreddit] || {
     data: null,
     isLoading: false,
+    isLoadingSubscription: false,
     error: false,
   };
 
   return {
     ...currentSub,
+    isLoggedIn: user.loggedIn,
   };
 }
 
 function mapDispatchToProps(dispatch: DispatchType): DispatchProps {
   return {
-    getSub: (subredditName: string) => {
+    getSub: subredditName => {
       dispatch(fetchSubreddit(subredditName));
+    },
+    subscribe: (subreddit, action) => {
+      dispatch(subscribeToSub(subreddit, action));
     },
   };
 }

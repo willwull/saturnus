@@ -18,6 +18,10 @@ import * as LocalCache from "../LocalCache";
 import { POST_VOTE } from "../actions/voting";
 import { PostsState } from "./posts";
 import { CommentsState } from "./comments";
+import {
+  RECEIVED_SUBSCRIBE_TO_SUB,
+  RECEIVED_UNSUBSCRIBE_TO_SUB,
+} from "../actions/subreddits";
 
 // MARK: Types
 
@@ -178,6 +182,18 @@ export default function user(state = defaultUser, action: any): UserState {
       return { ...state, loggedIn: false, isLoading: false, data: null };
     case REQUEST_MY_SUBS:
       return { ...state, subsLoading: true, subsError: null };
+    case RECEIVED_SUBSCRIBE_TO_SUB:
+      return {
+        ...state,
+        subscriptions: [...state.subscriptions, action.data],
+      };
+    case RECEIVED_UNSUBSCRIBE_TO_SUB:
+      return {
+        ...state,
+        subscriptions: state.subscriptions.filter(
+          sub => sub.id !== action.data.id,
+        ),
+      };
     case RECEIVE_MY_SUBS:
       return {
         ...state,
