@@ -12,7 +12,14 @@ import PostFeed from "../components/PostFeed";
 import { postVote } from "../actions/voting";
 import { Submission } from "snoowrap";
 import { RootState, DispatchType } from "../reducers";
-import { PostsSortMode, PostsTimes } from "../reducers/posts";
+import {
+  PostsSortMode,
+  PostsTimes,
+  PostsInSubState,
+  mapIdsToPosts,
+} from "../reducers/posts";
+
+// MARK: Types
 
 type StateProps = {
   error: boolean;
@@ -38,6 +45,8 @@ type OwnProps = {
 };
 
 type Props = OwnProps & StateProps & DispatchProps & RouteComponentProps;
+
+// MARK: Component
 
 class SubredditFeed extends Component<Props, {}> {
   static defaultProps: OwnProps = {
@@ -128,8 +137,12 @@ class SubredditFeed extends Component<Props, {}> {
   }
 }
 
+// MARK: Redux
+
 function mapStateToProps({ posts }: RootState, ownProps: OwnProps): StateProps {
-  const currentPosts = posts[ownProps.subreddit] || {
+  const currentPosts: PostsInSubState = posts.bySubreddit[
+    ownProps.subreddit
+  ] || {
     error: false,
     isLoading: false,
     isLoadingMore: false,
@@ -141,7 +154,7 @@ function mapStateToProps({ posts }: RootState, ownProps: OwnProps): StateProps {
     error: currentPosts.error,
     isLoading: currentPosts.isLoading,
     isLoadingMore: currentPosts.isLoadingMore,
-    posts: currentPosts.items,
+    posts: mapIdsToPosts(currentPosts.items, posts),
     storedSortMode: currentPosts.sortMode,
   };
 
