@@ -13,8 +13,7 @@ import { PostsState } from "../reducers/posts";
 // MARK: Types
 
 type StateProps = {
-  id: string;
-  posts: PostsState;
+  post: Submission;
   isLoading: boolean;
   errorMsg: string | null;
 };
@@ -68,9 +67,7 @@ class CurrentPost extends Component<Props, {}> {
   }
 
   render() {
-    const { id, isLoading, posts, voteOnPost, isModal } = this.props;
-
-    const post = posts.byId[id];
+    const { isLoading, post, voteOnPost, isModal } = this.props;
 
     if (isLoading || !post) {
       return <Loading type="regular" />;
@@ -90,8 +87,7 @@ class CurrentPost extends Component<Props, {}> {
 function mapStateToProps({ currentPost, posts }: RootState): StateProps {
   const id = currentPost.postId;
   return {
-    id,
-    posts,
+    post: posts.byId[id],
     isLoading: currentPost.isLoading,
     errorMsg: currentPost.errorMsg,
   };
