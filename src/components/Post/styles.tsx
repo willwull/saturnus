@@ -67,3 +67,10 @@ export const Score = styled.div`
   color: ${(props: ScoreProps) => getVoteColor(props.vote)};
   margin: 5px 0;
 `;
+
+export const SavedIconWrapper = styled.div`
+  position: absolute;
+  top: 0;
+  right: 20px;
+  font-size: 1.5em;
+`;

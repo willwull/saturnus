@@ -20,6 +20,7 @@ import {
   DropDownBtnWrapper,
   Score,
   NavClickTarget,
+  SavedIconWrapper,
 } from "./styles";
 import Desktop from "../Desktop";
 
@@ -69,6 +70,12 @@ class Post extends React.Component<Props, {}> {
 
     return (
       <ContentBox className="post-component">
+        {post.saved && (
+          <SavedIconWrapper className="mod">
+            <Icon icon="fas bookmark" />
+          </SavedIconWrapper>
+        )}
+
         <div className="score">
           <UpvoteBtn active={isUpvoted} onClick={this.upvote}>
             <Icon icon="arrow-up" />
