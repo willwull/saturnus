@@ -1,14 +1,16 @@
 import styled from "styled-components";
 
 export const MessageWrapper = styled.div`
+  height: 70vh;
   display: flex;
+  justify-content: center;
   align-items: center;
   flex-direction: column;
-  padding-top: 50px;
+  padding: 50px;
   text-align: center;
 
   svg {
-    max-width: 60%;
+    max-width: 95%;
     height: auto;
   }
 `;

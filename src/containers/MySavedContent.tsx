@@ -56,7 +56,7 @@ function MySavedContent({
   }
 
   if (user.savedContent.contentIds.length === 0) {
-    return <ImageMessage />;
+    return <ImageMessage page={"NoSavedContent"} />;
   }
 
   const { contentIds, isLoadingMore, hasMoreContent } = user.savedContent;
