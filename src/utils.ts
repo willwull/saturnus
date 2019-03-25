@@ -119,3 +119,11 @@ export function debounce(func: Function, timeout = 500) {
     }, timeout);
   };
 }
+
+/**
+ * Puts spaces in numbers. E.g. 10000 -> "10 000"
+ * @param num
+ */
+export function numberWithSpaces(num: number) {
+  return num.toString().replace(/\B(?=(\d{3})+(?!\d))/g, " ");
+}
