@@ -5,6 +5,7 @@ import { ReactComponent as BugImg } from "../../images/bug.svg";
 import { ReactComponent as NotFoundImg } from "../../images/not-found.svg";
 import { ReactComponent as NoSavedContentImg } from "../../images/no-saved-content.svg";
 import { MessageWrapper } from "./styles";
+import { PrimaryLink } from "../Buttons/PrimaryButton";
 
 type Props = {
   page: "404" | "NoSavedContent" | "Bug";
@@ -34,6 +35,7 @@ function ImageMessage({ page }: Props) {
       {img}
       <br />
       <h1>{text}</h1>
+      <PrimaryLink to="/">Go back home</PrimaryLink>
     </MessageWrapper>
   );
 }
