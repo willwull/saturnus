@@ -17,6 +17,7 @@ import {
   PostsTimes,
   PostsInSubState,
   mapIdsToPosts,
+  PostsState,
 } from "../reducers/posts";
 
 // MARK: Types
@@ -25,7 +26,8 @@ type StateProps = {
   error: boolean;
   isLoading: boolean;
   isLoadingMore: boolean;
-  posts: Submission[];
+  postIds: string[];
+  postsState: PostsState;
   storedSortMode: PostsSortMode;
 };
 
@@ -60,6 +62,7 @@ class SubredditFeed extends Component<Props, {}> {
 
   componentDidUpdate(prevProps: Props) {
     if (this.props.location !== prevProps.location) {
+      console.log("Different location");
       this.loadPosts();
     }
   }
@@ -70,7 +73,7 @@ class SubredditFeed extends Component<Props, {}> {
       sortMode,
       storedSortMode,
       location,
-      posts,
+      postIds,
       history,
     } = this.props;
 
@@ -78,7 +81,7 @@ class SubredditFeed extends Component<Props, {}> {
     // we don't reload the feed unless the difference between the locations
     // is the post sort mode.
     if (
-      posts.length !== 0 &&
+      postIds.length !== 0 &&
       history.action === "POP" &&
       sortMode === storedSortMode
     ) {
@@ -107,7 +110,8 @@ class SubredditFeed extends Component<Props, {}> {
     const {
       isLoading,
       isLoadingMore,
-      posts,
+      postIds,
+      postsState,
       error,
       sortMode,
       subreddit,
@@ -121,6 +125,7 @@ class SubredditFeed extends Component<Props, {}> {
 
     const searchParams = new URLSearchParams(location.search);
     const timeSort = searchParams.get("t") || "";
+    const posts = mapIdsToPosts(postIds, postsState);
 
     return (
       <PostFeed
@@ -147,14 +152,19 @@ function mapStateToProps({ posts }: RootState, ownProps: OwnProps): StateProps {
     isLoading: false,
     isLoadingMore: false,
     items: [],
-    sortMode: "",
+    sortMode: "best",
   };
 
+  // Instead of directly passing a list of posts, we pass the postsState
+  // and the list of IDs. Mapping IDs to posts is a heavy operation, which we
+  // don't want to do each time the root state changes, so the render method
+  // takes care of mapping the IDs to posts
   const props = {
     error: currentPosts.error,
     isLoading: currentPosts.isLoading,
     isLoadingMore: currentPosts.isLoadingMore,
-    posts: mapIdsToPosts(currentPosts.items, posts),
+    postIds: currentPosts.items,
+    postsState: posts,
     storedSortMode: currentPosts.sortMode,
   };
 

@@ -9,7 +9,7 @@ import Loading from "../components/Loading";
 import Post from "../components/Post";
 import { PrimaryLink } from "../components/Buttons/PrimaryButton";
 import styled from "styled-components";
-import { mapIdsToPosts } from "../reducers/posts";
+import { mapIdsToPosts, PostsState } from "../reducers/posts";
 import { postVote } from "../actions/voting";
 
 const LinkWrapper = styled.div`
@@ -36,7 +36,8 @@ type StateProps = {
   isLoading: boolean;
   isLoadingPosts: boolean;
   subreddits: Subreddit[];
-  posts: Submission[];
+  postIds: string[];
+  postsState: PostsState;
 };
 
 type DispatchProps = {
@@ -77,7 +78,8 @@ class CurrentSearchResults extends Component<Props, {}> {
       subreddits,
       isLoading,
       isLoadingPosts,
-      posts,
+      postIds,
+      postsState,
       query,
       type,
       voteOnPost,
@@ -89,7 +91,7 @@ class CurrentSearchResults extends Component<Props, {}> {
     const showMoreSubsBtn =
       type !== "sr" && !isLoading && subreddits.length > 3;
     const showMorePostsBtn =
-      type !== "link" && !isLoadingPosts && posts.length > 5;
+      type !== "link" && !isLoadingPosts && postIds.length > 5;
 
     let subResults;
     if (type === "sr") {
@@ -98,6 +100,7 @@ class CurrentSearchResults extends Component<Props, {}> {
       subResults = subreddits.slice(0, 3);
     }
 
+    const posts = mapIdsToPosts(postIds, postsState);
     let postResults;
     if (type === "link") {
       postResults = posts;
@@ -176,7 +179,8 @@ function mapStateToProps({ search, posts }: RootState): StateProps {
     isLoading: search.isLoading,
     isLoadingPosts: search.isLoadingPosts,
     subreddits: search.subreddits,
-    posts: mapIdsToPosts(search.posts, posts),
+    postIds: search.posts,
+    postsState: posts,
   };
 }
 
