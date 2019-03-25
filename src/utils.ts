@@ -101,3 +101,21 @@ export function shortTimeDiff(time: number): string {
 
   return short;
 }
+
+/**
+ * Create a debounced version of a function.
+ *
+ * @param func The function to debounce
+ * @param timeout Delay in ms
+ */
+export function debounce(func: Function, timeout = 500) {
+  let timer: NodeJS.Timeout;
+
+  return function(this: any, ...args: any[]) {
+    clearTimeout(timer);
+    const self = this;
+    timer = setTimeout(() => {
+      func.call(self, ...args);
+    }, timeout);
+  };
+}

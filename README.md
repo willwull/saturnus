@@ -23,3 +23,28 @@ export NPM_TOKEN=enter_your_token_here
 ```
 
 Alternatively, just edit `.npmrc` directly with your token and don't commit the change.
+
+## Helpful editor extensions
+
+Throughout this project, I organize content within files by using comments like this:
+
+```js
+// MARK: Helper functions
+
+function thing() {}
+```
+
+This is actually a convention I learned in Swift, but I've found it useful in JS as well. I recommend the VS Code extension [TODO Highlight](https://marketplace.visualstudio.com/items?itemName=wayou.vscode-todo-highlight) with the following config:
+
+```json
+"todohighlight.keywords": [
+    {
+      "text": "MARK:",
+      "isWholeLine": true,
+      "backgroundColor": "lightblue",
+      "color": "#ffffff"
+    }
+  ]
+```
+
+This config will highlight the lines that contain the MARK comments. Obviously, you can use any other colors if you prefer.

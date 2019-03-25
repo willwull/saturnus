@@ -10,11 +10,16 @@ import {
   RECEIVE_MY_SAVED_CONTENT,
   REQUST_MORE_SAVED_CONTENT,
   DID_SAVE_CONTENT,
+  DID_UNSAVE_CONTENT,
 } from "../actions/user";
-import { RedditUser, Comment, Submission } from "snoowrap";
+import { RedditUser, Comment, Submission, Listing } from "snoowrap";
 import { SimpleSubreddit } from "../components/SubredditList";
 import * as LocalCache from "../LocalCache";
 import { POST_VOTE } from "../actions/voting";
+import { PostsState } from "./posts";
+import { CommentsState } from "./comments";
+
+// MARK: Types
 
 export type UserState = {
   loggedIn: boolean;
@@ -28,15 +33,26 @@ export type UserState = {
 
 export type SavedContentState = {
   hasFetched: boolean;
-  content: (Comment | Submission)[];
+  contentIds: MixedId[];
+  originalListing: Listing<Submission | Comment> | null;
   hasMoreContent: boolean;
   isLoading: boolean;
   isLoadingMore: boolean;
 };
 
+export type MixedContent = Submission | Comment;
+
+export type MixedId = {
+  type: "submission" | "comment";
+  id: string;
+};
+
+// MARK: Default state
+
 const defaultSavedContent: SavedContentState = {
   hasFetched: false,
-  content: [],
+  contentIds: [],
+  originalListing: null,
   hasMoreContent: true,
   isLoading: false,
   isLoadingMore: false,
@@ -52,40 +68,61 @@ const defaultUser: UserState = {
   savedContent: defaultSavedContent,
 };
 
-function updateContentAfterVote(
-  content: (Comment | Submission)[],
-  updatedPost: Submission,
-): (Comment | Submission)[] {
-  const newContent = content.map(content => {
-    if (content.id === updatedPost.id) {
-      return updatedPost;
-    }
+// MARK: Helper functions
 
-    return content;
-  });
-  return newContent;
+export function contentIsPost(content: MixedContent): boolean {
+  return !!(content as Submission).title;
 }
+
+function mapMixedContentToIds(content: MixedContent[]): MixedId[] {
+  return content.map(
+    (obj): MixedId => {
+      if (contentIsPost(obj)) {
+        return {
+          type: "submission",
+          id: obj.id,
+        };
+      }
+      return {
+        type: "comment",
+        id: obj.id,
+      };
+    },
+  );
+}
+
+export function mapMixedIdsToContent(
+  ids: MixedId[],
+  posts: PostsState,
+  comments: CommentsState,
+): MixedContent[] {
+  return ids.map(mixedId => {
+    if (mixedId.type === "submission") {
+      return posts.byId[mixedId.id];
+    }
+    return comments.byId[mixedId.id];
+  });
+}
+
+// MARK: Saved content
 
 function updateContentAfterSave(
   state: SavedContentState,
   updatedPost: Comment | Submission,
-  saved: boolean,
 ): SavedContentState {
   // saved new content, add it to our local list
-  if (saved) {
-    if (state.hasFetched) {
-      return {
-        ...state,
-        content: [updatedPost, ...state.content],
-      };
-    }
-  }
+  if (state.hasFetched) {
+    const newId: MixedId = {
+      type: "submission",
+      id: updatedPost.id,
+    };
 
-  // unsaved content, remove it from our local list
-  return {
-    ...state,
-    content: state.content.filter(content => content.id !== updatedPost.id),
-  };
+    return {
+      ...state,
+      contentIds: [newId, ...state.contentIds],
+    };
+  }
+  return state;
 }
 
 function savedContent(
@@ -93,17 +130,15 @@ function savedContent(
   action: any,
 ): SavedContentState {
   switch (action.type) {
-    case POST_VOTE:
+    case DID_SAVE_CONTENT:
+      return updateContentAfterSave(state, action.affectedContent);
+    case DID_UNSAVE_CONTENT:
       return {
         ...state,
-        content: updateContentAfterVote(state.content, action.updatedPost),
+        contentIds: state.contentIds.filter(
+          content => content.id !== action.affectedContent.id,
+        ),
       };
-    case DID_SAVE_CONTENT:
-      return updateContentAfterSave(
-        state,
-        action.affectedContent,
-        action.saved,
-      );
     case REQUEST_MY_SAVED_CONTENT:
       return {
         ...state,
@@ -120,13 +155,16 @@ function savedContent(
         isLoading: false,
         isLoadingMore: false,
         hasFetched: true,
-        content: action.content,
+        contentIds: mapMixedContentToIds(action.content),
+        originalListing: action.content,
         hasMoreContent: action.hasMoreContent,
       };
     default:
       return state;
   }
 }
+
+// MARK: Main reducer
 
 export default function user(state = defaultUser, action: any): UserState {
   switch (action.type) {
@@ -154,6 +192,7 @@ export default function user(state = defaultUser, action: any): UserState {
       };
     case POST_VOTE:
     case DID_SAVE_CONTENT:
+    case DID_UNSAVE_CONTENT:
     case REQUEST_MY_SAVED_CONTENT:
     case REQUST_MORE_SAVED_CONTENT:
     case RECEIVE_MY_SAVED_CONTENT:

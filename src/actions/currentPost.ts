@@ -11,12 +11,12 @@ export const ERROR_CURRENT_POST = "ERROR_CURRENT_POST";
 
 function shouldFetch(state: RootState, postId: string) {
   const {
-    currentPost: { post, receivedAt },
+    currentPost: { postId: storedPostId, receivedAt },
   } = state;
 
-  if (!post.id || post.id !== postId) return true;
+  if (storedPostId === "" || storedPostId !== postId) return true;
 
-  const then = moment(receivedAt);
+  const then = moment(receivedAt || Date());
   const diff = moment().diff(then, "minutes");
   return diff > 10;
 }

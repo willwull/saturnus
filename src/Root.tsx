@@ -11,19 +11,28 @@ import { closeSidebar } from "./actions/sidebar";
 import * as LocalCache from "./LocalCache";
 import App from "./App";
 import { UserState } from "./reducers/user";
-import { ThemeColors, ThemeState } from "./reducers/theme";
-import { SnoowrapState } from "./reducers/snoowrap";
+import { ThemeColors } from "./reducers/theme";
+import { RootState } from "./reducers";
 
-type Props = {
-  user: UserState;
+// MARK: Types
+
+type StateProps = {
+  sidebarIsOpen: boolean;
   theme: ThemeColors;
-  errorMsg: string;
   isLoading: boolean;
+  errorMsg: string;
+};
+
+type DispatchProps = {
   closeSidebar: () => void;
   createSnoowrap: () => void;
   createAuthSnoowrap: (code: string) => void;
   createRefreshSnoowrap: (refreshToken: string) => void;
-} & RouteComponentProps;
+};
+
+type Props = StateProps & DispatchProps & RouteComponentProps;
+
+// MARK: Component
 
 class Root extends Component<Props, {}> {
   componentDidMount() {
@@ -41,7 +50,6 @@ class Root extends Component<Props, {}> {
       storedState &&
       storedState === verificationState
     ) {
-      console.log(`redirected from reddit with: ${authCallBackCode}`);
       this.props.createAuthSnoowrap(authCallBackCode);
 
       // after the auth code has been used once, it's no longer valid,
@@ -58,20 +66,20 @@ class Root extends Component<Props, {}> {
 
     // user has signed in in the past, use their refresh token to init snoowrap
     if (storedTokens && lastActiveUser && storedTokens[lastActiveUser]) {
-      console.log("Looking for refresh token");
       const tokens = storedTokens[lastActiveUser];
-      console.log(`trying stored refresh token: ${tokens.refresh_token}`);
       this.props.createRefreshSnoowrap(tokens.refresh_token);
       return;
     }
 
     // default, logged out usage
-    console.log("Logged out snoowrap");
     this.props.createSnoowrap();
   }
 
   componentDidUpdate(prevProps: Props) {
-    if (this.props.location !== prevProps.location) {
+    if (
+      this.props.location !== prevProps.location &&
+      this.props.sidebarIsOpen
+    ) {
       this.props.closeSidebar();
     }
   }
@@ -87,24 +95,18 @@ class Root extends Component<Props, {}> {
   }
 }
 
-function mapStateToProps({
-  theme,
-  snoowrap,
-  user,
-}: {
-  theme: ThemeState;
-  snoowrap: SnoowrapState;
-  user: UserState;
-}) {
+// MARK: Redux
+
+function mapStateToProps({ sidebar, theme, snoowrap }: RootState): StateProps {
   return {
+    sidebarIsOpen: sidebar.open,
     theme: theme.colors,
-    user,
     isLoading: snoowrap.isLoading,
     errorMsg: snoowrap.errorMsg,
   };
 }
 
-function mapDispatchToProps(dispatch: Function) {
+function mapDispatchToProps(dispatch: Function): DispatchProps {
   return {
     createSnoowrap: () => {
       dispatch(initSnoowrap());

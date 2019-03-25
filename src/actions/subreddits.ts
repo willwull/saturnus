@@ -24,7 +24,6 @@ export function fetchSubreddit(subreddit: string) {
   ) => {
     const stored = getState().subreddits[subreddit];
     if (stored) {
-      console.log(stored);
       return; // no need to fetch again
     }
 
@@ -36,8 +35,6 @@ export function fetchSubreddit(subreddit: string) {
     r.getSubreddit(subreddit)
       .fetch()
       .then(data => {
-        console.log(data);
-
         dispatch(receiveSubreddit(subreddit, data));
       })
       .catch(error => {

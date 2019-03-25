@@ -5,22 +5,28 @@ import {
 } from "../actions/subreddits";
 import { Subreddit } from "snoowrap";
 
+// MARK: Types
+
 export type SpecificSubState = {
-  isLoading: boolean;
   data: Subreddit | null;
   error: boolean;
+  isLoading: boolean;
 };
 
 export type SubredditState = {
   [key: string]: SpecificSubState;
 };
 
+// MARK: State and reducers
+
+const defaultState: SpecificSubState = {
+  data: null,
+  error: false,
+  isLoading: false,
+};
+
 function specificSub(
-  state: SpecificSubState = {
-    isLoading: false,
-    data: null,
-    error: false,
-  },
+  state: SpecificSubState = defaultState,
   action: any,
 ): SpecificSubState {
   switch (action.type) {

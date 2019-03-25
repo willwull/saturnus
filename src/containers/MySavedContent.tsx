@@ -2,7 +2,14 @@ import React, { useEffect } from "react";
 import { connect } from "react-redux";
 import { Submission, Comment as IComment } from "snoowrap";
 
-import { UserState } from "../reducers/user";
+import { postVote } from "../actions/voting";
+import {
+  UserState,
+  contentIsPost,
+  mapMixedIdsToContent,
+} from "../reducers/user";
+import { PostsState } from "../reducers/posts";
+import { CommentsState } from "../reducers/comments";
 import { RootState, DispatchType } from "../reducers";
 import { fetchSavedContent, fetchMoreSavedContent } from "../actions/user";
 
@@ -11,10 +18,13 @@ import Loading from "../components/Loading";
 import ImageMessage from "../components/ImageMessage";
 import PrimaryButton from "../components/Buttons/PrimaryButton";
 import StandaloneComment from "../components/Comment/StandaloneComment";
-import { postVote } from "../actions/voting";
+
+// MARK: Types
 
 type StateProps = {
   user: UserState;
+  posts: PostsState;
+  comments: CommentsState;
 };
 
 type DispatchProps = {
@@ -25,7 +35,16 @@ type DispatchProps = {
 
 type Props = StateProps & DispatchProps;
 
-function MySavedContent({ user, fetch, fetchMore, voteOnPost }: Props) {
+// MARK: Component
+
+function MySavedContent({
+  user,
+  posts,
+  comments,
+  fetch,
+  fetchMore,
+  voteOnPost,
+}: Props) {
   useEffect(() => {
     if (!user.savedContent.hasFetched) {
       fetch();
@@ -36,15 +55,17 @@ function MySavedContent({ user, fetch, fetchMore, voteOnPost }: Props) {
     return <Loading type="regular" />;
   }
 
-  if (user.savedContent.content.length === 0) {
+  if (user.savedContent.contentIds.length === 0) {
     return <ImageMessage />;
   }
 
-  const { content, isLoadingMore, hasMoreContent } = user.savedContent;
+  const { contentIds, isLoadingMore, hasMoreContent } = user.savedContent;
+  const content = mapMixedIdsToContent(contentIds, posts, comments);
+
   return (
     <div>
       {content.map(content => {
-        if ((content as Submission).title) {
+        if (contentIsPost(content)) {
           const post = content as Submission;
           return <Post key={post.id} post={post} voteOnPost={voteOnPost} />;
         }
@@ -73,9 +94,13 @@ function MySavedContent({ user, fetch, fetchMore, voteOnPost }: Props) {
   );
 }
 
-function mapStateToProps({ user }: RootState): StateProps {
+// MARK: Redux
+
+function mapStateToProps({ user, posts, comments }: RootState): StateProps {
   return {
     user,
+    posts,
+    comments,
   };
 }
 

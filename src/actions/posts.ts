@@ -6,12 +6,16 @@ import { ThunkDispatch } from "redux-thunk";
 import { PostsState, PostsSortMode, PostsTimes } from "../reducers/posts";
 import { Action } from "redux";
 
+// MARK: Action types
+
 export const REQUEST_POSTS = "REQUEST_POSTS";
 export const REQUEST_MORE_POSTS = "REQUEST_MORE_POSTS";
 export const RECEIVE_POSTS = "RECEIVE_POSTS";
 export const FETCH_POST_ERROR = "FETCH_POST_ERROR";
 
 export const DEFAULT_SORT_MODE = "best";
+
+// MARK: Action functions
 
 function requestPosts(
   subreddit: string,
@@ -49,6 +53,8 @@ function fetchPostError(subreddit: string) {
   };
 }
 
+// MARK: Thunk actions
+
 function shouldFetch(
   state: RootState,
   subreddit: string,
@@ -57,30 +63,23 @@ function shouldFetch(
 ) {
   const { posts } = state;
 
-  const currentSub = posts[subreddit];
+  const currentSub = posts.bySubreddit[subreddit];
 
   // if nothing has been fetched for the current sub, we need to fetch
   if (!currentSub || !currentSub.receivedAt) {
-    console.log("nothing fetched");
     return true;
   }
 
   // if the user changes sort mode, we should fetch new and skip the cache
   if (sortMode !== currentSub.sortMode) {
-    console.log(sortMode);
-    console.log(currentSub.sortMode);
-    console.log(currentSub);
-    console.log("different sort");
     return true;
   }
 
   if (time !== currentSub.time) {
-    console.log("different time");
     return true;
   }
 
   // if we have already fetched, only fetch again if it was 10 minutes ago
-  console.log("comparing time");
   const then = moment(currentSub.receivedAt);
   const diff = moment().diff(then, "minutes");
   return diff > 10;
@@ -128,7 +127,6 @@ export function fetchPosts(
           });
       }
 
-      console.log(posts);
       dispatch(receivePosts(subreddit, posts));
     } catch (error) {
       console.error(error);
@@ -142,11 +140,20 @@ export function fetchMorePosts(subreddit: string) {
     dispatch: ThunkDispatch<PostsState, void, Action>,
     getState: () => RootState,
   ) => {
-    const { items } = getState().posts[subreddit];
+    const { originalListing } = getState().posts.bySubreddit[subreddit];
+
+    if (originalListing === null) {
+      console.error(
+        "Tried to fetch more, but listing was null. Subreddit:",
+        subreddit,
+      );
+      return;
+    }
+
     dispatch(requestMorePosts(subreddit));
 
     // fetchMore will return a Listing with _both_ previous and new posts
-    const itemsWithNew = await items.fetchMore({ amount: 25 });
+    const itemsWithNew = await originalListing.fetchMore({ amount: 25 });
 
     dispatch(receivePosts(subreddit, itemsWithNew));
   };

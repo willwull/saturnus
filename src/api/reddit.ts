@@ -32,7 +32,6 @@ class Reddit {
    * @param {String} refreshToken
    */
   initRefreshToken(refreshToken: string): void {
-    console.log(`Refresh token passed to initRefreshToken: ${refreshToken}`);
     this.snoo = new Snoowrap({
       userAgent: credentials.userAgent,
       clientId: credentials.clientId,

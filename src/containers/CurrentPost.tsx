@@ -8,11 +8,14 @@ import CommentFeed from "../components/CommentFeed";
 import { Submission } from "snoowrap";
 import { RootState, DispatchType } from "../reducers";
 import { postVote } from "../actions/voting";
+import { PostsState } from "../reducers/posts";
+
+// MARK: Types
 
 type StateProps = {
   post: Submission;
   isLoading: boolean;
-  errorMsg: string;
+  errorMsg: string | null;
 };
 
 type OwnProps = {
@@ -36,6 +39,8 @@ type Props = StateProps &
   OwnProps &
   DispatchProps &
   RouteComponentProps<MatchParams>;
+
+// MARK: Component
 
 class CurrentPost extends Component<Props, {}> {
   static defaultProps: DefaultProps = {
@@ -64,11 +69,10 @@ class CurrentPost extends Component<Props, {}> {
   render() {
     const { isLoading, post, voteOnPost, isModal } = this.props;
 
-    if (isLoading || !post.id) {
+    if (isLoading || !post) {
       return <Loading type="regular" />;
     }
 
-    console.log(post);
     return (
       <React.Fragment>
         <Post post={post} expanded voteOnPost={voteOnPost} />
@@ -78,9 +82,12 @@ class CurrentPost extends Component<Props, {}> {
   }
 }
 
-function mapStateToProps({ currentPost }: RootState): StateProps {
+// MARK: Redux
+
+function mapStateToProps({ currentPost, posts }: RootState): StateProps {
+  const id = currentPost.postId;
   return {
-    post: currentPost.post,
+    post: posts.byId[id],
     isLoading: currentPost.isLoading,
     errorMsg: currentPost.errorMsg,
   };
