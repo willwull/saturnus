@@ -35,6 +35,12 @@ function PostDropDown({ post }: Props) {
           <Icon icon="far link" fixedWidth /> Copy content link
         </Menu.Item>
       )}
+
+      {!post.is_self && (
+        <Menu.A href={post.url} target="_blank" rel="noopener noreferrer">
+          <Icon icon="far external-link" fixedWidth /> Open content link
+        </Menu.A>
+      )}
     </Menu>
   );
 }
