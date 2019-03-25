@@ -17,6 +17,7 @@ import { RootState } from "./reducers";
 // MARK: Types
 
 type StateProps = {
+  sidebarIsOpen: boolean;
   theme: ThemeColors;
   isLoading: boolean;
   errorMsg: string;
@@ -75,7 +76,10 @@ class Root extends Component<Props, {}> {
   }
 
   componentDidUpdate(prevProps: Props) {
-    if (this.props.location !== prevProps.location) {
+    if (
+      this.props.location !== prevProps.location &&
+      this.props.sidebarIsOpen
+    ) {
       this.props.closeSidebar();
     }
   }
@@ -93,8 +97,9 @@ class Root extends Component<Props, {}> {
 
 // MARK: Redux
 
-function mapStateToProps({ theme, snoowrap }: RootState): StateProps {
+function mapStateToProps({ sidebar, theme, snoowrap }: RootState): StateProps {
   return {
+    sidebarIsOpen: sidebar.open,
     theme: theme.colors,
     isLoading: snoowrap.isLoading,
     errorMsg: snoowrap.errorMsg,
