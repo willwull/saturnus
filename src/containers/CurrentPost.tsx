@@ -9,6 +9,7 @@ import { Submission } from "snoowrap";
 import { RootState, DispatchType } from "../reducers";
 import { postVote } from "../actions/voting";
 import { PostsState } from "../reducers/posts";
+import ImageMessage from "../components/ImageMessage";
 
 // MARK: Types
 
@@ -67,7 +68,12 @@ class CurrentPost extends Component<Props, {}> {
   }
 
   render() {
-    const { isLoading, post, voteOnPost, isModal } = this.props;
+    const { errorMsg, isLoading, post, voteOnPost, isModal } = this.props;
+
+    if (errorMsg) {
+      console.error(errorMsg);
+      return <ImageMessage page={"Bug"} />;
+    }
 
     if (isLoading || !post) {
       return <Loading type="regular" />;
