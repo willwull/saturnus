@@ -3,7 +3,7 @@ import theme, { ThemeState } from "./theme";
 import subreddits, { SubredditState } from "./subreddits";
 import snoowrap, { SnoowrapState } from "./snoowrap";
 import posts, { PostsState } from "./posts";
-import currentPost from "./currentPost";
+import currentPost, { CurrentPostState } from "./currentPost";
 import user, { UserState } from "./user";
 import sidebar from "./sidebar";
 import { ThunkDispatch } from "redux-thunk";
@@ -15,7 +15,7 @@ export type RootState = {
   subreddits: SubredditState;
   posts: PostsState;
   snoowrap: SnoowrapState;
-  currentPost: any; // TODO
+  currentPost: CurrentPostState;
   user: UserState;
   search: SearchState;
 };

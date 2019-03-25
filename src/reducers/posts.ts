@@ -8,6 +8,7 @@ import { POST_VOTE } from "../actions/voting";
 import { USER_SIGN_OUT } from "../actions/user";
 import { Submission, Listing } from "snoowrap";
 import { RECEIVE_POST_SEARCH } from "../actions/search";
+import { RECEIVE_CURRENT_POST } from "../actions/currentPost";
 
 // MARK: Types
 
@@ -22,7 +23,7 @@ export type PostsSortMode =
 
 export type PostsTimes = "all" | "hour" | "day" | "week" | "month" | "year";
 
-type IdPostDict = {
+export type IdPostDict = {
   [key: string]: Submission;
 };
 
@@ -131,6 +132,15 @@ export default function posts(
   const subreddit = action.subreddit || "";
 
   switch (action.type) {
+    case RECEIVE_CURRENT_POST:
+      const newPost = action.post as Submission;
+      return {
+        ...state,
+        byId: {
+          ...state.byId,
+          [newPost.id]: newPost,
+        },
+      };
     case RECEIVE_POST_SEARCH:
       return {
         ...state,
