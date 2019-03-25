@@ -11,19 +11,27 @@ import { closeSidebar } from "./actions/sidebar";
 import * as LocalCache from "./LocalCache";
 import App from "./App";
 import { UserState } from "./reducers/user";
-import { ThemeColors, ThemeState } from "./reducers/theme";
-import { SnoowrapState } from "./reducers/snoowrap";
+import { ThemeColors } from "./reducers/theme";
+import { RootState } from "./reducers";
 
-type Props = {
-  user: UserState;
+// MARK: Types
+
+type StateProps = {
   theme: ThemeColors;
-  errorMsg: string;
   isLoading: boolean;
+  errorMsg: string;
+};
+
+type DispatchProps = {
   closeSidebar: () => void;
   createSnoowrap: () => void;
   createAuthSnoowrap: (code: string) => void;
   createRefreshSnoowrap: (refreshToken: string) => void;
-} & RouteComponentProps;
+};
+
+type Props = StateProps & DispatchProps & RouteComponentProps;
+
+// MARK: Component
 
 class Root extends Component<Props, {}> {
   componentDidMount() {
@@ -83,24 +91,17 @@ class Root extends Component<Props, {}> {
   }
 }
 
-function mapStateToProps({
-  theme,
-  snoowrap,
-  user,
-}: {
-  theme: ThemeState;
-  snoowrap: SnoowrapState;
-  user: UserState;
-}) {
+// MARK: Redux
+
+function mapStateToProps({ theme, snoowrap }: RootState): StateProps {
   return {
     theme: theme.colors,
-    user,
     isLoading: snoowrap.isLoading,
     errorMsg: snoowrap.errorMsg,
   };
 }
 
-function mapDispatchToProps(dispatch: Function) {
+function mapDispatchToProps(dispatch: Function): DispatchProps {
   return {
     createSnoowrap: () => {
       dispatch(initSnoowrap());
