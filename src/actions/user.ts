@@ -7,6 +7,8 @@ import { Action } from "redux";
 import { RootState } from "../reducers";
 import { RedditUser, Listing, Submission, Comment } from "snoowrap";
 
+// MARK: Types
+
 export const USER_SIGN_OUT = "USER_SIGN_OUT";
 export const SET_USER_STATUS = "SET_USER_STATUS";
 export const REQUEST_USER = "REQUEST_USER";
@@ -20,6 +22,9 @@ export const REQUEST_MY_SAVED_CONTENT = "REQUEST_MY_SAVED_CONTENT";
 export const REQUST_MORE_SAVED_CONTENT = "REQUEST_MORE_SAVED_CONTENT";
 export const RECEIVE_MY_SAVED_CONTENT = "RECEIVE_MY_SAVED_CONTENT";
 export const DID_SAVE_CONTENT = "DID_SAVE_CONTENT";
+export const DID_UNSAVE_CONTENT = "DID_UNSAVE_CONTENT";
+
+// MARK: Actions
 
 function setUser(user: RedditUser) {
   return { type: RECEIVED_USER, user };
@@ -31,6 +36,8 @@ export function setUserStatus(loggedIn: boolean) {
     status: loggedIn,
   };
 }
+
+// MARK: Thunk actions
 
 export function fetchUser() {
   return (dispatch: ThunkDispatch<UserState, void, Action>) => {
@@ -134,12 +141,17 @@ export function fetchMoreSavedContent() {
     dispatch: ThunkDispatch<UserState, void, Action>,
     getState: () => RootState,
   ) => {
-    const { content } = getState().user.savedContent;
+    const { originalListing } = getState().user.savedContent;
     dispatch({ type: REQUST_MORE_SAVED_CONTENT });
+
+    if (!originalListing) {
+      console.error("Tried to fetch more saved content, but listing was null");
+      return;
+    }
 
     const oldAndNewContent: Listing<
       Comment | Submission
-    > = await (content as any).fetchMore({
+    > = await originalListing.fetchMore({
       amount: 25,
       skipReplies: true,
     });
@@ -152,21 +164,35 @@ export function fetchMoreSavedContent() {
   };
 }
 
+async function saveApi(name: string, action: "save" | "unsave") {
+  const r = reddit.getSnoowrap();
+  try {
+    await r.oauthRequest({
+      uri: `/api/${action}`,
+      method: "post",
+      form: { id: name },
+    });
+  } catch (error) {
+    console.error(error);
+  }
+}
+
 export function saveContent(content: Submission | Comment) {
   return async (dispatch: ThunkDispatch<UserState, void, Action>) => {
+    const contentCopy = { ...content };
     if (!content.saved) {
-      await (content as any).save();
+      saveApi(content.name, "save");
+      contentCopy.saved = true;
       dispatch({
         type: DID_SAVE_CONTENT,
-        affectedContent: content,
-        saved: true,
+        affectedContent: contentCopy,
       });
     } else {
-      await (content as any).unsave();
+      saveApi(content.name, "unsave");
+      contentCopy.saved = false;
       dispatch({
-        type: DID_SAVE_CONTENT,
-        affectedContent: content,
-        saved: false,
+        type: DID_UNSAVE_CONTENT,
+        affectedContent: contentCopy,
       });
     }
   };

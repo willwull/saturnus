@@ -5,10 +5,16 @@ import {
   FETCH_POST_ERROR,
 } from "../actions/posts";
 import { POST_VOTE } from "../actions/voting";
-import { USER_SIGN_OUT } from "../actions/user";
+import {
+  USER_SIGN_OUT,
+  RECEIVE_MY_SAVED_CONTENT,
+  DID_SAVE_CONTENT,
+  DID_UNSAVE_CONTENT,
+} from "../actions/user";
 import { Submission, Listing } from "snoowrap";
 import { RECEIVE_POST_SEARCH } from "../actions/search";
 import { RECEIVE_CURRENT_POST } from "../actions/currentPost";
+import { contentIsPost, MixedContent } from "./user";
 
 // MARK: Types
 
@@ -146,6 +152,18 @@ export default function posts(
         ...state,
         byId: combineWithNewPosts(state.byId, action.posts),
       };
+    case RECEIVE_MY_SAVED_CONTENT:
+      return {
+        ...state,
+        byId: combineWithNewPosts(
+          state.byId,
+          action.content.filter(contentIsPost),
+        ),
+        bySubreddit: {
+          ...state.bySubreddit,
+          [subreddit]: postsInSubreddit(state.bySubreddit[subreddit], action),
+        },
+      };
     case RECEIVE_POSTS:
       return {
         ...state,
@@ -171,6 +189,16 @@ export default function posts(
         byId: {
           ...state.byId,
           [action.updatedPost.id]: action.updatedPost,
+        },
+      };
+    case DID_SAVE_CONTENT:
+    case DID_UNSAVE_CONTENT:
+      const content: MixedContent = action.affectedContent;
+      return {
+        ...state,
+        byId: {
+          ...state.byId,
+          [content.id]: content as Submission,
         },
       };
     case USER_SIGN_OUT:
