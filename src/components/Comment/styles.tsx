@@ -106,7 +106,7 @@ export const CommentBody = styled.div`
     word-break: break-word;
   }
 
-  & > .md > p:last-child {
+  & .md > p:last-child {
     margin-bottom: 0;
   }
 `;
