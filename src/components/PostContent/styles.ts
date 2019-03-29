@@ -1,5 +1,6 @@
 import styled, { css } from "styled-components";
 import { transparentize } from "polished";
+import ImgWithIntrinsicSize from "../ImgWithIntrinsicSize";
 
 export const ContentOverflowGradient = styled.div`
   pointer-events: none;
@@ -32,6 +33,14 @@ const MediaPreviewStyles = css`
 
 export const ImgPreview = styled.img`
   ${MediaPreviewStyles};
+`;
+
+export const ImgPreviewContainer = styled.div`
+  max-height: var(--max-content-height);
+
+  img {
+    ${MediaPreviewStyles};
+  }
 `;
 
 type TextProps = {
