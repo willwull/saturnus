@@ -1,4 +1,4 @@
-import React, { useEffect, useRef } from "react";
+import React, { useEffect, useRef, Fragment } from "react";
 import { ModalContainer, ModalContent, CloseButton } from "./styles";
 import Icon from "../Icon";
 import smoothScrollTo, { sleep } from "../../utils";
@@ -70,22 +70,31 @@ function Modal({ isOpen, hideFunc, children }: Props) {
   }
 
   return (
-    <ModalContainer
-      className={`modal ${isOpen ? "open" : "closed"}`}
-      onClick={hideModal}
-      ref={containerRef}
-    >
-      <ModalContent
+    <Fragment>
+      <ModalContainer
         className={`modal ${isOpen ? "open" : "closed"}`}
-        onClick={contentClickHandler}
+        onClick={hideModal}
+        ref={containerRef}
       >
-        <div className="scroll-anchor" ref={scrollAnchorRef} />
-        {children}
-      </ModalContent>
-      <CloseButton onClick={hideModal}>
-        <Icon icon="far times" />
-      </CloseButton>
-    </ModalContainer>
+        <ModalContent
+          className={`modal ${isOpen ? "open" : "closed"}`}
+          onClick={contentClickHandler}
+        >
+          <div className="scroll-anchor" ref={scrollAnchorRef} />
+          {children}
+        </ModalContent>
+      </ModalContainer>
+
+      {/*
+        If this button is inside ModalContainer, it will jump around when
+        scrolling up and down on iPhone
+      */}
+      {isOpen && (
+        <CloseButton onClick={hideModal}>
+          <Icon icon="far times" />
+        </CloseButton>
+      )}
+    </Fragment>
   );
 }
 
