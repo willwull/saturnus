@@ -48,7 +48,7 @@ function ImgWithIntrinsicSize({
   className,
   ...imgProps
 }: Props) {
-  const classes = className + " imgIntrinsic";
+  const classes = `${className} imgIntrinsic`;
   return (
     <div style={getContainerStyles({ width, height })}>
       <div
