@@ -4,6 +4,13 @@ import parse, { ParserOptions } from "html-react-parser";
 import domToReact from "html-react-parser/lib/dom-to-react";
 import { splitUrl } from "../../utils";
 import Icon from "../Icon";
+import styled from "styled-components";
+
+const TextContentStyles = styled.div`
+  a {
+    color: ${props => props.theme.primary};
+  }
+`;
 
 type Props = {
   children: string;
@@ -53,7 +60,11 @@ class TextContent extends Component<Props, {}> {
   render() {
     // post.selftext_html and comment.body_html can be null
     const str = this.props.children || "";
-    return <Fragment>{parse(str, TextContent.ParserOptions)}</Fragment>;
+    return (
+      <TextContentStyles>
+        {parse(str, TextContent.ParserOptions)}
+      </TextContentStyles>
+    );
   }
 }
 

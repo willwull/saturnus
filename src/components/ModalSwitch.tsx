@@ -44,7 +44,6 @@ class ModalSwitch extends Component<Props, {}> {
 
     if (location.state && location.state.modal) {
       // if modal is open, we disable scrolling on the main content
-      console.log("adding no-scroll");
       document.body.classList.add("no-scroll");
     } else {
       document.body.classList.remove("no-scroll");
@@ -58,8 +57,6 @@ class ModalSwitch extends Component<Props, {}> {
       location.state.modal &&
       this.previousLocation !== location
     ); // not initial render
-
-    console.log("Is modal:", isModal);
 
     return (
       <Fragment>

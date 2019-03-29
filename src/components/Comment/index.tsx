@@ -17,14 +17,8 @@ import {
   CommentScrollAnchor,
 } from "./styles";
 
-// Snoowrap type is wrong??
-export interface CommentInterface extends CommentType {
-  depth: number;
-  is_submitter: boolean;
-}
-
-type Props = {
-  comment: CommentInterface;
+export type Props = {
+  comment: CommentType;
   isModal: boolean; // used to determine the collapse scroll offset
 };
 
@@ -80,9 +74,9 @@ class Comment extends Component<Props, State> {
     // depending on the mode of the post page
     const { isModal } = this.props;
 
-    const platinumCounter = (comment as any).gildings.gid_3;
-    const goldCounter = (comment as any).gildings.gid_2;
-    const silverCounter = (comment as any).gildings.gid_1;
+    const platinumCounter = comment.gildings.gid_3;
+    const goldCounter = comment.gildings.gid_2;
+    const silverCounter = comment.gildings.gid_1;
 
     return (
       <CommentComponent>

@@ -1,10 +1,12 @@
 import React from "react";
+import Page from "../components/Page";
+import ImageMessage from "../components/ImageMessage";
 
 function NotfoundPage() {
   return (
-    <div className="main-content">
-      <h1>404 page not found</h1>
-    </div>
+    <Page>
+      <ImageMessage page={"404"} />
+    </Page>
   );
 }
 

@@ -1,5 +1,4 @@
 import styled, { css } from "styled-components";
-import { transparentize } from "polished";
 
 export const CommentComponent = styled.div`
   position: relative;
@@ -115,4 +114,23 @@ export const CommentBody = styled.div`
 export const ChildWrapper = styled.div`
   margin-top: 30px;
   padding-left: 5px;
+`;
+
+export const StandaloneCommentWrapper = styled.div`
+  position: relative; /* needed for click target */
+  margin-bottom: 20px;
+  border-radius: 5px;
+  overflow: hidden;
+  padding: 15px 0;
+  background: ${props => props.theme.contentBg};
+  color: ${props => props.theme.text};
+`;
+
+export const CommentContext = styled.div`
+  border-radius: 3px;
+  background: ${props => props.theme.body};
+  opacity: 0.7;
+  margin: 15px 20px 0 15px;
+  padding: 5px 10px;
+  line-height: 1.75;
 `;

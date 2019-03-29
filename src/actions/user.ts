@@ -5,7 +5,9 @@ import { ThunkDispatch } from "redux-thunk";
 import { UserState } from "../reducers/user";
 import { Action } from "redux";
 import { RootState } from "../reducers";
-import { RedditUser } from "snoowrap";
+import { RedditUser, Listing, Submission, Comment } from "snoowrap";
+
+// MARK: Types
 
 export const USER_SIGN_OUT = "USER_SIGN_OUT";
 export const SET_USER_STATUS = "SET_USER_STATUS";
@@ -15,6 +17,14 @@ export const RECEIVED_USER = "RECEIVED_USER";
 export const REQUEST_MY_SUBS = "REQUEST_MY_SUBS";
 export const RECEIVE_MY_SUBS = "RECEIVE_MY_SUBS";
 export const MY_SUBS_ERROR = "MY_SUBS_ERROR";
+
+export const REQUEST_MY_SAVED_CONTENT = "REQUEST_MY_SAVED_CONTENT";
+export const REQUST_MORE_SAVED_CONTENT = "REQUEST_MORE_SAVED_CONTENT";
+export const RECEIVE_MY_SAVED_CONTENT = "RECEIVE_MY_SAVED_CONTENT";
+export const DID_SAVE_CONTENT = "DID_SAVE_CONTENT";
+export const DID_UNSAVE_CONTENT = "DID_UNSAVE_CONTENT";
+
+// MARK: Actions
 
 function setUser(user: RedditUser) {
   return { type: RECEIVED_USER, user };
@@ -27,6 +37,8 @@ export function setUserStatus(loggedIn: boolean) {
   };
 }
 
+// MARK: Thunk actions
+
 export function fetchUser() {
   return (dispatch: ThunkDispatch<UserState, void, Action>) => {
     const r = reddit.getSnoowrap();
@@ -36,12 +48,8 @@ export function fetchUser() {
 
     // for some reason, writing this as async triggers a TS error
     return r.getMe().then(user => {
-      console.log(user);
-
       dispatch(setUser(user));
-
       LocalCache.storeLastActiveUser(user.name);
-
       return user;
     });
   };
@@ -75,7 +83,6 @@ export function fetchMySubs(options: SubFetchOptions = { skipCache: false }) {
       if (!options.skipCache) {
         const cachedSubs = LocalCache.getStoredSubs();
         if (cachedSubs && cachedSubs.length > 0) {
-          console.log(cachedSubs);
           dispatch({ type: RECEIVE_MY_SUBS, subscriptions: cachedSubs });
           return;
         }
@@ -88,12 +95,10 @@ export function fetchMySubs(options: SubFetchOptions = { skipCache: false }) {
         subscriptions = await r.getSubscriptions();
       } else {
         // get default subs if not logged in
-        console.log("User not logged in, fetching defaults");
         subscriptions = await r.getDefaultSubreddits();
       }
 
       subscriptions = await subscriptions.fetchAll();
-      console.log(subscriptions);
 
       if (state.user.loggedIn) {
         // if logged in user, cache their subscriptions
@@ -105,6 +110,89 @@ export function fetchMySubs(options: SubFetchOptions = { skipCache: false }) {
       console.error(error);
       dispatch({
         type: MY_SUBS_ERROR,
+      });
+    }
+  };
+}
+
+// MARK: Saved Content
+
+export function fetchSavedContent() {
+  return async (
+    dispatch: ThunkDispatch<UserState, void, Action>,
+    getState: () => RootState,
+  ) => {
+    dispatch({ type: REQUEST_MY_SAVED_CONTENT });
+
+    const userData = getState().user.data!;
+
+    const content = await userData.getSavedContent();
+
+    dispatch({
+      type: RECEIVE_MY_SAVED_CONTENT,
+      content,
+      hasMoreContent: !content.isFinished,
+    });
+  };
+}
+
+export function fetchMoreSavedContent() {
+  return async (
+    dispatch: ThunkDispatch<UserState, void, Action>,
+    getState: () => RootState,
+  ) => {
+    const { originalListing } = getState().user.savedContent;
+    dispatch({ type: REQUST_MORE_SAVED_CONTENT });
+
+    if (!originalListing) {
+      console.error("Tried to fetch more saved content, but listing was null");
+      return;
+    }
+
+    const oldAndNewContent: Listing<
+      Comment | Submission
+    > = await originalListing.fetchMore({
+      amount: 25,
+      skipReplies: true,
+    });
+
+    dispatch({
+      type: RECEIVE_MY_SAVED_CONTENT,
+      content: oldAndNewContent,
+      hasMoreContent: !oldAndNewContent.isFinished,
+    });
+  };
+}
+
+async function saveApi(name: string, action: "save" | "unsave") {
+  const r = reddit.getSnoowrap();
+  try {
+    await r.oauthRequest({
+      uri: `/api/${action}`,
+      method: "post",
+      form: { id: name },
+    });
+  } catch (error) {
+    console.error(error);
+  }
+}
+
+export function saveContent(content: Submission | Comment) {
+  return async (dispatch: ThunkDispatch<UserState, void, Action>) => {
+    const contentCopy = { ...content };
+    if (!content.saved) {
+      saveApi(content.name, "save");
+      contentCopy.saved = true;
+      dispatch({
+        type: DID_SAVE_CONTENT,
+        affectedContent: contentCopy,
+      });
+    } else {
+      saveApi(content.name, "unsave");
+      contentCopy.saved = false;
+      dispatch({
+        type: DID_UNSAVE_CONTENT,
+        affectedContent: contentCopy,
       });
     }
   };

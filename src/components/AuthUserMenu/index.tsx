@@ -4,9 +4,10 @@ import Dropdown from "../Dropdown";
 import Menu from "../Menu";
 import Icon from "../Icon";
 import { Wrapper } from "./styles";
+import { RedditUser } from "snoowrap";
 
 interface Props {
-  userData: any;
+  userData: RedditUser;
   signOut: (event: React.MouseEvent<HTMLLIElement>) => void;
 }
 
@@ -23,13 +24,14 @@ class AuthUserMenu extends Component<Props, {}> {
         <Menu.Item>
           <Icon icon="far star" fixedWidth /> {karma} karma
         </Menu.Item>
+        <Menu.Link to={`/user/${userData.name}/saved`}>
+          <Icon icon="far bookmark" fixedWidth /> Saved content
+        </Menu.Link>
         <Menu.Divider />
         <ThemeTogglerMenuItem />
-        <Menu.Item>
-          <a href="https://www.reddit.com/settings">
-            <Icon icon="far cog" fixedWidth /> Reddit preferences
-          </a>
-        </Menu.Item>
+        <Menu.A href="https://www.reddit.com/settings">
+          <Icon icon="far cog" fixedWidth /> Reddit preferences
+        </Menu.A>
         <Menu.Divider />
         <Menu.Item onClick={signOut}>
           <Icon icon="far sign-out" fixedWidth /> Sign out

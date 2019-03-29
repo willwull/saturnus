@@ -1,12 +1,18 @@
 {
   "defaultSeverity": "error",
-  "extends": ["tslint-config-airbnb", "tslint-config-prettier"],
+  "extends": [
+    "tslint-config-airbnb",
+    "tslint-config-prettier",
+    "tslint-react-hooks"
+  ],
   "jsRules": {},
   "rules": {
     "import-name": false,
     "object-shorthand-properties-first": false,
     "variable-name": [true, "allow-pascal-case"],
-    "function-name": false
+    "function-name": false,
+    "react-hooks-nesting": "error",
+    "no-this-assignment": false
   },
   "rulesDirectory": []
 }

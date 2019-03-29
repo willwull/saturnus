@@ -12,13 +12,22 @@ import PostFeed from "../components/PostFeed";
 import { postVote } from "../actions/voting";
 import { Submission } from "snoowrap";
 import { RootState, DispatchType } from "../reducers";
-import { PostsSortMode, PostsTimes } from "../reducers/posts";
+import {
+  PostsSortMode,
+  PostsTimes,
+  PostsInSubState,
+  mapIdsToPosts,
+  PostsState,
+} from "../reducers/posts";
+
+// MARK: Types
 
 type StateProps = {
   error: boolean;
   isLoading: boolean;
   isLoadingMore: boolean;
-  posts: Submission[];
+  postIds: string[];
+  postsState: PostsState;
   storedSortMode: PostsSortMode;
 };
 
@@ -39,6 +48,8 @@ type OwnProps = {
 
 type Props = OwnProps & StateProps & DispatchProps & RouteComponentProps;
 
+// MARK: Component
+
 class SubredditFeed extends Component<Props, {}> {
   static defaultProps: OwnProps = {
     subreddit: "",
@@ -51,6 +62,7 @@ class SubredditFeed extends Component<Props, {}> {
 
   componentDidUpdate(prevProps: Props) {
     if (this.props.location !== prevProps.location) {
+      console.log("Different location");
       this.loadPosts();
     }
   }
@@ -61,7 +73,7 @@ class SubredditFeed extends Component<Props, {}> {
       sortMode,
       storedSortMode,
       location,
-      posts,
+      postIds,
       history,
     } = this.props;
 
@@ -69,7 +81,7 @@ class SubredditFeed extends Component<Props, {}> {
     // we don't reload the feed unless the difference between the locations
     // is the post sort mode.
     if (
-      posts.length !== 0 &&
+      postIds.length !== 0 &&
       history.action === "POP" &&
       sortMode === storedSortMode
     ) {
@@ -98,7 +110,8 @@ class SubredditFeed extends Component<Props, {}> {
     const {
       isLoading,
       isLoadingMore,
-      posts,
+      postIds,
+      postsState,
       error,
       sortMode,
       subreddit,
@@ -112,6 +125,7 @@ class SubredditFeed extends Component<Props, {}> {
 
     const searchParams = new URLSearchParams(location.search);
     const timeSort = searchParams.get("t") || "";
+    const posts = mapIdsToPosts(postIds, postsState);
 
     return (
       <PostFeed
@@ -128,20 +142,29 @@ class SubredditFeed extends Component<Props, {}> {
   }
 }
 
+// MARK: Redux
+
 function mapStateToProps({ posts }: RootState, ownProps: OwnProps): StateProps {
-  const currentPosts = posts[ownProps.subreddit] || {
+  const currentPosts: PostsInSubState = posts.bySubreddit[
+    ownProps.subreddit
+  ] || {
     error: false,
     isLoading: false,
     isLoadingMore: false,
     items: [],
-    sortMode: "",
+    sortMode: "best",
   };
 
+  // Instead of directly passing a list of posts, we pass the postsState
+  // and the list of IDs. Mapping IDs to posts is a heavy operation, which we
+  // don't want to do each time the root state changes, so the render method
+  // takes care of mapping the IDs to posts
   const props = {
     error: currentPosts.error,
     isLoading: currentPosts.isLoading,
     isLoadingMore: currentPosts.isLoadingMore,
-    posts: currentPosts.items,
+    postIds: currentPosts.items,
+    postsState: posts,
     storedSortMode: currentPosts.sortMode,
   };
 

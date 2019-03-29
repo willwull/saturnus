@@ -13,20 +13,21 @@ import Flair from "../Flair";
 import GildingCounter from "../GildingCounter";
 import Icon from "../Icon";
 import Dropdown from "../Dropdown";
-import PostShareMenu from "./PostShareMenu";
+import PostDropDown from "./PostDropDown";
 import {
   UpvoteBtn,
   DownvoteBtn,
-  ShareButtonWrapper,
+  DropDownBtnWrapper,
   Score,
   NavClickTarget,
+  SavedIconWrapper,
 } from "./styles";
 import Desktop from "../Desktop";
 
 type Props = {
   post: Submission;
   expanded?: boolean;
-  voteOnPost: (post: Submission, vote: "up" | "down") => void;
+  voteOnPost?: (post: Submission, vote: "up" | "down") => void;
 };
 
 class Post extends React.Component<Props, {}> {
@@ -36,12 +37,12 @@ class Post extends React.Component<Props, {}> {
 
   upvote = () => {
     const { post, voteOnPost } = this.props;
-    voteOnPost(post, "up");
+    voteOnPost && voteOnPost(post, "up");
   };
 
   downvote = () => {
     const { post, voteOnPost } = this.props;
-    voteOnPost(post, "down");
+    voteOnPost && voteOnPost(post, "down");
   };
 
   render() {
@@ -69,6 +70,12 @@ class Post extends React.Component<Props, {}> {
 
     return (
       <ContentBox className="post-component">
+        {post.saved && (
+          <SavedIconWrapper className="mod">
+            <Icon icon="fas bookmark" />
+          </SavedIconWrapper>
+        )}
+
         <div className="score">
           <UpvoteBtn active={isUpvoted} onClick={this.upvote}>
             <Icon icon="arrow-up" />
@@ -158,14 +165,14 @@ class Post extends React.Component<Props, {}> {
               {post.subreddit.display_name}
             </Link>
 
-            <ShareButtonWrapper>
+            <DropDownBtnWrapper>
               <Dropdown
-                overlay={<PostShareMenu post={post} />}
+                overlay={<PostDropDown post={post} />}
                 placement="bottomRight"
               >
-                <Icon icon="share" /> Share
+                <Icon icon="fa ellipsis-h" />
               </Dropdown>
-            </ShareButtonWrapper>
+            </DropDownBtnWrapper>
 
             <span className="comments">
               <Icon icon="comment-alt" /> {shortenNumber(post.num_comments)}{" "}

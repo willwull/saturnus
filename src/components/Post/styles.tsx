@@ -15,9 +15,14 @@ export const NavClickTarget = styled(Link)`
   opacity: 0;
 `;
 
-export const ShareButtonWrapper = styled.div`
+export const DropDownBtnWrapper = styled.div`
   margin-left: auto;
-  margin-right: 24px;
+  margin-right: 14px;
+
+  button {
+    font-size: 1.5em;
+    width: 44px;
+  }
 `;
 
 export const VoteButton = styled.button`
@@ -25,7 +30,7 @@ export const VoteButton = styled.button`
   padding: 3px 6px;
 `;
 
-export const getVoteColor = (vote?: boolean) => {
+export const getVoteColor = (vote: boolean | null) => {
   switch (vote) {
     case true:
       return "orange";
@@ -55,10 +60,17 @@ export const DownvoteBtn = styled(VoteButton)`
 `;
 
 type ScoreProps = {
-  vote?: boolean;
+  vote: boolean | null;
 };
 
 export const Score = styled.div`
   color: ${(props: ScoreProps) => getVoteColor(props.vote)};
   margin: 5px 0;
+`;
+
+export const SavedIconWrapper = styled.div`
+  position: absolute;
+  top: 0;
+  right: 20px;
+  font-size: 1.5em;
 `;

@@ -36,6 +36,8 @@ Menu.Item = styled.li`
 
 Menu.Link = Menu.Item.withComponent(Link);
 
+Menu.A = Menu.Item.withComponent("a");
+
 Menu.Divider = styled.hr`
   margin: 5px 0;
   opacity: 0.2;

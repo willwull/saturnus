@@ -8,12 +8,15 @@ import CommentFeed from "../components/CommentFeed";
 import { Submission } from "snoowrap";
 import { RootState, DispatchType } from "../reducers";
 import { postVote } from "../actions/voting";
-import { CommentInterface } from "../components/Comment";
+import { PostsState } from "../reducers/posts";
+import ImageMessage from "../components/ImageMessage";
+
+// MARK: Types
 
 type StateProps = {
   post: Submission;
   isLoading: boolean;
-  errorMsg: string;
+  errorMsg: string | null;
 };
 
 type OwnProps = {
@@ -37,6 +40,8 @@ type Props = StateProps &
   OwnProps &
   DispatchProps &
   RouteComponentProps<MatchParams>;
+
+// MARK: Component
 
 class CurrentPost extends Component<Props, {}> {
   static defaultProps: DefaultProps = {
@@ -63,30 +68,32 @@ class CurrentPost extends Component<Props, {}> {
   }
 
   render() {
-    const { isLoading, post, voteOnPost, isModal } = this.props;
+    const { errorMsg, isLoading, post, voteOnPost, isModal } = this.props;
 
-    if (isLoading || !post.id) {
+    if (errorMsg) {
+      console.error(errorMsg);
+      return <ImageMessage page={"Bug"} />;
+    }
+
+    if (isLoading || !post) {
       return <Loading type="regular" />;
     }
 
-    console.log(post);
     return (
       <React.Fragment>
         <Post post={post} expanded voteOnPost={voteOnPost} />
-
-        {/* Workaround until snoowrap types are fixed */}
-        <CommentFeed
-          comments={(post.comments as any) as CommentInterface[]}
-          isModal={!!isModal}
-        />
+        <CommentFeed comments={post.comments} isModal={!!isModal} />
       </React.Fragment>
     );
   }
 }
 
-function mapStateToProps({ currentPost }: RootState): StateProps {
+// MARK: Redux
+
+function mapStateToProps({ currentPost, posts }: RootState): StateProps {
+  const id = currentPost.postId;
   return {
-    post: currentPost.post,
+    post: posts.byId[id],
     isLoading: currentPost.isLoading,
     errorMsg: currentPost.errorMsg,
   };
