@@ -1,6 +1,19 @@
 import moment from "moment-mini";
 
 /**
+ * Returns a promise that resolves after timeMs milliseconds.
+ *
+ * @param timeMs
+ */
+export function sleep(timeMs = 300): Promise<void> {
+  return new Promise(resolve => {
+    setTimeout(() => {
+      resolve();
+    }, timeMs);
+  });
+}
+
+/**
  * Takes an url and checks if it links to an image
  * @param {string} url
  * @returns {boolean}
@@ -126,4 +139,95 @@ export function debounce(func: Function, timeout = 500) {
  */
 export function numberWithSpaces(num: number) {
   return num.toString().replace(/\B(?=(\d{3})+(?!\d))/g, " ");
+}
+
+/**
+ * Takes in an element and smooth scrolls vertically it to scrollTarget.
+ * Taken from: https://coderwall.com/p/hujlhg/smooth-scrolling-without-jquery
+ *
+ * Usage:
+ * smoothScroll(element, 400, 300); <-- scroll to 400px from the top
+ *
+ * smoothScroll(element, element.scrollTop + 300, 300); <-- scroll 300px from current position
+ *
+ * @param element
+ * @param scrollTarget
+ * @param animDuration
+ */
+export default function smoothScrollTo(
+  element: Element,
+  scrollTarget: number,
+  animDuration: number,
+): Promise<void> {
+  const target = Math.round(scrollTarget);
+  const duration = Math.round(animDuration);
+
+  if (duration < 0) {
+    return Promise.reject(new Error("bad duration"));
+  }
+  if (duration === 0) {
+    element.scrollTop = target;
+    return Promise.resolve();
+  }
+
+  const startTime = Date.now();
+  const endTime = startTime + duration;
+
+  const startTop = element.scrollTop;
+  const distance = target - startTop;
+
+  // based on http://en.wikipedia.org/wiki/Smoothstep
+  const smoothStep = (start: number, end: number, point: number) => {
+    if (point <= start) {
+      return 0;
+    }
+    if (point >= end) {
+      return 1;
+    }
+    const x = (point - start) / (end - start); // interpolation
+    return x * x * (3 - 2 * x);
+  };
+
+  return new Promise(resolve => {
+    // This is to keep track of where the element's scrollTop is
+    // supposed to be, based on what we're doing
+    let previousTop = element.scrollTop;
+
+    // This is like a think function from a game loop
+    const scrollFrame = () => {
+      if (element.scrollTop !== previousTop) {
+        // reject(new Error("interrupted"));
+        // ^ can be used if you need to detect if
+        // scroll has been interrupted
+        return;
+      }
+
+      // set the scrollTop for this frame
+      const now = Date.now();
+      const point = smoothStep(startTime, endTime, now);
+      const frameTop = Math.round(startTop + distance * point);
+      element.scrollTop = frameTop;
+
+      // check if we're done!
+      if (now >= endTime) {
+        resolve();
+        return;
+      }
+
+      // If we were supposed to scroll but didn't, then we
+      // probably hit the limit, so consider it done; not
+      // interrupted.
+      if (element.scrollTop === previousTop && element.scrollTop !== frameTop) {
+        resolve();
+        return;
+      }
+      previousTop = element.scrollTop;
+
+      // schedule next frame for execution
+      setTimeout(scrollFrame, 0);
+    };
+
+    // boostrap the animation process
+    setTimeout(scrollFrame, 0);
+  });
 }

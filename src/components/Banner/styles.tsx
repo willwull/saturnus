@@ -94,3 +94,8 @@ export const Fallback = styled.div`
   font-size: 60px;
   color: white;
 `;
+
+export const ReadMoreBtn = styled.button`
+  opacity: 0.5;
+  color: ${props => props.theme.primary};
+`;
