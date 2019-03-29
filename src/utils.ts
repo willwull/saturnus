@@ -1,4 +1,18 @@
 import moment from "moment-mini";
+import { useRef, useEffect } from "react";
+
+/**
+ * Custom hook that gives the previous value.
+ *
+ * @param value
+ */
+export function usePrevious<T>(value: T) {
+  const ref = useRef<T>(null);
+  useEffect(() => {
+    (ref as any).current = value;
+  });
+  return ref.current;
+}
 
 /**
  * Returns a promise that resolves after timeMs milliseconds.

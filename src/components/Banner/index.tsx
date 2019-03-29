@@ -1,4 +1,5 @@
-import React, { Fragment, useState } from "react";
+import React, { Fragment, useState, useRef, useEffect } from "react";
+import { withRouter, RouteComponentProps } from "react-router";
 import { Subreddit } from "snoowrap";
 import SubredditIcon from "./SubredditIcon";
 import {
@@ -11,12 +12,12 @@ import {
 } from "./styles";
 import { PadOnNarrow } from "../Page";
 import PrimaryButton from "../Buttons/PrimaryButton";
-import { numberWithSpaces } from "../../utils";
+import { numberWithSpaces, usePrevious } from "../../utils";
 import TextContent from "../TextContent";
 import Icon from "../Icon";
 import Modal from "../Modal";
 
-type Props = {
+type OwnProps = {
   data: Subreddit | null;
   isLoading: boolean;
   isLoadingSubscription: boolean;
@@ -25,14 +26,27 @@ type Props = {
   subscribe: (sub: Subreddit, action: "sub" | "unsub") => void;
 };
 
+type Props = OwnProps & RouteComponentProps;
+
 function Banner({
   data,
   isLoading,
   isLoadingSubscription,
   subscribe,
   isLoggedIn,
+  location,
 }: Props) {
   const [modalIsOpen, setModalState] = useState(false);
+  const prevLocation = usePrevious(location);
+
+  useEffect(
+    () => {
+      if (location !== prevLocation) {
+        setModalState(false);
+      }
+    },
+    [location],
+  );
 
   function openModal() {
     setModalState(true);
@@ -110,4 +124,4 @@ function Banner({
   );
 }
 
-export default Banner;
+export default withRouter(Banner);
