@@ -7,13 +7,29 @@ export const BannerWrapper = styled.div`
 
 type BannerImgProps = {
   imgSrc: string;
+  bgColor: string;
 };
+
+function bannerImg(src: string) {
+  if (src !== "") {
+    return `url(${src})`;
+  }
+  return "";
+}
+
+function bannerBgColor(color: string, fallback: string) {
+  if (color !== "") {
+    return color;
+  }
+  return fallback;
+}
 
 export const BannerImg = styled.div`
   width: 100%;
   height: 150px;
-  background-color: ${props => props.theme.primary};
-  background-image: ${(props: BannerImgProps) => `url(${props.imgSrc})`};
+  background-color: ${(props: any) =>
+    bannerBgColor(props.bgColor, props.theme.primary)};
+  background-image: ${(props: BannerImgProps) => bannerImg(props.imgSrc)};
   background-size: cover;
   background-position: center;
   display: flex;

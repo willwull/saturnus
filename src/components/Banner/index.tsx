@@ -57,7 +57,7 @@ function Banner({
   }
 
   if (data === null) {
-    return <BannerImg imgSrc="" />;
+    return <BannerImg imgSrc="" bgColor="" />;
   }
 
   function onSubscribeClick() {
@@ -93,7 +93,7 @@ function Banner({
 
   return (
     <BannerWrapper>
-      <BannerImg imgSrc={imageSrc} />
+      <BannerImg imgSrc={imageSrc} bgColor={data.banner_background_color} />
       {!isLoading && (
         <Fragment>
           <InfoContainer>
