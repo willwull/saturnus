@@ -24,6 +24,7 @@ const PostPageWrapper = styled.div`
   animation: ${fadeInAnim} 300ms;
   animation-fill-mode: forwards;
   -webkit-overflow-scrolling: touch;
+  box-shadow: 0px 0px 40px 0px rgba(0, 0, 0, 0.2);
 `;
 
 const Page = styled.div`
