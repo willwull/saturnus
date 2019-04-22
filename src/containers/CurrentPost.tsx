@@ -8,7 +8,6 @@ import CommentFeed from "../components/CommentFeed";
 import { Submission } from "snoowrap";
 import { RootState, DispatchType } from "../reducers";
 import { postVote } from "../actions/voting";
-import { PostsState } from "../reducers/posts";
 import ImageMessage from "../components/ImageMessage";
 
 // MARK: Types
