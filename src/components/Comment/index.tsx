@@ -1,7 +1,6 @@
 import React, { Component, Fragment } from "react";
 import { Comment as CommentType } from "snoowrap";
 import scrollIntoView from "smooth-scroll-into-view-if-needed";
-import moment from "moment-mini";
 
 import { shortenNumber, shortTimeDiff } from "../../utils";
 import GildingCounter from "../GildingCounter";
@@ -15,6 +14,7 @@ import {
   Collapser,
   CollapseStrip,
   CommentScrollAnchor,
+  MoreCommentsBtn,
 } from "./styles";
 
 export type Props = {
@@ -24,11 +24,13 @@ export type Props = {
 
 interface State {
   isCollapsed: boolean;
+  isLoadingMore: boolean;
 }
 
 class Comment extends Component<Props, State> {
-  state = {
+  state: State = {
     isCollapsed: false,
+    isLoadingMore: false,
   };
 
   scrollRef = React.createRef<HTMLDivElement>();
@@ -48,9 +50,22 @@ class Comment extends Component<Props, State> {
     );
   };
 
+  onLoadMoreClick = async () => {
+    // TODO: Make this better maybe. Directly modifying the state is a bit ugly
+    this.setState({ isLoadingMore: true });
+    const newAndOldReplies = await this.props.comment.replies.fetchMore({
+      append: true,
+      amount: 20,
+    });
+    this.setState({ isLoadingMore: false });
+    this.props.comment.replies = newAndOldReplies;
+    (this.props.comment.replies as any)._more.count -= 20;
+    this.forceUpdate();
+  };
+
   render() {
     const { comment } = this.props;
-    if (comment.depth > 6) {
+    if (comment.depth > 15) {
       return null;
     }
 
@@ -77,6 +92,11 @@ class Comment extends Component<Props, State> {
     const platinumCounter = comment.gildings.gid_3;
     const goldCounter = comment.gildings.gid_2;
     const silverCounter = comment.gildings.gid_1;
+
+    const moreCommentsCount =
+      ((comment.replies as any)._more &&
+        (comment.replies as any)._more.count) ||
+      0;
 
     return (
       <CommentComponent>
@@ -128,12 +148,20 @@ class Comment extends Component<Props, State> {
             <TextContent>{comment.body_html}</TextContent>
 
             {comment.replies.length !== 0 &&
-              comment.depth !== 5 &&
-              comment.replies.map((reply: any) => (
+              comment.replies.map(reply => (
                 <ChildWrapper key={reply.id}>
                   <Comment {...this.props} comment={reply} />
                 </ChildWrapper>
               ))}
+
+            {moreCommentsCount > 0 && (
+              <MoreCommentsBtn
+                disabled={this.state.isLoadingMore}
+                onClick={this.onLoadMoreClick}
+              >
+                Load {moreCommentsCount} more comments
+              </MoreCommentsBtn>
+            )}
           </CommentBody>
         </div>
       </CommentComponent>

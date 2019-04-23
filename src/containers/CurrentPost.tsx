@@ -8,7 +8,6 @@ import CommentFeed from "../components/CommentFeed";
 import { Submission } from "snoowrap";
 import { RootState, DispatchType } from "../reducers";
 import { postVote } from "../actions/voting";
-import { PostsState } from "../reducers/posts";
 import ImageMessage from "../components/ImageMessage";
 
 // MARK: Types
@@ -72,17 +71,27 @@ class CurrentPost extends Component<Props, {}> {
 
     if (errorMsg) {
       console.error(errorMsg);
-      return <ImageMessage page={"Bug"} />;
+      return <ImageMessage page="Bug" />;
     }
 
-    if (isLoading || !post) {
+    if (!post) {
       return <Loading type="regular" />;
+    }
+
+    const showCommentSpinner = isLoading && post.comments.length === 0;
+    let commentContent;
+    if (showCommentSpinner) {
+      commentContent = <Loading type="regular" />;
+    } else {
+      commentContent = (
+        <CommentFeed comments={post.comments} isModal={!!isModal} />
+      );
     }
 
     return (
       <React.Fragment>
         <Post post={post} expanded voteOnPost={voteOnPost} />
-        <CommentFeed comments={post.comments} isModal={!!isModal} />
+        {commentContent}
       </React.Fragment>
     );
   }

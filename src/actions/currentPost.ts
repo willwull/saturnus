@@ -11,12 +11,18 @@ export const ERROR_CURRENT_POST = "ERROR_CURRENT_POST";
 
 function shouldFetch(state: RootState, postId: string) {
   const {
-    currentPost: { postId: storedPostId, receivedAt },
+    currentPost: { receivedAt },
   } = state;
 
-  if (storedPostId === "" || storedPostId !== postId) return true;
+  const previousFetchTime = receivedAt[postId];
+  if (!previousFetchTime) {
+    // if we haven't fetched the full post yet, we should do it
+    return true;
+  }
 
-  const then = moment(receivedAt || Date());
+  // otherwise, we only do it if 10 minutes have passed, in order
+  // to save on network requests
+  const then = moment(previousFetchTime);
   const diff = moment().diff(then, "minutes");
   return diff > 10;
 }

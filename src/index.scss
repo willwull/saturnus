@@ -83,3 +83,20 @@ blockquote {
 .main-content {
   margin-top: 70px;
 }
+
+/** ImgWithIntrinsicSize */
+
+.imgIntrinsicContainer {
+  /* .img child is relative to this */
+  position: relative;
+}
+
+.imgIntrinsic {
+  /* Relative to .container parent */
+  position: absolute;
+  width: 100%;
+  height: 100%;
+
+  /* Incase we inherit text alignment other than `left`, force the image into left position. */
+  left: 0;
+}

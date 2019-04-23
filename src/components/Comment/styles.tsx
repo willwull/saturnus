@@ -25,6 +25,7 @@ export const CommentScrollAnchor = styled.div`
 
 // rainbow colors
 const commentColors = [
+  "#cccccc",
   "#df5141",
   "#f09747",
   "#f2d25d",
@@ -133,4 +134,15 @@ export const CommentContext = styled.div`
   margin: 15px 20px 0 15px;
   padding: 5px 10px;
   line-height: 1.75;
+`;
+
+export const MoreCommentsBtn = styled.button`
+  margin-top: 15px;
+  font-size: 14px;
+  color: ${props => props.theme.primary};
+
+  &:disabled {
+    opacity: 0.5;
+    cursor: default;
+  }
 `;

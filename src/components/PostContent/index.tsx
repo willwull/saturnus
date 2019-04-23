@@ -10,8 +10,10 @@ import {
   ImgPreview,
   SelfText,
   RichMedia,
+  ImgPreviewContainer,
 } from "./styles";
 import "./PostContent.scss";
+import ImgWithIntrinsicSize from "../ImgWithIntrinsicSize";
 
 type Props = {
   post: Submission;
@@ -67,6 +69,7 @@ class PostContent extends Component<Props, State> {
               alt={post.title}
               height={post.preview.images[0].source.height}
             />
+
             <button className="warning-text" onClick={this.showImage}>
               <div className="warning-icon">
                 <Icon icon="fa eye" />
@@ -99,13 +102,30 @@ class PostContent extends Component<Props, State> {
     }
 
     // image
-    if (isImgUrl(post.url)) {
-      return <ImgPreview src={post.url} alt={post.title} />;
-    }
+    if (isImgUrl(post.url) || post.domain === "imgur.com") {
+      if (!post.preview) {
+        return "[Image has been deleted]";
+      }
 
-    // handle non-direct imgur links
-    if (post.domain === "imgur.com") {
-      return <ImgPreview src={`${post.url}.jpg`} alt={post.title} />;
+      const intrinsicSize = {
+        width: post.preview.images[0].source.width,
+        height: post.preview.images[0].source.height,
+      };
+
+      // handle non-direct imgur links
+      let src = post.url;
+      if (post.domain === "imgur.com") {
+        src = `${post.url}.jpg`;
+      }
+      return (
+        <ImgPreviewContainer>
+          <ImgWithIntrinsicSize
+            intrinsicSize={intrinsicSize}
+            src={src}
+            alt={post.title}
+          />
+        </ImgPreviewContainer>
+      );
     }
 
     // imgur gifv
