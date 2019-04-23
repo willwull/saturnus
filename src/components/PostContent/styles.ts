@@ -40,6 +40,7 @@ export const ImgPreviewContainer = styled.div`
 
   img {
     ${MediaPreviewStyles};
+    position: absolute;
   }
 `;
 
