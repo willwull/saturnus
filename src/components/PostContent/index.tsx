@@ -103,6 +103,10 @@ class PostContent extends Component<Props, State> {
 
     // image
     if (isImgUrl(post.url) || post.domain === "imgur.com") {
+      if (!post.preview) {
+        return "[Image has been deleted]";
+      }
+
       const intrinsicSize = {
         width: post.preview.images[0].source.width,
         height: post.preview.images[0].source.height,

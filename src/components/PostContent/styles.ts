@@ -37,6 +37,7 @@ export const ImgPreview = styled.img`
 
 export const ImgPreviewContainer = styled.div`
   max-height: var(--max-content-height);
+  overflow: hidden;
 
   img {
     ${MediaPreviewStyles};
