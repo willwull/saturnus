@@ -71,7 +71,7 @@ class CurrentPost extends Component<Props, {}> {
 
     if (errorMsg) {
       console.error(errorMsg);
-      return <ImageMessage page={"Bug"} />;
+      return <ImageMessage page="Bug" />;
     }
 
     if (!post) {

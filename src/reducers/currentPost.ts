@@ -7,12 +7,16 @@ import { Submission } from "snoowrap";
 
 // MARK: Types
 
+type IdDateDict = {
+  [key: string]: Date;
+};
+
 export type CurrentPostState = {
   postId: string;
   originalObj: Submission | null; // original snoowrap Submission
   isLoading: boolean;
   errorMsg: string | null;
-  receivedAt: Date | null;
+  receivedAt: IdDateDict;
 };
 
 // MARK: State and reducer
@@ -22,7 +26,7 @@ const defaultState: CurrentPostState = {
   originalObj: null,
   isLoading: false,
   errorMsg: null,
-  receivedAt: null,
+  receivedAt: {},
 };
 
 export default function currentPost(
@@ -43,7 +47,10 @@ export default function currentPost(
         isLoading: false,
         postId: (action.post as Submission).id,
         originalObj: action.post as Submission,
-        receivedAt: action.receivedAt,
+        receivedAt: {
+          ...state.receivedAt,
+          [action.post.id]: action.receivedAt,
+        },
       };
     case ERROR_CURRENT_POST:
       return { ...state, isLoading: false, errorMsg: action.errorMsg };
