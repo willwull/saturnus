@@ -123,21 +123,21 @@ class Comment extends Component<Props, State> {
               {shortTimeDiff(comment.created_utc)}
             </span>
 
-            {platinumCounter !== 0 && (
+            {platinumCounter > 0 && (
               <Fragment>
                 {" "}
                 <GildingCounter count={platinumCounter} type="platinum" />
               </Fragment>
             )}
 
-            {goldCounter !== 0 && (
+            {goldCounter > 0 && (
               <Fragment>
                 {" "}
                 <GildingCounter count={goldCounter} />
               </Fragment>
             )}
 
-            {silverCounter !== 0 && (
+            {silverCounter > 0 && (
               <Fragment>
                 {" "}
                 <GildingCounter count={silverCounter} type="silver" />
@@ -147,7 +147,7 @@ class Comment extends Component<Props, State> {
           <CommentBody isCollapsed={this.state.isCollapsed}>
             <TextContent>{comment.body_html}</TextContent>
 
-            {comment.replies.length !== 0 &&
+            {comment.replies.length > 0 &&
               comment.replies.map(reply => (
                 <ChildWrapper key={reply.id}>
                   <Comment {...this.props} comment={reply} />
