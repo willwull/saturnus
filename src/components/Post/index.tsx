@@ -64,9 +64,9 @@ class Post extends React.Component<Props, {}> {
       </NavClickTarget>
     );
 
-    const platinumCounter = (post as any).gildings.gid_3;
-    const goldCounter = (post as any).gildings.gid_2;
-    const silverCounter = (post as any).gildings.gid_1;
+    const platinumCounter = post.gildings.gid_3;
+    const goldCounter = post.gildings.gid_2;
+    const silverCounter = post.gildings.gid_1;
 
     return (
       <ContentBox className="post-component">
@@ -102,17 +102,17 @@ class Post extends React.Component<Props, {}> {
           )}
 
           {/* Platinum icon */}
-          {platinumCounter !== 0 && (
+          {platinumCounter > 0 && (
             <GildingCounter count={platinumCounter} type="platinum" />
           )}
 
           {/* Gilded icon */}
-          {goldCounter !== 0 && (
+          {goldCounter > 0 && (
             <GildingCounter count={goldCounter} type="gold" />
           )}
 
           {/* Silver icon */}
-          {silverCounter !== 0 && (
+          {silverCounter > 0 && (
             <GildingCounter count={silverCounter} type="silver" />
           )}
         </div>
