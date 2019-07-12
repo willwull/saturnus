@@ -4,6 +4,7 @@ import Page, { PadOnNarrow } from "../components/Page";
 import CurrentSearchResults, {
   SearchType,
 } from "../containers/CurrentSearchResults";
+import Helmet from "react-helmet";
 
 export type MatchParams = {
   subreddit: string;
@@ -31,6 +32,12 @@ function SubredditSearch({ location, match }: Props) {
 
   return (
     <Page>
+      <Helmet>
+        <title>
+          Search results for "{q}" in r/{subreddit}
+        </title>
+      </Helmet>
+
       <PadOnNarrow>
         Search results for "{q}" in r/{subreddit}:
       </PadOnNarrow>
