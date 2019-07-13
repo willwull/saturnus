@@ -4,6 +4,7 @@ import Page, { PadOnNarrow } from "../components/Page";
 import CurrentSearchResults, {
   SearchType,
 } from "../containers/CurrentSearchResults";
+import Helmet from "react-helmet";
 
 type Props = RouteComponentProps;
 
@@ -25,6 +26,10 @@ function Searchpage({ location }: Props) {
 
   return (
     <Page>
+      <Helmet>
+        <title>Search results for "{q}"</title>
+      </Helmet>
+
       <PadOnNarrow>Search results for "{q}":</PadOnNarrow>
       <CurrentSearchResults query={q} type={(type as SearchType) || ""} />
     </Page>

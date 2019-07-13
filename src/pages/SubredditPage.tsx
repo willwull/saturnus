@@ -7,6 +7,7 @@ import { PostsSortMode } from "../reducers/posts";
 import { RootState } from "../reducers";
 import ImageMessage from "../components/ImageMessage";
 import { connect } from "react-redux";
+import Helmet from "react-helmet";
 
 // MARK: Types
 
@@ -56,6 +57,10 @@ class SubredditPage extends Component<Props, {}> {
 
     return (
       <Page withBanner={shouldShowBanner}>
+        <Helmet>
+          <title>r/{subreddit}</title>
+        </Helmet>
+
         {shouldShowBanner && <SubredditBanner subreddit={subreddit} />}
         <SubredditFeed
           subreddit={subreddit || ""}

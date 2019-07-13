@@ -7,6 +7,7 @@ import { connect } from "react-redux";
 import Loading from "../components/Loading";
 import MySavedContent from "../containers/MySavedContent";
 import { Feed } from "../components/PostFeed/styles";
+import Helmet from "react-helmet";
 
 type StateProps = {
   user: UserState;
@@ -31,6 +32,10 @@ function SavedPosts({ user, match }: Props) {
     if (match.params.username === user.data.name) {
       return (
         <Page>
+          <Helmet>
+            <title>Saved content</title>
+          </Helmet>
+
           <Feed>
             <MySavedContent />
           </Feed>

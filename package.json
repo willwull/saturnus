@@ -1,6 +1,6 @@
 {
   "name": "saturnus",
-  "version": "0.7.3",
+  "version": "0.7.4",
   "private": true,
   "homepage": "https://saturnusapp.com",
   "dependencies": {
@@ -15,6 +15,7 @@
     "@types/randomcolor": "^0.5.0",
     "@types/react": "^16.7.17",
     "@types/react-dom": "^16.0.11",
+    "@types/react-helmet": "^5.0.8",
     "@types/react-redux": "^6.0.11",
     "@types/react-router-dom": "^4.3.1",
     "@types/snoowrap": "^1.15.3",
@@ -29,6 +30,7 @@
     "randomcolor": "^0.5.3",
     "react": "^16.8.4",
     "react-dom": "^16.8.4",
+    "react-helmet": "^5.2.1",
     "react-intersection-observer": "^6.3.1",
     "react-redux": "^5.0.7",
     "react-router-dom": "^4.2.2",

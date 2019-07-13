@@ -9,6 +9,7 @@ import { Submission } from "snoowrap";
 import { RootState, DispatchType } from "../reducers";
 import { postVote } from "../actions/voting";
 import ImageMessage from "../components/ImageMessage";
+import Helmet from "react-helmet";
 
 // MARK: Types
 
@@ -90,6 +91,10 @@ class CurrentPost extends Component<Props, {}> {
 
     return (
       <React.Fragment>
+        <Helmet>
+          <title>{post.title}</title>
+        </Helmet>
+
         <Post post={post} expanded voteOnPost={voteOnPost} />
         {commentContent}
       </React.Fragment>
