@@ -71,6 +71,11 @@ export const Title = styled.div`
   align-items: center;
   margin-top: 10px;
 
+  h1 {
+    display: flex;
+    align-items: center;
+  }
+
   @media (max-width: 600px) {
     h1 {
       font-size: 20px;

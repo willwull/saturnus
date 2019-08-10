@@ -16,6 +16,7 @@ import { numberWithSpaces, usePrevious } from "../../utils";
 import TextContent from "../TextContent";
 import Icon from "../Icon";
 import Modal from "../Modal";
+import StarSubBtn from "./StarSubBtn";
 
 type OwnProps = {
   data: Subreddit | null;
@@ -68,6 +69,10 @@ function Banner({
     subscribe(data!, "unsub");
   }
 
+  function toggleStarSub(isStarred: boolean) {
+    console.log(isStarred);
+  }
+
   const imageSrc = data.banner_background_image || data.banner_img;
 
   let btn;
@@ -100,7 +105,13 @@ function Banner({
             <PadOnNarrow>
               <SubredditIcon subreddit={data} />
               <Title>
-                <h1>{data.display_name_prefixed}</h1>
+                <h1>
+                  {data.display_name_prefixed}{" "}
+                  <StarSubBtn
+                    isStarred={data.user_has_favorited}
+                    onClick={toggleStarSub}
+                  />
+                </h1>
                 <div>{btn}</div>
               </Title>
               <SubStats>
