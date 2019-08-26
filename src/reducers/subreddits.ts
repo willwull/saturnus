@@ -5,6 +5,8 @@ import {
   REQUEST_SUBSCRIBE_TO_SUB,
   RECEIVED_SUBSCRIBE_TO_SUB,
   RECEIVED_UNSUBSCRIBE_TO_SUB,
+  REQUEST_FAVORITE_SUBREDDIT,
+  ADDED_FAVORITE_SUBREDDIT,
 } from "../actions/subreddits";
 import { Subreddit } from "snoowrap";
 
@@ -59,6 +61,8 @@ export default function subreddits(
     case REQUEST_SUBSCRIBE_TO_SUB:
     case RECEIVED_SUBSCRIBE_TO_SUB:
     case RECEIVED_UNSUBSCRIBE_TO_SUB:
+    case REQUEST_FAVORITE_SUBREDDIT:
+    case ADDED_FAVORITE_SUBREDDIT:
     case REQUEST_SUBREDDIT:
     case RECEIVE_SUBREDDIT:
       return {

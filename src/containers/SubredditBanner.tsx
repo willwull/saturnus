@@ -1,6 +1,10 @@
 import React, { Component } from "react";
 import { connect } from "react-redux";
-import { fetchSubreddit, subscribeToSub } from "../actions/subreddits";
+import {
+  fetchSubreddit,
+  subscribeToSub,
+  favoriteSubreddit,
+} from "../actions/subreddits";
 import Banner from "../components/Banner";
 import { Subreddit } from "snoowrap";
 import { RootState, DispatchType } from "../reducers";
@@ -16,6 +20,7 @@ type StateProps = {
 type DispatchProps = {
   getSub: (subredditName: string) => void;
   subscribe: (subreddit: Subreddit, action: "sub" | "unsub") => void;
+  favorite: (subredditName: string, makeFavorite: boolean) => void;
 };
 
 type OwnProps = {
@@ -45,6 +50,7 @@ class SubredditBanner extends Component<Props, {}> {
       error,
       subscribe,
       isLoggedIn,
+      favorite,
     } = this.props;
     return (
       <Banner
@@ -54,6 +60,7 @@ class SubredditBanner extends Component<Props, {}> {
         error={error}
         subscribe={subscribe}
         isLoggedIn={isLoggedIn}
+        favorite={favorite}
       />
     );
   }
@@ -83,6 +90,9 @@ function mapDispatchToProps(dispatch: DispatchType): DispatchProps {
     },
     subscribe: (subreddit, action) => {
       dispatch(subscribeToSub(subreddit, action));
+    },
+    favorite: (subredditName, makeFavorite) => {
+      dispatch(favoriteSubreddit(subredditName, makeFavorite));
     },
   };
 }

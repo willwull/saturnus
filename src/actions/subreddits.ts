@@ -17,6 +17,9 @@ export const REQUEST_SUBSCRIBE_TO_SUB = "REQUEST_SUBSCRIBE_TO_SUB";
 export const RECEIVED_SUBSCRIBE_TO_SUB = "RECEIVED_SUBSCRIBE_TO_SUB";
 export const RECEIVED_UNSUBSCRIBE_TO_SUB = "RECEIVED_UNSUBSCRIBE_TO_SUB";
 
+export const REQUEST_FAVORITE_SUBREDDIT = "REQUEST_FAVORITE_SUBREDDIT";
+export const ADDED_FAVORITE_SUBREDDIT = "ADDED_FAVORITE_SUBREDDIT";
+
 // MARK: Actions
 
 function receiveSubreddit(subreddit: string, data: Subreddit) {
@@ -103,5 +106,42 @@ export function subscribeToSub(subreddit: Subreddit, action: "sub" | "unsub") {
       console.error("Error when subscribing");
       console.error(error);
     }
+  };
+}
+
+// MARK: Favorite actions
+
+function favorite(subredditName: string, makeFavorite: boolean) {
+  const r = reddit.getSnoowrap();
+  return r.oauthRequest({
+    uri: "/api/favorite",
+    method: "post",
+    form: {
+      make_favorite: makeFavorite,
+      sr_name: subredditName,
+    },
+  });
+}
+
+export function favoriteSubreddit(
+  subredditName: string,
+  makeFavorite: boolean,
+) {
+  return async (dispatch: ThunkDispatch<SubredditState, void, Action>) => {
+    dispatch({
+      type: REQUEST_FAVORITE_SUBREDDIT,
+      subreddit: subredditName,
+    });
+    try {
+      const r = await favorite(subredditName, makeFavorite);
+      console.log(r);
+    } catch (e) {
+      console.error(e);
+      return;
+    }
+    dispatch({
+      type: ADDED_FAVORITE_SUBREDDIT,
+      subreddit: subredditName,
+    });
   };
 }

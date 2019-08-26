@@ -25,6 +25,7 @@ type OwnProps = {
   error: boolean;
   isLoggedIn: boolean;
   subscribe: (sub: Subreddit, action: "sub" | "unsub") => void;
+  favorite: (subredditName: string, makeFavorite: boolean) => void;
 };
 
 type Props = OwnProps & RouteComponentProps;
@@ -36,8 +37,10 @@ function Banner({
   subscribe,
   isLoggedIn,
   location,
+  favorite,
 }: Props) {
   const [modalIsOpen, setModalState] = useState(false);
+  const [, forceUpdate] = useState({});
   const prevLocation = usePrevious(location);
 
   useEffect(
@@ -70,7 +73,9 @@ function Banner({
   }
 
   function toggleStarSub(isStarred: boolean) {
-    console.log(isStarred);
+    favorite(data!.display_name, !isStarred);
+    data!.user_has_favorited = !isStarred;
+    forceUpdate({});
   }
 
   const imageSrc = data.banner_background_image || data.banner_img;
