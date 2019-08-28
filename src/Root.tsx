@@ -10,15 +10,14 @@ import {
 import { closeSidebar } from "./actions/sidebar";
 import * as LocalCache from "./LocalCache";
 import App from "./App";
-import { UserState } from "./reducers/user";
-import { ThemeColors } from "./reducers/theme";
+import { ThemeState } from "./reducers/theme";
 import { RootState } from "./reducers";
 
 // MARK: Types
 
 type StateProps = {
   sidebarIsOpen: boolean;
-  theme: ThemeColors;
+  theme: ThemeState;
   isLoading: boolean;
   errorMsg: string;
 };
@@ -100,7 +99,7 @@ class Root extends Component<Props, {}> {
 function mapStateToProps({ sidebar, theme, snoowrap }: RootState): StateProps {
   return {
     sidebarIsOpen: sidebar.open,
-    theme: theme.colors,
+    theme: theme,
     isLoading: snoowrap.isLoading,
     errorMsg: snoowrap.errorMsg,
   };
