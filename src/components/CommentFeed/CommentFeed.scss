@@ -1,6 +1,7 @@
 .comment-feed {
   padding: var(--content-padding);
-  border-radius: 5px;
+  border-radius: 8px;
+  box-shadow: 0 1px 2px rgba(black, 0.1);
 
   .comment-thread {
     margin-bottom: 50px;
