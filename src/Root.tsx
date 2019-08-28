@@ -99,7 +99,7 @@ class Root extends Component<Props, {}> {
 function mapStateToProps({ sidebar, theme, snoowrap }: RootState): StateProps {
   return {
     sidebarIsOpen: sidebar.open,
-    theme: theme,
+    theme,
     isLoading: snoowrap.isLoading,
     errorMsg: snoowrap.errorMsg,
   };
