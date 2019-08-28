@@ -1,4 +1,5 @@
 import styled from "styled-components";
+import Color from "color";
 import { Link } from "react-router-dom";
 
 // This component is used to make the entire post covered
@@ -13,6 +14,31 @@ export const NavClickTarget = styled(Link)`
   bottom: 0;
   left: 0;
   opacity: 0;
+`;
+
+type SubredditLinkProps = {
+  bgColor: Color;
+};
+
+const getTextColor = (p: SubredditLinkProps) =>
+  p.bgColor.luminosity() < 0.6 ? "white" : "black";
+
+export const SubredditLink = styled(Link)`
+  background: ${(p: SubredditLinkProps) => p.bgColor.toString()};
+  color: ${getTextColor};
+  padding: 5px 10px;
+  display: inline-block;
+  border-radius: 20px;
+  text-decoration: none;
+  transition: 100ms background;
+
+  &:hover {
+    background: ${(p: SubredditLinkProps) => p.bgColor.lighten(0.2).toString()};
+  }
+
+  &:active {
+    background: ${(p: SubredditLinkProps) => p.bgColor.darken(0.2).toString()};
+  }
 `;
 
 export const DropDownBtnWrapper = styled.div`
