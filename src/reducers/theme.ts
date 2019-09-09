@@ -28,9 +28,9 @@ const lightTheme: ThemeColors = {
 
 const darkTheme: ThemeColors = {
   ...commonColors,
-  body: "#23252b",
+  body: "rgb(20, 20, 20)",
   text: "white",
-  contentBg: "#1d1e22",
+  contentBg: "#23252b",
 };
 
 function getDefaultTheme(): ThemeState {

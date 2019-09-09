@@ -1,5 +1,10 @@
 .header-component {
   box-shadow: 0 5px 10px rgba(black, 0.05);
+
+  .theme-dark & {
+    box-shadow: 0 5px 10px rgba(black, 0.2);
+  }
+
   position: fixed;
   height: 50px;
   width: 100%;

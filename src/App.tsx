@@ -2,7 +2,7 @@ import React, { Component, Fragment } from "react";
 import { Route } from "react-router-dom";
 import { ThemeProvider, createGlobalStyle } from "styled-components";
 
-import { ThemeColors } from "./reducers/theme";
+import { ThemeColors, ThemeState } from "./reducers/theme";
 import ScrollToTop from "./components/ScrollToTop";
 import Header from "./components/Header";
 import AppSidebar from "./containers/AppSidebar";
@@ -42,19 +42,11 @@ const GlobalStyles = createGlobalStyle<GlobalStyleProps>`
 `;
 
 type Props = {
-  theme: {
-    body: string;
-  };
+  theme: ThemeState;
   isLoading: boolean;
 };
 
 class App extends Component<Props, {}> {
-  componentDidUpdate(prevProps: Props) {
-    if (prevProps !== this.props) {
-      document.body.style.backgroundColor = this.props.theme.body;
-    }
-  }
-
   render() {
     const { theme, isLoading } = this.props;
 
@@ -71,10 +63,11 @@ class App extends Component<Props, {}> {
 
     const subSortOptions = "hot|top|new|controversial|rising";
     const frontSortOptions = `${subSortOptions}|best`;
+    const themeClassName = theme.isDark ? "theme-dark" : "theme-light";
 
     return (
-      <ThemeProvider theme={theme}>
-        <Fragment>
+      <ThemeProvider theme={theme.colors}>
+        <div className={themeClassName}>
           <GlobalStyles />
           <ScrollToTop>
             <Header />
@@ -104,7 +97,7 @@ class App extends Component<Props, {}> {
               <Route component={NotfoundPage} />
             </ModalSwitch>
           </ScrollToTop>
-        </Fragment>
+        </div>
       </ThemeProvider>
     );
   }

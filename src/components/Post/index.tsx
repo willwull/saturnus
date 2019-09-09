@@ -21,6 +21,7 @@ import {
   Score,
   NavClickTarget,
   SavedIconWrapper,
+  SubredditLink,
 } from "./styles";
 import Desktop from "../Desktop";
 
@@ -152,18 +153,12 @@ class Post extends React.Component<Props, {}> {
           </div>
 
           <div className="bottom-row">
-            <Link
+            <SubredditLink
               to={`/${post.subreddit_name_prefixed}`}
-              className="sub"
-              style={
-                ({
-                  backgroundColor: bgColor,
-                  color: textColor,
-                } as unknown) as CSSProperties
-              }
+              bgColor={bgColor}
             >
               {post.subreddit.display_name}
-            </Link>
+            </SubredditLink>
 
             <DropDownBtnWrapper>
               <Dropdown

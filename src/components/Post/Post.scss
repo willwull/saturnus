@@ -8,7 +8,8 @@
   margin-bottom: 20px;
   padding: 20px;
 
-  border-radius: 5px;
+  border-radius: 8px;
+  box-shadow: 0 1px 2px rgba(black, 0.1);
 
   display: grid;
   grid-template-columns: auto 1fr;
@@ -56,15 +57,6 @@
     align-items: center;
     justify-content: space-between;
     font-size: 0.8em;
-
-    .sub {
-      // background color set in JS
-      padding: 5px 10px;
-      color: white;
-      display: inline-block;
-      border-radius: 20px;
-      text-decoration: none;
-    }
 
     .comments {
       @include normal-link;
