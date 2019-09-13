@@ -12,7 +12,7 @@ export const SearchForm = styled.form`
   line-height: 1;
   grid-gap: 5px;
   border-radius: 5px;
-  transition: 100ms all;
+  transition: 100ms border;
 
   &,
   & input {
