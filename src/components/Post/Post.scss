@@ -21,6 +21,11 @@
     position: relative;
   }
 
+  .data {
+    display: grid;
+    grid-template-rows: auto 1fr auto auto;
+  }
+
   .score {
     display: flex;
     flex-direction: column;

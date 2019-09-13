@@ -74,6 +74,15 @@ blockquote {
 // reddit text content
 .md {
   word-break: break-word;
+  line-height: 1.5;
+
+  h1 {
+    font-size: 1.5em;
+  }
+
+  p:not(:last-child) {
+    margin-bottom: 1.5em;
+  }
 
   code {
     white-space: pre-wrap;
