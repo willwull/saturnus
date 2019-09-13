@@ -12,6 +12,7 @@ export const Wrapper = styled(Link)`
   border-radius: 5px;
   background: ${props => props.theme.contentBg};
   align-items: center;
+  box-shadow: 0 1px 2px rgba(0, 0, 0, 0.1);
 
   @media (max-width: 500px) {
     grid-template-columns: auto 1fr;
