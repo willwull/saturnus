@@ -58,7 +58,7 @@ const commonCSS = css`
 export const InfoContainer = styled.div`
   max-width: 750px;
   margin: 0 auto;
-  padding-bottom: 16px;
+  padding-bottom: 24px;
 
   h1 {
     margin: 0;
@@ -109,9 +109,4 @@ export const Fallback = styled.div`
   justify-content: center;
   font-size: 60px;
   color: white;
-`;
-
-export const ReadMoreBtn = styled.button`
-  opacity: 0.5;
-  color: ${props => props.theme.primary};
 `;

@@ -4,13 +4,15 @@ import { Link } from "react-router-dom";
 import ContentBox from "../ContentBox";
 import { ThemeColors } from "../../reducers/theme";
 
+const POST_BORDER_SIZE = 5;
+
 type ContainerProps = {
   saved: boolean;
   theme: ThemeColors;
 };
 
 export const Container = styled(ContentBox)`
-  border-bottom: 5px solid;
+  border-bottom: ${POST_BORDER_SIZE}px solid;
   border-color: ${(p: ContainerProps) =>
     p.saved ? p.theme.mod : p.theme.contentBg};
 `;
@@ -24,9 +26,16 @@ export const NavClickTarget = styled(Link)`
   z-index: 0 !important;
   top: 0;
   right: 0;
-  bottom: 0;
+  bottom: -${POST_BORDER_SIZE}px;
   left: 0;
-  opacity: 0;
+  border-radius: 7px;
+  color: rgba(0, 0, 0, 0);
+
+  -webkit-tap-highlight-color: transparent;
+
+  &:active {
+    background: rgba(0, 0, 0, 0.1);
+  }
 `;
 
 type SubredditLinkProps = {
@@ -105,6 +114,5 @@ export const Score = styled.div`
 
 export const TitleAndMoreContainer = styled.div`
   display: flex;
-  align-items: center;
   justify-content: space-between;
 `;

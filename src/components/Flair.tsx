@@ -7,8 +7,8 @@ const Flair = styled.span`
   font-weight: normal;
   padding: 3px 5px;
   border-radius: 5px;
-  color: rgb(70, 70, 70);
-  background: rgb(239, 243, 245);
+  color: ${p => p.theme.text};
+  background: ${p => p.theme.secondary};
 
   &.post {
     margin-right: 7px;

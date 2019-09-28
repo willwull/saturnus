@@ -3,6 +3,9 @@ import { getStoredTheme } from "../LocalCache";
 
 export type ThemeColors = {
   primary: string;
+  secondary: string;
+  secondaryHover: string;
+  secondaryActive: string;
   mod: string;
   body: string;
   text: string;
@@ -21,6 +24,9 @@ const commonColors = {
 
 const lightTheme: ThemeColors = {
   ...commonColors,
+  secondary: "rgb(239, 243, 245)",
+  secondaryHover: "rgb(222, 226, 228)",
+  secondaryActive: "rgb(208, 211, 212)",
   body: "rgb(239, 243, 245)",
   text: "rgb(70, 70, 70)",
   contentBg: "white",
@@ -28,6 +34,9 @@ const lightTheme: ThemeColors = {
 
 const darkTheme: ThemeColors = {
   ...commonColors,
+  secondary: "rgb(61, 63, 68)",
+  secondaryHover: "rgb(88, 90, 95)",
+  secondaryActive: "rgb(52, 54, 60)",
   body: "rgb(20, 20, 20)",
   text: "white",
   contentBg: "#23252b",

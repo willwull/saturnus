@@ -2,7 +2,7 @@ import styled from "styled-components";
 import { transparentize } from "polished";
 
 export const SearchForm = styled.form`
-  background: ${props => props.theme.body};
+  background: ${props => props.theme.secondary};
   height: 35px;
   font-size: 16px;
   padding: 0 10px;
