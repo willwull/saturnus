@@ -5,6 +5,7 @@ import { fetchMySubs } from "../actions/user";
 import SubredditList, { SimpleSubreddit } from "../components/SubredditList";
 import Loading from "../components/Loading";
 import { RootState, DispatchType } from "../reducers";
+import styled from "styled-components";
 
 type StateProps = {
   isLoading: boolean;
@@ -17,6 +18,10 @@ type DispatchProps = {
 };
 
 type Props = StateProps & DispatchProps & RouteComponentProps;
+
+const ErrorMessage = styled.div`
+  padding: 15px 0;
+`;
 
 class SubscriptionList extends Component<Props, {}> {
   componentDidMount() {
@@ -31,7 +36,7 @@ class SubscriptionList extends Component<Props, {}> {
     }
 
     if (error) {
-      return this.props.error;
+      return <ErrorMessage>{this.props.error}</ErrorMessage>;
     }
 
     return <SubredditList subreddits={subscriptions} />;
