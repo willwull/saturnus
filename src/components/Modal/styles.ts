@@ -60,6 +60,7 @@ export const CloseButton = styled.button`
   display: flex;
   justify-content: center;
   align-content: center;
+  backdrop-filter: blur(10px);
 
   &:active {
     background: rgba(0, 0, 0, 0.7);
