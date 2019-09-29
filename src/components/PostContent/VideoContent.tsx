@@ -13,11 +13,13 @@ type Props = {
   src: string;
   muted?: boolean;
   autoPlay?: boolean;
+  className?: string;
 };
 
 type DefaultProps = {
   muted: boolean;
   autoPlay: boolean;
+  className: string;
 };
 
 type State = {
@@ -28,6 +30,7 @@ class VideoContent extends Component<Props, State> {
   static defaultProps: DefaultProps = {
     muted: true,
     autoPlay: true,
+    className: "",
   };
 
   state: State = {
@@ -76,7 +79,7 @@ class VideoContent extends Component<Props, State> {
   };
 
   render() {
-    const { src, autoPlay, muted } = this.props;
+    const { src, autoPlay, muted, className } = this.props;
     const videoElem = this.videoRef.current;
     const isPaused = videoElem && videoElem.paused;
 
@@ -88,7 +91,7 @@ class VideoContent extends Component<Props, State> {
 
     return (
       <InView threshold={0.4} onChange={this.handleInView}>
-        <VideoContainer>
+        <VideoContainer className={className}>
           <VideoPreview
             ref={this.videoRef}
             playsInline
