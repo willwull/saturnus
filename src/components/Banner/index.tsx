@@ -1,4 +1,4 @@
-import React, { Fragment, useState, useRef, useEffect } from "react";
+import React, { Fragment, useState, useEffect } from "react";
 import { withRouter, RouteComponentProps } from "react-router";
 import { Subreddit } from "snoowrap";
 import SubredditIcon from "./SubredditIcon";
@@ -8,10 +8,10 @@ import {
   InfoContainer,
   Title,
   SubStats,
-  ReadMoreBtn,
 } from "./styles";
 import { PadOnNarrow } from "../Page";
 import PrimaryButton from "../Buttons/PrimaryButton";
+import SecondaryButton from "../Buttons/SecondaryButton";
 import { numberWithSpaces, usePrevious } from "../../utils";
 import TextContent from "../TextContent";
 import Icon from "../Icon";
@@ -109,9 +109,9 @@ function Banner({
                 {numberWithSpaces(data.active_user_count)} online
               </SubStats>
               <TextContent>{data.public_description_html}</TextContent>
-              <ReadMoreBtn onClick={openModal}>
-                + Read full description
-              </ReadMoreBtn>
+              <SecondaryButton onClick={openModal}>
+                Read full description
+              </SecondaryButton>
             </PadOnNarrow>
           </InfoContainer>
         </Fragment>

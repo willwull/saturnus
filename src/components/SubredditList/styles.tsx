@@ -2,7 +2,7 @@ import styled from "styled-components";
 import { transparentize } from "polished";
 
 export const ListLetter = styled.div`
-  background: ${props => props.theme.body};
+  background: ${props => props.theme.secondary};
   padding: 5px 15px;
   position: sticky;
   top: 50px;

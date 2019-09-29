@@ -1,11 +1,10 @@
 import styled, { css } from "styled-components";
 import { transparentize } from "polished";
-import ImgWithIntrinsicSize from "../ImgWithIntrinsicSize";
 
 export const ContentOverflowGradient = styled.div`
   pointer-events: none;
   position: absolute;
-  top: 75%;
+  top: 50%;
   right: 0;
   bottom: 0;
   left: 0;
@@ -49,12 +48,12 @@ type TextProps = {
   expanded?: boolean;
 };
 export const SelfText = styled.div`
-  opacity: ${(props: TextProps) => (props.expanded ? "1" : "0.6")};
+  opacity: ${(props: TextProps) => (props.expanded ? "1" : "0.5")};
 
   ${(props: TextProps) =>
     !props.expanded &&
     css`
-      max-height: 200px;
+      max-height: 10em;
       overflow: hidden;
       position: relative;
     `} /**/

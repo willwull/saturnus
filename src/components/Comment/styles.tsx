@@ -49,7 +49,7 @@ export const CollapseStrip = styled.div`
   width: 3px;
   height: 100%;
   background: ${getStripColor};
-  opacity: 0.5;
+  opacity: 0.25;
 `;
 
 export const Collapser = styled.div`

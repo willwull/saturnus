@@ -1,11 +1,9 @@
-import React, { CSSProperties } from "react";
-import { Link } from "react-router-dom";
+import React from "react";
 import moment from "moment-mini";
 import { Submission } from "snoowrap";
 import Color from "color";
 import randomColor from "randomcolor";
 
-import ContentBox from "../ContentBox";
 import PostContent from "../PostContent";
 import { shortenNumber } from "../../utils";
 import "./Post.scss";
@@ -20,8 +18,9 @@ import {
   DropDownBtnWrapper,
   Score,
   NavClickTarget,
-  SavedIconWrapper,
   SubredditLink,
+  TitleAndMoreContainer,
+  Container,
 } from "./styles";
 import Desktop from "../Desktop";
 
@@ -70,13 +69,7 @@ class Post extends React.Component<Props, {}> {
     const silverCounter = post.gildings.gid_1;
 
     return (
-      <ContentBox className="post-component">
-        {post.saved && (
-          <SavedIconWrapper className="mod">
-            <Icon icon="fas bookmark" />
-          </SavedIconWrapper>
-        )}
-
+      <Container saved={post.saved} className="post-component">
         <div className="score">
           <UpvoteBtn active={isUpvoted} onClick={this.upvote}>
             <Icon icon="arrow-up" />
@@ -136,7 +129,18 @@ class Post extends React.Component<Props, {}> {
               )}
             </div>
 
-            <div className="post-title">{post.title}</div>
+            <TitleAndMoreContainer>
+              <div className="post-title">{post.title}</div>
+
+              <DropDownBtnWrapper>
+                <Dropdown
+                  overlay={<PostDropDown post={post} />}
+                  placement="bottomRight"
+                >
+                  <Icon icon="fa ellipsis-h" />
+                </Dropdown>
+              </DropDownBtnWrapper>
+            </TitleAndMoreContainer>
           </div>
 
           <div className="content-wrapper">
@@ -160,15 +164,6 @@ class Post extends React.Component<Props, {}> {
               {post.subreddit.display_name}
             </SubredditLink>
 
-            <DropDownBtnWrapper>
-              <Dropdown
-                overlay={<PostDropDown post={post} />}
-                placement="bottomRight"
-              >
-                <Icon icon="fa ellipsis-h" />
-              </Dropdown>
-            </DropDownBtnWrapper>
-
             <span className="comments">
               <Icon icon="comment-alt" /> {shortenNumber(post.num_comments)}{" "}
               <Desktop>comments</Desktop>
@@ -177,7 +172,7 @@ class Post extends React.Component<Props, {}> {
         </div>
         {/* If were already in the post page, no need to make post clickable */}
         {!expanded && clickTarget}
-      </ContentBox>
+      </Container>
     );
   }
 }
