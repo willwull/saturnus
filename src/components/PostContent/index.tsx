@@ -37,12 +37,16 @@ class PostContent extends Component<Props, State> {
     this.setState({ obfuscated: false });
   };
 
-  renderObfuscationOverlay() {
+  renderObfuscationOverlay(type: "image" | "video") {
+    const icons = {
+      image: "fa eye",
+      video: "fa video",
+    };
     return (
       <div className="obfuscated-wrapper">
         <button className="warning-text" onClick={this.showImage}>
           <div className="warning-icon">
-            <Icon icon="fa eye" />
+            <Icon icon={icons[type]} />
           </div>
           <br />
           This post is hidden, click to view
@@ -89,7 +93,7 @@ class PostContent extends Component<Props, State> {
         return (
           <ImgPreviewContainer>
             <img src={src} alt={post.title} className={className} />
-            {isHidden && this.renderObfuscationOverlay()}
+            {isHidden && this.renderObfuscationOverlay("image")}
           </ImgPreviewContainer>
         );
       }
@@ -107,7 +111,7 @@ class PostContent extends Component<Props, State> {
             alt={post.title}
             className={className}
           />
-          {isHidden && this.renderObfuscationOverlay()}
+          {isHidden && this.renderObfuscationOverlay("image")}
         </ImgPreviewContainer>
       );
     }
@@ -121,7 +125,7 @@ class PostContent extends Component<Props, State> {
       return (
         <ImgPreviewContainer>
           <VideoContent src={vidUrl} className={className} />
-          {isHidden && this.renderObfuscationOverlay()}
+          {isHidden && this.renderObfuscationOverlay("video")}
         </ImgPreviewContainer>
       );
     }
@@ -139,7 +143,7 @@ class PostContent extends Component<Props, State> {
             autoPlay={!!post.media!.reddit_video!.is_gif}
             className={className}
           />
-          {isHidden && this.renderObfuscationOverlay()}
+          {isHidden && this.renderObfuscationOverlay("video")}
         </ImgPreviewContainer>
       );
     }
@@ -155,7 +159,7 @@ class PostContent extends Component<Props, State> {
             dangerouslySetInnerHTML={{ __html: post.media!.oembed!.html }}
             className={className}
           />
-          {isHidden && this.renderObfuscationOverlay()}
+          {isHidden && this.renderObfuscationOverlay("video")}
         </ImgPreviewContainer>
       );
     }
