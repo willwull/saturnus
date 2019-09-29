@@ -70,12 +70,6 @@ class CurrentPost extends Component<Props, {}> {
   render() {
     const { errorMsg, isLoading, post, voteOnPost, isModal } = this.props;
 
-    console.log(
-      "%c Current post ",
-      "background: rgb(237, 80, 65); color: white; font-size: 20px; font-style: italic;",
-      post,
-    );
-
     if (errorMsg) {
       console.error(errorMsg);
       return <ImageMessage page="Bug" />;
