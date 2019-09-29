@@ -1,6 +1,6 @@
 import React, { Component } from "react";
 import { Submission } from "snoowrap";
-import { isImgUrl } from "../../utils";
+import { isImgUrl, splitUrl } from "../../utils";
 import LinkPreview from "../LinkPreview";
 import TextContent from "../TextContent";
 import Icon from "../Icon";
@@ -148,11 +148,35 @@ class PostContent extends Component<Props, State> {
       );
     }
 
-    // rich video (e.g. YouTube, Gfycat)
-    if (
-      (post.post_hint === "rich:video" || post.domain === "gfycat.com") &&
-      post.media
-    ) {
+    // Gfycat
+    if (post.domain === "gfycat.com") {
+      let src;
+      if (post.url.includes("ifr")) {
+        src = post.url;
+      } else {
+        const [_, rest] = splitUrl(post.url);
+        src = `https://gfycat.com/ifr${rest}`;
+      }
+
+      const height = expanded ? "600" : "300";
+
+      return (
+        <ImgPreviewContainer>
+          <iframe
+            src={src}
+            className={className}
+            scrolling="no"
+            allowFullScreen={true}
+            allow="autoplay; fullscreen"
+            height={height}
+          />
+          {isHidden && this.renderObfuscationOverlay("video")}
+        </ImgPreviewContainer>
+      );
+    }
+
+    // rich video (e.g. YouTube)
+    if (post.post_hint === "rich:video" && post.media) {
       return (
         <ImgPreviewContainer>
           <RichMedia
