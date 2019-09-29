@@ -1,5 +1,5 @@
 import React, { Component, Fragment } from "react";
-import { Route } from "react-router-dom";
+import { Route, Switch } from "react-router-dom";
 import { ThemeProvider, createGlobalStyle } from "styled-components";
 
 import { ThemeColors, ThemeState } from "./reducers/theme";
@@ -11,8 +11,6 @@ import NotfoundPage from "./pages/NotfoundPage";
 import SubredditPage from "./pages/SubredditPage";
 import PostPage from "./pages/PostPage";
 import TestingGrounds from "./pages/TestingGrounds";
-import ModalSwitch from "./components/ModalSwitch";
-import PostModal from "./pages/PostModal";
 import Loading from "./components/Loading";
 import Searchpage from "./pages/Searchpage";
 import SubredditSearch from "./pages/SubredditSearch";
@@ -72,10 +70,7 @@ class App extends Component<Props, {}> {
           <ScrollToTop>
             <Header />
             <AppSidebar />
-            <ModalSwitch
-              modalPath="/r/:subreddit/comments/:postId/:postTitle"
-              modal={PostModal}
-            >
+            <Switch>
               <Route
                 exact
                 path={`/:sortMode(${frontSortOptions})?`}
@@ -95,7 +90,7 @@ class App extends Component<Props, {}> {
               <Route path="/search" component={Searchpage} />
               <Route path="/testinggrounds" component={TestingGrounds} />
               <Route component={NotfoundPage} />
-            </ModalSwitch>
+            </Switch>
           </ScrollToTop>
         </div>
       </ThemeProvider>

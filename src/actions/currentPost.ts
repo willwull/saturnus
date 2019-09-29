@@ -32,7 +32,15 @@ export function fetchCurrentPost(postId: string) {
     dispatch: ThunkDispatch<CurrentPostState, void, Action>,
     getState: () => RootState,
   ) => {
-    if (!shouldFetch(getState(), postId)) return;
+    const state = getState();
+    if (!shouldFetch(state, postId)) {
+      dispatch({
+        type: RECEIVE_CURRENT_POST,
+        post: state.posts.byId[postId],
+        receivedAt: state.currentPost.receivedAt[postId],
+      });
+      return;
+    }
 
     dispatch({
       type: REQUEST_CURRENT_POST,
