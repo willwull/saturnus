@@ -6,19 +6,19 @@ export const BannerWrapper = styled.div`
 `;
 
 type BannerImgProps = {
-  imgSrc: string;
-  bgColor: string;
+  imgSrc?: string;
+  bgColor?: string;
 };
 
-function bannerImg(src: string) {
-  if (src !== "") {
+function bannerImg(src: string | void) {
+  if (src) {
     return `url(${src})`;
   }
   return "";
 }
 
-function bannerBgColor(color: string, fallback: string) {
-  if (color !== "") {
+function bannerBgColor(color: string | void, fallback: string) {
+  if (color) {
     return color;
   }
   return fallback;

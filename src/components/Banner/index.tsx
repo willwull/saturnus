@@ -57,7 +57,7 @@ function Banner({
   }
 
   if (data === null) {
-    return <BannerImg imgSrc="" bgColor="" />;
+    return <BannerImg />;
   }
 
   function onSubscribeClick() {

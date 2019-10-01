@@ -75,6 +75,9 @@
     iframe {
       width: 100%;
       max-height: var(--max-content-height);
+      border: none;
+      z-index: 2;
+      position: relative;
     }
   }
 }

@@ -1,6 +1,6 @@
 import React, { Component } from "react";
 import { Submission } from "snoowrap";
-import { isImgUrl } from "../../utils";
+import { isImgUrl, splitUrl } from "../../utils";
 import LinkPreview from "../LinkPreview";
 import TextContent from "../TextContent";
 import Icon from "../Icon";
@@ -37,58 +37,36 @@ class PostContent extends Component<Props, State> {
     this.setState({ obfuscated: false });
   };
 
+  renderObfuscationOverlay(type: "image" | "video") {
+    const icons = {
+      image: "fa eye",
+      video: "fa video",
+    };
+    return (
+      <div className="obfuscated-wrapper">
+        <button className="warning-text" onClick={this.showImage}>
+          <div className="warning-icon">
+            <Icon icon={icons[type]} />
+          </div>
+          <br />
+          This post is hidden, click to view
+        </button>
+      </div>
+    );
+  }
+
   render() {
     const { post, expanded } = this.props;
-
-    // spoiler marked posts
-    if ((post.spoiler || post.over_18) && this.state.obfuscated && !expanded) {
-      // spoiler marked text post
-      if (post.is_self) {
-        if (post.selftext_html) {
-          return <SelfText>[Hidden text]</SelfText>;
-        }
-
-        // if there is no actual text, no need to show "[Hidden text]"
-        return null;
-      }
-
-      // spoiler marked media post
-      if (post.preview) {
-        const resolutionsArr =
-          post.preview.images[0].variants.obfuscated.resolutions;
-
-        // use the highest res obfuscated image, but not src, since
-        // the src can be absurdly big
-        const obfuscated = resolutionsArr[resolutionsArr.length - 1].url;
-
-        return (
-          <div className="obfuscated-wrapper">
-            <ImgPreview
-              className="obfuscated-img"
-              src={obfuscated}
-              alt={post.title}
-              height={post.preview.images[0].source.height}
-            />
-
-            <button className="warning-text" onClick={this.showImage}>
-              <div className="warning-icon">
-                <Icon icon="fa eye" />
-              </div>
-              <br />
-              This post is hidden, click to view
-            </button>
-          </div>
-        );
-      }
-
-      // link post with no preview image
-      return <LinkPreview post={post} />;
-    }
+    const isHidden = (post.spoiler || post.over_18) && this.state.obfuscated;
 
     // self post (text)
     if (post.is_self) {
       if (!post.selftext_html) {
         return null;
+      }
+
+      if (isHidden && !expanded) {
+        return <SelfText>[Hidden text]</SelfText>;
       }
 
       return (
@@ -101,10 +79,23 @@ class PostContent extends Component<Props, State> {
       );
     }
 
+    const className = isHidden ? "obfuscated-media" : "";
+
     // image
     if (isImgUrl(post.url) || post.domain === "imgur.com") {
+      // handle non-direct imgur links
+      let src = post.url;
+      if (post.domain === "imgur.com") {
+        src = `${post.url}.jpg`;
+      }
+
       if (!post.preview) {
-        return "[Image has been deleted]";
+        return (
+          <ImgPreviewContainer>
+            <img src={src} alt={post.title} className={className} />
+            {isHidden && this.renderObfuscationOverlay("image")}
+          </ImgPreviewContainer>
+        );
       }
 
       const intrinsicSize = {
@@ -112,18 +103,15 @@ class PostContent extends Component<Props, State> {
         height: post.preview.images[0].source.height,
       };
 
-      // handle non-direct imgur links
-      let src = post.url;
-      if (post.domain === "imgur.com") {
-        src = `${post.url}.jpg`;
-      }
       return (
         <ImgPreviewContainer>
           <ImgWithIntrinsicSize
             intrinsicSize={intrinsicSize}
             src={src}
             alt={post.title}
+            className={className}
           />
+          {isHidden && this.renderObfuscationOverlay("image")}
         </ImgPreviewContainer>
       );
     }
@@ -133,33 +121,88 @@ class PostContent extends Component<Props, State> {
       // .gifv won't work as video src, but .mp4 works
       const vidUrl = post.url.replace(".gifv", ".mp4");
 
+      const redditVideoPreview = (post.preview as any).reddit_video_preview;
+      const intrinsicSize = {
+        width: redditVideoPreview.width,
+        height: redditVideoPreview.height,
+      };
+
       // muted needs to be set for autoplay to work on Chrome
-      return <VideoContent src={vidUrl} />;
+      return (
+        <ImgPreviewContainer>
+          <VideoContent
+            src={vidUrl}
+            className={className}
+            intrinsicSize={intrinsicSize}
+          />
+          {isHidden && this.renderObfuscationOverlay("video")}
+        </ImgPreviewContainer>
+      );
     }
 
     // v.redd.it videos
     if (post.is_video) {
+      const { media } = post;
       // TODO: support reddit videos with audio
-      const videoStream = post.media!.reddit_video!.fallback_url;
+      const videoStream = media!.reddit_video!.fallback_url;
+
+      // Height doesn't exist in the type?? Wtf
+      const intrinsicSize = {
+        width: (media!.reddit_video as any).width,
+        height: media!.reddit_video!.height,
+      };
 
       return (
-        <VideoContent
-          src={videoStream}
-          muted={!!post.media!.reddit_video!.is_gif}
-          autoPlay={!!post.media!.reddit_video!.is_gif}
-        />
+        <ImgPreviewContainer>
+          <VideoContent
+            src={videoStream}
+            muted={!!post.media!.reddit_video!.is_gif}
+            autoPlay={!!post.media!.reddit_video!.is_gif}
+            className={className}
+            intrinsicSize={intrinsicSize}
+          />
+          {isHidden && this.renderObfuscationOverlay("video")}
+        </ImgPreviewContainer>
       );
     }
 
-    // rich video (e.g. YouTube, Gfycat)
-    if (
-      (post.post_hint === "rich:video" || post.domain === "gfycat.com") &&
-      post.media
-    ) {
+    // Gfycat
+    if (post.domain === "gfycat.com") {
+      let src;
+      if (post.url.includes("ifr")) {
+        src = post.url;
+      } else {
+        const [_, rest] = splitUrl(post.url);
+        src = `https://gfycat.com/ifr${rest}`;
+      }
+
+      const height = expanded ? "600" : "300";
+
       return (
-        <RichMedia
-          dangerouslySetInnerHTML={{ __html: post.media!.oembed!.html }}
-        />
+        <ImgPreviewContainer>
+          <iframe
+            src={src}
+            className={className}
+            scrolling="no"
+            allowFullScreen={true}
+            allow="autoplay; fullscreen"
+            height={height}
+          />
+          {isHidden && this.renderObfuscationOverlay("video")}
+        </ImgPreviewContainer>
+      );
+    }
+
+    // rich video (e.g. YouTube)
+    if (post.post_hint === "rich:video" && post.media) {
+      return (
+        <ImgPreviewContainer>
+          <RichMedia
+            dangerouslySetInnerHTML={{ __html: post.media!.oembed!.html }}
+            className={className}
+          />
+          {isHidden && this.renderObfuscationOverlay("video")}
+        </ImgPreviewContainer>
       );
     }
 

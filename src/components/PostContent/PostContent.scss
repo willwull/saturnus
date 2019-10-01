@@ -1,10 +1,11 @@
 .obfuscated-wrapper {
-  position: relative;
-
-  .obfuscated-img {
-    object-fit: cover;
-    filter: brightness(75%);
-  }
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  background: rgba(0, 0, 0, 0.5);
+  z-index: 2;
 
   .warning-text {
     position: absolute;
@@ -24,4 +25,8 @@
       font-size: 30px;
     }
   }
+}
+
+.obfuscated-media {
+  filter: blur(50px);
 }

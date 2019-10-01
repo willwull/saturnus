@@ -56,12 +56,9 @@ class Post extends React.Component<Props, {}> {
         seed: post.subreddit.display_name,
       }),
     );
-    const textColor = bgColor.luminosity() < 0.6 ? "white" : "black";
 
     const clickTarget = (
-      <NavClickTarget to={{ pathname: post.permalink, state: { modal: true } }}>
-        Open post
-      </NavClickTarget>
+      <NavClickTarget to={post.permalink}>Open post</NavClickTarget>
     );
 
     const platinumCounter = post.gildings.gid_3;
