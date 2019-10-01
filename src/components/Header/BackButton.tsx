@@ -7,13 +7,7 @@ type Props = RouteComponentProps<SubPageParams>;
 
 class BackButton extends Component<Props, {}> {
   onClick = () => {
-    const { history, location, match } = this.props;
-
-    if (location.state && location.state.modal) {
-      history.goBack();
-    } else {
-      history.push(`/r/${match.params.subreddit}/`);
-    }
+    this.props.history.goBack();
   };
 
   render() {
