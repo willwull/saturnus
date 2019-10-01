@@ -8,12 +8,14 @@ import {
   VideoContainer,
 } from "./styles";
 import Icon from "../Icon";
+import { Dimensions } from "../ImgWithIntrinsicSize";
 
 type Props = {
   src: string;
   muted?: boolean;
   autoPlay?: boolean;
   className?: string;
+  intrinsicSize: Dimensions;
 };
 
 type DefaultProps = {
@@ -79,7 +81,7 @@ class VideoContent extends Component<Props, State> {
   };
 
   render() {
-    const { src, autoPlay, muted, className } = this.props;
+    const { src, autoPlay, muted, className, intrinsicSize } = this.props;
     const videoElem = this.videoRef.current;
     const isPaused = videoElem && videoElem.paused;
 
@@ -91,7 +93,7 @@ class VideoContent extends Component<Props, State> {
 
     return (
       <InView threshold={0.4} onChange={this.handleInView}>
-        <VideoContainer className={className}>
+        <VideoContainer intrinsicSize={intrinsicSize} className={className}>
           <VideoPreview
             ref={this.videoRef}
             playsInline

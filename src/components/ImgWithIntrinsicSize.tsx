@@ -2,7 +2,7 @@
 
 import React, { ComponentProps, CSSProperties } from "react";
 
-type Dimensions = { width: number; height: number };
+export type Dimensions = { width: number; height: number };
 
 const fractionToPercentage = (n: number) => n * 100;
 const formatCssPercentage = (n: number) => `${n}%`;
@@ -41,6 +41,7 @@ type Props = ComponentProps<"img"> & {
   className?: string;
 } & Partial<Dimensions>;
 
+// TODO: Remove this and only use DivWithIntrinsicSize
 function ImgWithIntrinsicSize({
   intrinsicSize,
   width,
@@ -56,6 +57,31 @@ function ImgWithIntrinsicSize({
         style={getImgContainerStyles(intrinsicSize)}
       >
         <img {...imgProps} className={classes} />
+      </div>
+    </div>
+  );
+}
+
+type DivProps = ComponentProps<"div"> & {
+  intrinsicSize: Dimensions;
+  className?: string;
+} & Partial<Dimensions>;
+
+export function DivWithIntrinsicSize({
+  intrinsicSize,
+  width,
+  height,
+  className,
+  ...divProps
+}: DivProps) {
+  const classes = `${className} imgIntrinsic`;
+  return (
+    <div style={getContainerStyles({ width, height })}>
+      <div
+        className="imgIntrinsicContainer"
+        style={getImgContainerStyles(intrinsicSize)}
+      >
+        <div {...divProps} className={classes} />
       </div>
     </div>
   );

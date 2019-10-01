@@ -121,10 +121,20 @@ class PostContent extends Component<Props, State> {
       // .gifv won't work as video src, but .mp4 works
       const vidUrl = post.url.replace(".gifv", ".mp4");
 
+      const redditVideoPreview = (post.preview as any).reddit_video_preview;
+      const intrinsicSize = {
+        width: redditVideoPreview.width,
+        height: redditVideoPreview.height,
+      };
+
       // muted needs to be set for autoplay to work on Chrome
       return (
         <ImgPreviewContainer>
-          <VideoContent src={vidUrl} className={className} />
+          <VideoContent
+            src={vidUrl}
+            className={className}
+            intrinsicSize={intrinsicSize}
+          />
           {isHidden && this.renderObfuscationOverlay("video")}
         </ImgPreviewContainer>
       );
@@ -132,8 +142,15 @@ class PostContent extends Component<Props, State> {
 
     // v.redd.it videos
     if (post.is_video) {
+      const { media } = post;
       // TODO: support reddit videos with audio
-      const videoStream = post.media!.reddit_video!.fallback_url;
+      const videoStream = media!.reddit_video!.fallback_url;
+
+      // Height doesn't exist in the type?? Wtf
+      const intrinsicSize = {
+        width: (media!.reddit_video as any).width,
+        height: media!.reddit_video!.height,
+      };
 
       return (
         <ImgPreviewContainer>
@@ -142,6 +159,7 @@ class PostContent extends Component<Props, State> {
             muted={!!post.media!.reddit_video!.is_gif}
             autoPlay={!!post.media!.reddit_video!.is_gif}
             className={className}
+            intrinsicSize={intrinsicSize}
           />
           {isHidden && this.renderObfuscationOverlay("video")}
         </ImgPreviewContainer>

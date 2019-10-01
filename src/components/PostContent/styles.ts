@@ -1,5 +1,6 @@
 import styled, { css } from "styled-components";
 import { transparentize } from "polished";
+import { DivWithIntrinsicSize } from "../ImgWithIntrinsicSize";
 
 export const ContentOverflowGradient = styled.div`
   pointer-events: none;
@@ -76,12 +77,13 @@ export const SelfText = styled.div`
   }
 `;
 
-export const VideoContainer = styled.div`
+export const VideoContainer = styled(DivWithIntrinsicSize)`
   position: relative;
 `;
 
 export const VideoPreview = styled.video`
   ${MediaPreviewStyles};
+  height: 100%;
   margin-bottom: 0;
 `;
 
