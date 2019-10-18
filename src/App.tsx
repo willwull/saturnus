@@ -82,7 +82,7 @@ class App extends Component<Props, {}> {
                 component={SubredditPage}
               />
               <Route
-                path="/r/:subreddit/comments/:postId/:postTitle"
+                path="/r/:subreddit/comments/:postId"
                 component={PostPage}
               />
               <Route path="/r/:subreddit/search" component={SubredditSearch} />
