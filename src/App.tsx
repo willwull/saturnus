@@ -15,6 +15,7 @@ import Loading from "./components/Loading";
 import Searchpage from "./pages/Searchpage";
 import SubredditSearch from "./pages/SubredditSearch";
 import SavedPosts from "./pages/SavedPosts";
+import Popovers from "./components/Popovers";
 
 type GlobalStyleProps = {
   theme: ThemeColors;
@@ -92,6 +93,7 @@ class App extends Component<Props, {}> {
               <Route component={NotfoundPage} />
             </Switch>
           </ScrollToTop>
+          <Popovers />
         </div>
       </ThemeProvider>
     );
