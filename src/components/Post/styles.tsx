@@ -116,3 +116,8 @@ export const TitleAndMoreContainer = styled.div`
   display: flex;
   justify-content: space-between;
 `;
+
+export const AuthorLink = styled(Link)`
+  color: ${p => p.theme.primary};
+  display: inline-block;
+`;

@@ -21,6 +21,7 @@ import {
   SubredditLink,
   TitleAndMoreContainer,
   Container,
+  AuthorLink,
 } from "./styles";
 import Desktop from "../Desktop";
 
@@ -145,11 +146,15 @@ class Post extends React.Component<Props, {}> {
           </div>
 
           <div className="post-info">
-            <div className="author">
-              {moment.unix(post.created_utc).fromNow()} by {post.author.name}
-            </div>
+            {moment.unix(post.created_utc).fromNow()} by{" "}
+            <AuthorLink to={`/user/${post.author.name}`}>
+              {post.author.name}
+            </AuthorLink>
             {post.author_flair_text && (
-              <Flair className="author">{post.author_flair_text}</Flair>
+              <React.Fragment>
+                {" "}
+                <Flair className="author">{post.author_flair_text}</Flair>
+              </React.Fragment>
             )}
           </div>
 
