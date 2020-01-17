@@ -21,7 +21,12 @@ class TestingGrounds extends React.Component {
   };
 
   openPopover = () => {
-    openDialog("Hello hmm");
+    openDialog({
+      text: "Bruh",
+      title: "Bruh",
+      onPrimary: () => null,
+      primaryLabel: "Idk lol",
+    });
   };
 
   render() {

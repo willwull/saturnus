@@ -2,14 +2,21 @@ import React, { useRef, useEffect } from "react";
 import styled from "styled-components";
 import PrimaryButton from "../Buttons/PrimaryButton";
 
-type Props = {
-  children: React.ReactNode;
+// MARK: Types
+
+export type DialogProps = {
+  text: string;
   title?: string;
   primaryLabel: string;
-  onCancel: () => void;
   onPrimary: () => void;
   focusOnCancel?: boolean;
 };
+
+type Props = DialogProps & {
+  hideFunc: () => void;
+};
+
+// MARK: Styles
 
 const CenterContent = styled.div`
   width: 100%;
@@ -21,7 +28,8 @@ const CenterContent = styled.div`
 
 const Container = styled.div`
   background: ${p => p.theme.contentBg};
-  max-width: 550px;
+  width: 550px;
+  max-width: 90%;
   padding: 1.5em;
   border-radius: 5px;
 
@@ -43,7 +51,7 @@ const Title = styled.h1`
 const ButtonRow = styled.div`
   display: flex;
   justify-content: flex-end;
-  margin-top: 2em;
+  margin-top: 1.5em;
 `;
 
 const CancelButton = styled.button`
@@ -51,11 +59,13 @@ const CancelButton = styled.button`
   padding: 10px 15px;
 `;
 
+// MARK: Component
+
 function Dialog({
   title,
-  children,
+  text,
   primaryLabel,
-  onCancel,
+  hideFunc,
   onPrimary,
   focusOnCancel,
 }: Props) {
@@ -70,16 +80,21 @@ function Dialog({
     }
   }, []);
 
+  function primaryClickHandler() {
+    onPrimary();
+    hideFunc(); // Close the dialog after clicking on primary
+  }
+
   return (
     <CenterContent>
       <Container>
         {title && <Title>{title}</Title>}
-        {children}
+        {text}
         <ButtonRow>
-          <CancelButton ref={cancelRef} onClick={onCancel}>
+          <CancelButton ref={cancelRef} onClick={hideFunc}>
             Cancel
           </CancelButton>
-          <PrimaryButton ref={primaryRef} onClick={onPrimary}>
+          <PrimaryButton ref={primaryRef} onClick={primaryClickHandler}>
             {primaryLabel}
           </PrimaryButton>
         </ButtonRow>

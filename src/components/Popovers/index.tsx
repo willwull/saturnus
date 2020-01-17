@@ -1,6 +1,6 @@
 import React, { Component } from "react";
 import styled from "styled-components";
-import Dialog from "./Dialog";
+import Dialog, { DialogProps } from "./Dialog";
 
 // MARK: Event handler
 
@@ -43,30 +43,56 @@ const Underlay = styled.div`
   -webkit-tap-highlight-color: rgba(0, 0, 0, 0);
 `;
 
+type PopoverProps = DialogProps;
+
 type State = {
   popoverOpen: boolean;
+  popoverProps: PopoverProps | null;
 };
 
 class Popovers extends Component<{}, State> {
   state: State = {
     popoverOpen: false,
+    popoverProps: null,
   };
 
   unsubscribe: (() => void) | null = null;
 
   componentDidMount() {
-    this.unsubscribe = events.on("popover-open", (contents: string) => {
-      this.openPopover(contents);
+    this.unsubscribe = events.on("popover-open", (props: PopoverProps) => {
+      this.openPopover(props);
     });
+
+    window.addEventListener("keydown", this.keyListener);
+  }
+
+  componentDidUpdate(_: any, prevState: State) {
+    const { popoverOpen } = this.state;
+    if (popoverOpen !== prevState.popoverOpen) {
+      // if popover is open, we disable scrolling on the main content
+      if (popoverOpen) {
+        document.body.classList.add("no-scroll");
+      } else {
+        document.body.classList.remove("no-scroll");
+      }
+    }
   }
 
   componentWillUnmount() {
-    this.unsubscribe && this.unsubscribe();
+    this.unsubscribe!();
+    window.removeEventListener("keydown", this.keyListener);
   }
 
-  openPopover(contents: string) {
+  keyListener = (event: KeyboardEvent) => {
+    if (event.key === "Escape") {
+      this.hidePopover();
+    }
+  };
+
+  openPopover(popoverProps: PopoverProps) {
     this.setState({
       popoverOpen: true,
+      popoverProps,
     });
   }
 
@@ -77,20 +103,13 @@ class Popovers extends Component<{}, State> {
   };
 
   render() {
-    const { popoverOpen } = this.state;
-    if (!popoverOpen) return null;
+    const { popoverOpen, popoverProps } = this.state;
+
+    if (!popoverOpen || !popoverProps) return null;
 
     return (
-      <Underlay role="presentation" onClick={this.hidePopover}>
-        <Dialog
-          title="Are you sure?"
-          primaryLabel="Confirm"
-          onCancel={this.hidePopover}
-          onPrimary={this.hidePopover}
-        >
-          Hello this is a long text. Hello this is a long text. Hello this is a
-          long
-        </Dialog>
+      <Underlay>
+        <Dialog {...popoverProps} hideFunc={this.hidePopover} />
       </Underlay>
     );
   }
@@ -98,6 +117,6 @@ class Popovers extends Component<{}, State> {
 
 export default Popovers;
 
-export function openDialog(contents: string) {
-  events.emit("popover-open", contents);
+export function openDialog(props: DialogProps) {
+  events.emit("popover-open", props);
 }
