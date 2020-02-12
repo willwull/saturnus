@@ -120,4 +120,8 @@ export const TitleAndMoreContainer = styled.div`
 export const AuthorLink = styled(Link)`
   color: ${p => p.theme.primary};
   display: inline-block;
+
+  &:hover {
+    text-decoration: underline;
+  }
 `;
