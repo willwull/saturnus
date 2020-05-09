@@ -1,6 +1,6 @@
 {
   "name": "saturnus",
-  "version": "0.7.6",
+  "version": "0.7.7",
   "private": true,
   "homepage": "https://saturnusapp.com",
   "dependencies": {

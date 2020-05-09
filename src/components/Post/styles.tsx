@@ -2,7 +2,7 @@ import styled from "styled-components";
 import Color from "color";
 import { Link } from "react-router-dom";
 import ContentBox from "../ContentBox";
-import { ThemeColors } from "../../reducers/theme";
+import { ThemeColors } from "../Base/theme";
 
 const POST_BORDER_SIZE = 5;
 
@@ -115,4 +115,13 @@ export const Score = styled.div`
 export const TitleAndMoreContainer = styled.div`
   display: flex;
   justify-content: space-between;
+`;
+
+export const AuthorLink = styled(Link)`
+  color: ${p => p.theme.primary};
+  display: inline-block;
+
+  &:hover {
+    text-decoration: underline;
+  }
 `;

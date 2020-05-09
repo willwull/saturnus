@@ -9,6 +9,7 @@ import AuthUserMenu from "../components/AuthUserMenu";
 import GuestUserMenu from "../components/GuestUserMenu";
 import { UserState } from "../reducers/user";
 import { RootState, DispatchType } from "../reducers";
+import { openDialog } from "../components/Popovers";
 
 type StateProps = {
   user: UserState;
@@ -40,10 +41,19 @@ class UserMenu extends Component<Props, {}> {
     window.location.href = url;
   };
 
+  showSignOutDialog = () => {
+    openDialog({
+      title: "Sign out?",
+      text: "Are you sure you want to sign out?",
+      primaryLabel: "Sign out",
+      onPrimary: () => this.props.signOut(),
+      focusOnCancel: true,
+    });
+  };
+
   render() {
     const {
       user: { loggedIn, isLoading, data },
-      signOut: signOutFunc,
     } = this.props;
 
     if (isLoading || (loggedIn && data === null)) return null;
@@ -54,7 +64,7 @@ class UserMenu extends Component<Props, {}> {
     }
 
     // user is logged in, show their profile pic and name
-    return <AuthUserMenu userData={data!} signOut={signOutFunc} />;
+    return <AuthUserMenu userData={data!} signOut={this.showSignOutDialog} />;
   }
 }
 

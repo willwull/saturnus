@@ -28,7 +28,6 @@ export function search(query: string, subreddit = "") {
       state.search.subreddits.length > 0
     ) {
       // searched for the same thing, no need to perform a new search
-      console.log("Skipping search, same query", query);
       return;
     }
 
@@ -42,8 +41,6 @@ export function search(query: string, subreddit = "") {
 
     // TODO: snoowrap type is wrong, again...
     (r as any).searchSubreddits({ query }).then((results: Subreddit[]) => {
-      console.log(results);
-
       dispatch({
         type: RECEIVE_SUB_SEARCH,
         subreddits: results,
@@ -56,8 +53,6 @@ export function search(query: string, subreddit = "") {
     };
 
     (r as any).search(options).then((results: Submission[]) => {
-      console.log(results);
-
       dispatch({
         type: RECEIVE_POST_SEARCH,
         posts: results,

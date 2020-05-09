@@ -3,6 +3,7 @@ import Dropdown from "../components/Dropdown";
 import Menu from "../components/Menu";
 import PrimaryButton from "../components/Buttons/PrimaryButton";
 import AppSidebar from "../containers/AppSidebar";
+import { openDialog } from "../components/Popovers";
 
 class TestingGrounds extends React.Component {
   state = {
@@ -17,6 +18,15 @@ class TestingGrounds extends React.Component {
 
   hideDrawer = () => {
     this.setState({ drawerOpen: false });
+  };
+
+  openPopover = () => {
+    openDialog({
+      text: "Bruh",
+      title: "Bruh",
+      onPrimary: () => null,
+      primaryLabel: "Idk lol",
+    });
   };
 
   render() {
@@ -40,6 +50,7 @@ class TestingGrounds extends React.Component {
           Open dropdown
         </Dropdown>
 
+        <PrimaryButton onClick={this.openPopover}>Popover</PrimaryButton>
         <PrimaryButton onClick={this.toggleDrawer}>Drawer</PrimaryButton>
         <AppSidebar open={this.state.drawerOpen} onClose={this.hideDrawer}>
           Sidebar

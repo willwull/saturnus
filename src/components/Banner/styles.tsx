@@ -94,7 +94,6 @@ export const Title = styled.div`
 
 export const SubStats = styled.div`
   font-size: 14px;
-  opacity: 0.6;
   margin-top: 5px;
 `;
 

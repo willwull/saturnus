@@ -13,11 +13,9 @@ import { CommentsState } from "../reducers/comments";
 import { RootState, DispatchType } from "../reducers";
 import { fetchSavedContent, fetchMoreSavedContent } from "../actions/user";
 
-import Post from "../components/Post";
 import Loading from "../components/Loading";
 import ImageMessage from "../components/ImageMessage";
-import PrimaryButton from "../components/Buttons/PrimaryButton";
-import StandaloneComment from "../components/Comment/StandaloneComment";
+import MixedContentFeed from "../components/MixedContentFeed";
 
 // MARK: Types
 
@@ -63,34 +61,15 @@ function MySavedContent({
   const content = mapMixedIdsToContent(contentIds, posts, comments);
 
   return (
-    <div>
-      {content.map(content => {
-        if (contentIsPost(content)) {
-          const post = content as Submission;
-          return <Post key={post.id} post={post} voteOnPost={voteOnPost} />;
-        }
-
-        const comment = content as IComment;
-        return (
-          <StandaloneComment
-            key={comment.id}
-            comment={comment}
-            isModal={false}
-          />
-        );
-      })}
-
-      {hasMoreContent && (
-        <PrimaryButton
-          className="load-more-btn"
-          onClick={fetchMore}
-          disabled={isLoadingMore}
-        >
-          Load more
-          {isLoadingMore && <Loading type="inline" />}
-        </PrimaryButton>
-      )}
-    </div>
+    <>
+      <MixedContentFeed
+        content={content}
+        voteOnPost={voteOnPost}
+        isLoadingMore={isLoadingMore}
+        showLoadMoreBtn={hasMoreContent}
+        loadMoreFunc={fetchMore}
+      />
+    </>
   );
 }
 

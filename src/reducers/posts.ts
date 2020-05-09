@@ -15,6 +15,7 @@ import { Submission, Listing } from "snoowrap";
 import { RECEIVE_POST_SEARCH } from "../actions/search";
 import { RECEIVE_CURRENT_POST } from "../actions/currentPost";
 import { contentIsPost, MixedContent } from "./user";
+import { RECEIVE_USER_OVERVIEW } from "../actions/userpages";
 
 // MARK: Types
 
@@ -56,12 +57,10 @@ export type PostsState = {
 // MARK: Helper functions
 
 export function mapPostsToId(posts: Submission[] = []): string[] {
-  console.log("posts");
   return posts.map(post => post.id);
 }
 
 export function mapIdsToPosts(ids: string[], postsState: PostsState) {
-  console.log("ids");
   return ids.map(id => postsState.byId[id]);
 }
 
@@ -152,6 +151,7 @@ export default function posts(
         ...state,
         byId: combineWithNewPosts(state.byId, action.posts),
       };
+    case RECEIVE_USER_OVERVIEW:
     case RECEIVE_MY_SAVED_CONTENT:
       return {
         ...state,

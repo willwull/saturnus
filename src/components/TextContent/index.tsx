@@ -1,16 +1,9 @@
-import React, { Component, Fragment } from "react";
-import { Link } from "react-router-dom";
+import React, { Component } from "react";
 import parse, { ParserOptions } from "html-react-parser";
 import domToReact from "html-react-parser/lib/dom-to-react";
 import { splitUrl } from "../../utils";
 import Icon from "../Icon";
-import styled from "styled-components";
-
-const TextContentStyles = styled.div`
-  a {
-    color: ${props => props.theme.primary};
-  }
-`;
+import TextLink from "../Base/TextLink";
 
 type Props = {
   children: string;
@@ -29,18 +22,23 @@ class TextContent extends Component<Props, {}> {
   // Returns a react-router Link if it's a reddit link, otherwise a tag
   static RedditLink = ({ href, children }: RedditLinkProps) => {
     const [domain, rest] = splitUrl(href);
-    if (domain.toLowerCase().match(/(reddit\.com|saturnusapp)/)) {
-      return <Link to={rest}>{children}</Link>;
+    const lowerCaseDomain = domain.toLowerCase();
+    if (lowerCaseDomain.match(/(reddit\.com|saturnusapp)/)) {
+      return (
+        <TextLink to={rest} color="primary">
+          {children}
+        </TextLink>
+      );
     }
 
     if (href.startsWith("/r/")) {
-      return <Link to={href}>{children}</Link>;
+      return <TextLink to={href}>{children}</TextLink>;
     }
 
     return (
-      <a href={href} rel="noopener noreferrer" target="_blank">
-        {children} <Icon icon="external-link" />
-      </a>
+      <TextLink externalUrl={href} color="primary">
+        {children}
+      </TextLink>
     );
   };
 
@@ -60,11 +58,7 @@ class TextContent extends Component<Props, {}> {
   render() {
     // post.selftext_html and comment.body_html can be null
     const str = this.props.children || "";
-    return (
-      <TextContentStyles>
-        {parse(str, TextContent.ParserOptions)}
-      </TextContentStyles>
-    );
+    return parse(str, TextContent.ParserOptions);
   }
 }
 

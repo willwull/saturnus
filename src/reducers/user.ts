@@ -78,21 +78,19 @@ export function contentIsPost(content: MixedContent): boolean {
   return !!(content as Submission).title;
 }
 
-function mapMixedContentToIds(content: MixedContent[]): MixedId[] {
-  return content.map(
-    (obj): MixedId => {
-      if (contentIsPost(obj)) {
-        return {
-          type: "submission",
-          id: obj.id,
-        };
-      }
+export function mapMixedContentToIds(content: MixedContent[]): MixedId[] {
+  return content.map(obj => {
+    if (contentIsPost(obj)) {
       return {
-        type: "comment",
+        type: "submission",
         id: obj.id,
       };
-    },
-  );
+    }
+    return {
+      type: "comment",
+      id: obj.id,
+    };
+  });
 }
 
 export function mapMixedIdsToContent(
