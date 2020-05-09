@@ -16,6 +16,7 @@ import Searchpage from "./pages/Searchpage";
 import SubredditSearch from "./pages/SubredditSearch";
 import SavedPosts from "./pages/SavedPosts";
 import Popovers from "./components/Popovers";
+import UserPage from "./pages/UserPage";
 
 type GlobalStyleProps = {
   theme: ThemeColors;
@@ -88,6 +89,7 @@ class App extends Component<Props, {}> {
               />
               <Route path="/r/:subreddit/search" component={SubredditSearch} />
               <Route path="/user/:username/saved" component={SavedPosts} />
+              <Route path="/user/:username" component={UserPage} />
               <Route path="/search" component={Searchpage} />
               <Route path="/testinggrounds" component={TestingGrounds} />
               <Route component={NotfoundPage} />

@@ -8,6 +8,7 @@ import search, { SearchState } from "./search";
 import sidebar, { SidebarState } from "./sidebar";
 import comments, { CommentsState } from "./comments";
 import snoowrap, { SnoowrapState } from "./snoowrap";
+import userpages, { UserPagesState } from "./userpages";
 import subreddits, { SubredditState } from "./subreddits";
 import currentPost, { CurrentPostState } from "./currentPost";
 
@@ -19,6 +20,7 @@ export type RootState = {
   sidebar: SidebarState;
   comments: CommentsState;
   snoowrap: SnoowrapState;
+  userpages: UserPagesState;
   subreddits: SubredditState;
   currentPost: CurrentPostState;
 };
@@ -31,6 +33,7 @@ export default combineReducers<RootState>({
   sidebar,
   comments,
   snoowrap,
+  userpages,
   subreddits,
   currentPost,
 });

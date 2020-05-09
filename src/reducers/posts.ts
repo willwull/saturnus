@@ -15,6 +15,7 @@ import { Submission, Listing } from "snoowrap";
 import { RECEIVE_POST_SEARCH } from "../actions/search";
 import { RECEIVE_CURRENT_POST } from "../actions/currentPost";
 import { contentIsPost, MixedContent } from "./user";
+import { RECEIVE_USER_OVERVIEW } from "../actions/userpages";
 
 // MARK: Types
 
@@ -75,6 +76,7 @@ function combineWithNewPosts(
   oldPosts: IdPostDict,
   newPosts: Submission[],
 ): IdPostDict {
+  console.log(newPosts);
   const newPostsObj = { ...oldPosts };
   newPosts.forEach(post => {
     newPostsObj[post.id] = post;
@@ -152,6 +154,7 @@ export default function posts(
         ...state,
         byId: combineWithNewPosts(state.byId, action.posts),
       };
+    case RECEIVE_USER_OVERVIEW:
     case RECEIVE_MY_SAVED_CONTENT:
       return {
         ...state,
