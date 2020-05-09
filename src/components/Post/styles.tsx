@@ -2,7 +2,7 @@ import styled from "styled-components";
 import Color from "color";
 import { Link } from "react-router-dom";
 import ContentBox from "../ContentBox";
-import { ThemeColors } from "../../reducers/theme";
+import { ThemeColors } from "../Base/theme";
 
 const POST_BORDER_SIZE = 5;
 

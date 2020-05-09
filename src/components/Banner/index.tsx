@@ -8,6 +8,7 @@ import {
   SubStats,
 } from "./styles";
 import { PadOnNarrow } from "../Page";
+import Text from "../Base/Text";
 
 type Props = {
   title: string;
@@ -41,7 +42,9 @@ function Banner({
               <h1>{title}</h1>
               <div>{primaryAction}</div>
             </Title>
-            <SubStats>{subtitle}</SubStats>
+            <SubStats>
+              <Text color="textDeemphasized">{subtitle}</Text>
+            </SubStats>
             {children}
           </PadOnNarrow>
         </InfoContainer>

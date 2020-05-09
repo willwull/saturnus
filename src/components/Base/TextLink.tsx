@@ -1,18 +1,10 @@
 import React from "react";
-import { ThemeColor } from "../../reducers/theme";
 import styled from "styled-components";
 import { Link } from "react-router-dom";
 import { lighten, darken } from "polished";
 import { useTheme } from "./theme";
-import { TextProps } from "./types";
+import { TextLinkProps } from "./types";
 import Icon from "../Icon";
-
-type Props = TextProps & {
-  to?: string;
-  externalUrl?: string;
-  color?: ThemeColor;
-  children: React.ReactNode;
-};
 
 type StyledProps = {
   color: string;
@@ -37,7 +29,7 @@ const StyledAppLink = StyledLink.withComponent(Link);
 /**
  * A base component for a text based link.
  */
-function TextLink({ to, externalUrl, color, children, bold }: Props) {
+function TextLink({ to, externalUrl, color, children, bold }: TextLinkProps) {
   const theme = useTheme();
   const colorName = color || "primary";
   const colorValue = theme[colorName];

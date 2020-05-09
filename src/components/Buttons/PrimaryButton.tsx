@@ -1,7 +1,7 @@
 import styled from "styled-components";
 import { lighten, darken } from "polished";
 import { Link } from "react-router-dom";
-import { ThemeColors } from "../../reducers/theme";
+import { ThemeColors } from "../Base/theme";
 
 type Props = {
   theme: ThemeColors;

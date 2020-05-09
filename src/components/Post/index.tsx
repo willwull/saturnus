@@ -24,6 +24,7 @@ import {
   AuthorLink,
 } from "./styles";
 import Desktop from "../Desktop";
+import Text from "../Base/Text";
 
 type Props = {
   post: Submission;
@@ -146,16 +147,18 @@ class Post extends React.Component<Props, {}> {
           </div>
 
           <div className="post-info">
-            {moment.unix(post.created_utc).fromNow()} by{" "}
-            <AuthorLink to={`/user/${post.author.name}`}>
-              {post.author.name}
-            </AuthorLink>
-            {post.author_flair_text && (
-              <React.Fragment>
-                {" "}
-                <Flair className="author">{post.author_flair_text}</Flair>
-              </React.Fragment>
-            )}
+            <Text color="textDeemphasized">
+              {moment.unix(post.created_utc).fromNow()} by{" "}
+              <AuthorLink to={`/user/${post.author.name}`}>
+                {post.author.name}
+              </AuthorLink>
+              {post.author_flair_text && (
+                <React.Fragment>
+                  {" "}
+                  <Flair className="author">{post.author_flair_text}</Flair>
+                </React.Fragment>
+              )}
+            </Text>
           </div>
 
           <div className="bottom-row">

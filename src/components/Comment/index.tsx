@@ -17,7 +17,7 @@ import {
   MoreCommentsBtn,
 } from "./styles";
 import TextLink from "../Base/TextLink";
-import { ThemeColor } from "../../reducers/theme";
+import { ThemeColor } from "../Base/theme";
 
 export type Props = {
   comment: CommentType;
