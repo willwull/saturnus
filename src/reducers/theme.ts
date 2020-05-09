@@ -6,6 +6,7 @@ export type ThemeColors = {
   secondary: string;
   secondaryHover: string;
   secondaryActive: string;
+  destructive: string;
   mod: string;
   body: string;
   text: string;
@@ -19,6 +20,7 @@ export type ThemeState = {
 
 const commonColors = {
   primary: "#1e7cf7",
+  destructive: "#e34242",
   mod: "#21af28",
 };
 

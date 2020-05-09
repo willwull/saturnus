@@ -4,12 +4,13 @@ import {
   REQUEST_MORE_USER_OVERVIEW,
 } from "../actions/userpages";
 import { mapMixedContentToIds, MixedId } from "./user";
-import { Listing, Submission } from "snoowrap";
+import { Listing, Submission, RedditUser } from "snoowrap";
 
 type SpecificUserState = {
   hasLoaded: boolean;
   isLoadingContent: boolean;
   isLoadingMore: boolean;
+  userInfo: RedditUser | null;
   overviewContentIds: MixedId[];
   originalListing: Listing<Submission | Comment> | null;
   hasMoreContent: boolean;
@@ -23,6 +24,7 @@ const defaultSpecificUserState: SpecificUserState = {
   hasLoaded: false,
   isLoadingContent: false,
   isLoadingMore: false,
+  userInfo: null,
   overviewContentIds: [],
   originalListing: null,
   hasMoreContent: false,
@@ -44,6 +46,7 @@ function specificUserState(state = defaultSpecificUserState, action: any) {
         ...state,
         hasLoaded: true,
         isLoadingContent: false,
+        userInfo: action.userInfo,
         overviewContentIds: mapMixedContentToIds(action.content),
         originalListing: action.content,
         hasMoreContent: action.hasMoreContent,

@@ -10,6 +10,7 @@ export type DialogProps = {
   primaryLabel: string;
   onPrimary: () => void;
   focusOnCancel?: boolean;
+  type?: "primary" | "destructive";
 };
 
 type Props = DialogProps & {
@@ -68,6 +69,7 @@ function Dialog({
   hideFunc,
   onPrimary,
   focusOnCancel,
+  type,
 }: Props) {
   const primaryRef = useRef<HTMLButtonElement>(null);
   const cancelRef = useRef<HTMLButtonElement>(null);
@@ -94,7 +96,11 @@ function Dialog({
           <CancelButton ref={cancelRef} onClick={hideFunc}>
             Cancel
           </CancelButton>
-          <PrimaryButton ref={primaryRef} onClick={primaryClickHandler}>
+          <PrimaryButton
+            type={type as any}
+            ref={primaryRef}
+            onClick={primaryClickHandler}
+          >
             {primaryLabel}
           </PrimaryButton>
         </ButtonRow>

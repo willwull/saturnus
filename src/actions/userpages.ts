@@ -18,14 +18,16 @@ export function getOverviewForUser(username: string) {
 
     const r = reddit.getSnoowrap();
     const user = r.getUser(username);
-
-    const content = await user.getOverview();
-
+    const [userInfo, postsAndComments] = await Promise.all([
+      user.fetch(),
+      user.getOverview(),
+    ]);
     dispatch({
       type: RECEIVE_USER_OVERVIEW,
       username,
-      content,
-      hasMoreContent: !content.isFinished,
+      userInfo,
+      content: postsAndComments,
+      hasMoreContent: !postsAndComments.isFinished,
     });
   };
 }
