@@ -57,12 +57,10 @@ export type PostsState = {
 // MARK: Helper functions
 
 export function mapPostsToId(posts: Submission[] = []): string[] {
-  console.log("posts");
   return posts.map(post => post.id);
 }
 
 export function mapIdsToPosts(ids: string[], postsState: PostsState) {
-  console.log("ids");
   return ids.map(id => postsState.byId[id]);
 }
 
@@ -76,7 +74,6 @@ function combineWithNewPosts(
   oldPosts: IdPostDict,
   newPosts: Submission[],
 ): IdPostDict {
-  console.log(newPosts);
   const newPostsObj = { ...oldPosts };
   newPosts.forEach(post => {
     newPostsObj[post.id] = post;

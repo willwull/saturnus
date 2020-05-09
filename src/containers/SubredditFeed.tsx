@@ -62,7 +62,6 @@ class SubredditFeed extends Component<Props, {}> {
 
   componentDidUpdate(prevProps: Props) {
     if (this.props.location !== prevProps.location) {
-      console.log("Different location");
       this.loadPosts();
     }
   }
@@ -85,14 +84,12 @@ class SubredditFeed extends Component<Props, {}> {
       history.action === "POP" &&
       sortMode === storedSortMode
     ) {
-      console.log("Skipping fetch of posts");
       return;
     }
 
     // If we have navigated to the post page, no need to fetch new posts
     // in the subreddit feed.
     if (location.pathname.includes("/comments/")) {
-      console.log("Skipping feed fetching; in post page");
       return;
     }
 

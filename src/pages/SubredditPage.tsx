@@ -42,7 +42,6 @@ class SubredditPage extends Component<Props, {}> {
     const { subreddit, sortMode } = params;
 
     if (error) {
-      console.log("error");
       return (
         <Page withBanner={false}>
           <ImageMessage page={"Bug"} />;
