@@ -13,6 +13,8 @@ export type ThemeColors = {
   contentBg: string;
 };
 
+export type ThemeColor = keyof ThemeColors;
+
 export type ThemeState = {
   isDark: boolean;
   colors: ThemeColors;

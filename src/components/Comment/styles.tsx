@@ -76,10 +76,6 @@ export const CommentTitle = styled.button`
   font-size: 14px;
   width: 100%;
 
-  .comment-author {
-    margin-right: 1ch;
-  }
-
   .secondary {
     opacity: 0.5;
   }
@@ -101,11 +97,6 @@ export const CommentBody = styled.div`
     `};
 
   margin-top: 15px;
-
-  a {
-    color: ${props => props.theme.primary};
-    word-break: break-word;
-  }
 
   & .md > p:last-child {
     margin-bottom: 0;

@@ -16,6 +16,8 @@ import {
   CommentScrollAnchor,
   MoreCommentsBtn,
 } from "./styles";
+import TextLink from "../Base/TextLink";
+import { ThemeColor } from "../../reducers/theme";
 
 export type Props = {
   comment: CommentType;
@@ -69,11 +71,11 @@ class Comment extends Component<Props, State> {
       return null;
     }
 
-    let authorNameClass = "comment-author";
+    let authorNameColor: ThemeColor = "text";
     if (comment.distinguished === "moderator") {
-      authorNameClass += " mod";
+      authorNameColor = "mod";
     } else if (comment.is_submitter) {
-      authorNameClass += " op";
+      authorNameColor = "primary";
     }
 
     let score;
@@ -115,7 +117,15 @@ class Comment extends Component<Props, State> {
               </span>
             )}
 
-            <b className={authorNameClass}>{comment.author.name}</b>
+            <TextLink
+              to={`/user/${comment.author.name}`}
+              color={authorNameColor}
+              bold
+            >
+              {comment.author.name}
+            </TextLink>
+
+            <> </>
 
             <span className="secondary">
               <Icon icon="far long-arrow-up" /> {score}
