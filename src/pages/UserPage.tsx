@@ -1,9 +1,9 @@
 import React, { useEffect } from "react";
 import { RouteComponentProps } from "react-router-dom";
-import { Submission } from "snoowrap";
+import { Submission, RedditUser } from "snoowrap";
 import Helmet from "react-helmet";
 import { connect } from "react-redux";
-import Page from "../components/Page";
+import Page, { BannerPage, BannerPageContent } from "../components/Page";
 import { Feed } from "../components/PostFeed/styles";
 import { RootState, DispatchType } from "../reducers";
 import { getOverviewForUser, fetchMoreUserContent } from "../actions/userpages";
@@ -11,6 +11,9 @@ import Loading from "../components/Loading";
 import MixedContentFeed from "../components/MixedContentFeed";
 import { MixedContent, mapMixedIdsToContent } from "../reducers/user";
 import { postVote } from "../actions/voting";
+import { BannerImg } from "../components/Banner/styles";
+import Banner from "../components/Banner";
+import { numberWithSpaces } from "../utils";
 
 type ParamProps = {
   username: string;
@@ -22,6 +25,7 @@ type StateProps = {
   isLoadingMore: boolean;
   content: MixedContent[];
   hasMoreContent: boolean;
+  userInfo: RedditUser | null;
 };
 
 type DispatchProps = {
@@ -42,6 +46,7 @@ function UserPage({
   fetchMore,
   hasMoreContent,
   voteOnPost,
+  userInfo,
 }: Props) {
   const { username } = match.params;
 
@@ -71,13 +76,42 @@ function UserPage({
     );
   }
 
+  let banner;
+  if (isLoadingContent || !userInfo) {
+    banner = <BannerImg />;
+  } else {
+    const subtitle = [
+      `${numberWithSpaces(userInfo.link_karma)} post karma`,
+      `${numberWithSpaces(userInfo.comment_karma)} comment karma`,
+    ].join(" • ");
+    const iconSrc = userInfo.icon_img;
+
+    // for some reason, the actual subreddit info is under subreddit.display_name
+    const bannerSrc = userInfo.subreddit
+      ? (userInfo.subreddit.display_name as any).banner_img
+      : "";
+    banner = (
+      <Banner
+        title={userInfo.name}
+        subtitle={subtitle}
+        iconSrc={iconSrc}
+        bannerSrc={bannerSrc}
+      />
+    );
+  }
+
   return (
-    <Page>
+    <>
       <Helmet>
         <title>{`${username} (u/${username})`}</title>
       </Helmet>
-      {innerContent}
-    </Page>
+
+      <BannerPage>
+        {banner}
+
+        <BannerPageContent>{innerContent}</BannerPageContent>
+      </BannerPage>
+    </>
   );
 }
 
@@ -95,6 +129,7 @@ function mapStateToProps(
       isLoadingMore: false,
       content: [],
       hasMoreContent: false,
+      userInfo: null,
     };
   }
 
@@ -107,6 +142,7 @@ function mapStateToProps(
     isLoadingMore: currentUserContent.isLoadingMore,
     isLoadingContent: currentUserContent.isLoadingContent,
     hasMoreContent: currentUserContent.hasMoreContent,
+    userInfo: currentUserContent.userInfo,
   };
 }
 

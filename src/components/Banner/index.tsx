@@ -32,7 +32,7 @@ function Banner({
 }: Props) {
   return (
     <BannerWrapper>
-      {bannerSrc && <BannerImg imgSrc={bannerSrc} bgColor={bannerColor} />}
+      <BannerImg imgSrc={bannerSrc} bgColor={bannerColor} />
       <Fragment>
         <InfoContainer>
           <PadOnNarrow>
