@@ -1,41 +1,34 @@
-import React, { Component } from "react";
-import { connect } from "react-redux";
+import React, { useCallback, useEffect } from "react";
+import { useSelector, useDispatch } from "react-redux";
+import { useLocation } from "react-router-dom";
 import { closeSidebar } from "../actions/sidebar";
 import Sidebar from "../components/Sidebar";
 import { RootState } from "../reducers";
-import { Dispatch } from "redux";
+import { usePrevious } from "../utils";
 
-type StateProps = {
-  open: boolean;
-};
+function AppSidebar() {
+  // Not sure why I need to cast it to a boolean...
+  const isOpen = useSelector<RootState>(state => state.sidebar.open) as boolean;
+  const dispatch = useDispatch();
+  const location = useLocation();
+  const prevLocation = usePrevious(location);
 
-type DispatchProps = {
-  onClose: () => void;
-};
-
-type Props = StateProps & DispatchProps;
-
-class AppSidebar extends Component<Props, {}> {
-  render() {
-    return <Sidebar {...this.props} />;
-  }
-}
-
-function mapStateToProps({ sidebar }: RootState): StateProps {
-  return {
-    open: sidebar.open,
-  };
-}
-
-function mapDispatchToProps(dispatch: Dispatch): DispatchProps {
-  return {
-    onClose: () => {
-      dispatch(closeSidebar());
+  useEffect(
+    () => {
+      // Auto close the sidebar if the location changes.
+      // Checks prevLocation first to avoid an unnecessary dispatch on mount
+      if (prevLocation && location !== prevLocation) {
+        dispatch(closeSidebar());
+      }
     },
-  };
+    [location],
+  );
+
+  const close = useCallback(() => {
+    dispatch(closeSidebar());
+  }, []);
+
+  return <Sidebar open={isOpen} onClose={close} />;
 }
 
-export default connect<StateProps, DispatchProps, {}, RootState>(
-  mapStateToProps,
-  mapDispatchToProps,
-)(AppSidebar);
+export default AppSidebar;
