@@ -70,9 +70,9 @@ class App extends Component<Props, {}> {
       <ThemeProvider theme={theme.colors}>
         <div className={themeClassName}>
           <GlobalStyles />
+          <Header />
+          <AppSidebar />
           <ScrollToTop>
-            <Header />
-            <AppSidebar />
             <Switch>
               <Route
                 exact
