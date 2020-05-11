@@ -7,7 +7,6 @@ import {
   authSnoowrap,
   initRefreshToken,
 } from "./actions/snoowrap";
-import { closeSidebar } from "./actions/sidebar";
 import * as LocalCache from "./LocalCache";
 import App from "./App";
 import { ThemeState } from "./reducers/theme";

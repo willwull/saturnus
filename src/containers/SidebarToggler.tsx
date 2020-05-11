@@ -1,7 +1,6 @@
-import React, { Component, useCallback } from "react";
-import { connect, useDispatch } from "react-redux";
+import React, { useCallback } from "react";
+import { useDispatch } from "react-redux";
 import { openSidebar } from "../actions/sidebar";
-import { DispatchType, RootState } from "../reducers";
 
 type Props = {
   children?: React.ReactNode;
@@ -9,9 +8,12 @@ type Props = {
 
 function SidebarToggler({ children }: Props) {
   const dispatch = useDispatch();
-  const onClick = useCallback(() => {
-    dispatch(openSidebar());
-  }, []);
+  const onClick = useCallback(
+    () => {
+      dispatch(openSidebar());
+    },
+    [dispatch],
+  );
 
   return <button onClick={onClick}>{children}</button>;
 }

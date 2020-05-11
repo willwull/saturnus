@@ -1,9 +1,7 @@
 import React from "react";
 import { RouteComponentProps, Redirect } from "react-router-dom";
 import Page, { PadOnNarrow } from "../components/Page";
-import CurrentSearchResults, {
-  SearchType,
-} from "../containers/CurrentSearchResults";
+import CurrentSearchResults from "../containers/CurrentSearchResults";
 import Helmet from "react-helmet";
 
 export type MatchParams = {

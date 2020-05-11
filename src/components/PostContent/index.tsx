@@ -7,7 +7,6 @@ import Icon from "../Icon";
 import VideoContent from "./VideoContent";
 import {
   ContentOverflowGradient,
-  ImgPreview,
   SelfText,
   RichMedia,
   ImgPreviewContainer,
@@ -178,7 +177,7 @@ class PostContent extends Component<Props, State> {
       if (post.url.includes("ifr")) {
         src = post.url;
       } else {
-        const [_, rest] = splitUrl(post.url);
+        const rest = splitUrl(post.url)[1];
         src = `https://gfycat.com/ifr${rest}`;
       }
 
@@ -193,6 +192,7 @@ class PostContent extends Component<Props, State> {
             allowFullScreen={true}
             allow="autoplay; fullscreen"
             height={height}
+            title={post.title}
           />
           {isHidden && this.renderObfuscationOverlay("video")}
         </ImgPreviewContainer>

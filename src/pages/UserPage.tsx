@@ -3,7 +3,7 @@ import { RouteComponentProps } from "react-router-dom";
 import { Submission, RedditUser } from "snoowrap";
 import Helmet from "react-helmet";
 import { connect } from "react-redux";
-import Page, { BannerPage, BannerPageContent } from "../components/Page";
+import { BannerPage, BannerPageContent } from "../components/Page";
 import { Feed } from "../components/PostFeed/styles";
 import { RootState, DispatchType } from "../reducers";
 import { getOverviewForUser, fetchMoreUserContent } from "../actions/userpages";
@@ -56,7 +56,7 @@ function UserPage({
         fetchOverview(username);
       }
     },
-    [username],
+    [username, hasLoaded, fetchOverview],
   );
 
   let innerContent;

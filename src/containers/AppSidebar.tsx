@@ -21,12 +21,15 @@ function AppSidebar() {
         dispatch(closeSidebar());
       }
     },
-    [location],
+    [dispatch, prevLocation, location],
   );
 
-  const close = useCallback(() => {
-    dispatch(closeSidebar());
-  }, []);
+  const close = useCallback(
+    () => {
+      dispatch(closeSidebar());
+    },
+    [dispatch],
+  );
 
   return <Sidebar open={isOpen} onClose={close} />;
 }

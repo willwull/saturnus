@@ -74,13 +74,16 @@ function Dialog({
   const primaryRef = useRef<HTMLButtonElement>(null);
   const cancelRef = useRef<HTMLButtonElement>(null);
 
-  useEffect(() => {
-    if (focusOnCancel) {
-      cancelRef.current && cancelRef.current.focus();
-    } else {
-      primaryRef.current && primaryRef.current.focus();
-    }
-  }, []);
+  useEffect(
+    () => {
+      if (focusOnCancel) {
+        cancelRef.current && cancelRef.current.focus();
+      } else {
+        primaryRef.current && primaryRef.current.focus();
+      }
+    },
+    [focusOnCancel],
+  );
 
   function primaryClickHandler() {
     onPrimary();
