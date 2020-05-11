@@ -10,11 +10,7 @@ class ScrollToTop extends Component<RouteComponentProps, {}> {
     const { location, history } = this.props;
     if (location !== prevProps.location) {
       // action is POP when the user goes back in their browser
-      // if opening a modal, don't need to reset scrolling
-      if (
-        history.action !== "POP" &&
-        (!location.state || !location.state.modal)
-      ) {
+      if (history.action !== "POP") {
         window.scrollTo(0, 0);
       }
     }
