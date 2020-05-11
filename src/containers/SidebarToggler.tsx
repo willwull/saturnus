@@ -1,32 +1,19 @@
-import React, { Component } from "react";
-import { connect } from "react-redux";
+import React, { Component, useCallback } from "react";
+import { connect, useDispatch } from "react-redux";
 import { openSidebar } from "../actions/sidebar";
 import { DispatchType, RootState } from "../reducers";
 
-type DispatchProps = {
-  openSidebar: () => void;
+type Props = {
+  children?: React.ReactNode;
 };
 
-class SidebarToggler extends Component<DispatchProps, {}> {
-  render() {
-    const { openSidebar: onClick, ...props } = this.props;
-    return <button {...props} onClick={onClick} />;
-  }
+function SidebarToggler({ children }: Props) {
+  const dispatch = useDispatch();
+  const onClick = useCallback(() => {
+    dispatch(openSidebar());
+  }, []);
+
+  return <button onClick={onClick}>{children}</button>;
 }
 
-function mapStateToProps() {
-  return {};
-}
-
-function mapDispatchToProps(dispatch: DispatchType): DispatchProps {
-  return {
-    openSidebar: () => {
-      dispatch(openSidebar());
-    },
-  };
-}
-
-export default connect<{}, DispatchProps, {}, RootState>(
-  mapStateToProps,
-  mapDispatchToProps,
-)(SidebarToggler);
+export default SidebarToggler;

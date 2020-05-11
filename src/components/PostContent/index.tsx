@@ -121,7 +121,13 @@ class PostContent extends Component<Props, State> {
       // .gifv won't work as video src, but .mp4 works
       const vidUrl = post.url.replace(".gifv", ".mp4");
 
+      if (!post.preview) {
+        console.log(post);
+        return "FUCK";
+      }
+
       const redditVideoPreview = (post.preview as any).reddit_video_preview;
+
       const intrinsicSize = {
         width: redditVideoPreview.width,
         height: redditVideoPreview.height,
