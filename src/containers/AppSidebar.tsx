@@ -9,6 +9,10 @@ import { usePrevious } from "../utils";
 function AppSidebar() {
   // Not sure why I need to cast it to a boolean...
   const isOpen = useSelector<RootState>(state => state.sidebar.open) as boolean;
+  const hasOpenedOnce = useSelector<RootState>(
+    state => state.sidebar.hasOpenedOnce,
+  ) as boolean;
+
   const dispatch = useDispatch();
   const location = useLocation();
   const prevLocation = usePrevious(location);
@@ -31,7 +35,9 @@ function AppSidebar() {
     [dispatch],
   );
 
-  return <Sidebar open={isOpen} onClose={close} />;
+  return (
+    <Sidebar hasOpenedOnce={hasOpenedOnce} open={isOpen} onClose={close} />
+  );
 }
 
 export default AppSidebar;
