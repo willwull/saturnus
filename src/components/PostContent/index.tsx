@@ -122,10 +122,20 @@ class PostContent extends Component<Props, State> {
 
       const redditVideoPreview = (post.preview as any).reddit_video_preview;
 
-      const intrinsicSize = {
-        width: redditVideoPreview.width,
-        height: redditVideoPreview.height,
-      };
+      let intrinsicSize;
+      if (redditVideoPreview) {
+        intrinsicSize = {
+          width: redditVideoPreview.width,
+          height: redditVideoPreview.height,
+        };
+      } else {
+        // fallback to the size of the preview image
+        const previewImage = post.preview.images[0].source;
+        intrinsicSize = {
+          width: previewImage.width,
+          height: previewImage.height,
+        };
+      }
 
       // muted needs to be set for autoplay to work on Chrome
       return (
@@ -146,7 +156,7 @@ class PostContent extends Component<Props, State> {
       // TODO: support reddit videos with audio
       const videoStream = media!.reddit_video!.fallback_url;
 
-      // Height doesn't exist in the type?? Wtf
+      // Width doesn't exist in the type?? Wtf
       const intrinsicSize = {
         width: (media!.reddit_video as any).width,
         height: media!.reddit_video!.height,
