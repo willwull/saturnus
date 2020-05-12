@@ -80,6 +80,7 @@ class Popovers extends Component<{}, State> {
 
   componentWillUnmount() {
     this.unsubscribe!();
+    document.body.classList.remove("no-scroll");
     window.removeEventListener("keydown", this.keyListener);
   }
 
