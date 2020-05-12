@@ -2,7 +2,7 @@ import styled, { css } from "styled-components";
 
 export const BannerWrapper = styled.div`
   width: 100%;
-  background: ${props => props.theme.contentBg};
+  background: ${(props) => props.theme.contentBg};
 `;
 
 type BannerImgProps = {
@@ -63,6 +63,11 @@ export const InfoContainer = styled.div`
   h1 {
     margin: 0;
   }
+`;
+
+export const BottomWrapper = styled.div`
+  max-width: 750px;
+  margin: 0 auto;
 `;
 
 export const Title = styled.div`

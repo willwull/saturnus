@@ -6,6 +6,7 @@ import {
   InfoContainer,
   Title,
   SubStats,
+  BottomWrapper,
 } from "./styles";
 import { PadOnNarrow } from "../Page";
 import Text from "../Base/Text";
@@ -19,6 +20,7 @@ type Props = {
   bannerSrc?: string;
   bannerColor?: string;
   children?: React.ReactNode;
+  bottom?: React.ReactNode;
 };
 
 function Banner({
@@ -30,6 +32,7 @@ function Banner({
   iconColor,
   primaryAction,
   children,
+  bottom,
 }: Props) {
   return (
     <BannerWrapper>
@@ -48,6 +51,7 @@ function Banner({
             {children}
           </PadOnNarrow>
         </InfoContainer>
+        {bottom != null && <BottomWrapper>{bottom}</BottomWrapper>}
       </Fragment>
     </BannerWrapper>
   );

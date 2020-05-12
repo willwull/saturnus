@@ -1,5 +1,5 @@
 import React, { useEffect } from "react";
-import { RouteComponentProps } from "react-router-dom";
+import { RouteComponentProps, NavLink } from "react-router-dom";
 import { Submission, RedditUser } from "snoowrap";
 import Helmet from "react-helmet";
 import { connect } from "react-redux";
@@ -14,6 +14,7 @@ import { postVote } from "../actions/voting";
 import { BannerImg } from "../components/Banner/styles";
 import Banner from "../components/Banner";
 import { numberWithSpaces } from "../utils";
+import styled from "styled-components";
 
 type ParamProps = {
   username: string;
@@ -36,6 +37,29 @@ type DispatchProps = {
 
 type Props = StateProps & DispatchProps & RouteComponentProps<ParamProps>;
 
+const TabsContainer = styled.div`
+  display: flex;
+  flex-direction: row;
+`;
+
+const Tab = styled(NavLink)`
+  display: flex;
+  flex-direction: row;
+  flex: 1;
+  padding: 1em;
+  justify-content: center;
+  color: ${(p) => p.theme.textDeemphasized};
+
+  &.active {
+    color: ${(p) => p.theme.primary};
+    border-bottom: 3px solid ${(p) => p.theme.primary};
+  }
+
+  &:hover {
+    color: ${(p) => p.theme.primary};
+  }
+`;
+
 function UserPage({
   match,
   hasLoaded,
@@ -50,14 +74,11 @@ function UserPage({
 }: Props) {
   const { username } = match.params;
 
-  useEffect(
-    () => {
-      if (!hasLoaded) {
-        fetchOverview(username);
-      }
-    },
-    [username, hasLoaded, fetchOverview],
-  );
+  useEffect(() => {
+    if (!hasLoaded) {
+      fetchOverview(username);
+    }
+  }, [username, hasLoaded, fetchOverview]);
 
   let innerContent;
   if (isLoadingContent) {
@@ -96,6 +117,15 @@ function UserPage({
         subtitle={subtitle}
         iconSrc={iconSrc}
         bannerSrc={bannerSrc}
+        bottom={
+          <TabsContainer>
+            <Tab exact to={`/user/${userInfo.name}`}>
+              Overview
+            </Tab>
+            <Tab to={`/user/${userInfo.name}/posts`}>Posts</Tab>
+            <Tab to={`/user/${userInfo.name}/comments`}>Comments</Tab>
+          </TabsContainer>
+        }
       />
     );
   }
@@ -160,7 +190,4 @@ function mapDispatchToProps(dispatch: DispatchType): DispatchProps {
   };
 }
 
-export default connect(
-  mapStateToProps,
-  mapDispatchToProps,
-)(UserPage);
+export default connect(mapStateToProps, mapDispatchToProps)(UserPage);
