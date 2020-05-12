@@ -44,10 +44,11 @@ export function fetchSubreddit(subreddit: string) {
     // for some reason, writing this as async triggers a TS error
     r.getSubreddit(subreddit)
       .fetch()
-      .then(data => {
+      .then((data) => {
+        LocalCache.storeSubredditData(data);
         dispatch(receiveSubreddit(subreddit, data));
       })
-      .catch(error => {
+      .catch((error) => {
         console.error(error);
         dispatch({ type: SUBREDDIT_ERROR });
       });
