@@ -11,7 +11,7 @@ const StyledSpan = styled.span`
   color: ${(p: StyledProps) => p.color};
   font-weight: ${(p: StyledProps) => (p.bold ? "bold" : "regular")};
 `;
-const StyledP = styled.p`
+const StyledDiv = styled.div`
   color: ${(p: StyledProps) => p.color};
   font-weight: ${(p: StyledProps) => (p.bold ? "bold" : "regular")};
 `;
@@ -23,7 +23,7 @@ const TextContext = createContext<boolean>(false);
 function Text({ color, bold, children }: TextProps) {
   const textColor = useThemeColor(color || "text");
   const hasTextParent = useContext(TextContext);
-  const Element = hasTextParent ? StyledSpan : StyledP;
+  const Element = hasTextParent ? StyledSpan : StyledDiv;
 
   return (
     <Element color={textColor} bold={bold || false}>
