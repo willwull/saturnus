@@ -46,8 +46,10 @@ class UserMenu extends Component<Props, {}> {
       user: { loggedIn, isLoading, data },
     } = this.props;
 
+    if (isLoading) return null;
+
     // user is not logged in, guest menu
-    if (!loggedIn || isLoading || (loggedIn && data === null)) {
+    if (!loggedIn || (loggedIn && data === null)) {
       return <GuestUserMenu signIn={this.handleSignIn} />;
     }
 
