@@ -15,7 +15,7 @@ import { Submission, Listing } from "snoowrap";
 import { RECEIVE_POST_SEARCH } from "../actions/search";
 import { RECEIVE_CURRENT_POST } from "../actions/currentPost";
 import { contentIsPost, MixedContent } from "./user";
-import { RECEIVE_USER_OVERVIEW } from "../actions/userpages";
+import { UserpagePostHelpers, UserOverviewHelpers } from "../actions/userpages";
 
 // MARK: Types
 
@@ -57,11 +57,14 @@ export type PostsState = {
 // MARK: Helper functions
 
 export function mapPostsToId(posts: Submission[] = []): string[] {
-  return posts.map(post => post.id);
+  return posts.map((post) => post.id);
 }
 
-export function mapIdsToPosts(ids: string[], postsState: PostsState) {
-  return ids.map(id => postsState.byId[id]);
+export function mapIdsToPosts(
+  ids: string[],
+  postsState: PostsState,
+): Submission[] {
+  return ids.map((id) => postsState.byId[id]).filter((p) => p !== undefined);
 }
 
 /**
@@ -75,7 +78,7 @@ function combineWithNewPosts(
   newPosts: Submission[],
 ): IdPostDict {
   const newPostsObj = { ...oldPosts };
-  newPosts.forEach(post => {
+  newPosts.forEach((post) => {
     newPostsObj[post.id] = post;
   });
   return newPostsObj;
@@ -151,7 +154,8 @@ export default function posts(
         ...state,
         byId: combineWithNewPosts(state.byId, action.posts),
       };
-    case RECEIVE_USER_OVERVIEW:
+    case UserpagePostHelpers.RECEIVE:
+    case UserOverviewHelpers.RECEIVE:
     case RECEIVE_MY_SAVED_CONTENT:
       return {
         ...state,
@@ -159,10 +163,6 @@ export default function posts(
           state.byId,
           action.content.filter(contentIsPost),
         ),
-        bySubreddit: {
-          ...state.bySubreddit,
-          [subreddit]: postsInSubreddit(state.bySubreddit[subreddit], action),
-        },
       };
     case RECEIVE_POSTS:
       return {

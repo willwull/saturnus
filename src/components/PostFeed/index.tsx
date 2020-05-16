@@ -9,10 +9,10 @@ import { NoPosts, Feed } from "./styles";
 
 type Props = {
   posts: Submission[];
-  loadMore: () => void;
-  isLoading: boolean;
-  isLoadingMore: boolean;
-  currentSort: string;
+  loadMore?: () => void;
+  isLoading?: boolean;
+  isLoadingMore?: boolean;
+  currentSort?: string;
   currentTimeSort?: string;
   subreddit?: string;
   voteOnPost: (post: Submission, vote: "up" | "down") => void;
@@ -36,7 +36,7 @@ function PostFeed({
   } else {
     content = (
       <React.Fragment>
-        {posts.map(post => (
+        {posts.map((post) => (
           <Post key={post.id} post={post} voteOnPost={voteOnPost} />
         ))}
 
@@ -54,11 +54,13 @@ function PostFeed({
 
   return (
     <Feed>
-      <FeedSortOptions
-        currentSort={currentSort}
-        subreddit={subreddit}
-        currentTimeSort={currentTimeSort}
-      />
+      {currentSort != null && (
+        <FeedSortOptions
+          currentSort={currentSort}
+          subreddit={subreddit}
+          currentTimeSort={currentTimeSort}
+        />
+      )}
       {content}
     </Feed>
   );

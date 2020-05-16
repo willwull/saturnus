@@ -25,20 +25,20 @@ type GlobalStyleProps = {
 
 const GlobalStyles = createGlobalStyle<GlobalStyleProps>`
   html, body {
-    background: ${props => props.theme.body};
-    color: ${props => props.theme.text};
+    background: ${(props) => props.theme.body};
+    color: ${(props) => props.theme.text};
   }
 
   blockquote {
-    background: ${props => props.theme.body};
+    background: ${(props) => props.theme.body};
   }
 
   .mod {
-    color: ${props => props.theme.mod};
+    color: ${(props) => props.theme.mod};
   }
 
   .op {
-    color: ${props => props.theme.primary};
+    color: ${(props) => props.theme.primary};
   }
 `;
 
@@ -90,7 +90,10 @@ class App extends Component<Props, {}> {
               />
               <Route path="/r/:subreddit/search" component={SubredditSearch} />
               <Route path="/user/:username/saved" component={SavedPosts} />
-              <Route path="/user/:username" component={UserPage} />
+              <Route
+                path="/user/:username/:contentType(overview|posts|comments)?"
+                component={UserPage}
+              />
               <Route path="/search" component={Searchpage} />
               <Route path="/testinggrounds" component={TestingGrounds} />
               <Route component={NotfoundPage} />
