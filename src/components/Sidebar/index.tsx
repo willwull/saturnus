@@ -5,7 +5,14 @@ import Icon from "../Icon";
 import FetchSubscriptionsBtn from "../../containers/FetchSubscriptionsBtn";
 import { SectionTitle, SidebarLink } from "./styles";
 
-function Sidebar(props: DrawerProps) {
+type Props = {
+  hasOpenedOnce: boolean;
+} & DrawerProps;
+
+function Sidebar(props: Props) {
+  // We wait to render the subscription list because it can be slow to
+  // render such a long list. We still render the sidebar as a whole
+  // since the sliding in transition seems to be smoother if it's mounted.
   return (
     <Drawer {...props}>
       <SectionTitle>Reddit feeds</SectionTitle>
@@ -26,7 +33,7 @@ function Sidebar(props: DrawerProps) {
         Subscriptions
         <FetchSubscriptionsBtn />
       </SectionTitle>
-      <SubscriptionList />
+      {props.hasOpenedOnce && <SubscriptionList />}
     </Drawer>
   );
 }

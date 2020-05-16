@@ -2,7 +2,6 @@ import React, { Component } from "react";
 import parse, { ParserOptions } from "html-react-parser";
 import domToReact from "html-react-parser/lib/dom-to-react";
 import { splitUrl } from "../../utils";
-import Icon from "../Icon";
 import TextLink from "../Base/TextLink";
 
 type Props = {

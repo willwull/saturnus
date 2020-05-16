@@ -1,5 +1,4 @@
 import React, { Component } from "react";
-import PropTypes from "prop-types";
 import { connect } from "react-redux";
 import Icon from "../components/Icon";
 import Menu from "../components/Menu";

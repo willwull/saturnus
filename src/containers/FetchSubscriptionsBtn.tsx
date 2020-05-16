@@ -1,9 +1,9 @@
-import React, { Component } from "react";
+import React from "react";
 import styled from "styled-components";
-import { connect } from "react-redux";
+import { useSelector, useDispatch } from "react-redux";
 import Icon from "../components/Icon";
 import { fetchMySubs } from "../actions/user";
-import { RootState, DispatchType } from "../reducers";
+import { RootState } from "../reducers";
 
 const FetchBtn = styled.button`
   font-size: 0.8em;
@@ -13,47 +13,34 @@ const FetchBtn = styled.button`
   }
 `;
 
-type StateProps = {
-  isLoading: boolean;
-};
+function FetchSubscriptionsBtn() {
+  const userState = useSelector((state: RootState) => state.user);
+  const dispatch = useDispatch();
+  const isLoading = userState.isLoading || userState.subsLoading;
 
-type DispatchProps = {
-  fetch: () => void;
-};
-
-type Props = StateProps & DispatchProps;
-
-class FetchSubscriptionsBtn extends Component<Props, {}> {
-  render() {
-    const { fetch, isLoading } = this.props;
-    let icon = <Icon icon="far sync-alt" />;
+  function handleClick() {
     if (isLoading) {
-      icon = <Icon icon="far sync-alt" spin />;
+      return;
     }
 
-    return (
-      <FetchBtn onClick={fetch} disabled={isLoading}>
-        {icon}
-      </FetchBtn>
+    dispatch(
+      fetchMySubs({
+        username: userState.data?.name,
+        skipCache: true,
+      }),
     );
   }
+
+  let icon = <Icon icon="far sync-alt" />;
+  if (isLoading) {
+    icon = <Icon icon="far sync-alt" spin />;
+  }
+
+  return (
+    <FetchBtn onClick={handleClick} disabled={isLoading}>
+      {icon}
+    </FetchBtn>
+  );
 }
 
-function mapStateToProps({ user: { subsLoading } }: RootState): StateProps {
-  return {
-    isLoading: subsLoading,
-  };
-}
-
-function mapDispatchToProps(dispatch: DispatchType) {
-  return {
-    fetch: () => {
-      dispatch(fetchMySubs({ skipCache: true }));
-    },
-  };
-}
-
-export default connect<StateProps, DispatchProps, {}, RootState>(
-  mapStateToProps,
-  mapDispatchToProps,
-)(FetchSubscriptionsBtn);
+export default FetchSubscriptionsBtn;

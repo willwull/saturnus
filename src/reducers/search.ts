@@ -2,7 +2,6 @@ import { Subreddit, Submission, Listing } from "snoowrap";
 import {
   REQUEST_SEARCH_RESULTS,
   RECEIVE_SUB_SEARCH,
-  SET_SEARCH_INPUT_VALUE,
   RECEIVE_POST_SEARCH,
 } from "../actions/search";
 import { mapPostsToId } from "./posts";
@@ -10,7 +9,6 @@ import { mapPostsToId } from "./posts";
 // MARK: Types
 
 export type SearchState = {
-  query: string;
   lastSearchQuery: string;
   lastSearchSub: string;
   isLoading: boolean;
@@ -22,7 +20,6 @@ export type SearchState = {
 };
 
 const defaultState: SearchState = {
-  query: "",
   lastSearchQuery: "",
   lastSearchSub: "",
   isLoading: false,
@@ -36,8 +33,6 @@ const defaultState: SearchState = {
 
 export default function search(state = defaultState, action: any): SearchState {
   switch (action.type) {
-    case SET_SEARCH_INPUT_VALUE:
-      return { ...state, query: action.query };
     case REQUEST_SEARCH_RESULTS:
       return {
         ...state,

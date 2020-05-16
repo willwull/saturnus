@@ -6,6 +6,7 @@ const REDDIT_AUTH_TOKENS = "reddit_auth_tokens";
 const LAST_ACTIVE_USER = "last_active_user";
 const MY_SUBSCRIPTIONS = "my_subscriptions";
 const IS_DARK_THEME = "saturnus_dark_theme_on";
+const SUBREDDITS = "cached_subreddits";
 
 /* Generic functions */
 function set(key: string, value: any) {
@@ -63,7 +64,7 @@ export function storeMySubs(subscriptions: Subreddit[], user: string) {
   // that take up unnecessary storage since they aren't used within the
   // app anyway, so we only store what we need.
   // This also ensures we don't exceed the localStorage quota
-  const stripped: SimpleSubreddit[] = subscriptions.map(sub => ({
+  const stripped: SimpleSubreddit[] = subscriptions.map((sub) => ({
     id: sub.id,
     url: sub.url,
     icon_img: sub.icon_img,
@@ -83,6 +84,24 @@ export function getStoredTheme(): boolean {
 
 export function storeTheme(isDarkTheme: boolean) {
   set(IS_DARK_THEME, isDarkTheme);
+}
+
+/* To make subsequent visits to subreddits smoother, cache the sub data */
+export function storeSubredditData(data: Subreddit) {
+  const stored = get(SUBREDDITS);
+  set(SUBREDDITS, { ...stored, [data.display_name]: data });
+}
+
+export function getSubredditData(subDisplayName: string): Subreddit | null {
+  const stored = get(SUBREDDITS) ?? {};
+  if (stored[subDisplayName]) {
+    return stored[subDisplayName] as Subreddit;
+  }
+  return null;
+}
+
+export function getAllCachedSubreddits(): { [key: string]: Subreddit } {
+  return get(SUBREDDITS) ?? {};
 }
 
 /**

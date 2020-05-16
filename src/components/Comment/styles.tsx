@@ -114,23 +114,23 @@ export const StandaloneCommentWrapper = styled.div`
   border-radius: 5px;
   overflow: hidden;
   padding: 15px 0;
-  background: ${props => props.theme.contentBg};
-  color: ${props => props.theme.text};
+  background: ${(props) => props.theme.contentBg};
+  color: ${(props) => props.theme.text};
 `;
 
 export const CommentContext = styled.div`
   border-radius: 3px;
-  background: ${props => props.theme.body};
+  background: ${(props) => props.theme.body};
   opacity: 0.7;
   margin: 15px 20px 0 15px;
   padding: 5px 10px;
-  line-height: 1.75;
+  line-height: 1.5;
 `;
 
 export const MoreCommentsBtn = styled.button`
   margin-top: 15px;
   font-size: 14px;
-  color: ${props => props.theme.primary};
+  color: ${(props) => props.theme.primary};
 
   &:disabled {
     opacity: 0.5;

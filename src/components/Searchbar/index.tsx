@@ -1,16 +1,12 @@
 import React, { Component, ChangeEvent, FormEvent } from "react";
-import { withRouter, RouteComponentProps } from "react-router";
 import { SearchForm, Input, ClearButton } from "./styles";
 import Icon from "../Icon";
 
-type OwnProps = {
+type Props = {
   value: string;
   onChange: (query: string) => void;
   onSubmit: () => void;
-  clearFunc: () => void;
 };
-
-type Props = OwnProps & RouteComponentProps;
 
 class Searchbar extends Component<Props, {}> {
   inputRef = React.createRef<HTMLInputElement>();
@@ -26,7 +22,7 @@ class Searchbar extends Component<Props, {}> {
   };
 
   clearInput = () => {
-    this.props.clearFunc();
+    this.props.onChange("");
     this.inputRef.current!.focus();
   };
 
@@ -54,4 +50,4 @@ class Searchbar extends Component<Props, {}> {
   }
 }
 
-export default withRouter(Searchbar);
+export default Searchbar;

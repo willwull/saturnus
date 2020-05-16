@@ -7,7 +7,6 @@ import {
   authSnoowrap,
   initRefreshToken,
 } from "./actions/snoowrap";
-import { closeSidebar } from "./actions/sidebar";
 import * as LocalCache from "./LocalCache";
 import App from "./App";
 import { ThemeState } from "./reducers/theme";
@@ -16,14 +15,12 @@ import { RootState } from "./reducers";
 // MARK: Types
 
 type StateProps = {
-  sidebarIsOpen: boolean;
   theme: ThemeState;
   isLoading: boolean;
   errorMsg: string;
 };
 
 type DispatchProps = {
-  closeSidebar: () => void;
   createSnoowrap: () => void;
   createAuthSnoowrap: (code: string) => void;
   createRefreshSnoowrap: (refreshToken: string) => void;
@@ -74,15 +71,6 @@ class Root extends Component<Props, {}> {
     this.props.createSnoowrap();
   }
 
-  componentDidUpdate(prevProps: Props) {
-    if (
-      this.props.location !== prevProps.location &&
-      this.props.sidebarIsOpen
-    ) {
-      this.props.closeSidebar();
-    }
-  }
-
   render() {
     const { isLoading, errorMsg } = this.props;
 
@@ -96,9 +84,8 @@ class Root extends Component<Props, {}> {
 
 // MARK: Redux
 
-function mapStateToProps({ sidebar, theme, snoowrap }: RootState): StateProps {
+function mapStateToProps({ theme, snoowrap }: RootState): StateProps {
   return {
-    sidebarIsOpen: sidebar.open,
     theme,
     isLoading: snoowrap.isLoading,
     errorMsg: snoowrap.errorMsg,
@@ -115,9 +102,6 @@ function mapDispatchToProps(dispatch: Function): DispatchProps {
     },
     createRefreshSnoowrap: (refreshToken: string) => {
       dispatch(initRefreshToken(refreshToken));
-    },
-    closeSidebar: () => {
-      dispatch(closeSidebar());
     },
   };
 }

@@ -1,19 +1,21 @@
 import {
-  RECEIVE_USER_OVERVIEW,
-  REQUEST_USER_OVERVIEW,
-  REQUEST_MORE_USER_OVERVIEW,
+  REQUEST_USER_INFO,
+  RECEIVE_USER_INFO,
+  UserpagePostHelpers,
+  UserOverviewHelpers,
+  UserpageCommentHelpers,
 } from "../actions/userpages";
-import { mapMixedContentToIds, MixedId } from "./user";
-import { Listing, Submission, RedditUser } from "snoowrap";
+import { RedditUser } from "snoowrap";
+import { FeedActionState } from "../actions/utils";
 
 type SpecificUserState = {
   hasLoaded: boolean;
   isLoadingContent: boolean;
   isLoadingMore: boolean;
   userInfo: RedditUser | null;
-  overviewContentIds: MixedId[];
-  originalListing: Listing<Submission | Comment> | null;
-  hasMoreContent: boolean;
+  overview: FeedActionState;
+  posts: FeedActionState;
+  comments: FeedActionState;
 };
 
 export type UserPagesState = {
@@ -25,31 +27,71 @@ const defaultSpecificUserState: SpecificUserState = {
   isLoadingContent: false,
   isLoadingMore: false,
   userInfo: null,
-  overviewContentIds: [],
-  originalListing: null,
-  hasMoreContent: false,
+  overview: UserOverviewHelpers.defaultStateSlice,
+  posts: UserpagePostHelpers.defaultStateSlice,
+  comments: UserpageCommentHelpers.defaultStateSlice,
 };
-function specificUserState(state = defaultSpecificUserState, action: any) {
+function specificUserState(
+  state = defaultSpecificUserState,
+  action: any,
+): SpecificUserState {
   switch (action.type) {
-    case REQUEST_USER_OVERVIEW:
+    case REQUEST_USER_INFO:
       return {
         ...state,
         isLoadingContent: true,
       };
-    case REQUEST_MORE_USER_OVERVIEW:
-      return {
-        ...state,
-        isLoadingMore: true,
-      };
-    case RECEIVE_USER_OVERVIEW:
+    case RECEIVE_USER_INFO:
       return {
         ...state,
         hasLoaded: true,
         isLoadingContent: false,
         userInfo: action.userInfo,
-        overviewContentIds: mapMixedContentToIds(action.content),
-        originalListing: action.content,
-        hasMoreContent: action.hasMoreContent,
+      };
+    case UserOverviewHelpers.REQUEST_INITIAL:
+      return {
+        ...state,
+        overview: UserOverviewHelpers.requestInitialReducer(state.overview),
+      };
+    case UserOverviewHelpers.REQUEST_MORE:
+      return {
+        ...state,
+        overview: UserOverviewHelpers.requestMoreReducer(state.overview),
+      };
+    case UserOverviewHelpers.RECEIVE:
+      return {
+        ...state,
+        overview: UserOverviewHelpers.receiveReducer(state.overview, action),
+      };
+    case UserpagePostHelpers.REQUEST_INITIAL:
+      return {
+        ...state,
+        posts: UserpagePostHelpers.requestInitialReducer(state.posts),
+      };
+    case UserpagePostHelpers.REQUEST_MORE:
+      return {
+        ...state,
+        posts: UserpagePostHelpers.requestMoreReducer(state.posts),
+      };
+    case UserpagePostHelpers.RECEIVE:
+      return {
+        ...state,
+        posts: UserpagePostHelpers.receiveReducer(state.posts, action),
+      };
+    case UserpageCommentHelpers.REQUEST_INITIAL:
+      return {
+        ...state,
+        comments: UserpageCommentHelpers.requestInitialReducer(state.comments),
+      };
+    case UserpageCommentHelpers.REQUEST_MORE:
+      return {
+        ...state,
+        comments: UserpageCommentHelpers.requestMoreReducer(state.comments),
+      };
+    case UserpageCommentHelpers.RECEIVE:
+      return {
+        ...state,
+        comments: UserpageCommentHelpers.receiveReducer(state.comments, action),
       };
     default:
       return state;
@@ -59,9 +101,17 @@ function specificUserState(state = defaultSpecificUserState, action: any) {
 const defaultState: UserPagesState = {};
 export default function userpages(state = defaultState, action: any) {
   switch (action.type) {
-    case REQUEST_USER_OVERVIEW:
-    case REQUEST_MORE_USER_OVERVIEW:
-    case RECEIVE_USER_OVERVIEW:
+    case REQUEST_USER_INFO:
+    case RECEIVE_USER_INFO:
+    case UserOverviewHelpers.REQUEST_INITIAL:
+    case UserOverviewHelpers.REQUEST_MORE:
+    case UserOverviewHelpers.RECEIVE:
+    case UserpagePostHelpers.REQUEST_INITIAL:
+    case UserpagePostHelpers.REQUEST_MORE:
+    case UserpagePostHelpers.RECEIVE:
+    case UserpageCommentHelpers.REQUEST_INITIAL:
+    case UserpageCommentHelpers.REQUEST_MORE:
+    case UserpageCommentHelpers.RECEIVE:
       return {
         ...state,
         [action.username]: specificUserState(state[action.username], action),

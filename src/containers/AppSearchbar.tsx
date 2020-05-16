@@ -1,29 +1,25 @@
 import React, { Component } from "react";
 import { withRouter, RouteComponentProps } from "react-router";
-import { RootState, DispatchType } from "../reducers";
-import { setSearchValue } from "../actions/search";
-import { connect } from "react-redux";
 import Searchbar from "../components/Searchbar";
 
-type StateProps = {
+type Props = RouteComponentProps;
+
+type State = {
   query: string;
 };
 
-type DispatchProps = {
-  setValue: (query: string) => void;
-};
-
-type Props = StateProps & DispatchProps & RouteComponentProps;
-
-class AppSearchbar extends Component<Props, {}> {
+class AppSearchbar extends Component<Props, State> {
   constructor(props: Props) {
     super(props);
 
-    this.setCorrectValue();
+    const initialValue = this.getInitialValue();
+    this.state = {
+      query: initialValue,
+    };
   }
 
-  setCorrectValue() {
-    const { location, setValue } = this.props;
+  getInitialValue(): string {
+    const { location } = this.props;
     const queryString = location.search;
     const searchParams = new URLSearchParams(queryString);
     const q = searchParams.get("q");
@@ -31,26 +27,29 @@ class AppSearchbar extends Component<Props, {}> {
 
     if (q && !restrictSr) {
       // we are on the search result page
-      setValue(q);
-    } else if (location.pathname === "/") {
+      return q;
+    }
+    if (location.pathname === "/") {
       // we are on the home page, clear search bar
-      this.clearFunc();
-    } else if (location.pathname.includes("/r/")) {
+      return "";
+    }
+    if (location.pathname.includes("/r/")) {
       // [0] is "", [1] is "r"
       const subredditName = location.pathname.split("/")[2];
 
       if (/\/r\/\S+\/search/.test(location.pathname)) {
         // we are on the subreddit search page
-        setValue(`r/${subredditName} ${q}`);
-      } else {
-        // we are on a subreddit feed
-        setValue(`r/${subredditName} `);
+        return `r/${subredditName} ${q}`;
       }
+      // we are on a subreddit feed
+      return `r/${subredditName} `;
     }
+    return "";
   }
 
   onSubmit = () => {
-    const { history, query } = this.props;
+    const { history } = this.props;
+    const { query } = this.state;
 
     const [subreddit, ...restOfQuery] = query.split(/\s+/);
     const searchIncludesSubreddit = /r\/\S+/.test(subreddit);
@@ -68,11 +67,7 @@ class AppSearchbar extends Component<Props, {}> {
   };
 
   onChange = (query: string) => {
-    this.props.setValue(query);
-  };
-
-  clearFunc = () => {
-    this.props.setValue("");
+    this.setState({ query });
   };
 
   componentDidUpdate(prevProps: Props) {
@@ -80,41 +75,21 @@ class AppSearchbar extends Component<Props, {}> {
     const { location } = this.props;
 
     if (prevProps.location !== location) {
-      this.setCorrectValue();
+      this.setState({
+        query: this.getInitialValue(),
+      });
     }
   }
 
   render() {
-    const { query } = this.props;
-
     return (
       <Searchbar
-        value={query}
+        value={this.state.query}
         onChange={this.onChange}
         onSubmit={this.onSubmit}
-        clearFunc={this.clearFunc}
       />
     );
   }
 }
 
-function mapStateToProps({ search }: RootState): StateProps {
-  return {
-    query: search.query,
-  };
-}
-
-function mapDispatchToProps(dispatch: DispatchType): DispatchProps {
-  return {
-    setValue: (query: string) => {
-      dispatch(setSearchValue(query));
-    },
-  };
-}
-
-export default withRouter(
-  connect(
-    mapStateToProps,
-    mapDispatchToProps,
-  )(AppSearchbar),
-);
+export default withRouter(AppSearchbar);

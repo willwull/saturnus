@@ -1,5 +1,5 @@
 import styled from "styled-components";
-import { lighten, darken, transparentize } from "polished";
+import { transparentize } from "polished";
 import { Link } from "react-router-dom";
 
 const SecondaryButton = styled.button`

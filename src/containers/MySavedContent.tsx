@@ -1,13 +1,9 @@
 import React, { useEffect } from "react";
 import { connect } from "react-redux";
-import { Submission, Comment as IComment } from "snoowrap";
+import { Submission } from "snoowrap";
 
 import { postVote } from "../actions/voting";
-import {
-  UserState,
-  contentIsPost,
-  mapMixedIdsToContent,
-} from "../reducers/user";
+import { UserState, mapMixedIdsToContent } from "../reducers/user";
 import { PostsState } from "../reducers/posts";
 import { CommentsState } from "../reducers/comments";
 import { RootState, DispatchType } from "../reducers";
@@ -43,11 +39,14 @@ function MySavedContent({
   fetchMore,
   voteOnPost,
 }: Props) {
-  useEffect(() => {
-    if (!user.savedContent.hasFetched) {
-      fetch();
-    }
-  }, []);
+  useEffect(
+    () => {
+      if (!user.savedContent.hasFetched) {
+        fetch();
+      }
+    },
+    [user, fetch],
+  );
 
   if (user.savedContent.isLoading || !user.savedContent.hasFetched) {
     return <Loading type="regular" />;

@@ -62,7 +62,7 @@ class SubredditBanner extends Component<Props, State> {
   };
 
   toggleModal = () => {
-    this.setState(state => ({
+    this.setState((state) => ({
       modalIsOpen: !state.modalIsOpen,
     }));
   };
@@ -121,6 +121,10 @@ class SubredditBanner extends Component<Props, State> {
       );
     }
 
+    const showFullDescriptionBtn =
+      data.description_html != null &&
+      data.description_html !== data.public_description_html;
+
     return (
       <>
         <Banner
@@ -133,9 +137,11 @@ class SubredditBanner extends Component<Props, State> {
           primaryAction={btn}
         >
           <TextContent>{data.public_description_html}</TextContent>
-          <SecondaryButton onClick={this.openModal}>
-            Read full description
-          </SecondaryButton>
+          {showFullDescriptionBtn && (
+            <SecondaryButton onClick={this.openModal}>
+              Read full description
+            </SecondaryButton>
+          )}
         </Banner>
 
         <Modal isOpen={this.state.modalIsOpen} hideFunc={this.toggleModal}>
@@ -165,7 +171,7 @@ function mapStateToProps(
 
 function mapDispatchToProps(dispatch: DispatchType): DispatchProps {
   return {
-    getSub: subredditName => {
+    getSub: (subredditName) => {
       dispatch(fetchSubreddit(subredditName));
     },
     subscribe: (subreddit, action) => {
@@ -175,8 +181,5 @@ function mapDispatchToProps(dispatch: DispatchType): DispatchProps {
 }
 
 export default withRouter(
-  connect(
-    mapStateToProps,
-    mapDispatchToProps,
-  )(SubredditBanner),
+  connect(mapStateToProps, mapDispatchToProps)(SubredditBanner),
 );

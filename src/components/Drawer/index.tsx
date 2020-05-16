@@ -12,7 +12,7 @@ export type Props = {
 class Drawer extends Component<Props, {}> {
   static defaultProps = {
     className: "",
-    onClose: () => {},
+    onClose: () => null,
   };
 
   componentDidUpdate(prevProps: Props) {

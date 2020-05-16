@@ -1,12 +1,17 @@
-import React, { useEffect } from "react";
-import { RouteComponentProps } from "react-router-dom";
-import { Submission, RedditUser } from "snoowrap";
+import React, { useEffect, useCallback } from "react";
+import { RouteComponentProps, NavLink } from "react-router-dom";
+import { RedditUser } from "snoowrap";
 import Helmet from "react-helmet";
-import { connect } from "react-redux";
-import Page, { BannerPage, BannerPageContent } from "../components/Page";
+import { connect, useDispatch } from "react-redux";
+import { BannerPage, BannerPageContent } from "../components/Page";
 import { Feed } from "../components/PostFeed/styles";
-import { RootState, DispatchType } from "../reducers";
-import { getOverviewForUser, fetchMoreUserContent } from "../actions/userpages";
+import { RootState } from "../reducers";
+import {
+  getUserInfo,
+  UserpagePostHelpers,
+  UserOverviewHelpers,
+  UserpageCommentHelpers,
+} from "../actions/userpages";
 import Loading from "../components/Loading";
 import MixedContentFeed from "../components/MixedContentFeed";
 import { MixedContent, mapMixedIdsToContent } from "../reducers/user";
@@ -14,62 +19,132 @@ import { postVote } from "../actions/voting";
 import { BannerImg } from "../components/Banner/styles";
 import Banner from "../components/Banner";
 import { numberWithSpaces } from "../utils";
+import styled from "styled-components";
+import { FeedActionStateData } from "../actions/utils";
 
 type ParamProps = {
   username: string;
+  contentType?: "posts" | "comments";
 };
 
 type StateProps = {
-  hasLoaded: boolean;
-  isLoadingContent: boolean;
-  isLoadingMore: boolean;
-  content: MixedContent[];
-  hasMoreContent: boolean;
   userInfo: RedditUser | null;
+  isLoadingUserInfo: boolean;
+  overviewContent: MixedContent[];
+  overviewData: FeedActionStateData;
+  posts: MixedContent[];
+  postsData: FeedActionStateData;
+  commentsContent: MixedContent[];
+  commentsData: FeedActionStateData;
 };
 
-type DispatchProps = {
-  fetchOverview: (username: string) => void;
-  fetchMore: (username: string) => void;
-  voteOnPost: (post: Submission, vote: "up" | "down") => void;
-};
+type Props = StateProps & RouteComponentProps<ParamProps>;
 
-type Props = StateProps & DispatchProps & RouteComponentProps<ParamProps>;
+const TabsContainer = styled.div`
+  display: flex;
+  flex-direction: row;
+`;
+
+const Tab = styled(NavLink)`
+  display: flex;
+  flex-direction: row;
+  flex: 1;
+  padding: 1em;
+  justify-content: center;
+  color: ${(p) => p.theme.textDeemphasized};
+
+  &.active {
+    color: ${(p) => p.theme.primary};
+    border-bottom: 3px solid ${(p) => p.theme.primary};
+  }
+
+  &:hover {
+    color: ${(p) => p.theme.primary};
+  }
+`;
 
 function UserPage({
   match,
-  hasLoaded,
-  content,
-  isLoadingContent,
-  isLoadingMore,
-  fetchOverview,
-  fetchMore,
-  hasMoreContent,
-  voteOnPost,
+  isLoadingUserInfo,
   userInfo,
+  overviewContent,
+  overviewData,
+  posts,
+  postsData,
+  commentsContent,
+  commentsData,
 }: Props) {
-  const { username } = match.params;
+  const { username, contentType } = match.params;
+  const dispatch = useDispatch();
 
-  useEffect(
-    () => {
-      if (!hasLoaded) {
-        fetchOverview(username);
+  useEffect(() => {
+    if (!userInfo) {
+      dispatch(getUserInfo(username));
+    }
+    if (!contentType) {
+      if (!overviewData.hasFetched) {
+        dispatch(UserOverviewHelpers.fetchInitial(username));
       }
+    } else if (contentType === "posts") {
+      if (!postsData.hasFetched) {
+        dispatch(UserpagePostHelpers.fetchInitial(username));
+      }
+    } else if (contentType === "comments") {
+      if (!commentsData.hasFetched) {
+        dispatch(UserpageCommentHelpers.fetchInitial(username));
+      }
+    }
+  }, [
+    username,
+    contentType,
+    dispatch,
+    userInfo,
+    overviewData,
+    postsData,
+    commentsData,
+  ]);
+
+  const loadMore = useCallback(() => {
+    if (!contentType) {
+      dispatch(UserOverviewHelpers.fetchMore(username));
+    } else if (contentType === "posts") {
+      dispatch(UserpagePostHelpers.fetchMore(username));
+    } else if (contentType === "comments") {
+      dispatch(UserpageCommentHelpers.fetchMore(username));
+    }
+  }, [dispatch, username, contentType]);
+
+  const voteOnPost = useCallback(
+    (post, vote) => {
+      dispatch(postVote(post, vote));
     },
-    [username],
+    [dispatch],
   );
 
-  let innerContent;
-  if (isLoadingContent) {
-    innerContent = <Loading type="regular" />;
+  let feedContent;
+  let feedData;
+  if (!contentType) {
+    feedContent = overviewContent;
+    feedData = overviewData;
+  } else if (contentType === "posts") {
+    feedContent = posts;
+    feedData = postsData;
   } else {
-    innerContent = (
+    feedContent = commentsContent;
+    feedData = commentsData;
+  }
+
+  let feed;
+  if (isLoadingUserInfo || feedData.isLoading) {
+    feed = <Loading type="regular" />;
+  } else {
+    feed = (
       <Feed>
         <MixedContentFeed
-          content={content}
-          showLoadMoreBtn={hasMoreContent}
-          isLoadingMore={isLoadingMore}
-          loadMoreFunc={() => fetchMore(username)}
+          content={feedContent}
+          showLoadMoreBtn={feedData.hasMoreContent}
+          isLoadingMore={feedData.isLoadingMore}
+          loadMoreFunc={loadMore}
           voteOnPost={voteOnPost}
         />
       </Feed>
@@ -77,7 +152,7 @@ function UserPage({
   }
 
   let banner;
-  if (isLoadingContent || !userInfo) {
+  if (isLoadingUserInfo || !userInfo) {
     banner = <BannerImg />;
   } else {
     const subtitle = [
@@ -96,6 +171,19 @@ function UserPage({
         subtitle={subtitle}
         iconSrc={iconSrc}
         bannerSrc={bannerSrc}
+        bottom={
+          <TabsContainer>
+            <Tab exact to={`/user/${userInfo.name}`} replace>
+              Overview
+            </Tab>
+            <Tab to={`/user/${userInfo.name}/posts`} replace>
+              Posts
+            </Tab>
+            <Tab to={`/user/${userInfo.name}/comments`} replace>
+              Comments
+            </Tab>
+          </TabsContainer>
+        }
       />
     );
   }
@@ -109,7 +197,7 @@ function UserPage({
       <BannerPage>
         {banner}
 
-        <BannerPageContent>{innerContent}</BannerPageContent>
+        <BannerPageContent>{feed}</BannerPageContent>
       </BannerPage>
     </>
   );
@@ -124,43 +212,42 @@ function mapStateToProps(
 
   if (!currentUserContent) {
     return {
-      hasLoaded: false,
-      isLoadingContent: false,
-      isLoadingMore: false,
-      content: [],
-      hasMoreContent: false,
       userInfo: null,
+      isLoadingUserInfo: false,
+      overviewContent: [],
+      overviewData: UserOverviewHelpers.defaultStateSlice.data,
+      posts: [],
+      postsData: UserpagePostHelpers.defaultStateSlice.data,
+      commentsContent: [],
+      commentsData: UserpageCommentHelpers.defaultStateSlice.data,
     };
   }
 
-  const contentIds = currentUserContent.overviewContentIds;
-  const content = mapMixedIdsToContent(contentIds, posts, comments);
+  const {
+    content: overviewIds,
+    data: overviewData,
+  } = currentUserContent.overview;
+  const overviewContent = mapMixedIdsToContent(overviewIds, posts, comments);
+
+  const { content: postIds, data: postsData } = currentUserContent.posts;
+  const postsContent = mapMixedIdsToContent(postIds, posts, comments);
+
+  const {
+    content: commentIds,
+    data: commentsData,
+  } = currentUserContent.comments;
+  const commentsContent = mapMixedIdsToContent(commentIds, posts, comments);
 
   return {
-    content,
-    hasLoaded: currentUserContent.hasLoaded,
-    isLoadingMore: currentUserContent.isLoadingMore,
-    isLoadingContent: currentUserContent.isLoadingContent,
-    hasMoreContent: currentUserContent.hasMoreContent,
     userInfo: currentUserContent.userInfo,
+    isLoadingUserInfo: currentUserContent.isLoadingContent,
+    overviewContent,
+    overviewData,
+    posts: postsContent,
+    postsData,
+    commentsContent,
+    commentsData,
   };
 }
 
-function mapDispatchToProps(dispatch: DispatchType): DispatchProps {
-  return {
-    fetchOverview: (username: string) => {
-      dispatch(getOverviewForUser(username));
-    },
-    fetchMore: (username: string) => {
-      dispatch(fetchMoreUserContent(username));
-    },
-    voteOnPost: (post, vote) => {
-      dispatch(postVote(post, vote));
-    },
-  };
-}
-
-export default connect(
-  mapStateToProps,
-  mapDispatchToProps,
-)(UserPage);
+export default connect(mapStateToProps, null)(UserPage);

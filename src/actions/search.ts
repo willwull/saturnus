@@ -4,17 +4,9 @@ import { Subreddit, Submission } from "snoowrap";
 import reddit from "../api/reddit";
 import { RootState } from "../reducers";
 
-export const SET_SEARCH_INPUT_VALUE = "SET_SEARCH_INPUT_VALUE";
 export const REQUEST_SEARCH_RESULTS = "REQUEST_SEARCH_RESULTS";
 export const RECEIVE_SUB_SEARCH = "RECEIVE_SUB_SEARCH";
 export const RECEIVE_POST_SEARCH = "RECEIVE_POST_SEARCH";
-
-export function setSearchValue(query: string) {
-  return {
-    type: SET_SEARCH_INPUT_VALUE,
-    query,
-  };
-}
 
 export function search(query: string, subreddit = "") {
   return (

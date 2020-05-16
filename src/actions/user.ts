@@ -41,6 +41,7 @@ export function setUserStatus(loggedIn: boolean) {
 
 export function fetchUser() {
   return (dispatch: ThunkDispatch<UserState, void, Action>) => {
+    console.log("fetch user");
     const r = reddit.getSnoowrap();
     dispatch({
       type: REQUEST_USER,
@@ -68,18 +69,17 @@ export function signOut() {
 }
 
 export type SubFetchOptions = {
+  /** Omit username if logged out */
+  username?: string;
   skipCache: boolean;
 };
 export function fetchMySubs(options: SubFetchOptions = { skipCache: false }) {
-  return async (
-    dispatch: ThunkDispatch<UserState, void, Action>,
-    getState: () => RootState,
-  ) => {
+  return async (dispatch: ThunkDispatch<UserState, void, Action>) => {
     dispatch({ type: REQUEST_MY_SUBS });
 
-    try {
-      const state = getState();
+    console.log(options);
 
+    try {
       if (!options.skipCache) {
         const cachedSubs = LocalCache.getStoredSubs();
         if (cachedSubs && cachedSubs.length > 0) {
@@ -91,7 +91,7 @@ export function fetchMySubs(options: SubFetchOptions = { skipCache: false }) {
       const r = reddit.getSnoowrap();
 
       let subscriptions;
-      if (state.user.loggedIn) {
+      if (options.username) {
         subscriptions = await r.getSubscriptions();
       } else {
         // get default subs if not logged in
@@ -100,14 +100,14 @@ export function fetchMySubs(options: SubFetchOptions = { skipCache: false }) {
 
       subscriptions = await subscriptions.fetchAll();
 
-      if (state.user.loggedIn) {
+      if (options.username) {
         // if logged in user, cache their subscriptions
-        LocalCache.storeMySubs(subscriptions, (state.user.data as any).name);
+        LocalCache.storeMySubs(subscriptions, options.username);
       }
 
       dispatch({ type: RECEIVE_MY_SUBS, subscriptions });
     } catch (error) {
-      console.error(error);
+      console.error("Error when fetching subscriptions:", error);
       dispatch({
         type: MY_SUBS_ERROR,
       });

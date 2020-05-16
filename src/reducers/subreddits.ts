@@ -7,6 +7,7 @@ import {
   RECEIVED_UNSUBSCRIBE_TO_SUB,
 } from "../actions/subreddits";
 import { Subreddit } from "snoowrap";
+import * as LocalCache from "../LocalCache";
 
 // MARK: Types
 
@@ -51,8 +52,17 @@ function specificSub(
   }
 }
 
+const defaultSubState: SubredditState = {};
+Object.entries(LocalCache.getAllCachedSubreddits()).forEach(
+  ([subreddit, data]) => {
+    defaultSubState[subreddit] = {
+      ...defaultState,
+      data,
+    };
+  },
+);
 export default function subreddits(
-  state: SubredditState = {},
+  state: SubredditState = defaultSubState,
   action: any,
 ): SubredditState {
   switch (action.type) {

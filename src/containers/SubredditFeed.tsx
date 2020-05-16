@@ -17,7 +17,6 @@ import {
   PostsTimes,
   PostsInSubState,
   mapIdsToPosts,
-  PostsState,
 } from "../reducers/posts";
 
 // MARK: Types
@@ -26,8 +25,7 @@ type StateProps = {
   error: boolean;
   isLoading: boolean;
   isLoadingMore: boolean;
-  postIds: string[];
-  postsState: PostsState;
+  posts: Submission[];
   storedSortMode: PostsSortMode;
 };
 
@@ -72,7 +70,7 @@ class SubredditFeed extends Component<Props, {}> {
       sortMode,
       storedSortMode,
       location,
-      postIds,
+      posts,
       history,
     } = this.props;
 
@@ -80,7 +78,7 @@ class SubredditFeed extends Component<Props, {}> {
     // we don't reload the feed unless the difference between the locations
     // is the post sort mode.
     if (
-      postIds.length !== 0 &&
+      posts.length !== 0 &&
       history.action === "POP" &&
       sortMode === storedSortMode
     ) {
@@ -107,8 +105,7 @@ class SubredditFeed extends Component<Props, {}> {
     const {
       isLoading,
       isLoadingMore,
-      postIds,
-      postsState,
+      posts,
       error,
       sortMode,
       subreddit,
@@ -122,7 +119,6 @@ class SubredditFeed extends Component<Props, {}> {
 
     const searchParams = new URLSearchParams(location.search);
     const timeSort = searchParams.get("t") || "";
-    const posts = mapIdsToPosts(postIds, postsState);
 
     return (
       <PostFeed
@@ -141,8 +137,11 @@ class SubredditFeed extends Component<Props, {}> {
 
 // MARK: Redux
 
-function mapStateToProps({ posts }: RootState, ownProps: OwnProps): StateProps {
-  const currentPosts: PostsInSubState = posts.bySubreddit[
+function mapStateToProps(
+  { posts: postsState }: RootState,
+  ownProps: OwnProps,
+): StateProps {
+  const currentPosts: PostsInSubState = postsState.bySubreddit[
     ownProps.subreddit
   ] || {
     error: false,
@@ -152,6 +151,8 @@ function mapStateToProps({ posts }: RootState, ownProps: OwnProps): StateProps {
     sortMode: "best",
   };
 
+  const posts = mapIdsToPosts(currentPosts.items, postsState);
+
   // Instead of directly passing a list of posts, we pass the postsState
   // and the list of IDs. Mapping IDs to posts is a heavy operation, which we
   // don't want to do each time the root state changes, so the render method
@@ -160,8 +161,7 @@ function mapStateToProps({ posts }: RootState, ownProps: OwnProps): StateProps {
     error: currentPosts.error,
     isLoading: currentPosts.isLoading,
     isLoadingMore: currentPosts.isLoadingMore,
-    postIds: currentPosts.items,
-    postsState: posts,
+    posts,
     storedSortMode: currentPosts.sortMode,
   };
 
@@ -177,7 +177,7 @@ function mapDispatchToProps(dispatch: DispatchType): DispatchProps {
     ) => {
       dispatch(fetchPosts(subreddit, sortMode, time));
     },
-    fetchMorePosts: subreddit => {
+    fetchMorePosts: (subreddit) => {
       dispatch(fetchMorePosts(subreddit));
     },
     voteOnPost: (post, vote) => {
@@ -187,8 +187,5 @@ function mapDispatchToProps(dispatch: DispatchType): DispatchProps {
 }
 
 export default withRouter(
-  connect(
-    mapStateToProps,
-    mapDispatchToProps,
-  )(SubredditFeed),
+  connect(mapStateToProps, mapDispatchToProps)(SubredditFeed),
 );

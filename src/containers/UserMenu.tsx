@@ -4,7 +4,7 @@ import { connect } from "react-redux";
 
 import { storeVerificationState } from "../LocalCache";
 import { getAuthUrl } from "../api/authentication";
-import { fetchUser, signOut } from "../actions/user";
+import { signOut } from "../actions/user";
 import AuthUserMenu from "../components/AuthUserMenu";
 import GuestUserMenu from "../components/GuestUserMenu";
 import { UserState } from "../reducers/user";
@@ -16,22 +16,12 @@ type StateProps = {
 };
 
 type DispatchProps = {
-  fetch: () => void;
   signOut: () => void;
 };
 
 type Props = StateProps & DispatchProps & RouteComponentProps;
 
 class UserMenu extends Component<Props, {}> {
-  componentDidMount() {
-    const { user, fetch } = this.props;
-
-    // user is logged in, but we haven't fetched all data yet
-    if (user.loggedIn && user.data === null) {
-      fetch();
-    }
-  }
-
   handleSignIn = () => {
     const redirectPath = this.props.location.pathname;
     const verificationState = `${Date.now().toString()}:${redirectPath}`;
@@ -56,10 +46,10 @@ class UserMenu extends Component<Props, {}> {
       user: { loggedIn, isLoading, data },
     } = this.props;
 
-    if (isLoading || (loggedIn && data === null)) return null;
+    if (isLoading) return null;
 
     // user is not logged in, guest menu
-    if (!loggedIn) {
+    if (!loggedIn || (loggedIn && data === null)) {
       return <GuestUserMenu signIn={this.handleSignIn} />;
     }
 
@@ -76,9 +66,6 @@ function mapStateToProps({ user }: RootState): StateProps {
 
 function mapDispatchToProps(dispatch: DispatchType): DispatchProps {
   return {
-    fetch: () => {
-      dispatch(fetchUser());
-    },
     signOut: () => {
       dispatch(signOut());
     },

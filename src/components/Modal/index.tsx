@@ -1,7 +1,7 @@
 import React, { useEffect, useRef, Fragment } from "react";
 import { ModalContainer, ModalContent, CloseButton } from "./styles";
 import Icon from "../Icon";
-import smoothScrollTo, { sleep } from "../../utils";
+import smoothScrollTo from "../../utils";
 
 // MARK: Types
 
@@ -32,6 +32,26 @@ function Modal({ isOpen, hideFunc, children }: Props) {
   const scrollAnchorRef = useRef(null);
   const containerRef = useRef(null);
 
+  const hideModal = React.useCallback(
+    async () => {
+      hideFunc();
+      await smoothScrollTo(containerRef.current!, 0, 400);
+    },
+    [hideFunc],
+  );
+
+  /**
+   * Listen for keydown events so the user can close the modal with Esc
+   */
+  const keyListener = React.useCallback(
+    (event: KeyboardEvent) => {
+      if (event.key === "Escape" && isOpen) {
+        hideModal();
+      }
+    },
+    [hideModal, isOpen],
+  );
+
   useEffect(
     () => {
       if (isOpen) {
@@ -49,24 +69,10 @@ function Modal({ isOpen, hideFunc, children }: Props) {
     [isOpen, keyListener],
   );
 
-  /**
-   * Listen for keydown events so the user can close the modal with Esc
-   */
-  function keyListener(event: KeyboardEvent) {
-    if (event.key === "Escape" && isOpen) {
-      hideModal();
-    }
-  }
-
   function contentClickHandler(event: React.MouseEvent) {
     // stop the click on the modal to propagate to the container
     // to prevent the modal from being closed.
     event.stopPropagation();
-  }
-
-  async function hideModal() {
-    hideFunc();
-    await smoothScrollTo(containerRef.current!, 0, 400);
   }
 
   return (

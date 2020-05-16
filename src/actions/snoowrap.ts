@@ -1,9 +1,9 @@
 import reddit from "../api/reddit";
 import * as LocalCache from "../LocalCache";
 import { appOnlyOauth, getAuthTokens } from "../api/authentication";
-import { fetchUser, setUserStatus } from "./user";
+import { fetchUser, setUserStatus, fetchMySubs } from "./user";
 import { SnoowrapAuthType, SnoowrapState } from "../reducers/snoowrap";
-import { Dispatch, Action } from "redux";
+import { Action } from "redux";
 import { ThunkDispatch } from "redux-thunk";
 
 export const REQUEST_SNOOWRAP = "REQUEST_SNOOWRAP";
@@ -29,7 +29,7 @@ function snoowrapError() {
  * hasn't logged in with an account.
  */
 export function initSnoowrap() {
-  return async (dispatch: Dispatch) => {
+  return async (dispatch: ThunkDispatch<SnoowrapState, void, Action>) => {
     dispatch({
       type: REQUEST_SNOOWRAP,
     });
@@ -41,6 +41,7 @@ export function initSnoowrap() {
       reddit.initAppOnly(accessToken);
 
       dispatch(receiveSnoowrap("appOnly"));
+      dispatch(fetchMySubs({ skipCache: true }));
     } catch (error) {
       console.error(error);
       dispatch(snoowrapError());
@@ -72,10 +73,9 @@ export function authSnoowrap(authCode: string) {
       dispatch(receiveSnoowrap("auth"));
 
       // for some reason, writing this as async triggers a TS error
-      dispatch(fetchUser()).then(user => {
-        // store the tokens in cache
+      dispatch(fetchUser()).then((user) => {
         LocalCache.storeAuthTokens(user.name, tokens);
-        LocalCache.storeLastActiveUser(user.name);
+        dispatch(fetchMySubs({ username: user.name, skipCache: true }));
       });
     } catch (error) {
       console.error(error);
@@ -97,6 +97,10 @@ export function initRefreshToken(refreshToken: string) {
       reddit.initRefreshToken(refreshToken);
 
       dispatch(receiveSnoowrap("auth"));
+
+      dispatch(fetchUser()).then((user) => {
+        dispatch(fetchMySubs({ username: user.name, skipCache: false }));
+      });
     } catch (error) {
       // if there is some error (e.g. if the refresh token is invalid)
       // fall back to userless initialization

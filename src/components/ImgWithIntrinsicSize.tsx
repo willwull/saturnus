@@ -56,7 +56,7 @@ function ImgWithIntrinsicSize({
         className="imgIntrinsicContainer"
         style={getImgContainerStyles(intrinsicSize)}
       >
-        <img {...imgProps} className={classes} />
+        <img {...imgProps} alt={imgProps.alt} className={classes} />
       </div>
     </div>
   );

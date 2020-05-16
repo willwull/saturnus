@@ -96,4 +96,5 @@ function SubredditList({ subreddits }: Props) {
   );
 }
 
-export default SubredditList;
+// Memo to avoid sorting and stuff too often
+export default React.memo(SubredditList);

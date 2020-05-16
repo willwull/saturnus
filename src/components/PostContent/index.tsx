@@ -7,7 +7,6 @@ import Icon from "../Icon";
 import VideoContent from "./VideoContent";
 import {
   ContentOverflowGradient,
-  ImgPreview,
   SelfText,
   RichMedia,
   ImgPreviewContainer,
@@ -122,10 +121,21 @@ class PostContent extends Component<Props, State> {
       const vidUrl = post.url.replace(".gifv", ".mp4");
 
       const redditVideoPreview = (post.preview as any).reddit_video_preview;
-      const intrinsicSize = {
-        width: redditVideoPreview.width,
-        height: redditVideoPreview.height,
-      };
+
+      let intrinsicSize;
+      if (redditVideoPreview) {
+        intrinsicSize = {
+          width: redditVideoPreview.width,
+          height: redditVideoPreview.height,
+        };
+      } else {
+        // fallback to the size of the preview image
+        const previewImage = post.preview.images[0].source;
+        intrinsicSize = {
+          width: previewImage.width,
+          height: previewImage.height,
+        };
+      }
 
       // muted needs to be set for autoplay to work on Chrome
       return (
@@ -146,7 +156,7 @@ class PostContent extends Component<Props, State> {
       // TODO: support reddit videos with audio
       const videoStream = media!.reddit_video!.fallback_url;
 
-      // Height doesn't exist in the type?? Wtf
+      // Width doesn't exist in the type?? Wtf
       const intrinsicSize = {
         width: (media!.reddit_video as any).width,
         height: media!.reddit_video!.height,
@@ -172,7 +182,7 @@ class PostContent extends Component<Props, State> {
       if (post.url.includes("ifr")) {
         src = post.url;
       } else {
-        const [_, rest] = splitUrl(post.url);
+        const rest = splitUrl(post.url)[1];
         src = `https://gfycat.com/ifr${rest}`;
       }
 
@@ -187,6 +197,7 @@ class PostContent extends Component<Props, State> {
             allowFullScreen={true}
             allow="autoplay; fullscreen"
             height={height}
+            title={post.title}
           />
           {isHidden && this.renderObfuscationOverlay("video")}
         </ImgPreviewContainer>

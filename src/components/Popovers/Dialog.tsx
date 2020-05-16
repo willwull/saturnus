@@ -28,7 +28,7 @@ const CenterContent = styled.div`
 `;
 
 const Container = styled.div`
-  background: ${p => p.theme.contentBg};
+  background: ${(p) => p.theme.contentBg};
   width: 550px;
   max-width: 90%;
   padding: 1.5em;
@@ -76,11 +76,11 @@ function Dialog({
 
   useEffect(() => {
     if (focusOnCancel) {
-      cancelRef.current && cancelRef.current.focus();
+      cancelRef.current?.focus();
     } else {
-      primaryRef.current && primaryRef.current.focus();
+      primaryRef.current?.focus();
     }
-  }, []);
+  }, [focusOnCancel]);
 
   function primaryClickHandler() {
     onPrimary();

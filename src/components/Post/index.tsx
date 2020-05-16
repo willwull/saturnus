@@ -25,6 +25,7 @@ import {
 } from "./styles";
 import Desktop from "../Desktop";
 import Text from "../Base/Text";
+import ErrorBoundary from "../ErrorBoundary";
 
 type Props = {
   post: Submission;
@@ -39,12 +40,12 @@ class Post extends React.Component<Props, {}> {
 
   upvote = () => {
     const { post, voteOnPost } = this.props;
-    voteOnPost && voteOnPost(post, "up");
+    voteOnPost?.(post, "up");
   };
 
   downvote = () => {
     const { post, voteOnPost } = this.props;
-    voteOnPost && voteOnPost(post, "down");
+    voteOnPost?.(post, "down");
   };
 
   render() {
@@ -143,7 +144,24 @@ class Post extends React.Component<Props, {}> {
           </div>
 
           <div className="content-wrapper">
-            <PostContent post={post} expanded={expanded} />
+            <ErrorBoundary
+              fallbackRender={({ error }) => (
+                <>
+                  <Text>
+                    Something went wrong when trying to display this post.
+                  </Text>
+                  <Text>
+                    You can try to open the content using the drop-down menu in
+                    the upper right.
+                  </Text>
+                  <Text color="textDeemphasized">
+                    Error message: {error?.message}
+                  </Text>
+                </>
+              )}
+            >
+              <PostContent post={post} expanded={expanded} />
+            </ErrorBoundary>
           </div>
 
           <div className="post-info">
