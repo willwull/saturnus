@@ -20,7 +20,7 @@ export function usePrevious<T>(value: T) {
  * @param timeMs
  */
 export function sleep(timeMs = 300): Promise<void> {
-  return new Promise(resolve => {
+  return new Promise((resolve) => {
     setTimeout(() => {
       resolve();
     }, timeMs);
@@ -135,15 +135,15 @@ export function shortTimeDiff(time: number): string {
  * @param func The function to debounce
  * @param timeout Delay in ms
  */
-export function debounce(func: Function, timeout = 500) {
+export function debounce<F extends (...args: any[]) => any>(
+  func: F,
+  timeout = 500,
+) {
   let timer: NodeJS.Timeout;
 
-  return function(this: any, ...args: any[]) {
+  return (...args: any[]) => {
     clearTimeout(timer);
-    const self = this;
-    timer = setTimeout(() => {
-      func.call(self, ...args);
-    }, timeout);
+    timer = setTimeout(() => func(...args), timeout);
   };
 }
 
@@ -202,7 +202,7 @@ export default function smoothScrollTo(
     return x * x * (3 - 2 * x);
   };
 
-  return new Promise(resolve => {
+  return new Promise((resolve) => {
     // This is to keep track of where the element's scrollTop is
     // supposed to be, based on what we're doing
     let previousTop = element.scrollTop;

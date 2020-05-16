@@ -40,12 +40,12 @@ class Post extends React.Component<Props, {}> {
 
   upvote = () => {
     const { post, voteOnPost } = this.props;
-    voteOnPost && voteOnPost(post, "up");
+    voteOnPost?.(post, "up");
   };
 
   downvote = () => {
     const { post, voteOnPost } = this.props;
-    voteOnPost && voteOnPost(post, "down");
+    voteOnPost?.(post, "down");
   };
 
   render() {
@@ -145,17 +145,18 @@ class Post extends React.Component<Props, {}> {
 
           <div className="content-wrapper">
             <ErrorBoundary
-              fallbackRender={({error}) => (
+              fallbackRender={({ error }) => (
                 <>
-                <Text>
-                  Something went wrong when trying to display this post.
-                </Text>
-                <Text>
-                  You can try to open the content using the drop-down menu in the upper right.
-                </Text>
-                <Text color="textDeemphasized">
-                  Error message: {error?.message}
-                </Text>
+                  <Text>
+                    Something went wrong when trying to display this post.
+                  </Text>
+                  <Text>
+                    You can try to open the content using the drop-down menu in
+                    the upper right.
+                  </Text>
+                  <Text color="textDeemphasized">
+                    Error message: {error?.message}
+                  </Text>
                 </>
               )}
             >

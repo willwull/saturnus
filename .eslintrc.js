@@ -33,13 +33,10 @@ module.exports = {
     "prefer-destructuring": 0,
     "react-hooks/rules-of-hooks": "error",
     "react-hooks/exhaustive-deps": "warn",
-    "no-unused-expressions": [
-      "error",
-      {
-        allowTaggedTemplates: true,
-      },
-    ],
     "@typescript-eslint/explicit-function-return-type": 0,
     "@typescript-eslint/no-explicit-any": 0,
+    "@typescript-eslint/camelcase": 0,
+    "react/no-unescaped-entities": 0,
+    "@typescript-eslint/no-non-null-assertion": 0,
   },
 };

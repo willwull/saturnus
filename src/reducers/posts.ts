@@ -140,7 +140,7 @@ export default function posts(
   const subreddit = action.subreddit || "";
 
   switch (action.type) {
-    case RECEIVE_CURRENT_POST:
+    case RECEIVE_CURRENT_POST: {
       const newPost = action.post as Submission;
       return {
         ...state,
@@ -149,6 +149,7 @@ export default function posts(
           [newPost.id]: newPost,
         },
       };
+    }
     case RECEIVE_POST_SEARCH:
       return {
         ...state,
@@ -192,7 +193,7 @@ export default function posts(
         },
       };
     case DID_SAVE_CONTENT:
-    case DID_UNSAVE_CONTENT:
+    case DID_UNSAVE_CONTENT: {
       const content: MixedContent = action.affectedContent;
       return {
         ...state,
@@ -201,6 +202,7 @@ export default function posts(
           [content.id]: content as Submission,
         },
       };
+    }
     case USER_SIGN_OUT:
       // if the user signs out, we can clear the stored posts, since
       // we need to fetch the front page again
