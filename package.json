@@ -47,16 +47,15 @@
     "lint": "tslint --project tsconfig.json --config tslint.json"
   },
   "devDependencies": {
-    "eslint-config-airbnb": "^16.1.0",
+    "@typescript-eslint/eslint-plugin": "^2.33.0",
+    "@typescript-eslint/parser": "^2.33.0",
+    "eslint-config-prettier": "^6.11.0",
     "eslint-plugin-import": "^2.12.0",
     "eslint-plugin-jsx-a11y": "^6.0.3",
-    "eslint-plugin-react": "^7.8.2",
+    "eslint-plugin-react": "^7.20.0",
+    "eslint-plugin-react-hooks": "^4.0.2",
     "node-sass": "^4.14.1",
     "prettier": "^2.0.5",
-    "tslint": "^5.12.0",
-    "tslint-config-airbnb": "^5.11.1",
-    "tslint-config-prettier": "^1.17.0",
-    "tslint-react-hooks": "^2.0.0",
     "typescript": "^3.8.3"
   },
   "browserslist": [
