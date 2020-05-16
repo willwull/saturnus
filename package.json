@@ -44,7 +44,7 @@
     "build": "npm run lint && react-scripts build",
     "test": "react-scripts test --env=jsdom",
     "eject": "react-scripts eject",
-    "lint": "tslint --project tsconfig.json --config tslint.json"
+    "lint": "eslint src --ext .tsx,.ts"
   },
   "devDependencies": {
     "@typescript-eslint/eslint-plugin": "^2.33.0",
