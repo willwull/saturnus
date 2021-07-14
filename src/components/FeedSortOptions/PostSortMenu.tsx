@@ -12,23 +12,23 @@ function PostSortMenu({ subreddit }: Props) {
     <Menu>
       {!subreddit && (
         <Menu.Link to="/best">
-          <Icon icon="far rocket" fixedWidth /> Best
+          <Icon icon="far rocket" /> Best
         </Menu.Link>
       )}
       <Menu.Link to={`${subUrlString}/hot`}>
-        <Icon icon="far fire" fixedWidth /> Hot
+        <Icon icon="far fire" /> Hot
       </Menu.Link>
       <Menu.Link to={`${subUrlString}/top`}>
-        <Icon icon="far arrow-to-top" fixedWidth /> Top
+        <Icon icon="far arrow-to-top" /> Top
       </Menu.Link>
       <Menu.Link to={`${subUrlString}/new`}>
-        <Icon icon="far certificate" fixedWidth /> New
+        <Icon icon="far certificate" /> New
       </Menu.Link>
       <Menu.Link to={`${subUrlString}/controversial`}>
-        <Icon icon="far bolt" fixedWidth /> Controversial
+        <Icon icon="far bolt" /> Controversial
       </Menu.Link>
       <Menu.Link to={`${subUrlString}/rising`}>
-        <Icon icon="far chart-line" fixedWidth /> Rising
+        <Icon icon="far chart-line" /> Rising
       </Menu.Link>
     </Menu>
   );

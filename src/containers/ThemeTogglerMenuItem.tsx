@@ -20,7 +20,7 @@ class ThemeTogglerMenuItem extends Component<Props, {}> {
     const icon = this.props.isDark ? "fa moon" : "far moon";
     return (
       <Menu.Item onClick={this.props.toggle}>
-        <Icon icon={icon} fixedWidth /> Toggle dark mode
+        <Icon icon={icon} /> Toggle dark mode
       </Menu.Item>
     );
   }

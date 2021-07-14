@@ -17,15 +17,15 @@ function Sidebar(props: Props) {
     <Drawer {...props}>
       <SectionTitle>Reddit feeds</SectionTitle>
       <SidebarLink exact to="/">
-        <Icon icon="far home" fixedWidth />
+        <Icon icon="far home" />
         Home
       </SidebarLink>
       <SidebarLink to="/r/popular/">
-        <Icon icon="far chart-line" fixedWidth />
+        <Icon icon="far chart-line" />
         Popular
       </SidebarLink>
       <SidebarLink to="/r/all/">
-        <Icon icon="far infinity" fixedWidth />
+        <Icon icon="far infinity" />
         All
       </SidebarLink>
 

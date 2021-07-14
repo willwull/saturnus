@@ -26,20 +26,17 @@ function SavePostMenuItem({ save, post }: Props) {
 
   return (
     <Menu.Item onClick={savePost}>
-      <Icon icon={icon} fixedWidth /> {label}
+      <Icon icon={icon} /> {label}
     </Menu.Item>
   );
 }
 
 function mapDispatchToProps(dispatch: DispatchType): DispatchProps {
   return {
-    save: post => {
+    save: (post) => {
       dispatch(saveContent(post));
     },
   };
 }
 
-export default connect(
-  null,
-  mapDispatchToProps,
-)(SavePostMenuItem);
+export default connect(null, mapDispatchToProps)(SavePostMenuItem);

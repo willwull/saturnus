@@ -16,8 +16,8 @@ function GildingCounter({ count, type }: Props) {
   return (
     <GildingWrapper type={type!} className="gold-icon">
       <span className="fa-layers fa-fw">
-        <Circle type={type!} icon="circle" fixedWidth />
-        <GildingIcon icon={icons[type!]} transform="shrink-6" fixedWidth />
+        <Circle type={type!} icon="circle" />
+        <GildingIcon icon={icons[type!]} />
       </span>
       {count}
     </GildingWrapper>

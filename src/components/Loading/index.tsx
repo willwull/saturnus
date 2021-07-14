@@ -7,7 +7,7 @@ type Props = {
 };
 
 function Loading({ type }: Props) {
-  const spinner = <Icon icon="spinner-third" spin />;
+  const spinner = <Icon icon="spinner-third" />;
   switch (type) {
     case "regular":
       return <div className="loading-reg">{spinner}</div>;

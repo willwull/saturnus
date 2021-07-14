@@ -33,7 +33,7 @@ function FetchSubscriptionsBtn() {
 
   let icon = <Icon icon="far sync-alt" />;
   if (isLoading) {
-    icon = <Icon icon="far sync-alt" spin />;
+    icon = <Icon icon="far sync-alt" />;
   }
 
   return (

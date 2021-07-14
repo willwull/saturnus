@@ -19,22 +19,22 @@ class AuthUserMenu extends Component<Props, {}> {
     const overlay = (
       <Menu>
         <Menu.Link to={`/user/${userData.name}`}>
-          <Icon icon="far user-circle" fixedWidth /> {userData.name}
+          <Icon icon="far user-circle" /> {userData.name}
         </Menu.Link>
         <Menu.Item>
-          <Icon icon="far star" fixedWidth /> {karma} karma
+          <Icon icon="far star" /> {karma} karma
         </Menu.Item>
         <Menu.Link to={`/user/${userData.name}/saved`}>
-          <Icon icon="far bookmark" fixedWidth /> Saved content
+          <Icon icon="far bookmark" /> Saved content
         </Menu.Link>
         <Menu.Divider />
         <ThemeTogglerMenuItem />
         <Menu.A href="https://www.reddit.com/settings">
-          <Icon icon="far cog" fixedWidth /> Reddit preferences
+          <Icon icon="far cog" /> Reddit preferences
         </Menu.A>
         <Menu.Divider />
         <Menu.Item onClick={signOut}>
-          <Icon icon="far sign-out" fixedWidth /> Sign out
+          <Icon icon="far sign-out" /> Sign out
         </Menu.Item>
       </Menu>
     );

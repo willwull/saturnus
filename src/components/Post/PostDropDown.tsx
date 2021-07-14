@@ -27,18 +27,18 @@ function PostDropDown({ post }: Props) {
       </LoggedIn>
 
       <Menu.Item onClick={() => copyPostLink(post)}>
-        <Icon icon="far copy" fixedWidth /> Copy post link
+        <Icon icon="far copy" /> Copy post link
       </Menu.Item>
 
       {!post.is_self && (
         <Menu.Item onClick={() => copyContentLink(post)}>
-          <Icon icon="far link" fixedWidth /> Copy content link
+          <Icon icon="far link" /> Copy content link
         </Menu.Item>
       )}
 
       {!post.is_self && (
         <Menu.A href={post.url} target="_blank" rel="noopener noreferrer">
-          <Icon icon="far external-link" fixedWidth /> Open content link
+          <Icon icon="far external-link" /> Open content link
         </Menu.A>
       )}
     </Menu>

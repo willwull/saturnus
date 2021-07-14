@@ -84,14 +84,14 @@ class Post extends React.Component<Props, {}> {
           {/* Stickied icon */}
           {post.stickied && (
             <div className="mod mod-icon">
-              <Icon icon="thumbtack" fixedWidth />
+              <Icon icon="thumbtack" />
             </div>
           )}
 
           {/* Mod distinguished icon */}
           {post.distinguished === "moderator" && (
             <div className="mod mod-icon">
-              <Icon icon="shield" fixedWidth />
+              <Icon icon="shield" />
             </div>
           )}
 

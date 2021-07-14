@@ -17,7 +17,7 @@ class GuestUserMenu extends Component<Props, {}> {
         <ThemeTogglerMenuItem />
         <Menu.Divider />
         <Menu.Item onClick={this.props.signIn}>
-          <Icon icon="far sign-in" fixedWidth /> Sign in / Sign up
+          <Icon icon="far sign-in" /> Sign in / Sign up
         </Menu.Item>
       </Menu>
     );
