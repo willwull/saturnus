@@ -1,5 +1,6 @@
 import React from "react";
-import { Circle, GildingIcon, GildingWrapper } from "./styles";
+import { GildingWrapper } from "./styles";
+import { Star, Hexagon, Circle as CircleIcon } from "react-feather";
 
 type Props = {
   count: number;
@@ -8,17 +9,16 @@ type Props = {
 
 function GildingCounter({ count, type }: Props) {
   const icons = {
-    gold: "star",
-    platinum: "diamond",
-    silver: "splotch",
+    gold: Star,
+    platinum: Hexagon,
+    silver: CircleIcon,
   };
+
+  const GildingIcon = icons[type!];
 
   return (
     <GildingWrapper type={type!} className="gold-icon">
-      <span className="fa-layers fa-fw">
-        <Circle type={type!} icon="circle" />
-        <GildingIcon icon={icons[type!]} />
-      </span>
+      <GildingIcon size={14} />
       {count}
     </GildingWrapper>
   );

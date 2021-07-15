@@ -39,12 +39,12 @@
   .user-menu {
     display: flex;
     align-items: center;
+    gap: 6px;
 
     .user-img {
       width: 30px;
       height: 30px;
       border-radius: 3px;
-      margin-right: 1ch;
     }
 
     .fa-caret-down {

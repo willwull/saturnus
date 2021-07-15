@@ -1,31 +1,43 @@
 import React, { Component } from "react";
 import Dropdown from "../Dropdown";
-import Icon from "../Icon";
 import { capitalizeFirstLetter } from "../../utils";
 import PostSortMenu from "./PostSortMenu";
 import TimeSortMenu from "./TimeSortMenu";
-import { Wrapper } from "./styles";
+import { Wrapper, Row } from "./styles";
+import {
+  Award,
+  Icon,
+  ChevronDown,
+  Clock,
+  Droplet,
+  ArrowUp,
+  Activity,
+  Zap,
+  TrendingUp,
+} from "react-feather";
 
 interface StringDict {
   [key: string]: string;
 }
 
 function mapSortToElement(sortMode: string) {
-  const icons: StringDict = {
-    best: "rocket",
-    hot: "fire",
-    top: "arrow-to-top",
-    new: "certificate",
-    controversial: "bolt",
-    rising: "chart-line",
+  const icons: Record<string, Icon> = {
+    best: Award,
+    hot: Droplet,
+    top: ArrowUp,
+    new: Activity,
+    controversial: Zap,
+    rising: TrendingUp,
   };
 
+  const SortModeIcon = icons[sortMode];
+
   return (
-    <React.Fragment>
-      <Icon icon={icons[sortMode]} />
-      &nbsp; {capitalizeFirstLetter(sortMode)} &nbsp;
-      <Icon icon="caret-down" />
-    </React.Fragment>
+    <Row>
+      <SortModeIcon size={20} />
+      {capitalizeFirstLetter(sortMode)}
+      <ChevronDown size={20} />
+    </Row>
   );
 }
 
@@ -41,11 +53,11 @@ function mapTimeToElement(timeSort: string) {
   };
 
   return (
-    <React.Fragment>
-      <Icon icon="far clock" />
-      &nbsp; {names[timeSort] || names.month} &nbsp;
-      <Icon icon="caret-down" />
-    </React.Fragment>
+    <Row>
+      <Clock size={20} />
+      {names[timeSort] || names.month}
+      <ChevronDown size={20} />
+    </Row>
   );
 }
 

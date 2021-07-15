@@ -1,6 +1,6 @@
 import React, { Component } from "react";
 import { connect } from "react-redux";
-import Icon from "../components/Icon";
+import { Moon } from "react-feather";
 import Menu from "../components/Menu";
 import { toggleTheme } from "../actions/theme";
 import { RootState, DispatchType } from "../reducers";
@@ -17,10 +17,9 @@ type Props = StateProps & DispatchProps;
 
 class ThemeTogglerMenuItem extends Component<Props, {}> {
   render() {
-    const icon = this.props.isDark ? "fa moon" : "far moon";
     return (
       <Menu.Item onClick={this.props.toggle}>
-        <Icon icon={icon} /> Toggle dark mode
+        <Moon size={20} /> Toggle dark mode
       </Menu.Item>
     );
   }

@@ -5,7 +5,7 @@ import scrollIntoView from "smooth-scroll-into-view-if-needed";
 import { shortenNumber, shortTimeDiff } from "../../utils";
 import GildingCounter from "../GildingCounter";
 import TextContent from "../TextContent";
-import Icon from "../Icon";
+import { Info, ArrowUp } from "react-feather";
 import {
   CommentBody,
   ChildWrapper,
@@ -39,7 +39,7 @@ class Comment extends Component<Props, State> {
 
   toggleCollapse = () => {
     this.setState(
-      state => ({
+      (state) => ({
         isCollapsed: !state.isCollapsed,
       }),
       () => {
@@ -111,11 +111,7 @@ class Comment extends Component<Props, State> {
         <div>
           <CommentTitle onClick={this.toggleCollapse}>
             {/* Stickied icon */}
-            {comment.stickied && (
-              <span className="mod">
-                <Icon icon="thumbtack" />{" "}
-              </span>
-            )}
+            {comment.stickied && <Info size={16} className="mod" />}
 
             <TextLink
               to={`/user/${comment.author.name}`}
@@ -127,8 +123,11 @@ class Comment extends Component<Props, State> {
 
             <> </>
 
-            <span className="secondary">
-              <Icon icon="far long-arrow-up" /> {score}
+            <span
+              className="secondary"
+              style={{ display: "inline-flex", alignItems: "center" }}
+            >
+              <ArrowUp size={16} /> {score}
               {" · "}
               {shortTimeDiff(comment.created_utc)}
             </span>
@@ -158,7 +157,7 @@ class Comment extends Component<Props, State> {
             <TextContent>{comment.body_html}</TextContent>
 
             {comment.replies.length > 0 &&
-              comment.replies.map(reply => (
+              comment.replies.map((reply) => (
                 <ChildWrapper key={reply.id}>
                   <Comment {...this.props} comment={reply} />
                 </ChildWrapper>

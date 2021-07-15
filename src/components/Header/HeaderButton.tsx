@@ -2,7 +2,7 @@ import React from "react";
 import { Switch, Route } from "react-router-dom";
 import BackButton from "./BackButton";
 import SidebarToggler from "../../containers/SidebarToggler";
-import Icon from "../Icon";
+import { Menu } from "react-feather";
 
 function HeaderButton() {
   return (
@@ -14,7 +14,7 @@ function HeaderButton() {
       <Route
         render={() => (
           <SidebarToggler>
-            <Icon icon="bars" />
+            <Menu />
           </SidebarToggler>
         )}
       />

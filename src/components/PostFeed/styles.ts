@@ -12,7 +12,7 @@ export const Feed = styled.div`
   margin: 20px auto;
 
   .load-more-btn {
-    display: block;
+    display: flex;
     margin: 0 auto 50px auto;
   }
 `;

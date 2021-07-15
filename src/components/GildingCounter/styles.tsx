@@ -1,5 +1,4 @@
 import styled from "styled-components";
-import Icon from "../Icon";
 import { darken } from "polished";
 
 type Props = {
@@ -22,16 +21,11 @@ function mapTypeToTextColor({ type }: Props) {
 }
 
 export const GildingWrapper = styled.span`
-  margin-top: 15px;
   text-align: center;
   color: ${mapTypeToTextColor};
   font-weight: bold;
-`;
-
-export const Circle = styled(Icon)`
-  color: ${mapTypeToIconColor};
-`;
-
-export const GildingIcon = styled(Icon)`
-  color: ${props => props.theme.contentBg};
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 2px;
 `;

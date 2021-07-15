@@ -4,7 +4,7 @@ import { Link } from "react-router-dom";
 import { lighten, darken } from "polished";
 import { useTheme } from "./theme";
 import { TextLinkProps } from "./types";
-import Icon from "../Icon";
+import { ExternalLink } from "react-feather";
 
 type StyledProps = {
   color: string;
@@ -52,7 +52,8 @@ function TextLink({ to, externalUrl, color, children, bold }: TextLinkProps) {
         rel="noopener noreferrer"
         target="_blank"
       >
-        {children} <Icon icon="external-link" />
+        {children}{" "}
+        <ExternalLink size={16} style={{ verticalAlign: "text-top" }} />
       </StyledLink>
     );
   }

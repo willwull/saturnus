@@ -23,7 +23,7 @@ function MixedContentFeed({
 }: Props) {
   return (
     <>
-      {content.map(content => {
+      {content.map((content) => {
         if (contentIsPost(content)) {
           const post = content as Submission;
           return <Post key={post.id} post={post} voteOnPost={voteOnPost} />;

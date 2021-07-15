@@ -20,7 +20,7 @@ export const ModalContainer = styled.div`
 `;
 
 export const ModalContent = styled.div`
-  background: ${props => props.theme.contentBg};
+  background: ${(props) => props.theme.contentBg};
   border-radius: 5px;
   min-width: 300px;
   max-width: 800px;
@@ -59,7 +59,7 @@ export const CloseButton = styled.button`
   pointer-events: all;
   display: flex;
   justify-content: center;
-  align-content: center;
+  align-items: center;
   backdrop-filter: blur(10px);
 
   &:active {

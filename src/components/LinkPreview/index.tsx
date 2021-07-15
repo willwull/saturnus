@@ -9,8 +9,13 @@ import {
   Url,
   Domain,
   InternalLink,
+  RightAccessory,
 } from "./styles";
-import Icon from "../Icon";
+import {
+  ExternalLink as ExternalLinkIcon,
+  Image,
+  Compass,
+} from "react-feather";
 
 type Props = {
   post: Submission;
@@ -21,13 +26,11 @@ function LinkPreview({ post }: Props) {
 
   const isInternalLink = /(reddit\.com|saturnusapp)/.test(domain);
 
-  let icon;
+  let Icon;
   if (isImgUrl(post.url) || post.domain === "imgur.com") {
-    icon = "fa image";
-  } else if (isInternalLink) {
-    icon = "fab reddit-alien";
+    Icon = Image;
   } else {
-    icon = "fab safari";
+    Icon = Compass;
   }
 
   // big thumbnail for certain links
@@ -47,7 +50,7 @@ function LinkPreview({ post }: Props) {
       {bigPreview}
       <LinkBar>
         <Thumbnail>
-          <Icon icon={icon} />
+          <Icon />
         </Thumbnail>
 
         <Url>
@@ -56,9 +59,9 @@ function LinkPreview({ post }: Props) {
         </Url>
 
         {!isInternalLink && (
-          <div className="arrow">
-            <Icon icon="external-link" />
-          </div>
+          <RightAccessory>
+            <ExternalLinkIcon size={20} />
+          </RightAccessory>
         )}
       </LinkBar>
     </Fragment>
