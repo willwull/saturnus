@@ -1,3 +1,9 @@
+# Saturnus is unmaintained!
+
+_I'm super busy with my job nowadays so unfortunately I won't have time to work on this project at the moment. It's still deployed and usable! But don't expect any new features or fixes in the near future._
+
+_I've improved my front-end skills a lot since starting this project, so rather than continuing to build on this pile of spaghetti code, I will likely do a rewrite in another repo._
+
 # Saturnus
 
 A work in progress browser client for Reddit.
