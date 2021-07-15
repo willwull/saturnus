@@ -75,6 +75,9 @@ export const CommentTitle = styled.button`
   word-break: break-word;
   font-size: 14px;
   width: 100%;
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
 
   .secondary {
     opacity: 0.5;

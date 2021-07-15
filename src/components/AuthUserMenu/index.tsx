@@ -2,9 +2,16 @@ import React, { Component } from "react";
 import ThemeTogglerMenuItem from "../../containers/ThemeTogglerMenuItem";
 import Dropdown from "../Dropdown";
 import Menu from "../Menu";
-import Icon from "../Icon";
 import { Wrapper } from "./styles";
 import { RedditUser } from "snoowrap";
+import {
+  ChevronDown,
+  User,
+  Star,
+  Bookmark,
+  Settings,
+  LogOut,
+} from "react-feather";
 
 interface Props {
   userData: RedditUser;
@@ -19,22 +26,22 @@ class AuthUserMenu extends Component<Props, {}> {
     const overlay = (
       <Menu>
         <Menu.Link to={`/user/${userData.name}`}>
-          <Icon icon="far user-circle" fixedWidth /> {userData.name}
+          <User size={20} /> {userData.name}
         </Menu.Link>
         <Menu.Item>
-          <Icon icon="far star" fixedWidth /> {karma} karma
+          <Star size={20} /> {karma} karma
         </Menu.Item>
         <Menu.Link to={`/user/${userData.name}/saved`}>
-          <Icon icon="far bookmark" fixedWidth /> Saved content
+          <Bookmark size={20} /> Saved content
         </Menu.Link>
         <Menu.Divider />
         <ThemeTogglerMenuItem />
         <Menu.A href="https://www.reddit.com/settings">
-          <Icon icon="far cog" fixedWidth /> Reddit preferences
+          <Settings size={20} /> Reddit preferences
         </Menu.A>
         <Menu.Divider />
         <Menu.Item onClick={signOut}>
-          <Icon icon="far sign-out" fixedWidth /> Sign out
+          <LogOut size={20} /> Sign out
         </Menu.Item>
       </Menu>
     );
@@ -48,7 +55,7 @@ class AuthUserMenu extends Component<Props, {}> {
               src={userData.icon_img}
               alt={userData.name}
             />
-            <Icon icon="caret-down" />
+            <ChevronDown size={20} />
           </div>
         </Dropdown>
       </Wrapper>

@@ -9,7 +9,14 @@ import { shortenNumber } from "../../utils";
 import "./Post.scss";
 import Flair from "../Flair";
 import GildingCounter from "../GildingCounter";
-import Icon from "../Icon";
+import {
+  ArrowUp,
+  ArrowDown,
+  Info,
+  Shield,
+  MoreHorizontal,
+  MessageSquare,
+} from "react-feather";
 import Dropdown from "../Dropdown";
 import PostDropDown from "./PostDropDown";
 import {
@@ -72,43 +79,45 @@ class Post extends React.Component<Props, {}> {
       <Container saved={post.saved} className="post-component">
         <div className="score">
           <UpvoteBtn active={isUpvoted} onClick={this.upvote}>
-            <Icon icon="arrow-up" />
+            <ArrowUp size={20} />
           </UpvoteBtn>
 
           <Score vote={post.likes}>{shortenNumber(post.score)}</Score>
 
           <DownvoteBtn active={isDownvoted} onClick={this.downvote}>
-            <Icon icon="arrow-down" />
+            <ArrowDown size={20} />
           </DownvoteBtn>
 
-          {/* Stickied icon */}
-          {post.stickied && (
-            <div className="mod mod-icon">
-              <Icon icon="thumbtack" fixedWidth />
-            </div>
-          )}
+          <div className="badges">
+            {/* Stickied icon */}
+            {post.stickied && (
+              <div className="mod mod-icon">
+                <Info size={16} />
+              </div>
+            )}
 
-          {/* Mod distinguished icon */}
-          {post.distinguished === "moderator" && (
-            <div className="mod mod-icon">
-              <Icon icon="shield" fixedWidth />
-            </div>
-          )}
+            {/* Mod distinguished icon */}
+            {post.distinguished === "moderator" && (
+              <div className="mod mod-icon">
+                <Shield size={16} />
+              </div>
+            )}
 
-          {/* Platinum icon */}
-          {platinumCounter > 0 && (
-            <GildingCounter count={platinumCounter} type="platinum" />
-          )}
+            {/* Platinum icon */}
+            {platinumCounter > 0 && (
+              <GildingCounter count={platinumCounter} type="platinum" />
+            )}
 
-          {/* Gilded icon */}
-          {goldCounter > 0 && (
-            <GildingCounter count={goldCounter} type="gold" />
-          )}
+            {/* Gilded icon */}
+            {goldCounter > 0 && (
+              <GildingCounter count={goldCounter} type="gold" />
+            )}
 
-          {/* Silver icon */}
-          {silverCounter > 0 && (
-            <GildingCounter count={silverCounter} type="silver" />
-          )}
+            {/* Silver icon */}
+            {silverCounter > 0 && (
+              <GildingCounter count={silverCounter} type="silver" />
+            )}
+          </div>
         </div>
 
         {/* Actual post content */}
@@ -137,7 +146,7 @@ class Post extends React.Component<Props, {}> {
                   overlay={<PostDropDown post={post} />}
                   placement="bottomRight"
                 >
-                  <Icon icon="fa ellipsis-h" />
+                  <MoreHorizontal />
                 </Dropdown>
               </DropDownBtnWrapper>
             </TitleAndMoreContainer>
@@ -188,8 +197,10 @@ class Post extends React.Component<Props, {}> {
             </SubredditLink>
 
             <span className="comments">
-              <Icon icon="comment-alt" /> {shortenNumber(post.num_comments)}{" "}
-              <Desktop>comments</Desktop>
+              <MessageSquare size={12} />
+              <span>
+                {shortenNumber(post.num_comments)} <Desktop>comments</Desktop>
+              </span>
             </span>
           </div>
         </div>

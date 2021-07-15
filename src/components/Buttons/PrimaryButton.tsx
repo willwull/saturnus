@@ -24,6 +24,9 @@ const PrimaryButton = styled.button`
   padding: 10px 15px;
   text-transform: uppercase;
   border-radius: 5px;
+  display: inline-flex;
+  gap: 8px;
+  align-items: center;
 
   &:hover {
     background: ${(p: Props) => lighten(0.1, getColor(p))};

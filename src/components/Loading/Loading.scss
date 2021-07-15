@@ -1,11 +1,31 @@
-.loading-reg {
+@keyframes spin {
+  0% {
+    transform: rotate(0deg);
+  }
+  100% {
+    transform: rotate(360deg);
+  }
+}
+
+@mixin loader {
+  border: 3px solid transparent;
+  border-top: 3px solid currentColor;
+  border-radius: 50%;
+  animation: spin 1s linear infinite;
+}
+
+.loading-wrapper {
   width: 100%;
-  text-align: center;
+  display: flex;
+  justify-content: center;
   font-size: 2em;
   padding: 20px;
 }
 
 .loading-fullscreen {
+  @include loader;
+  width: 30px;
+  height: 30px;
   position: absolute;
   top: 45%;
   left: 50%;
@@ -14,6 +34,5 @@
 }
 
 .loading-inline {
-  display: inline-block;
-  margin-left: 1ch;
+  @include loader;
 }

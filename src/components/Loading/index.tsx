@@ -1,5 +1,4 @@
 import React from "react";
-import Icon from "../Icon";
 import "./Loading.scss";
 
 type Props = {
@@ -7,14 +6,32 @@ type Props = {
 };
 
 function Loading({ type }: Props) {
-  const spinner = <Icon icon="spinner-third" spin />;
   switch (type) {
     case "regular":
-      return <div className="loading-reg">{spinner}</div>;
+      return (
+        <div className="loading-wrapper">
+          <div
+            className="loading-inline"
+            style={{
+              height: 30,
+              width: 30,
+            }}
+          />
+        </div>
+      );
     case "fullscreen":
-      return <div className="loading-fullscreen">{spinner}</div>;
+      return <div className="loading-fullscreen" />;
     case "inline":
-      return <div className="loading-inline">{spinner}</div>;
+      return (
+        <div
+          className="loading-inline"
+          style={{
+            height: 16,
+            width: 16,
+            borderWidth: 2,
+          }}
+        />
+      );
     default:
       return null;
   }

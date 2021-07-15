@@ -3,7 +3,7 @@ import { Submission } from "snoowrap";
 import { isImgUrl, splitUrl } from "../../utils";
 import LinkPreview from "../LinkPreview";
 import TextContent from "../TextContent";
-import Icon from "../Icon";
+import { EyeOff } from "react-feather";
 import VideoContent from "./VideoContent";
 import {
   ContentOverflowGradient,
@@ -36,16 +36,12 @@ class PostContent extends Component<Props, State> {
     this.setState({ obfuscated: false });
   };
 
-  renderObfuscationOverlay(type: "image" | "video") {
-    const icons = {
-      image: "fa eye",
-      video: "fa video",
-    };
+  renderObfuscationOverlay() {
     return (
       <div className="obfuscated-wrapper">
         <button className="warning-text" onClick={this.showImage}>
           <div className="warning-icon">
-            <Icon icon={icons[type]} />
+            <EyeOff />
           </div>
           <br />
           This post is hidden, click to view
@@ -92,7 +88,7 @@ class PostContent extends Component<Props, State> {
         return (
           <ImgPreviewContainer>
             <img src={src} alt={post.title} className={className} />
-            {isHidden && this.renderObfuscationOverlay("image")}
+            {isHidden && this.renderObfuscationOverlay()}
           </ImgPreviewContainer>
         );
       }
@@ -110,7 +106,7 @@ class PostContent extends Component<Props, State> {
             alt={post.title}
             className={className}
           />
-          {isHidden && this.renderObfuscationOverlay("image")}
+          {isHidden && this.renderObfuscationOverlay()}
         </ImgPreviewContainer>
       );
     }
@@ -145,7 +141,7 @@ class PostContent extends Component<Props, State> {
             className={className}
             intrinsicSize={intrinsicSize}
           />
-          {isHidden && this.renderObfuscationOverlay("video")}
+          {isHidden && this.renderObfuscationOverlay()}
         </ImgPreviewContainer>
       );
     }
@@ -171,7 +167,7 @@ class PostContent extends Component<Props, State> {
             className={className}
             intrinsicSize={intrinsicSize}
           />
-          {isHidden && this.renderObfuscationOverlay("video")}
+          {isHidden && this.renderObfuscationOverlay()}
         </ImgPreviewContainer>
       );
     }
@@ -199,7 +195,7 @@ class PostContent extends Component<Props, State> {
             height={height}
             title={post.title}
           />
-          {isHidden && this.renderObfuscationOverlay("video")}
+          {isHidden && this.renderObfuscationOverlay()}
         </ImgPreviewContainer>
       );
     }
@@ -212,7 +208,7 @@ class PostContent extends Component<Props, State> {
             dangerouslySetInnerHTML={{ __html: post.media!.oembed!.html }}
             className={className}
           />
-          {isHidden && this.renderObfuscationOverlay("video")}
+          {isHidden && this.renderObfuscationOverlay()}
         </ImgPreviewContainer>
       );
     }

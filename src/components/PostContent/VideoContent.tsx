@@ -7,7 +7,7 @@ import {
   PauseOverlay,
   VideoContainer,
 } from "./styles";
-import Icon from "../Icon";
+import { Play, Pause } from "react-feather";
 import { Dimensions } from "../ImgWithIntrinsicSize";
 
 type Props = {
@@ -45,7 +45,7 @@ class VideoContent extends Component<Props, State> {
     const videoElem = this.videoRef.current;
     if (videoElem) {
       if (inView) {
-        videoElem.play().catch(error => {
+        videoElem.play().catch((error) => {
           // This probably happens on iOS since video.play() only
           // works as a result of user actions
           console.error("Couldn't play video");
@@ -85,7 +85,7 @@ class VideoContent extends Component<Props, State> {
     const videoElem = this.videoRef.current;
     const isPaused = videoElem && videoElem.paused;
 
-    const overlayIcon = isPaused ? "play" : "pause";
+    const OverlayIcon = isPaused ? Play : Pause;
 
     const progressStyle = {
       width: `${this.state.progress}%`,
@@ -106,7 +106,7 @@ class VideoContent extends Component<Props, State> {
             onClick={this.handleVideoClick}
           />
           <PauseOverlay onClick={this.handleVideoClick}>
-            <Icon icon={overlayIcon} />
+            <OverlayIcon size={50} />
           </PauseOverlay>
           <VideoProgressContainer>
             <VideoProgressBar style={progressStyle} />

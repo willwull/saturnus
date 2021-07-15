@@ -1,6 +1,6 @@
 import React, { useEffect, useRef, Fragment } from "react";
 import { ModalContainer, ModalContent, CloseButton } from "./styles";
-import Icon from "../Icon";
+import { X } from "react-feather";
 import smoothScrollTo from "../../utils";
 
 // MARK: Types
@@ -32,13 +32,10 @@ function Modal({ isOpen, hideFunc, children }: Props) {
   const scrollAnchorRef = useRef(null);
   const containerRef = useRef(null);
 
-  const hideModal = React.useCallback(
-    async () => {
-      hideFunc();
-      await smoothScrollTo(containerRef.current!, 0, 400);
-    },
-    [hideFunc],
-  );
+  const hideModal = React.useCallback(async () => {
+    hideFunc();
+    await smoothScrollTo(containerRef.current!, 0, 400);
+  }, [hideFunc]);
 
   /**
    * Listen for keydown events so the user can close the modal with Esc
@@ -52,22 +49,19 @@ function Modal({ isOpen, hideFunc, children }: Props) {
     [hideModal, isOpen],
   );
 
-  useEffect(
-    () => {
-      if (isOpen) {
-        window.addEventListener("keydown", keyListener);
-        document.body.classList.add("no-scroll");
-      } else {
-        window.removeEventListener("keydown", keyListener);
-        document.body.classList.remove("no-scroll");
-      }
+  useEffect(() => {
+    if (isOpen) {
+      window.addEventListener("keydown", keyListener);
+      document.body.classList.add("no-scroll");
+    } else {
+      window.removeEventListener("keydown", keyListener);
+      document.body.classList.remove("no-scroll");
+    }
 
-      return () => {
-        window.removeEventListener("keydown", keyListener);
-      };
-    },
-    [isOpen, keyListener],
-  );
+    return () => {
+      window.removeEventListener("keydown", keyListener);
+    };
+  }, [isOpen, keyListener]);
 
   function contentClickHandler(event: React.MouseEvent) {
     // stop the click on the modal to propagate to the container
@@ -97,7 +91,7 @@ function Modal({ isOpen, hideFunc, children }: Props) {
       */}
       {isOpen && (
         <CloseButton onClick={hideModal}>
-          <Icon icon="far times" />
+          <X size={20} />
         </CloseButton>
       )}
     </Fragment>

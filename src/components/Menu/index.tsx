@@ -17,15 +17,17 @@ function Menu({ children }: Props) {
 }
 
 Menu.Item = styled.li`
-  display: block;
+  display: flex;
+  gap: 12px;
   padding: 15px;
   list-style: none;
-  color: ${props => props.theme.text};
+  color: ${(props) => props.theme.text};
+  align-items: center;
 
   &:hover,
   &:active {
     cursor: pointer;
-    background: ${props => props.theme.primary};
+    background: ${(props) => props.theme.primary};
     color: white;
   }
 

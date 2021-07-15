@@ -1,8 +1,8 @@
 import React from "react";
-import Icon from "./Icon";
+import { Disc } from "react-feather";
 
 function SaturnusLogo() {
-  return <Icon icon="far dot-circle" />;
+  return <Disc size={20} />;
 }
 
 export default SaturnusLogo;

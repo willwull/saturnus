@@ -1,7 +1,7 @@
 import React from "react";
 import Drawer, { Props as DrawerProps } from "../Drawer";
 import SubscriptionList from "../../containers/SubscriptionList";
-import Icon from "../Icon";
+import { Home, TrendingUp, List } from "react-feather";
 import FetchSubscriptionsBtn from "../../containers/FetchSubscriptionsBtn";
 import { SectionTitle, SidebarLink } from "./styles";
 
@@ -17,15 +17,15 @@ function Sidebar(props: Props) {
     <Drawer {...props}>
       <SectionTitle>Reddit feeds</SectionTitle>
       <SidebarLink exact to="/">
-        <Icon icon="far home" fixedWidth />
+        <Home size={20} />
         Home
       </SidebarLink>
       <SidebarLink to="/r/popular/">
-        <Icon icon="far chart-line" fixedWidth />
+        <TrendingUp size={20} />
         Popular
       </SidebarLink>
       <SidebarLink to="/r/all/">
-        <Icon icon="far infinity" fixedWidth />
+        <List size={20} />
         All
       </SidebarLink>
 

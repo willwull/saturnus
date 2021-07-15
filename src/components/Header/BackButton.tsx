@@ -1,6 +1,6 @@
 import React, { Component } from "react";
 import { withRouter, RouteComponentProps } from "react-router-dom";
-import Icon from "../Icon";
+import { ArrowLeft } from "react-feather";
 import { SubPageParams } from "../../pages/SubredditPage";
 
 type Props = RouteComponentProps<SubPageParams>;
@@ -13,7 +13,7 @@ class BackButton extends Component<Props, {}> {
   render() {
     return (
       <button onClick={this.onClick}>
-        <Icon icon="arrow-left" />
+        <ArrowLeft />
       </button>
     );
   }

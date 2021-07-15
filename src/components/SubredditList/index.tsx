@@ -1,6 +1,6 @@
 import React, { Fragment } from "react";
 import { SidebarLink } from "../Sidebar";
-import { ListLetter, SubName, EmptyMessage } from "./styles";
+import { ListLetter, EmptyMessage } from "./styles";
 import SubIcon from "../SubIcon";
 
 export type SimpleSubreddit = {
@@ -24,7 +24,7 @@ function mapSubToListElem(sub: SimpleSubreddit) {
   return (
     <SidebarLink key={sub.id} to={sub.url}>
       <SubIcon icon={sub.icon_img} color={sub.key_color} size={20} />
-      <SubName>{sub.display_name_prefixed}</SubName>
+      {sub.display_name_prefixed}
     </SidebarLink>
   );
 }
@@ -52,31 +52,28 @@ function SubredditList({ subreddits }: Props) {
     return 0;
   });
 
-  const faveSubs = sorted.filter(sub => sub.user_has_favorited);
+  const faveSubs = sorted.filter((sub) => sub.user_has_favorited);
 
   // Take all subreddits and group them by the first letter
-  const subsByLetter = sorted.reduce(
-    (acc: SubGroup, sub) => {
-      let firstLetter = sub.display_name[0].toUpperCase();
+  const subsByLetter = sorted.reduce((acc: SubGroup, sub) => {
+    let firstLetter = sub.display_name[0].toUpperCase();
 
-      // Numbers should be grouped under #
-      if (!isNaN(Number(firstLetter))) {
-        firstLetter = "#";
-      }
+    // Numbers should be grouped under #
+    if (!isNaN(Number(firstLetter))) {
+      firstLetter = "#";
+    }
 
-      if (!acc[firstLetter]) {
-        acc[firstLetter] = {
-          letter: firstLetter,
-          subs: [sub],
-        };
-        return acc;
-      }
-
-      acc[firstLetter].subs.push(sub);
+    if (!acc[firstLetter]) {
+      acc[firstLetter] = {
+        letter: firstLetter,
+        subs: [sub],
+      };
       return acc;
-    },
-    {} as SubGroup,
-  );
+    }
+
+    acc[firstLetter].subs.push(sub);
+    return acc;
+  }, {} as SubGroup);
 
   return (
     <Fragment>
@@ -86,7 +83,7 @@ function SubredditList({ subreddits }: Props) {
           <Fragment>{faveSubs.map(mapSubToListElem)}</Fragment>
         </Fragment>
       )}
-      {Object.values(subsByLetter).map(subGroup => (
+      {Object.values(subsByLetter).map((subGroup) => (
         <Fragment key={subGroup.letter}>
           <ListLetter>{subGroup.letter}</ListLetter>
           <Fragment>{subGroup.subs.map(mapSubToListElem)}</Fragment>

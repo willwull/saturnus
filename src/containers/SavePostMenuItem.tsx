@@ -1,6 +1,6 @@
 import React from "react";
 import Menu from "../components/Menu";
-import Icon from "../components/Icon";
+import { Bookmark } from "react-feather";
 import { Submission } from "snoowrap";
 import { DispatchType } from "../reducers";
 import { saveContent } from "../actions/user";
@@ -21,25 +21,21 @@ function SavePostMenuItem({ save, post }: Props) {
     save(post);
   }
 
-  const icon = post.saved ? "fa bookmark" : "far bookmark";
   const label = post.saved ? "Unsave post" : "Save post";
 
   return (
     <Menu.Item onClick={savePost}>
-      <Icon icon={icon} fixedWidth /> {label}
+      <Bookmark size={20} /> {label}
     </Menu.Item>
   );
 }
 
 function mapDispatchToProps(dispatch: DispatchType): DispatchProps {
   return {
-    save: post => {
+    save: (post) => {
       dispatch(saveContent(post));
     },
   };
 }
 
-export default connect(
-  null,
-  mapDispatchToProps,
-)(SavePostMenuItem);
+export default connect(null, mapDispatchToProps)(SavePostMenuItem);

@@ -1,6 +1,6 @@
 import React, { Component, ChangeEvent, FormEvent } from "react";
 import { SearchForm, Input, ClearButton } from "./styles";
-import Icon from "../Icon";
+import { Search, X } from "react-feather";
 
 type Props = {
   value: string;
@@ -32,7 +32,7 @@ class Searchbar extends Component<Props, {}> {
 
     return (
       <SearchForm onSubmit={this.onSubmit}>
-        <Icon icon="far search" />
+        <Search size={20} />
         <Input
           ref={this.inputRef}
           type="text"
@@ -42,7 +42,7 @@ class Searchbar extends Component<Props, {}> {
         />
         {showClearBtn && (
           <ClearButton type="button" onClick={this.clearInput}>
-            <Icon icon="far times" />
+            <X size={20} />
           </ClearButton>
         )}
       </SearchForm>

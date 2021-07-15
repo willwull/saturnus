@@ -1,7 +1,7 @@
 import React from "react";
 import styled from "styled-components";
 import { useSelector, useDispatch } from "react-redux";
-import Icon from "../components/Icon";
+import { RefreshCw } from "react-feather";
 import { fetchMySubs } from "../actions/user";
 import { RootState } from "../reducers";
 
@@ -31,14 +31,9 @@ function FetchSubscriptionsBtn() {
     );
   }
 
-  let icon = <Icon icon="far sync-alt" />;
-  if (isLoading) {
-    icon = <Icon icon="far sync-alt" spin />;
-  }
-
   return (
     <FetchBtn onClick={handleClick} disabled={isLoading}>
-      {icon}
+      <RefreshCw size={20} className={isLoading ? "spin-animation" : ""} />
     </FetchBtn>
   );
 }

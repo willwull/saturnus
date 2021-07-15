@@ -11,7 +11,7 @@ import { withRouter, RouteComponentProps } from "react-router-dom";
 import { BannerImg } from "../components/Banner/styles";
 import SecondaryButton from "../components/Buttons/SecondaryButton";
 import PrimaryButton from "../components/Buttons/PrimaryButton";
-import Icon from "../components/Icon";
+import { Plus, Check } from "react-feather";
 import { openDialog } from "../components/Popovers";
 
 type StateProps = {
@@ -107,7 +107,7 @@ class SubredditBanner extends Component<Props, State> {
           disabled={!isLoggedIn || isLoadingSubscription}
           onClick={() => this.onPrimary(true)}
         >
-          <Icon icon="far check" /> Subscribed
+          <Check size={20} /> Subscribed
         </PrimaryButton>
       );
     } else {
@@ -116,7 +116,7 @@ class SubredditBanner extends Component<Props, State> {
           disabled={!isLoggedIn || isLoadingSubscription}
           onClick={() => this.onPrimary(false)}
         >
-          <Icon icon="far plus" /> Subscribe
+          <Plus /> Subscribe
         </PrimaryButton>
       );
     }

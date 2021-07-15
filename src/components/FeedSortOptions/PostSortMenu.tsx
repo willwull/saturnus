@@ -1,6 +1,13 @@
 import React from "react";
 import Menu from "../Menu";
-import Icon from "../Icon";
+import {
+  Award,
+  Droplet,
+  ArrowUp,
+  Activity,
+  Zap,
+  TrendingUp,
+} from "react-feather";
 
 type Props = {
   subreddit?: string;
@@ -12,23 +19,23 @@ function PostSortMenu({ subreddit }: Props) {
     <Menu>
       {!subreddit && (
         <Menu.Link to="/best">
-          <Icon icon="far rocket" fixedWidth /> Best
+          <Award size={20} /> Best
         </Menu.Link>
       )}
       <Menu.Link to={`${subUrlString}/hot`}>
-        <Icon icon="far fire" fixedWidth /> Hot
+        <Droplet size={20} /> Hot
       </Menu.Link>
       <Menu.Link to={`${subUrlString}/top`}>
-        <Icon icon="far arrow-to-top" fixedWidth /> Top
+        <ArrowUp size={20} /> Top
       </Menu.Link>
       <Menu.Link to={`${subUrlString}/new`}>
-        <Icon icon="far certificate" fixedWidth /> New
+        <Activity size={20} /> New
       </Menu.Link>
       <Menu.Link to={`${subUrlString}/controversial`}>
-        <Icon icon="far bolt" fixedWidth /> Controversial
+        <Zap size={20} /> Controversial
       </Menu.Link>
       <Menu.Link to={`${subUrlString}/rising`}>
-        <Icon icon="far chart-line" fixedWidth /> Rising
+        <TrendingUp size={20} /> Rising
       </Menu.Link>
     </Menu>
   );
