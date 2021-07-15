@@ -33,7 +33,7 @@ function FetchSubscriptionsBtn() {
 
   return (
     <FetchBtn onClick={handleClick} disabled={isLoading}>
-      <RefreshCw size={20} />
+      <RefreshCw size={20} className={isLoading ? "spin-animation" : ""} />
     </FetchBtn>
   );
 }

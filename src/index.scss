@@ -109,3 +109,16 @@ blockquote {
   /* Incase we inherit text alignment other than `left`, force the image into left position. */
   left: 0;
 }
+
+@keyframes spin {
+  0% {
+    transform: rotate(0deg);
+  }
+  100% {
+    transform: rotate(360deg);
+  }
+}
+
+.spin-animation {
+  animation: spin 1s linear infinite;
+}
