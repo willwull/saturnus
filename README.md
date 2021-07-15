@@ -9,7 +9,7 @@ _I've improved my front-end skills a lot since starting this project, so rather 
 A work in progress browser client for Reddit.
 
 <p align="center">
-<img src="./docs/saturnus.png" style="max-width: 500px;">
+<img src="./docs/saturnus.png" width="500px">
 </p>
 
 Ever since the new Reddit was launched, many users have voiced their dislike of how clunky it feels. The aim of this project is to create a more light-weight Reddit experience, taking inspiration from the great iOS app Apollo from Reddit, Facebook, and Twitter.
