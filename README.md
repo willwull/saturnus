@@ -12,7 +12,7 @@ A work in progress browser client for Reddit.
 <img src="./docs/saturnus.png" width="500px">
 </p>
 
-Ever since the new Reddit was launched, many users have voiced their dislike of how clunky it feels. The aim of this project is to create a more light-weight Reddit experience, taking inspiration from the great iOS app Apollo from Reddit, Facebook, and Twitter.
+Ever since the new Reddit was launched, many users have voiced their dislike of how clunky it feels. The aim of this project is to create a more light-weight Reddit experience, taking inspiration from the great iOS app Apollo for Reddit, Facebook, and Twitter.
 
 [Try it here!](https://saturnusapp.com/)
 
