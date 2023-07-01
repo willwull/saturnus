@@ -1,5 +1,7 @@
 # Saturnus is unmaintained!
 
+_**Update (July 1, 2023)**: Due to new Reddit API usage rules, I've now taken down the hosted website in order to not accidentally go over the limits of the API free tier. Now the only way for you to try this is to clone and build a local copy with your own Client ID._
+
 _I'm super busy with my job nowadays so unfortunately I won't have time to work on this project at the moment. It's still deployed and usable! But don't expect any new features or fixes in the near future._
 
 _I've improved my front-end skills a lot since starting this project, so rather than continuing to build on this pile of spaghetti code, I will likely do a rewrite in another repo._
@@ -14,8 +16,6 @@ A work in progress browser client for Reddit.
 
 Ever since the new Reddit was launched, many users have voiced their dislike of how clunky it feels. The aim of this project is to create a more light-weight Reddit experience, taking inspiration from the great iOS app Apollo for Reddit, Facebook, and Twitter.
 
-[Try it here!](https://saturnusapp.com/)
-
 ## Develop locally
 
 This section describes how to set up the project to develop on your local computer. You need **Node.js** and **npm** installed on your computer.
@@ -24,7 +24,7 @@ This section describes how to set up the project to develop on your local comput
 
 This project uses Reddit's API. If you want to develop locally or deploy your own version, you need to go [here](https://ssl.reddit.com/prefs/apps/) and create a new web app. You should then copy `.env.example` into a new file `.env` and add your Reddit Client ID.
 
-For myself, I have actually set up **two** "reddit apps": one where the redirect uri is `http://localhost:3000` for my local development and the other whose redirect uri is `https://saturnusapp.com` for the deploy environment.
+For myself, I have actually set up **two** "reddit apps": one where the redirect uri is `http://localhost:3000` for my local development and the other whose redirect uri is the uri of my hosted production version for the deploy environment.
 
 ### Initial setup
 
